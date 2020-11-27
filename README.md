@@ -8,6 +8,16 @@
 ## 开源代码仅供参考学习，请勿用于非法用途
 - 此项目只开源了 后端、前端（前后台）、钱包RPC部分模块
 
+# 开发准备
+- 1、项目用了Lombok插件，无论用什么IDE工具，请务必先安装Lombok插件
+- 2、项目用了QueryDsl，如果遇见以Q开头的类找不到，请先编译一下对应的core模块，例如core、exchange-core、xxx-core这种模块
+- 3、找不到的jar包在项目jar文件夹下
+- 4、jdk版本1.8以上（有可能在项目目录下的lib目录）
+- 5、初始化sql在sql文件夹中配置文件
+- 6、配置文件打开这个设置会自动建表
+- #jpa
+- spring.jpa.hibernate.ddl-auto=update
+
 # 优化内容：
 - 新增统一配置中心（config目录）
 - 删除多余空目录，清理代码
