@@ -1,11 +1,10 @@
 package com.bizzan.bc.wallet.config;
 
-import com.bizzan.bc.wallet.converter.BigDecimalToDecimal128Converter;
-import com.bizzan.bc.wallet.converter.Decimal128ToBigDecimalConverter;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
-
+import com.bizzan.bc.wallet.converter.BigDecimalToDecimal128Converter;
+import com.bizzan.bc.wallet.converter.Decimal128ToBigDecimalConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;

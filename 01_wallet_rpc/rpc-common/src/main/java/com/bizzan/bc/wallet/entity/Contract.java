@@ -1,11 +1,9 @@
 package com.bizzan.bc.wallet.entity;
 
+import com.bizzan.bc.wallet.util.EthConvert;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
-import com.bizzan.bc.wallet.util.EthConvert;
-
-import java.math.BigDecimal;
 import java.math.BigInteger;
 
 @Data

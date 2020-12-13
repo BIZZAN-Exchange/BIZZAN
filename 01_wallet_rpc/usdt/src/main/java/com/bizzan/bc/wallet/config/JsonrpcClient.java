@@ -1,11 +1,6 @@
 package com.bizzan.bc.wallet.config;
 
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import com.spark.blockchain.rpcclient.BitcoinException;
 import com.spark.blockchain.rpcclient.BitcoinRPCClient;
 import org.apache.commons.lang3.StringUtils;
@@ -13,9 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

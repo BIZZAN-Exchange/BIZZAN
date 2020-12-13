@@ -1,13 +1,11 @@
 package com.bizzan.bc.wallet.component;
 
-import com.bizzan.bc.wallet.component.Watcher;
 import com.bizzan.bc.wallet.entity.Contract;
 import com.bizzan.bc.wallet.entity.Deposit;
 import com.bizzan.bc.wallet.event.DepositEvent;
 import com.bizzan.bc.wallet.service.AccountService;
 import com.bizzan.bc.wallet.service.EtherscanApi;
 import com.bizzan.bc.wallet.util.EthConvert;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +42,7 @@ public class TokenWatcher extends Watcher{
     @Autowired
     private DepositEvent depositEvent;
 
-    public List<Deposit> replayBlock(Long startBlockNumber,Long endBlockNumber){
+    public List<Deposit> replayBlock(Long startBlockNumber, Long endBlockNumber){
         List<Deposit> deposits = new ArrayList<>();
         for(Long blockHeight = startBlockNumber;blockHeight<=endBlockNumber;blockHeight++) {
             EthBlock block = null;

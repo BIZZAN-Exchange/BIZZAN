@@ -7,7 +7,6 @@ import com.bizzan.bc.wallet.service.AccountService;
 import com.bizzan.bc.wallet.service.EthService;
 import com.bizzan.bc.wallet.util.AccountReplay;
 import com.bizzan.bc.wallet.util.MessageResult;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
 @Component
 public class CoinCollectJob {
@@ -45,7 +43,7 @@ public class CoinCollectJob {
                     //给满足条件的地址充矿工费，条件1：eth额度小于minerFee,条件2:balance大于等于minCollectAmount
                     if (ethBalance.compareTo(minerFee) < 0
                             && tokenBalance.compareTo(coin.getMinCollectAmount()) >= 0) {
-                        logger.info("process account:{}", account);
+                        logger.info("process account:{}, eth balance: {}, miner fee: {}, token balance: {}", account, ethBalance, minerFee, tokenBalance);
                         //计算本次要转的矿工费
                         BigDecimal feeAmt = minerFee.subtract(ethBalance);
 

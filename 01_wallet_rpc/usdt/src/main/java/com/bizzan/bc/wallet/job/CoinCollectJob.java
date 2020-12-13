@@ -5,7 +5,6 @@ import com.bizzan.bc.wallet.entity.Coin;
 import com.bizzan.bc.wallet.service.AccountService;
 import com.bizzan.bc.wallet.util.AccountReplay;
 import com.spark.blockchain.rpcclient.BitcoinUtil;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

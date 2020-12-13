@@ -1,19 +1,17 @@
 package com.bizzan.bc.wallet.controller;
 
 
-import com.bizzan.bc.wallet.component.TokenWatcher;
 import com.bizzan.bc.wallet.entity.Account;
 import com.bizzan.bc.wallet.entity.Coin;
 import com.bizzan.bc.wallet.entity.Contract;
 import com.bizzan.bc.wallet.service.AccountService;
 import com.bizzan.bc.wallet.service.EthService;
 import com.bizzan.bc.wallet.util.MessageResult;
-
+import com.bizzan.bc.wallet.component.TokenWatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.web3j.protocol.core.methods.response.EthBlockNumber;
 
 import java.math.BigDecimal;
 import java.util.List;

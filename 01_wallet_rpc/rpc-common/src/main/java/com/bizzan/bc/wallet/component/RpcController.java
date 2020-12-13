@@ -1,8 +1,8 @@
 package com.bizzan.bc.wallet.component;
 
-import java.math.BigDecimal;
-
 import com.bizzan.bc.wallet.util.MessageResult;
+
+import java.math.BigDecimal;
 
 public interface RpcController {
     /**

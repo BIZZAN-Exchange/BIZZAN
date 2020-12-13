@@ -4,13 +4,10 @@ import com.bizzan.bc.wallet.config.JsonrpcClient;
 import com.bizzan.bc.wallet.entity.Account;
 import com.bizzan.bc.wallet.entity.Coin;
 import com.bizzan.bc.wallet.service.AccountService;
-import com.bizzan.bc.wallet.service.DepositService;
 import com.bizzan.bc.wallet.util.MessageResult;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;

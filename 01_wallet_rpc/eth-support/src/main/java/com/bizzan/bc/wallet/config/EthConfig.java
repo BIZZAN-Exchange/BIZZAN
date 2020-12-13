@@ -3,7 +3,6 @@ package com.bizzan.bc.wallet.config;
 import com.bizzan.bc.wallet.entity.Coin;
 import com.bizzan.bc.wallet.service.EtherscanApi;
 import com.googlecode.jsonrpc4j.JsonRpcHttpClient;
-
 import okhttp3.OkHttpClient;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;

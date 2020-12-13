@@ -16,7 +16,7 @@
         <Prudent>true</Prudent>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <FileNamePattern>
-                /data/logs/eusdt/%d{yyyy-MM-dd}/%d{yyyy-MM-dd}.log
+                ./logs/eusdt/%d{yyyy-MM-dd}/%d{yyyy-MM-dd}.log
             </FileNamePattern>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">

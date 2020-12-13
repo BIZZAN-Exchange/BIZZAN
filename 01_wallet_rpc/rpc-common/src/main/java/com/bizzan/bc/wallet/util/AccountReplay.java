@@ -2,7 +2,6 @@ package com.bizzan.bc.wallet.util;
 
 import com.bizzan.bc.wallet.entity.Account;
 import com.bizzan.bc.wallet.service.AccountService;
-
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

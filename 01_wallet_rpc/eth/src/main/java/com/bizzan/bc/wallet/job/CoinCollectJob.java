@@ -2,9 +2,8 @@ package com.bizzan.bc.wallet.job;
 
 
 import com.bizzan.bc.wallet.service.AccountService;
-import com.bizzan.bc.wallet.service.EthService;
 import com.bizzan.bc.wallet.util.AccountReplay;
-
+import com.bizzan.bc.wallet.service.EthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

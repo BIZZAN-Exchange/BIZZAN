@@ -1,13 +1,11 @@
 package com.bizzan.bc.wallet.component;
 
-import com.bizzan.bc.wallet.component.Watcher;
 import com.bizzan.bc.wallet.entity.Contract;
 import com.bizzan.bc.wallet.entity.Deposit;
 import com.bizzan.bc.wallet.event.DepositEvent;
 import com.bizzan.bc.wallet.service.AccountService;
 import com.bizzan.bc.wallet.service.EtherscanApi;
 import com.bizzan.bc.wallet.util.EthConvert;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +42,7 @@ public class TokenWatcher extends Watcher{
     @Autowired
     private DepositEvent depositEvent;
 
-    public List<Deposit> replayBlock(Long startBlockNumber,Long endBlockNumber){
+    public List<Deposit> replayBlock(Long startBlockNumber, Long endBlockNumber){
         List<Deposit> deposits = new ArrayList<>();
         for(Long blockHeight = startBlockNumber;blockHeight<=endBlockNumber;blockHeight++) {
             EthBlock block = null;
@@ -69,7 +67,7 @@ public class TokenWatcher extends Watcher{
                         String input = transaction.getInput();
                         String cAddress = transaction.getTo();
                         if (StringUtils.isNotEmpty(input) && input.length() >= 138 && contract.getAddress().equalsIgnoreCase(cAddress)) {
-                        	logger.info("Transaction is contract: Height({}) - {}", blockHeight, contract.getAddress());
+                        	//logger.info("Transaction is contract: Height({}) - {}", blockHeight, contract.getAddress());
                             String data = input.substring(0, 9);
                             data = data + input.substring(17, input.length());
                             Function function = new Function("transfer", Arrays.asList(), Arrays.asList(new TypeReference<Address>() {
@@ -80,7 +78,7 @@ public class TokenWatcher extends Watcher{
                             // 充币地址
                             String toAddress = params.get(0).getValue().toString();
                             String amount = params.get(1).getValue().toString();
-                            logger.info("Scan Address: " + toAddress + ", amount: " + amount);
+                            //logger.info("Scan Address: " + toAddress + ", amount: " + amount);
                             if(accountService.isAddressExist(toAddress)) {
                             	logger.info("============> Find a deposit address: " + toAddress + ", amount: " + amount);
                             	//当eventTopic0参数不为空时检查event_log结果，防止低版本的token假充值

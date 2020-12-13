@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>wallet-rpc</artifactId>
-        <groupId>com.bizzan.bc.wallet</groupId>
+        <groupId>com.bizzan.wallet</groupId>
         <version>1.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.bizzan.bc.wallet</groupId>
+    <groupId>com.bizzan.wallet</groupId>
     <artifactId>rpc-common</artifactId>
     <build>
         <plugins>
@@ -42,10 +42,9 @@
             <artifactId>spring-kafka</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.spark.bc</groupId>
+            <groupId>com.bizzan.wallet</groupId>
             <artifactId>bitcoin-rpc</artifactId>
-            <scope>system</scope>
-			<systemPath>${project.basedir}/lib/bitcoin-rpc-1.2.0.jar</systemPath>
+            <version>1.2</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

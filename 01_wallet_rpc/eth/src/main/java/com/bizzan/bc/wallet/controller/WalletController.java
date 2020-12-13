@@ -1,12 +1,10 @@
 package com.bizzan.bc.wallet.controller;
 
-import com.bizzan.bc.wallet.component.EthWatcher;
-import com.bizzan.bc.wallet.component.Watcher;
 import com.bizzan.bc.wallet.entity.Coin;
 import com.bizzan.bc.wallet.service.AccountService;
-import com.bizzan.bc.wallet.service.EthService;
 import com.bizzan.bc.wallet.util.MessageResult;
-
+import com.bizzan.bc.wallet.component.EthWatcher;
+import com.bizzan.bc.wallet.service.EthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

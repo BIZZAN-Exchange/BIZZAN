@@ -1,10 +1,8 @@
 package com.bizzan.bc.wallet.component;
 
-import com.bizzan.bc.wallet.component.Watcher;
 import com.bizzan.bc.wallet.config.JsonrpcClient;
 import com.bizzan.bc.wallet.entity.Deposit;
 import com.bizzan.bc.wallet.service.AccountService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

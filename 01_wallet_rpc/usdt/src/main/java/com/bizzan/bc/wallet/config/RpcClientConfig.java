@@ -1,7 +1,5 @@
 package com.bizzan.bc.wallet.config;
 
-import com.alibaba.fastjson.JSONObject;
-import com.spark.blockchain.rpcclient.BitcoinRPCClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

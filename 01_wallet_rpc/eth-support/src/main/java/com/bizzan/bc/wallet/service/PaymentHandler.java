@@ -5,10 +5,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.bizzan.bc.wallet.entity.Coin;
 import com.bizzan.bc.wallet.entity.Contract;
-import com.bizzan.bc.wallet.entity.Payment;
 import com.bizzan.bc.wallet.util.EthConvert;
 import com.bizzan.bc.wallet.util.MessageResult;
-
+import com.bizzan.bc.wallet.entity.Payment;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,13 +28,11 @@ import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.utils.Convert;
 import org.web3j.utils.Numeric;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 
 
 /**
@@ -151,6 +148,7 @@ public class PaymentHandler {
             BigInteger nonce = ethGetTransactionCount.getTransactionCount();
             BigInteger gasPrice = ethService.getGasPrice();
             BigInteger value = EthConvert.toWei(payment.getAmount(), contract.getUnit()).toBigInteger();
+            logger.info("Payment.to = " + payment.getTo());
             Function fn = new Function("transfer", Arrays.asList(new Address(payment.getTo()), new Uint256(value)), Collections.<TypeReference<?>> emptyList());
             String data = FunctionEncoder.encode(fn);
             BigInteger maxGas = contract.getGasLimit();
@@ -164,6 +162,7 @@ public class PaymentHandler {
             String transactionHash = ethSendTransaction.getTransactionHash();
             logger.info("txid:" + transactionHash);
             if (StringUtils.isEmpty(transactionHash)) {
+                logger.info("发送交易失败！");
                 return new MessageResult(500, "发送交易失败");
             }
             else {

@@ -1,13 +1,12 @@
 package com.bizzan.bc.wallet.service;
 
+import com.bizzan.bc.wallet.entity.WatcherLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
-
-import com.bizzan.bc.wallet.entity.WatcherLog;
 
 import java.util.Date;
 

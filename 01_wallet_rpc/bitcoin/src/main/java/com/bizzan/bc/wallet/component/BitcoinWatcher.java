@@ -1,10 +1,9 @@
 package com.bizzan.bc.wallet.component;
 
-import com.bizzan.bc.wallet.component.Watcher;
-import com.bizzan.bc.wallet.entity.Deposit;
-import com.bizzan.bc.wallet.service.AccountService;
 import com.spark.blockchain.rpcclient.Bitcoin;
 import com.spark.blockchain.rpcclient.BitcoinRPCClient;
+import com.bizzan.bc.wallet.entity.Deposit;
+import com.bizzan.bc.wallet.service.AccountService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

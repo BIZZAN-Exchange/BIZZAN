@@ -1,22 +1,17 @@
 package com.bizzan.bc.wallet.event;
 
-import java.util.Date;
+import com.bizzan.bc.wallet.entity.WatcherSetting;
+import com.bizzan.bc.wallet.service.WatcherLogService;
+import com.bizzan.bc.wallet.component.Watcher;
+import com.bizzan.bc.wallet.entity.Coin;
+import com.bizzan.bc.wallet.entity.WatcherLog;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Service;
-
-import com.bizzan.bc.wallet.component.Watcher;
-import com.bizzan.bc.wallet.entity.Coin;
-import com.bizzan.bc.wallet.entity.Deposit;
-import com.bizzan.bc.wallet.entity.WatcherLog;
-import com.bizzan.bc.wallet.entity.WatcherSetting;
-import com.bizzan.bc.wallet.service.DepositService;
-import com.bizzan.bc.wallet.service.WatcherLogService;
 
 @Service
 public class ApplicationEvent implements ApplicationListener<ContextRefreshedEvent> {

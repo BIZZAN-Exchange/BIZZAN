@@ -1,11 +1,10 @@
 package com.bizzan.bc.wallet.service;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.WriteResult;
 import com.bizzan.bc.wallet.entity.Account;
 import com.bizzan.bc.wallet.entity.BalanceSum;
 import com.bizzan.bc.wallet.entity.Coin;
-import com.mongodb.BasicDBObject;
-import com.mongodb.WriteResult;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -17,7 +16,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 

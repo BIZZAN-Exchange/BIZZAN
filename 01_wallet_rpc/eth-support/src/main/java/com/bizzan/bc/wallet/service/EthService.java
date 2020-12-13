@@ -3,11 +3,9 @@ package com.bizzan.bc.wallet.service;
 import com.bizzan.bc.wallet.entity.Account;
 import com.bizzan.bc.wallet.entity.Coin;
 import com.bizzan.bc.wallet.entity.Contract;
-import com.bizzan.bc.wallet.service.AccountService;
 import com.bizzan.bc.wallet.util.EthConvert;
 import com.bizzan.bc.wallet.util.MessageResult;
 import com.googlecode.jsonrpc4j.JsonRpcHttpClient;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

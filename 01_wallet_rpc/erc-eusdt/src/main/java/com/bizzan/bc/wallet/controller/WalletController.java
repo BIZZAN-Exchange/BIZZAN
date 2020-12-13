@@ -1,19 +1,17 @@
 package com.bizzan.bc.wallet.controller;
 
 
-import com.bizzan.bc.wallet.component.TokenWatcher;
 import com.bizzan.bc.wallet.entity.Account;
 import com.bizzan.bc.wallet.entity.Coin;
 import com.bizzan.bc.wallet.entity.Contract;
 import com.bizzan.bc.wallet.service.AccountService;
 import com.bizzan.bc.wallet.service.EthService;
 import com.bizzan.bc.wallet.util.MessageResult;
-
+import com.bizzan.bc.wallet.component.TokenWatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.web3j.protocol.core.methods.response.EthBlockNumber;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -123,7 +121,9 @@ public class WalletController {
             if (fee == null || fee.compareTo(BigDecimal.ZERO) <= 0) {
                 fee = service.getMinerFee(contract.getGasLimit());
             }
+            logger.info("transfer: fee = {}", fee);
             List<Account> accountList = accountService.findByBalanceAndGas(coin.getMinCollectAmount(),fee);
+            logger.info("transfer: account count = {}", accountList.size());
             for(Account account:accountList) {
                 if(service.getBalance(account.getAddress()).compareTo(fee) < 0){
                     logger.info("地址{}手续费不足，最低为{}",account.getAddress(),fee);

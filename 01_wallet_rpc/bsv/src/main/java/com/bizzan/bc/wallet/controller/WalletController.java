@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import com.bizzan.bc.wallet.service.AccountService;
+import com.bizzan.bc.wallet.util.HttpClientUtil;
+import com.bizzan.bc.wallet.util.MessageResult;
 import org.bitcoinj.core.Address;
 import org.bitcoinj.core.ECKey;
 import org.bitcoinj.core.NetworkParameters;
@@ -19,9 +22,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.bizzan.bc.wallet.service.AccountService;
-import com.bizzan.bc.wallet.util.HttpClientUtil;
-import com.bizzan.bc.wallet.util.MessageResult;
 
 @RestController
 @RequestMapping("/rpc")

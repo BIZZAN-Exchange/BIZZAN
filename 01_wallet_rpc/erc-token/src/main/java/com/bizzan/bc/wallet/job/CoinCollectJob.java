@@ -7,7 +7,6 @@ import com.bizzan.bc.wallet.service.AccountService;
 import com.bizzan.bc.wallet.service.EthService;
 import com.bizzan.bc.wallet.util.AccountReplay;
 import com.bizzan.bc.wallet.util.MessageResult;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
 @Component
 public class CoinCollectJob {
