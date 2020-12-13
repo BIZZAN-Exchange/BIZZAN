@@ -4,28 +4,25 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.bizzan.bc.wallet</groupId>
+    <groupId>com.bizzan.wallet</groupId>
     <artifactId>wallet-rpc</artifactId>
     <packaging>pom</packaging>
     <version>1.2</version>
     <modules>
 
         <module>rpc-common</module>
+        <module>bitcoin-rpc</module>
         <module>bitcoin</module>
         <module>usdt</module>
         <module>eth</module>
         <module>erc-token</module>
         <module>eth-support</module>
-<!--        <module>act</module>-->
-        <module>ect</module>
-<!--        <module>xrp</module>-->
         <module>bch</module>
         <module>ltc</module>
         <module>erc-eusdt</module>
         <module>bsv</module>
         <module>eos</module>
-        <module>xmr</module>
-		<module>btm</module>
+
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -81,12 +78,12 @@
 				<systemPath>${project.basedir}/lib/bitcoin-rpc-1.2.0.jar</systemPath>
             </dependency>
             <dependency>
-                <groupId>com.bizzan.bc.wallet</groupId>
+                <groupId>com.bizzan.wallet</groupId>
                 <artifactId>rpc-common</artifactId>
                 <version>${project-version}</version>
             </dependency>
             <dependency>
-                <groupId>com.bizzan.bc.wallet</groupId>
+                <groupId>com.bizzan.wallet</groupId>
                 <artifactId>eth-support</artifactId>
                 <version>${project-version}</version>
             </dependency>
