@@ -110,7 +110,6 @@
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-core</artifactId>
-			<version>${shiro_version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.reactivex</groupId>
