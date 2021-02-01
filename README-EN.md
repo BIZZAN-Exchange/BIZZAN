@@ -59,8 +59,9 @@ This source code is limited to exchange and study, where it involves legal issue
 ### test environment
 - The test environment is for learning reference only! ! ! Please use it reasonably.
 
-- Test environment address: The cost of more than 100,000 yuan a year is really unaffordable, please wait patiently for our local test address
-
+- Test environment address: 
+- https://www.bizzan.pro Account：13800138001 Password：123456
+- https://admin.bizzan.pro Account：test Password：123456
 ### join us
      In order to facilitate everyone to communicate and learn, please join the QQ exchange group:
      *Blockchain exchange technical knowledge exchange group [QQ group: 735446452]
@@ -240,6 +241,11 @@ water.proof.app.**
     nohup java -jar /web/app/wallet.jar >/dev/null 2>&1 &
     nohup java -jar /web/app/admin.jar >/dev/null 2>&1 &
     ```
-
-### Release Notes
- * [Update details](CHANGELOG.md)
+## Commercial demo
+#### ![Topology-Image](/Topology-Image/01.png)
+#### ![Topology-Image](/Topology-Image/02.png)
+#### ![Topology-Image](/Topology-Image/03.png)
+#### ![Topology-Image](/Topology-Image/04.png)
+#### ![Topology-Image](/Topology-Image/05.png)
+#### ![Topology-Image](/Topology-Image/06.png)
+#### ![Topology-Image](/Topology-Image/07.png)

@@ -54,16 +54,17 @@ ZTuo 开源数字货币交易系统
 - 数据库：Mysql、Mongodb
 - 其他：redis、kafka、阿里云OSS、腾讯防水校验、环信推送
 - 前端：Vue、iView、less
-- 同时提供IOS和Android版本。
 
 ### 测试环境
 - 测试环境仅供学习参考！！！请各位学习的小伙伴合理运用。
 
-- 测试环境地址 :   一年十几万的费用实在是扛不住了，请小伙伴们耐心等待我们本地的测试地址
+- 测试环境地址 : 
+- https://www.bizzan.pro 账户：13800138001 密码：123456
+- https://admin.bizzan.pro 账户：test 密码：123456
 
 ### 加入我们
     为方便大家交流和学习，请各位小伙伴加入QQ交流群：
-	*区块链交易所技术知识交流群【QQ群：735446452】
+	*区块链交易所技术知识交流群【QQ群：735446452】【QQ:390330302】
 ### 开源许可协议
     Apache
 
@@ -248,6 +249,11 @@ water.proof.app.**
     nohup  java  -jar  /web/app/admin.jar  >/dev/null 2>&1 &
     ```
 
-
-### 更新说明
- * [更新详情](CHANGELOG.md)
+## 商业版演示图
+#### ![Topology-Image](/Topology-Image/01.png)
+#### ![Topology-Image](/Topology-Image/02.png)
+#### ![Topology-Image](/Topology-Image/03.png)
+#### ![Topology-Image](/Topology-Image/04.png)
+#### ![Topology-Image](/Topology-Image/05.png)
+#### ![Topology-Image](/Topology-Image/06.png)
+#### ![Topology-Image](/Topology-Image/07.png)
