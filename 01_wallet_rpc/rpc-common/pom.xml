@@ -11,6 +11,7 @@
 
     <groupId>com.bizzan.wallet</groupId>
     <artifactId>rpc-common</artifactId>
+    <version>${project-version}</version>
     <build>
         <plugins>
             <plugin>
@@ -44,7 +45,6 @@
         <dependency>
             <groupId>com.bizzan.wallet</groupId>
             <artifactId>bitcoin-rpc</artifactId>
-            <version>1.2</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -61,7 +61,6 @@
         <dependency>
             <groupId>com.github.briandilley.jsonrpc4j</groupId>
             <artifactId>jsonrpc4j</artifactId>
-            <version>1.4.6</version>
         </dependency>
     </dependencies>
 </project>

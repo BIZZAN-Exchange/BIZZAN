@@ -28,7 +28,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.9.RELEASE</version>
+		<version>1.5.22.RELEASE</version>
 		<relativePath />
 		<!-- lookup parent from repository -->
 	</parent>
@@ -39,9 +39,9 @@
 		<project.build.jdk_version>1.8</project.build.jdk_version>
 		<!-- spring -->
 		<spring-cloud.version>Edgware.RELEASE</spring-cloud.version>
-		<spring-boot_version>1.5.9.RELEASE</spring-boot_version>
+		<spring-boot_version>1.5.22.RELEASE</spring-boot_version>
 		<!-- 数据库连接 -->
-		<druid_version>1.1.22</druid_version>
+		<druid_version>1.1.24</druid_version>
 		<mysql.version>8.0.22</mysql.version>
 		<!-- commons包 -->
 		<commons-codec_version>1.10</commons-codec_version>
@@ -52,26 +52,34 @@
 		<commons-collections_version>3.2</commons-collections_version>
 		<!-- extension -->
 		<lombok_version>1.16.16</lombok_version>
-		<fastjson_version>1.2.31</fastjson_version>
-		<kafka_version>0.10.0.0</kafka_version>
+		<!--务必用高版本，1.2.48以下有序列化远程执行漏洞【高危】-->
+		<fastjson_version>1.2.75</fastjson_version>
+		<!--修复0.10版本的连接BUG-->
+		<kafka_version>0.10.2.2</kafka_version>
 		<!-- Log libs -->
 		<slf4j_version>1.7.7</slf4j_version>
 		<jcl_version>1.1</jcl_version>
-		<log4j_version>1.2.16</log4j_version>
-		<logback_version>1.1.11</logback_version>
+		<log4j_version>1.2.17</log4j_version>
+		<logback_version>1.2.3</logback_version>
 		<logback-ext-spring_version>0.1.4</logback-ext-spring_version>
 		<!-- Test Libs -->
 		<junit_version>4.12</junit_version>
-		<shiro_version>1.4.0</shiro_version>
-		<netty_version>4.1.22.Final</netty_version>
+		<!--shiro 高危权限绕过漏洞。https://www.freebuf.com/vuls/249112.html -->
+		<shiro_version>1.7.0</shiro_version>
+		<!--netty 高危拒绝服务漏洞。https://www.anquanke.com/vul/id/1984197 -->
+		<netty_version>4.1.58.Final</netty_version>
 		<protostuff_version>1.5.4</protostuff_version>
 		<ehcache_version>2.6.11</ehcache_version>
-		<!--netty-->
-		<netty_version>4.1.22.Final</netty_version>
 		<guava_version>21.0</guava_version>
-		<protostuff_version>1.5.4</protostuff_version>
-		<shiro_version>1.4.0</shiro_version>
-		<ehcache_version>2.6.11</ehcache_version>
+		<protostuff_version>1.5.9</protostuff_version>
+		<!--务必版本大于1.4.14 否则有远程执行等高危漏洞-->
+		<xstream-version>1.4.15</xstream-version>
+		<!--用高版本修复序列化漏洞-->
+		<jackson.version>2.12.1</jackson.version>
+
+		<essypoi.version>3.0.3</essypoi.version>
+
+		<protobuf.version>3.11.4</protobuf.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -80,6 +88,37 @@
 				<artifactId>druid-spring-boot-starter</artifactId>
 				<version>${druid_version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-eureka</artifactId>
+				<version>1.4.7.RELEASE</version>
+				<exclusions>
+					<!--务必排除旧版。版本大于1.4.14 否则有远程执行等高危漏洞-->
+					<exclusion>
+						<groupId>com.thoughtworks.xstream</groupId>
+						<artifactId>xstream</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-ribbon</artifactId>
+				<version>1.4.7.RELEASE</version>
+				<exclusions>
+					<!--务必排除旧版。版本大于1.4.14 否则有远程执行等高危漏洞-->
+					<exclusion>
+						<groupId>com.thoughtworks.xstream</groupId>
+						<artifactId>xstream</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>com.thoughtworks.xstream</groupId>
+				<artifactId>xstream</artifactId>
+				<version>${xstream-version}</version>
+			</dependency>
+
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-cache</artifactId>
@@ -216,6 +255,12 @@
 			</dependency>
 
 			<dependency>
+				<groupId>com.google.protobuf</groupId>
+				<artifactId>protobuf-java</artifactId>
+				<version>${protobuf.version}</version>
+			</dependency>
+
+			<dependency>
 				<groupId>org.apache.kafka</groupId>
 				<artifactId>kafka-clients</artifactId>
 				<version>${kafka_version}</version>
@@ -252,10 +297,58 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+
 			<dependency>
 				<groupId>org.apache.shiro</groupId>
 				<artifactId>shiro-spring</artifactId>
-				<version>1.4.0</version>
+				<version>${shiro_version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-quartz</artifactId>
+				<version>${shiro_version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>com.zaxxer</groupId>
+						<artifactId>HikariCP-java7</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.mchange</groupId>
+						<artifactId>c3p0</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-ehcache</artifactId>
+				<version>${shiro_version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-core</artifactId>
+				<version>${shiro_version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>cn.afterturn</groupId>
+				<artifactId>easypoi-base</artifactId>
+				<version>${essypoi.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.afterturn</groupId>
+				<artifactId>easypoi-web</artifactId>
+				<version>${essypoi.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.afterturn</groupId>
+				<artifactId>easypoi-annotation</artifactId>
+				<version>${essypoi.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.session</groupId>
+				<artifactId>spring-session</artifactId>
+				<version>1.3.5.RELEASE</version>
 			</dependency>
 			<dependency>
 				<groupId>org.pac4j</groupId>
@@ -267,26 +360,23 @@
 				<artifactId>buji-pac4j</artifactId>
 				<version>3.0.0</version>
 			</dependency>
+
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-core</artifactId>
-				<version>2.9.1</version>
+				<version>${jackson.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-annotations</artifactId>
-				<version>2.9.1</version>
+				<version>${jackson.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-databind</artifactId>
-				<version>2.9.1</version>
+				<version>${jackson.version}</version>
 			</dependency>
-			<dependency>
-	        	<groupId>org.apache.shiro</groupId>
-	            <artifactId>shiro-quartz</artifactId>
-	            <version>1.3.2</version>
-	        </dependency>
+
 		</dependencies>
 	</dependencyManagement>
 

@@ -11,6 +11,7 @@
 
     <groupId>com.bizzan.wallet</groupId>
     <artifactId>eth-support</artifactId>
+    <version>${project-version}</version>
     <build>
         <plugins>
             <plugin>
@@ -32,7 +33,6 @@
         <dependency>
             <groupId>com.bizzan.wallet</groupId>
             <artifactId>rpc-common</artifactId>
-            <version>1.2</version>
         </dependency>
         <dependency>
             <groupId>org.web3j</groupId>
@@ -41,12 +41,10 @@
         <dependency>
             <groupId>com.github.briandilley.jsonrpc4j</groupId>
             <artifactId>jsonrpc4j</artifactId>
-            <version>1.4.6</version>
         </dependency>
         <dependency>
             <groupId>com.mashape.unirest</groupId>
             <artifactId>unirest-java</artifactId>
-            <version>1.4.9</version>
         </dependency>
     </dependencies>
 </project>
