@@ -1,5 +1,5 @@
 /*
- * @(#) HttpClientUtils.java 2016年2月3日
+ * @(#) HttpClientUtils.java 2020年2月3日
  * 
  * Copyright 2010 NetEase.com, Inc. All rights reserved.
  */
@@ -36,7 +36,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
  * HttpClient工具类
  *
  * @author captcha_dev
- * @version 2016年2月3日
+ * @version 2020年2月3日
  */
 public class HttpClient4Utils {
     private static HttpClient defaultClient = createHttpClient(20, 20, 5000, 5000, 3000);

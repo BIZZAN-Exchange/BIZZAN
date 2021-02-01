@@ -21,7 +21,7 @@ import com.bizzan.bitrade.util.MessageResult;
 import javax.validation.Valid;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Shaoxianjun
  * @Title: ${file_name}
  * @Description:
  * @date 2019/4/1214:21

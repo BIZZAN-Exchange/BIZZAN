@@ -8,8 +8,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @create 2017年12月07日
+ * @author Jammy
+ * @create 2020年12月07日
  * @desc 电子币种
  */
 @AllArgsConstructor

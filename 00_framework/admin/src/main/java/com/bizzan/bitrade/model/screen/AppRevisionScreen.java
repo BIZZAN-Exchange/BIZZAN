@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Shaoxianjun
  * @Title: ${file_name}
  * @Description:
  * @date 2019/4/2417:20

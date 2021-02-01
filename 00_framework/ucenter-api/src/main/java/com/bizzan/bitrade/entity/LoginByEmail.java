@@ -6,8 +6,8 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2017年12月29日
+ * @author Jammy
+ * @date 2020年12月29日
  */
 @Data
 public class LoginByEmail {
@@ -28,6 +28,9 @@ public class LoginByEmail {
     private String country;
 
     private String promotion;
+
+    @NotBlank(message = "{LoginByEmail.code.null}")
+    private String code;
 
     //超级合伙人标识 0 普通  1 超级合伙人
     private String superPartner ;

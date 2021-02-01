@@ -23,8 +23,8 @@ import java.io.PrintWriter;
 import java.util.Calendar;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年01月11日
+ * @author Jammy
+ * @date 2020年01月11日
  */
 @Slf4j
 public class MemberInterceptor implements HandlerInterceptor {
@@ -54,14 +54,14 @@ public class MemberInterceptor implements HandlerInterceptor {
                 session.setAttribute(SysConstant.SESSION_MEMBER, AuthMember.toAuthMember(member));
                 return true;
             } else {
-                ajaxReturn(response, 4000, "当前登录状态过期，请您重新登录！");
+                ajaxReturn(response, 4000, "The current login status has expired, please login again!");
                 return false;
             }
         }
     }
 
 
-    public void ajaxReturn(HttpServletResponse response, int code, String msg) throws IOException, JSONException {
+    public static void ajaxReturn(HttpServletResponse response, int code, String msg) throws IOException, JSONException {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/json; charset=UTF-8");
         PrintWriter out = response.getWriter();

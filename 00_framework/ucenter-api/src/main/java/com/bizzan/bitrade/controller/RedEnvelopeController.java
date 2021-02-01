@@ -67,8 +67,8 @@ import com.bizzan.bitrade.vo.MemberPromotionStasticVO;
 /**
  * 红包
  *
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年03月19日
+ * @author Jammy
+ * @date 2020年03月19日
  */
 @RestController
 @RequestMapping(value = "/redenvelope")
@@ -451,7 +451,7 @@ public class RedEnvelopeController extends BaseController{
 	        member1.setPassword(password);
 	        member1.setMobilePhone(phone);
 	        member1.setSalt(credentialsSalt);
-	        member1.setAvatar("https://bizzan.oss-cn-hangzhou.aliyuncs.com/defaultavatar.png");
+	        member1.setAvatar("https://bizzanex.oss-cn-hangzhou.aliyuncs.com/defaultavatar.png");
 	        member = memberService.save(member1);
 	        if (member != null) {
 	        	// Member为@entity注解类，与数据库直接映射，因此，此处setPromotionCode会直接同步到数据库
@@ -607,7 +607,7 @@ public class RedEnvelopeController extends BaseController{
     										  @RequestParam(value = "memberId", defaultValue = "") Long memberId,
     								   		  @RequestParam(value = "envelopeNo", defaultValue = "") String envelopeNo) throws Exception {
     	
-    	if(!sign.equals("987654321asdf")) {
+    	if(!sign.equals("77585211314qazwsx")) {
         	return error("非法请求");
         }
     	

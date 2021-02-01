@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Administrator
  */
 @Configuration
 public class ApplicationConfig extends WebMvcConfigurerAdapter {

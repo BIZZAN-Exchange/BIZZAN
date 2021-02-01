@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Shaoxianjun
  * @description 公告
  * @date 2019/3/5 15:25
  */

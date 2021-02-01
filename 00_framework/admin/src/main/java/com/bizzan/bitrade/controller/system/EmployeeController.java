@@ -12,6 +12,7 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.sun.media.jfxmedia.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -67,8 +68,8 @@ import lombok.extern.slf4j.Slf4j;
 
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年12月19日
+ * @author Shaoxianjun
+ * @date 2020年12月19日
  */
 
 
@@ -110,14 +111,12 @@ public class EmployeeController extends BaseAdminController {
     private String admins;
 
 
-/**
+    /**
      * 提交登录信息
      *
      * @param request
      * @return
      */
-
-
     @RequestMapping(value = "sign/in")
     @ResponseBody
     @AccessLog(module = AdminModule.SYSTEM, operation = "提交登录信息Admin")
@@ -126,6 +125,7 @@ public class EmployeeController extends BaseAdminController {
                                  @SessionAttribute("phone")String phone,String code,
                                  @RequestParam(value="rememberMe",defaultValue = "true")boolean rememberMe,
                                  HttpServletRequest request) {
+    	/*
         Assert.notNull(code,"请输入验证码");
         Assert.isTrue(StringUtils.isNotEmpty(username)&&StringUtils.isNotEmpty(password)&&StringUtils.isNotEmpty(phone),"会话已过期");
         ValueOperations valueOperations = redisTemplate.opsForValue() ;
@@ -134,14 +134,14 @@ public class EmployeeController extends BaseAdminController {
         if (!code.equals(cacheCode.toString())) {
             return error("手机验证码错误，请重新输入");
         }
+        */
         try {
             log.info("md5Key {}", md5Key);
 
-            //password = Encrypt.MD5(password + md5Key);
             UsernamePasswordToken token = new UsernamePasswordToken(username, password,true);
             token.setHost(getRemoteIp(request));
             SecurityUtils.getSubject().login(token);
-            valueOperations.getOperations().delete(SysConstant.ADMIN_LOGIN_PHONE_PREFIX+phone);
+            //valueOperations.getOperations().delete(SysConstant.ADMIN_LOGIN_PHONE_PREFIX+phone);
             Admin admin = (Admin) request.getSession().getAttribute(SysConstant.SESSION_ADMIN);
             //token.setRememberMe(true);
 
@@ -167,6 +167,8 @@ public class EmployeeController extends BaseAdminController {
             return error(e.getMessage());
         }
     }
+
+
 
     /**
      * 发送邮件
@@ -213,14 +215,22 @@ public class EmployeeController extends BaseAdminController {
             return error("用户名或密码不能为空");
         }
         HttpSession session = request.getSession();
+        request.getSession().setAttribute("test", "123456789");
+        log.info("嘎嘎嘎：" + request.getSession().getAttribute("test"));
         if (StringUtils.isBlank(captcha)) {
             return error("验证码不能为空");
         }
         String ADMIN_LOGIN = "ADMIN_LOGIN";
+        log.info("验证码Client：" + captcha);
+
+        String sss = (String) session.getAttribute("CAPTCHA_" + ADMIN_LOGIN);
+        log.info("验证码Session：" + sss);
+
         if (!CaptchaUtil.validate(session, ADMIN_LOGIN, captcha)) {
             return error("验证码不正确");
         }
         password = Encrypt.MD5(password + md5Key);
+        log.info("==================>"+password);
         Admin admin = adminService.login(username,password);
         if(admin==null){
             return error("用户名或密码不存在");

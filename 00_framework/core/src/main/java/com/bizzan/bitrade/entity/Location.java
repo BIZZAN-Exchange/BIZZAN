@@ -8,8 +8,8 @@ import java.io.Serializable;
 /**
  * 地址
  *
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年01月02日
+ * @author Jammy
+ * @date 2020年01月02日
  */
 @Data
 @Embeddable

@@ -10,9 +10,9 @@ import com.bizzan.bitrade.service.Base.BaseService;
 import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @description
- * @date 2017/12/26 17:26
+ * @date 2019/12/26 17:26
  */
 @Service
 public class MemberLevelService extends BaseService {
@@ -25,27 +25,27 @@ public class MemberLevelService extends BaseService {
     }
 
     /**
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author Jammy
      * @description id查询一个
-     * @date 2017/12/27 10:54
+     * @date 2019/12/27 10:54
      */
     public MemberLevel findOne(Long id){
         return  memberLevelDao.findOne(id);
     }
 
     /**
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author Jammy
      * @description 查询默认会员的等级
-     * @date 2017/12/26 17:58
+     * @date 2019/12/26 17:58
      */
     public MemberLevel findDefault() {
         return memberLevelDao.findOneByIsDefault(true);
     }
 
     /**
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author Jammy
      * @description 更新状态为false 不包括
-     * @date 2017/12/27 11:02
+     * @date 2019/12/27 11:02
      */
     public int updateDefault() {
        return memberLevelDao.updateDefault();

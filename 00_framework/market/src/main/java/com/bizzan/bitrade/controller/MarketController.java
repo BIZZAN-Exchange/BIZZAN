@@ -304,4 +304,32 @@ public class MarketController {
         return re;
     }
 
+    /**
+     * BTC/USDT趋势线
+     * @return
+     */
+    @RequestMapping("/btc/trend")
+    public MessageResult btcTrend() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.SECOND,0);
+        calendar.set(Calendar.MILLISECOND,0);
+        calendar.set(Calendar.MINUTE,0);
+        long nowTime = calendar.getTimeInMillis();
+        calendar.add(Calendar.HOUR_OF_DAY,-24);
+
+        JSONArray array = new JSONArray();
+        long firstTimeOfToday = calendar.getTimeInMillis();
+
+        List<KLine> lines = marketService.findAllKLine("BTC/USDT",firstTimeOfToday,nowTime,"5min");
+        JSONArray trend = new JSONArray();
+        for(KLine line:lines){
+            trend.add(line.getClosePrice());
+        }
+        MessageResult re = new MessageResult();
+        re.setCode(0);
+        re.setData(trend);
+        re.setMessage("success");
+        return re;
+    }
+
 }

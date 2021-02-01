@@ -11,9 +11,9 @@ import com.bizzan.bitrade.entity.MemberApplication;
 import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @description
- * @date 2017/12/26 15:12
+ * @date 2019/12/26 15:12
  */
 public interface MemberApplicationDao extends BaseDao<MemberApplication> {
     List<MemberApplication> findMemberApplicationByMemberAndAuditStatusOrderByIdDesc(Member var1, AuditStatus var2);

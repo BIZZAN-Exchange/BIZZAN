@@ -49,6 +49,9 @@ public class ExchangeOrder implements Serializable {
     private Long canceledTime;
     //是否使用折扣 0 不使用 1使用
     private  String useDiscount ;
+
+    private ExchangeOrderResource orderResource = ExchangeOrderResource.CUSTOMER;
+
     @Transient
     private List<ExchangeOrderDetail> detail;
     @Override

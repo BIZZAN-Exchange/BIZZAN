@@ -232,6 +232,9 @@ export const startBBTrader = data => post('admin/exchange/exchange-coin/start-tr
 //POST "币币管理" => "币币设置"=>"停止交易引擎"
 export const stopBBTrader = data => post('admin/exchange/exchange-coin/stop-trader', data);
 
+//POST "币币管理" => "币币设置"=>"重置交易引擎"
+export const resetBBTrader = data => post('admin/exchange/exchange-coin/reset-trader', data);
+
 //POST "币币管理" => "币币设置"=>"查看机器人参数"
 export const getRobotConfig = data => post('admin/exchange/exchange-coin/robot-config', data);
 
@@ -244,6 +247,14 @@ export const createRobotConfig = data => post('admin/exchange/exchange-coin/crea
 export const setPriceRobotConfig = data => post('admin/exchange/exchange-coin/alter-robot-config-price', data);
 //POST "币币管理" => "币币设置"=>"创建机器人参数"
 export const createPriceRobotConfig = data => post('admin/exchange/exchange-coin/create-robot-config-price', data);
+//POST "币币管理" => "控盘机器人"=>"获取机器人K线"
+export const getRobotKdataList = data => post('admin/exchange/exchange-coin/robot-kline-list', data);
+//POST "币币管理" => "控盘机器人"=>"保存机器人K线-自定义"
+export const saveRobotKdata = data => post('admin/exchange/exchange-coin/save-robot-kline', data);
+//POST "币币管理" => "控盘机器人"=>"保存机器人K线-跟随"
+export const saveRobotKdataFlow = data => post('admin/exchange/exchange-coin/save-robot-flow', data);
+//POST "币币管理" => "控盘机器人"=>"获取控盘币种列表"
+export const getCustomCoinPairList = data => post('admin/exchange/exchange-coin/custom-coin-list', data);
 
 //POST "币币管理" => "币币设置"=>"撤销所有委托单"
 export const cancelBBAllOrders = data => post('admin/exchange/exchange-coin/cancel-all-order', data);
@@ -377,6 +388,9 @@ export const publishAdvOtc = data => post('admin/member/alter-publish-advertisem
 //POST获取 "法币管理"=>"认证商家"=>"禁用/解禁会员交易"
 export const forbiddenMemberTrans = data => post('admin/member/alter-transaction-status', data);
 
+//POST获取 "法币管理"=>"认证商家"=>"禁用/解禁会员交易"
+export const setSuperPartner = data => post('admin/member/alter-member-superpartner', data);
+
 //POST获取 "法币管理"=>"认证商家"=>"禁用/解禁会员"
 export const forbiddenMember = data => post('admin/member/alter-status', data);
 
@@ -445,6 +459,13 @@ export const activityOrderList = parma => fetch(`admin/activity/activity/${parma
 
 // POST "活动管理" => "派发活动币"
 export const distributeOrder = data => post(`admin/activity/activity/distribute`, data);
+
+//POST获取 "活动管理"=>"活动管理"=>"活动列表"
+export const lockedActivityList = data => post('admin/activity/activity/locked-activity', data);
+
+//POST获取 "活动管理"=>"活动管理"=>"活动列表"
+export const lockMemberCoin = data => post('admin/activity/activity/lock-member-coin', data);
+
 
 //POST获取 "系统管理"=>"活动管理"=>"签到详情"
 export const signDetail = (url) => fetch(`admin/activity/sign/${url}`);
@@ -565,6 +586,9 @@ export const inviteSecondRecord = data => postConfig('admin/invite/management/in
 //查询邀请排名
 export const inviteRank = data => postConfig('admin/invite/management/rank', data);
 
+//添加邀请关系
+export const setInviter = data => post('admin/member/setInviter', data);
+
 //更新邀请排名
 export const alterRank = data => post('admin/invite/management/update-rank', data);
 
@@ -585,3 +609,28 @@ export const ctcAcceptorSwitch = data => post('admin/ctc/acceptor/switch', data)
 
 //POST获取 "系统管理"=>"APP版本"=>"列表"
 export const sysAppRevision = data => fetch('admin/system/app-revision/page-query', data);
+
+// 期权合约管理=========================================================
+
+//POST获取 "期权合约"=>"交易对管理"=>"获取交易对列表"
+export const queryOptionCoinList = data => post('admin/option-coin/page-query', data);
+
+//POST获取 "期权合约"=>"交易对管理"=>"新增交易对"
+export const addOptionCoin = data => post('admin/option-coin/add', data);
+
+//POST获取 "期权合约"=>"交易对管理"=>"更新交易对"
+export const alterOptionCoin = data => post('admin/option-coin/alter', data);
+
+//POST获取 "期权合约"=>"交易对管理"=>"查询每期合约"
+export const queryOptionList = data => post('admin/option/page-query', data);
+
+//POST获取 "期权合约"=>"交易对管理"=>"查询每期合约"
+export const queryOptionOrderList = data => post('admin/option/order/page-query', data);
+
+// 永续合约管理=========================================================
+
+// 手续费支取=====================================
+//POST支取手续费
+export const withdrawFeeFunc = data => post('admin/fee/withdraw', data);
+//POST 支取手续费明细
+export const withdrawFeeDetail = data => post('admin/fee/withdraw/page-query', data);

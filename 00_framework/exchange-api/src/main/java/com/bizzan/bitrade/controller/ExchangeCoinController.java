@@ -11,19 +11,19 @@ import com.bizzan.bitrade.util.MessageResult;
 import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Shaoxianjun
  * @Title: ${file_name}
  * @Description:
  * @date 2019/4/1816:54
- */
-@RestController
-@RequestMapping("exchange-coin")
-public class ExchangeCoinController extends BaseController {
-    @Autowired
-    private ExchangeCoinService service;
+            */
+    @RestController
+    @RequestMapping("exchange-coin")
+    public class ExchangeCoinController extends BaseController {
+        @Autowired
+        private ExchangeCoinService service;
 
-    //获取基币
-    @RequestMapping("base-symbol")
+        //获取基币
+        @RequestMapping("base-symbol")
     public MessageResult baseSymbol() {
         List<String> baseSymbol = service.getBaseSymbol();
         if (baseSymbol != null && baseSymbol.size() > 0) {

@@ -5,9 +5,9 @@ import lombok.Data;
 import javax.persistence.*;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @description
- * @date 2018/1/25 17:19
+ * @date 2019/1/25 17:19
  */
 @Entity
 @Data

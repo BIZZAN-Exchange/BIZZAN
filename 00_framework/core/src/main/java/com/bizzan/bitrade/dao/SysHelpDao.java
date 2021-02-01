@@ -10,9 +10,9 @@ import com.bizzan.bitrade.entity.SysHelp;
 import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @description
- * @date 2018/1/9 9:58
+ * @date 2019/1/9 9:58
  */
 public interface SysHelpDao extends BaseDao<SysHelp> {
     List<SysHelp> findAllBySysHelpClassification(SysHelpClassification sysHelpClassification);

@@ -7,14 +7,16 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import com.bizzan.bitrade.constant.BooleanEnum;
 import com.bizzan.bitrade.constant.CommonStatus;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @description
- * @date 2017/12/29 14:14
+ * @date 2019/12/29 14:14
  */
 @Entity
 @Data
@@ -47,24 +49,28 @@ public class Coin {
      * 最小提币手续费
      */
     @Excel(name = "最小提币手续费", orderNum = "1", width = 20)
-    private double minTxFee;
+    @NotNull(message = "最小提币手续费不得为空")
+    private Double minTxFee;
     /**
      * 对人民币汇率
      */
     @Excel(name = "对人民币汇率", orderNum = "1", width = 20)
+    @NotNull(message = "对人民币汇率不得为空")
     @Column(columnDefinition = "decimal(18,2) default 0.00 comment '人民币汇率'")
-    private double cnyRate;
+    private Double cnyRate;
     /**
      * 最大提币手续费
      */
     @Excel(name = "最大提币手续费", orderNum = "1", width = 20)
-    private double maxTxFee;
+    @NotNull(message = "最大提币手续费不得为空")
+    private Double maxTxFee;
     /**
      * 对美元汇率
      */
     @Excel(name = "对美元汇率", orderNum = "1", width = 20)
+    @NotNull(message = "对美元汇率不得为空")
     @Column(columnDefinition = "decimal(18,2) default 0.00 comment '美元汇率'")
-    private double usdRate;
+    private Double usdRate;
     /**
      * 是否支持rpc接口
      */

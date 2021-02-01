@@ -23,11 +23,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2017年12月18日
+ * @author Jammy
+ * @date 2020年12月18日
  */
 @Service
 public class SysRoleService extends TopBaseService<SysRole, SysRoleDao> {
+    @Autowired
+    private LocaleMessageSourceService msService;
 
     @Autowired
     private AdminService adminService;
@@ -61,10 +63,10 @@ public class SysRoleService extends TopBaseService<SysRole, SysRoleDao> {
     public MessageResult deletes(Long id) {
         List<Admin> list = adminDao.findAllByRoleId(id);
         if (list != null && list.size() > 0) {
-            return MessageResult.error("删除失败，请先删除该角色下的所有用户");
+            return MessageResult.error(msService.getMessage("FAIL"));
         }
         sysRoleDao.delete(id);
-        return MessageResult.success("删除成功");
+        return MessageResult.success(msService.getMessage("SUCCESS"));
     }
 
     /**

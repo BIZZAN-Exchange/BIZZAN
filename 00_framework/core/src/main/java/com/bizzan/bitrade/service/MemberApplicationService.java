@@ -32,9 +32,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @description 会员审核单Service
- * @date 2017/12/26 15:10
+ * @date 2019/12/26 15:10
  */
 @Service
 @Slf4j

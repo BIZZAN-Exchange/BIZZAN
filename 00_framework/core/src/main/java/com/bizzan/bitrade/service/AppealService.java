@@ -27,8 +27,8 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年01月23日
+ * @author Jammy
+ * @date 2020年01月23日
  */
 @Service
 public class AppealService extends BaseService {

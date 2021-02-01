@@ -7,10 +7,10 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import java.util.ArrayList;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @Title: ${file_name}
  * @Description:
- * @date 2018/4/2417:35
+ * @date 2019/4/2417:35
  */
 public interface ScreenAbility {
     ArrayList<BooleanExpression> booleanExpressions = new ArrayList<>();

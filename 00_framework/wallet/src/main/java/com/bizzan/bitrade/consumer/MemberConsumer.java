@@ -80,7 +80,6 @@ public class MemberConsumer {
             }
             memberWalletService.save(memberWallet);
         }
-
     }
 
 

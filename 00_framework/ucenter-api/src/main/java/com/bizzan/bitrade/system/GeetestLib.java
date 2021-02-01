@@ -515,7 +515,7 @@ public class GeetestLib {
 	/**
 	 * md5 加密
 	 * 
-	 * @time 2014年7月10日 下午3:30:01
+	 * @time 2020年7月10日 下午3:30:01
 	 * @param plainText
 	 * @return
 	 */

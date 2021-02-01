@@ -1,5 +1,5 @@
 /**
- * Store localStorage
+ * 存储localStorage
  */
 export const setStore = (name, content) => {
 	if (!name) return;
@@ -10,7 +10,7 @@ export const setStore = (name, content) => {
 }
 
 /**
- * Get localStorage
+ * 获取localStorage
  */
 export const getStore = name => {
 	if (!name) return;
@@ -18,7 +18,7 @@ export const getStore = name => {
 }
 
 /**
- * Del localStorage
+ * 删除localStorage
  */
 export const removeStore = name => {
 	if (!name) return;

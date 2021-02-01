@@ -31,9 +31,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @description
- * @date 2017/12/29 14:50
+ * @date 2019/12/29 14:50
  */
 @Service
 public class CoinService extends BaseService {
@@ -150,7 +150,7 @@ public class CoinService extends BaseService {
 
     /**
      * @Description: 查询所有合法币种
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author Jammy
      */
     public List<Coin> findLegalAll() {
         return (List<Coin>) coinDao.findAll(QCoin.coin.hasLegal.eq(true));

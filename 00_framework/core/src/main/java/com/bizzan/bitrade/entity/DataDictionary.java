@@ -9,10 +9,10 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @Title: ${file_name}
  * @Description:
- * @date 2018/4/1214:12
+ * @date 2019/4/1214:12
  */
 @Data
 @Entity

@@ -44,11 +44,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2017年12月11日
+ * @author Jammy
+ * @date 2020年12月11日
  */
 @Service
 public class OrderService extends BaseService {
+    @Autowired
+    private LocaleMessageSourceService msService;
 
     @PersistenceContext
     private EntityManager em;
@@ -216,7 +218,7 @@ public class OrderService extends BaseService {
         map.put("finishedNum", finishedNum);
         map.put("cancelNum", cancelNum);
         map.put("appealNum", appealNum);
-        return MessageResult.getSuccessInstance("获取成功", map);
+        return MessageResult.getSuccessInstance(msService.getMessage("GET_SUCCESS"), map);
     }
 
     public List<Order> getAllOrdering(Long id) {

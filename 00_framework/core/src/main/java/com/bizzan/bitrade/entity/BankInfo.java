@@ -8,8 +8,8 @@ import java.io.Serializable;
 /**
  * 银行卡信息
  *
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年01月16日
+ * @author Jammy
+ * @date 2020年01月16日
  */
 @Data
 @Embeddable

@@ -21,9 +21,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @description 统计service
- * @date 2018/1/8 16:21
+ * @date 2019/1/8 16:21
  */
 @Service
 public class StatisticsService extends BaseService {
@@ -36,9 +36,9 @@ public class StatisticsService extends BaseService {
     private OrderDao orderDao;
     /**
      * @param sql 需要包含startTime endTime 两个占位符
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author Jammy
      * @description 获取统计数据
-     * @date 2018/1/9 15:25
+     * @date 2019/1/9 15:25
      */
     public List getStatistics(String startTime, String endTime, String sql) {
         Query query = em.createNativeQuery(sql);

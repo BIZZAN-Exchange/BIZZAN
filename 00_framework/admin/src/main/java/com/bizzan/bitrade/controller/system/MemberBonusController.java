@@ -20,7 +20,7 @@ import com.bizzan.bitrade.util.MessageResult;
 
 /**
  * @author Hou ruipeng
- * @date 2018年08月29日
+ * @date 2020年08月29日
  */
 @RestController
 @RequestMapping("/system/member-bonus")

@@ -27,6 +27,15 @@
 						</Select>
 					</div>
 
+          <div class="poptip">
+            <span>是否代理商：</span>
+            <Select v-model="filterSearch.superPartner">
+              <Option v-for="item in superPartnerArr"
+                    :value="item.value"
+                    :key="item.value">{{ item.text }}</Option>
+            </Select>
+          </div>
+
 					<div class="btns">
 						<Button type="info" size="small" @click="searchByFilter">搜索</Button>
 					</div>
@@ -52,14 +61,28 @@
         <Page :total="totalNum" style='margin-top:8px' :current="currentPageIdx"   @on-change="changePage" show-elevator></Page>
       </Row>
     </Card>
-
+        <Modal class="auditModel" v-model="detailModel"  title="增加邀请关系" @on-ok="setInviterDetail">
+            <ul>
+                <li><span><i>*</i>ID：</span>
+                    <p>
+                        <Input v-model="this.userId" disabled></Input>
+                        <span>{{ }}</span>
+                    </p>
+                </li>
+                <li>
+                    <span><i>*</i>设置邀请人的id：</span>
+                    <p> <Input v-model="inviterId"></Input> </p>
+<!--                    <p> <Input v-model="inviterId"></Input> </p>-->
+                </li>
+            </ul>
+        </Modal>
   </div>
 </template>
 
 <script>
 
 import { setStore, getStore, removeStore } from '@/config/storage';
-import { memberManage, forbiddenMember, forbiddenMemberTrans  } from '@/service/getData';
+import { memberManage, forbiddenMember, forbiddenMemberTrans, setSuperPartner,setInviter  } from '@/service/getData';
 
 export default {
   data () {
@@ -67,13 +90,22 @@ export default {
 			currentPageIdx: 1,
 			filterSearch: {
 				account: '',
-				commonStatus: ''
+				commonStatus: '',
+                superPartner: '',
 			},
+            //弹窗和信息
+            detailModel: false,
+            userId: "",
+            inviterId: null,
 			memberStatusArr: [
 				{ status: 0, text: '正常' },
 				{ status: 1, text: '非法' },
 				{ status: '', text: '全部' },
 			],
+      superPartnerArr: [
+        { value: '0', text: '否' },
+        { value: '1', text: '是' }
+      ],
       totalNum: null,
       ifLoading: true,
       usemmuber:'',
@@ -159,16 +191,14 @@ export default {
           width: 150
         },
         {
-         title:"合伙人",
+         title:"代理商",
          key:"superPartner",
-         width: 100,
          render:(h, obj) =>{
            let superPartner = obj.row.superPartner;
-          //  console.log(superPartner);
            let text = null;
            superPartner == 0 && (text = "普通会员");
-           superPartner == 1 && (text = "俱乐部超级合伙人");
-           superPartner == 2 && (text = "超级群主");
+           superPartner == 1 && (text = "超级代理商");
+           superPartner == 2 && (text = "超级合伙人");
            return h('span',{},text);
          }
         },
@@ -183,6 +213,8 @@ export default {
 						let memberTxt = !obj.row.status ? '禁用' : '解禁';
 						let memberStatusTrans = !obj.row.transactionStatus ? 1 : 0;
 						let memberTxtTrans = !obj.row.transactionStatus ? '允许交易' : '禁止交易';
+            let memberSuperSpartner = obj.row.superPartner === '0' ? '1' : '0';
+            let setSuperSpartnerTxt = obj.row.superPartner === '0' ? '授权代理商' : '取消代理商';
 						// let
 						return h('div', {
 						}, [
@@ -199,6 +231,24 @@ export default {
 									}
 								}
 							}, '查看'),
+                            h(
+                                "Button",
+                                {
+                                    props: {type: "primary",size: "small"}, style: {marginRight: "10px"},
+                                    on: {
+                                        click: () => {
+                                            if(obj.row.inviterId!=null){
+                                                this.$Message.error("已存在邀请人");
+                                                return;
+                                            }
+                                            this.detailModel = true;
+                                            this.userId = obj.row.id;
+                                            // this.inviterId = obj.row.inviterId;
+                                        }
+                                    }
+                                },
+                                "增加邀请关系"
+                            ),
 							h('Dropdown', {
 								props: {
 									transfer: true
@@ -223,7 +273,15 @@ export default {
 												}else this.$Message.error(res.message)
 												this.refreshPage({ pageNo: this.currentPageIdx, pageSize: 10, property: 'registrationTime', direction: 1 })
 											})
-										}
+										}else if(name === 'setSuperSpartner') {
+                      setSuperPartner({ memberId: obj.row.id, superPartner: memberSuperSpartner })
+                      .then(res => {
+                        if(!res.code) {
+                          this.$Message.success(res.message)
+                        }else this.$Message.error(res.message)
+                        this.refreshPage({ pageNo: this.currentPageIdx, pageSize: 10, property: 'registrationTime', direction: 1 })
+                      })
+                    }
 									}
 								}
 							}, [
@@ -240,6 +298,11 @@ export default {
 												name: 'forbiddenTrans'
 											}
 										}, memberTxtTrans),
+                    h("DropdownItem",{
+                      props: {
+                        name: 'setSuperSpartner'
+                      }
+                    }, setSuperSpartnerTxt)
 								]),
 								h("Button",{
 									props: {
@@ -293,6 +356,20 @@ export default {
 			let obj =Object.assign({ pageNo: pageIndex, pageSize: 10, property: 'registrationTime', direction: 1 }, this.filterSearch);
       this.refreshPage(obj);
     },
+      setInviterDetail() {
+          let params = {
+              id: this.userId,
+              inviterId: this.inviterId
+          };
+          setInviter(params).then(res => {
+              if (!res.code) {
+                  this.$Message.success("修改成功！");
+                  this.refreshPageManual();
+              } else {
+                  this.$Message.error(res.message);
+              }
+          })
+      },
     refreshPage(obj = {}) {
 			this.ifLoading = true;
       memberManage(obj)

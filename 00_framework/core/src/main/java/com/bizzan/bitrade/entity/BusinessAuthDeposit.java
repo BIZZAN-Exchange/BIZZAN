@@ -11,7 +11,7 @@ import java.util.Date;
 
 /**
  * 商家认证缴纳押金的币种和数量
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Shaoxianjun
  * @date 2019/5/5
  */
 @Entity

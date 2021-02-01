@@ -5,7 +5,7 @@
 <template>
 	<div class="login" @keydown.enter="handle">
 		<div class="login-con">
-			<Card :bordered="false">
+			<Card :bordered="true">
 				<p slot="title">
 					<Icon type="log-in"></Icon> 欢迎登录
 				</p>
@@ -39,7 +39,7 @@
 							</Col>
 						</Row>
 
-						<FormItem style='margin-top:10px'>
+						<FormItem style='margin-top:40px'>
 							<Button @click="handle" type="warning" long>登录</Button>
 						</FormItem>
 
@@ -48,7 +48,7 @@
 				</div>
 				<div v-if="!!phoneNum">
 					<Form>
-						<FormItem>
+<!-- 						<FormItem>
 							<p class="phone-num">{{ phoneNum | hidePhoneNum }}</p>
 						</FormItem>
 						<FormItem>
@@ -56,7 +56,7 @@
 							 	<Button slot="append" v-if="count>0" :disabled="count>0">{{count}}s后重新获取</Button>
 							 	<Button slot="append" v-else-if="count===0" type="success" @click="getCodeTwice">获取验证码</Button>
 							</Input>
-						</FormItem>
+						</FormItem> -->
 						<FormItem>
 							<Row>
 								<Col span="11">
@@ -72,16 +72,22 @@
 				</div>
 			</Card>
 		</div>
+		<div style="position:absolute;top: 10px;font-size: 14px;margin-top: 10px;margin-left: 30px;color:rgb(255 238 211);text-shadow: 1px 0px 2px #000;width: 400px;text-align: left;border-radius: 5px;padding: 5px 0;">购买商用稳定版请添加QQ：390330302</div>
 	</div>
 </template>
 
+<style>
+	.login .ivu-card{
+		background: #ffffffd9;
+	}
+</style>
 <script>
 import Cookies from "js-cookie";
 import store from "../store";
 
-import { setStore, getStore, removeStore } from "@/config/storage";
-import { otherRouter, appRouter } from "@/router/router.js";
-import { BASICURL, getLoginCode, signIn, getCodeAgain } from "@/service/getData";
+import { setStore, getStore, removeStore } from "../config/storage";
+import { otherRouter, appRouter } from "../router/router.js";
+import { BASICURL, getLoginCode, signIn, getCodeAgain } from "../service/getData";
 
 export default {
   data() {
@@ -186,3 +192,5 @@ export default {
 	}
 };
 </script>
+
+

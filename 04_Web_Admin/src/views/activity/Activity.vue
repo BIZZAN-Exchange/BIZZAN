@@ -162,6 +162,9 @@
                 if(this.type == 5) {
                   btnText = "部署矿机";
                 }
+                if(this.type == 6) {
+                  btnText = "同意锁仓";
+                }
                 return h("div", [
                   h(
                     "Button",
@@ -256,6 +259,7 @@
               if(type == 3) txt = "持仓瓜分";
               if(type == 4) txt = "自由认购";
               if(type == 5) txt = "矿机认购";
+              if(type == 6) txt = "锁仓活动";
               return h('span',{
               },txt)
             }
@@ -342,7 +346,7 @@
               render: (h, obj) => {
                 let showProgress = "("+obj.row.progress+")";
                 let disabled = true;
-                if(obj.row.type == 3 || obj.row.type == 4 || obj.row.type == 5){
+                if(obj.row.type == 3 || obj.row.type == 4 || obj.row.type == 5 || obj.row.type == 6){
                   disabled = false;
                 }
                 return h("div", [

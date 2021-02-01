@@ -22,9 +22,9 @@ import static com.bizzan.bitrade.entity.QSysAdvertise.sysAdvertise;
 import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @description 系统广告service
- * @date 2018/1/6 16:45
+ * @date 2019/1/6 16:45
  */
 @Service
 public class SysAdvertiseService extends BaseService {

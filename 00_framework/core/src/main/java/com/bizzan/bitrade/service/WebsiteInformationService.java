@@ -10,9 +10,9 @@ import com.bizzan.bitrade.entity.WebsiteInformation;
 import com.bizzan.bitrade.service.Base.BaseService;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @description
- * @date 2018/1/26 10:18
+ * @date 2019/1/26 10:18
  */
 @Service
 public class WebsiteInformationService extends BaseService {

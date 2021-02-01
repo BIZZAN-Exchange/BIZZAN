@@ -18,8 +18,8 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2019年01月22日
+ * @author Shaoxianjun
+ * @date 2020年01月22日
  */
 @Service
 public class OrderEvent {

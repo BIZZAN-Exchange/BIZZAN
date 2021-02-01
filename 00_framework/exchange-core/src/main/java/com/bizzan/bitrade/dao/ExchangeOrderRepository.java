@@ -39,7 +39,10 @@ public interface ExchangeOrderRepository extends JpaRepository<ExchangeOrder, St
     
     @Query(value = "select exchange from ExchangeOrder exchange where exchange.time< :cancleTime and exchange.status=0 and exchange.memberId in (:sellMemberId,:buyMemberId)")
     List<ExchangeOrder> queryExchangeOrderByTimeById(@Param("cancleTime") long cancelTime,@Param("sellMemberId") long sellMemberId,@Param("buyMemberId") long buyMemberId);
-    
+
+    @Query(value = "select exchange from ExchangeOrder exchange where exchange.time< :cancleTime and exchange.status=0 and exchange.orderResource=0")
+    List<ExchangeOrder> queryExchangeOrderByTimeById(@Param("cancleTime") long cancelTime);
+
     @Query(value = "select exchange from ExchangeOrder exchange where exchange.memberId=1 and exchange.time < :beforeTime and exchange.status<>0")
     List<ExchangeOrder> queryHistoryDeleteList(@Param("beforeTime") long beforeTime);
     

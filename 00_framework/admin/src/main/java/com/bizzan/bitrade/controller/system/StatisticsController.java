@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Shaoxianjun
  * @description
  * @date 2019/1/8 16:19
  */
@@ -40,9 +40,9 @@ public class StatisticsController extends BaseAdminController {
     private OrderDetailAggregationService orderDetailAggregationService ;
 
     /**
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author Jammy
      * @description 查询新增用户 曲线
-     * @date 2018/1/8 16:25
+     * @date 2019/1/8 16:25
      */
     @RequiresPermissions("system:statistics:member-statistics")
     @PostMapping("member-statistics")
@@ -60,9 +60,9 @@ public class StatisticsController extends BaseAdminController {
     }
 
     /**
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author Jammy
      * @description 委托量曲线
-     * @date 2018/1/9 13:52
+     * @date 2019/1/9 13:52
      */
     @RequiresPermissions("system:statistics:delegation-statistics")
     @PostMapping("delegation-statistics")
@@ -80,9 +80,9 @@ public class StatisticsController extends BaseAdminController {
     }
 
     /**
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author Jammy
      * @description 交易量 订单量
-     * @date 2018/1/9 14:50
+     * @date 2019/1/9 14:50
      */
     @RequiresPermissions("system:statistics:order-statistics")
     @PostMapping("order-statistics")

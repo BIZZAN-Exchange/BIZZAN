@@ -22,11 +22,11 @@ import java.util.HashMap;
 /**
  * 极验验证
  *
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年03月14日
+ * @author Jammy
+ * @date 2020年03月14日
  */
-@Aspect
-@Component
+//@Aspect
+//@Component
 @Slf4j
 public class GeeTestAspect {
     @Autowired
@@ -40,9 +40,10 @@ public class GeeTestAspect {
     @Pointcut("execution(public * com.bizzan.bitrade.controller.RegisterController.registerByEmail(..))"+
             "||execution(public * com.bizzan.bitrade.controller.RegisterController.sendResetPasswordCode(..))")
     public void geeTest() {
-    	
+
     }
-    @Pointcut("execution(public * com.bizzan.bitrade.controller.SmsController.sendCheckCode(..))")
+    @Pointcut("execution(public * com.bizzan.bitrade.controller.SmsController.sendCheckCode(..))" +
+            "||execution(public * com.bizzan.bitrade.controller.RegisterController.sendRegEmail(..))")
     public void webControllerAspect(){
 
     }

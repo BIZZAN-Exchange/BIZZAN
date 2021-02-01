@@ -7,8 +7,10 @@ import com.bizzan.bitrade.constant.AdminModule;
 import com.bizzan.bitrade.constant.PageModel;
 import com.bizzan.bitrade.controller.common.BaseAdminController;
 import com.bizzan.bitrade.controller.system.CoinController;
+import com.bizzan.bitrade.entity.Member;
 import com.bizzan.bitrade.entity.QMember;
 import com.bizzan.bitrade.entity.QMemberDeposit;
+import com.bizzan.bitrade.entity.transform.AuthMember;
 import com.bizzan.bitrade.model.screen.MemberDepositScreen;
 import com.bizzan.bitrade.service.LocaleMessageSourceService;
 import com.bizzan.bitrade.service.MemberDepositService;
@@ -24,15 +26,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
 
 @RestController
 @RequestMapping("finance/member-deposit")
@@ -104,5 +110,38 @@ public class MemberDepositRecordController extends BaseAdminController {
             return new BigDecimal("0");
         }
         return new BigDecimal("0");
+    }
+
+    /**
+     * 代理商邀请用户资产记录
+     * @param pageModel
+     * @param screen
+     * @param meberId 代理商ID
+     * @return
+     */
+    @RequiresPermissions("finance:member-deposit:superdeposit-page-query")
+    @PostMapping(value = "/superdeposit-page-query")
+    @Transactional(rollbackFor = Exception.class)
+    public MessageResult pageSuperDeposit(PageModel pageModel, MemberDepositScreen screen, Long meberId) {
+
+        List<BooleanExpression> predicates = new ArrayList<>();
+        predicates.add(QMember.member.id.eq(QMemberDeposit.memberDeposit.memberId)); // 联表查询条件
+        predicates.add(QMember.member.inviterId.eq(meberId)); // 联表查询条件
+
+        if (!StringUtils.isEmpty(screen.getUnit())) {
+            predicates.add((QMemberDeposit.memberDeposit.unit.equalsIgnoreCase(screen.getUnit())));
+        }
+        if (!StringUtils.isEmpty(screen.getAddress())) {
+            predicates.add((QMemberDeposit.memberDeposit.address.eq(screen.getAddress())));
+        }
+        if (!StringUtils.isEmpty(screen.getAccount())) {
+            predicates.add(QMember.member.username.like("%" + screen.getAccount() + "%")
+                    .or(QMember.member.realName.like("%" + screen.getAccount() + "%")));
+        }
+        Page<MemberDepositVO> page = memberDepositService.page(predicates, pageModel);
+
+        List<MemberDepositVO> list = page.getContent();
+
+        return success(messageSource.getMessage("SUCCESS"), page);
     }
 }

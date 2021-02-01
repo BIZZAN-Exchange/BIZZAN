@@ -18,7 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author tansitao
  * @time 2018-04-05
  * 云片短信验证码发送类
  */
@@ -59,7 +59,7 @@ public class YunpianSMSProvider implements SMSProvider {
 
     @Override
     public MessageResult sendInternationalMessage(String mobile, String content) throws IOException, DocumentException {
-        content = String.format("【djw】Your verification code is %s", content);
+        content = String.format("【BIZZAN】Your verification code is %s", content);
         Map<String, String> params = new HashMap<String, String>();
         params.put("apikey", apikey);
         params.put("text", content);
@@ -77,7 +77,7 @@ public class YunpianSMSProvider implements SMSProvider {
      */
     @Override
     public String formatVerifyCode(String code) {
-        return String.format("【djw】您的验证码为：%s，请按页面提示填写，切勿泄露于他人。", code);
+        return String.format("【BIZZAN】您的验证码为：%s，请按页面提示填写，切勿泄露于他人。", code);
     }
 
     @Override

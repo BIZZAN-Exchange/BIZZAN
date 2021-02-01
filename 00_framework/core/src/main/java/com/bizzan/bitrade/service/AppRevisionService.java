@@ -9,10 +9,10 @@ import com.bizzan.bitrade.entity.AppRevision;
 import com.bizzan.bitrade.service.Base.TopBaseService;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @Title: ${file_name}
  * @Description:
- * @date 2018/4/2416:19
+ * @date 2019/4/2416:19
  */
 @Service
 public class AppRevisionService extends TopBaseService<AppRevision, AppRevisionDao> {

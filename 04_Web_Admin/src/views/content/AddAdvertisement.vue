@@ -93,12 +93,33 @@
 
         <div><i>*</i> 广告语言：
           <RadioGroup v-model="adLang">
-            <Radio label="CN">
+            <Radio label="zh_CN">
               <span>中文</span>
             </Radio>
-            <Radio label="EN">
+            <Radio label="en_US">
               <span>English</span>
             </Radio>
+			<Radio label="ja_JP">
+			  <span>日语</span>
+			</Radio>
+			<Radio label="ko_KR">
+			  <span>韩语</span>
+			</Radio>
+			<Radio label="de_DE">
+			  <span>德语</span>
+			</Radio>
+			<Radio label="fr_FR">
+			  <span>法语</span>
+			</Radio>
+			<Radio label="it_IT">
+			  <span>意大利</span>
+			</Radio>
+			<Radio label="es_ES">
+			  <span>西班牙</span>
+			</Radio>
+			<Radio label="zh_HK">
+			  <span>繁体</span>
+			</Radio>
           </RadioGroup>
         </div>
 
@@ -184,7 +205,7 @@ export default {
       advertisementArr: [],
       adRemark: null,
       adStatus: 0,
-      adLang:"CN",
+      adLang:"zh_CN",
       adStatusArr: [
 				{status: 0, statusName: '上线'},
 				{status: 1, statusName: '下线'}
@@ -235,9 +256,31 @@ export default {
             render:(h, obj) => {
               let lang = obj.row.lang;
               var langText = "中文";
-              if(lang == "EN"){
-                langText = "English";
-              }
+			  if(lang == "en_US"){
+			  	langText = "English";
+			  }
+			  if(lang == "ja_JP"){
+			  	langText = "日语";
+			  }
+			  if(lang == "ko_KR"){
+			  	langText = "韩语";
+			  }
+			  if(lang == "de_DE"){
+			  	langText = "德语";
+			  }
+			  if(lang == "fr_FR"){
+			  	langText = "法语";
+			  }
+			  if(lang == "it_IT"){
+			  	langText = "意大利";
+			  }
+			  if(lang == "es_ES"){
+			  	langText = "西班牙";
+			  }
+			  if(lang == "zh_HK"){
+			  	langText = "中文繁体";
+			  }
+			  
               return h('span', {
               },langText);
             }
@@ -414,7 +457,7 @@ export default {
       this.picUrl =   null;
       this.linkUrl =   null;
       this.sort = null;
-      this.adLang = "CN";
+      this.adLang = "zh_CN";
     },
     select(selection) {
       this.delArr = [];

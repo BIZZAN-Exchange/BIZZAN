@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @description
- * @date 2018/2/28 15:48
+ * @date 2019/2/28 15:48
  */
 
 public class PageResult<T> implements Serializable {

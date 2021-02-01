@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年03月22日
+ * @author Jammy
+ * @date 2020年03月22日
  */
 @Service
 public class DividendStartRecordService extends TopBaseService<DividendStartRecord, DividendStartRecordDao> {

@@ -29,7 +29,7 @@ import static org.springframework.util.Assert.isNull;
 import static org.springframework.util.Assert.notNull;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Shaoxianjun
  * @description otc币种
  * @date 2019/1/11 13:35
  */

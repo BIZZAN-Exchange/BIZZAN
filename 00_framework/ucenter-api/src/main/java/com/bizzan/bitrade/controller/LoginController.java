@@ -1,5 +1,7 @@
 package com.bizzan.bitrade.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.bizzan.bitrade.entity.KLine;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +31,11 @@ import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年01月10日
+ * @author Jammy
+ * @date 2020年01月10日
  */
 @RestController
 @Slf4j
@@ -64,6 +67,7 @@ public class LoginController extends BaseController {
         String validate = request.getParameter(GeetestLib.fn_geetest_validate);
         String seccode = request.getParameter(GeetestLib.fn_geetest_seccode);
 
+        
         //兼容没有极验证
         if (challenge == null && validate == null && seccode == null) {
             try {
@@ -177,4 +181,5 @@ public class LoginController extends BaseController {
         }
         return result;
     }
+
 }

@@ -4,10 +4,10 @@ import com.bizzan.bitrade.dao.base.BaseDao;
 import com.bizzan.bitrade.entity.DataDictionary;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @Title: ${file_name}
  * @Description:
- * @date 2018/4/1214:15
+ * @date 2019/4/1214:15
  */
 public interface DataDictionaryDao extends BaseDao<DataDictionary> {
     DataDictionary findByBond(String bond);

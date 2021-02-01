@@ -10,8 +10,8 @@ import java.util.Date;
 
 /**
  * @Description: 持币分红表
- * @author: Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date: create in 16:13 2018/6/30
+ * @author: GuoShuai
+ * @date: create in 16:13 2019/6/30
  * @Modified:
  */
 @Entity

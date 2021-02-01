@@ -1,5 +1,6 @@
 package com.bizzan.bitrade.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,10 +19,12 @@ import com.bizzan.bitrade.interceptor.OutExcelInterceptor;
 import com.bizzan.bitrade.interceptor.SessionInterceptor;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Administrator
  */
 @Configuration
 public class ApplicationConfig extends WebMvcConfigurerAdapter {
+    @Autowired
+    private FilterConfig filterConfig;
 
     @Bean(name = "messageSource")
     public ResourceBundleMessageSource getMessageSource() {
@@ -58,6 +61,7 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
     }
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(filterConfig).addPathPatterns("/**");
         registry.addInterceptor(new SessionInterceptor()).addPathPatterns("/**")
                 .excludePathPatterns("/code/sms-provider/**","/captcha","/system/employee/sign/in",
                         "/system/employee/check","/system/employee/logout",

@@ -244,7 +244,11 @@ public class ActivityController  extends BaseController {
         	totalAcceptCoinAmount = activity.getPrice().multiply(amount).setScale(activity.getAmountScale(), BigDecimal.ROUND_HALF_DOWN);
         }else if(activity.getType() == 5) {  // 矿机认购
         	totalAcceptCoinAmount = activity.getPrice().multiply(amount).setScale(activity.getAmountScale(), BigDecimal.ROUND_HALF_DOWN);
+        }else if(activity.getType() == 6) { // 锁仓认购
+            // 保存了锁仓数量和门槛费
+            totalAcceptCoinAmount = amount.add(activity.getLockedFee()).setScale(activity.getAmountScale(), BigDecimal.ROUND_HALF_DOWN);
         }
+
         if(acceptCoinWallet.getBalance().compareTo(totalAcceptCoinAmount) < 0){
         	return MessageResult.error(sourceService.getMessage("INSUFFICIENT_COIN") + activity.getAcceptUnit());
         }
@@ -260,7 +264,10 @@ public class ActivityController  extends BaseController {
         }else if(activity.getType() == 5) {
         	activityOrder.setAmount(amount); // 实际下单数量
         	activityOrder.setFreezeAmount(BigDecimal.ZERO);
-        }else {
+        }else if(activity.getType() == 6){
+            activityOrder.setAmount(amount); // 实际锁仓数量
+            activityOrder.setFreezeAmount(totalAcceptCoinAmount); // 这里冻结的资产包含了用户实际锁仓数量和门槛费
+        }else{
         	activityOrder.setAmount(BigDecimal.ZERO);
         	activityOrder.setFreezeAmount(BigDecimal.ZERO);
         }
@@ -270,7 +277,7 @@ public class ActivityController  extends BaseController {
         activityOrder.setMemberId(member.getId());
         activityOrder.setPrice(activity.getPrice());
         activityOrder.setState(1); //未成交
-        activityOrder.setTurnover(totalAcceptCoinAmount);//作为资产冻结或扣除资产的标准
+        activityOrder.setTurnover(totalAcceptCoinAmount);//作为资产冻结或扣除资产的标准，锁仓活动中，此项目作为参与数量
         activityOrder.setType(activity.getType());
         
         MessageResult mr = activityOrderService.saveActivityOrder(member.getId(), activityOrder);

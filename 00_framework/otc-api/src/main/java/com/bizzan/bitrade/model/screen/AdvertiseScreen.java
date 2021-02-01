@@ -10,10 +10,10 @@ import lombok.Data;
 import java.util.ArrayList;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @Title: ${file_name}
  * @Description:
- * @date 2018/4/2711:45
+ * @date 2019/4/2711:45
  */
 @Data
 public class AdvertiseScreen implements ScreenAbility {

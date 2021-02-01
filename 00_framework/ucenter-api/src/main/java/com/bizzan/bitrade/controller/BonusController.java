@@ -15,8 +15,8 @@ import java.util.List;
 
 /**
  * @Description: 查询个人分红数据
- * @author: Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date: create in 11:25 2018/7/3
+ * @author: GuoShuai
+ * @date: create in 11:25 2019/7/3
  * @Modified:
  */
 @RestController

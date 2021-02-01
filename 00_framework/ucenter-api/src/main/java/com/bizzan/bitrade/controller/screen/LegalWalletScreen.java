@@ -5,10 +5,10 @@ import com.bizzan.bitrade.constant.LegalWalletState;
 import lombok.Data;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @Title: ${file_name}
  * @Description:
- * @date 2018/4/217:44
+ * @date 2019/4/217:44
  */
 @Data
 public class LegalWalletScreen {

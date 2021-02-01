@@ -27,8 +27,8 @@ import java.util.List;
 /**
  * 修改支付信息前必须下架所有的广告，并且没有正在进行中的订单
  *
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年03月28日
+ * @author Jammy
+ * @date 2020年03月28日
  */
 @Aspect
 @Component

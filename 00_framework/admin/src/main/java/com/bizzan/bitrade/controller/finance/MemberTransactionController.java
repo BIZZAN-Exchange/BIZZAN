@@ -6,9 +6,11 @@ import com.bizzan.bitrade.constant.AdminModule;
 import com.bizzan.bitrade.constant.PageModel;
 import com.bizzan.bitrade.constant.TransactionType;
 import com.bizzan.bitrade.controller.common.BaseAdminController;
+import com.bizzan.bitrade.entity.Member;
 import com.bizzan.bitrade.entity.MemberTransaction;
 import com.bizzan.bitrade.entity.QMember;
 import com.bizzan.bitrade.entity.QMemberTransaction;
+import com.bizzan.bitrade.entity.transform.AuthMember;
 import com.bizzan.bitrade.es.ESUtils;
 import com.bizzan.bitrade.model.screen.MemberTransactionScreen;
 import com.bizzan.bitrade.model.vo.MemberTransaction2ESVO;
@@ -27,6 +29,7 @@ import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,10 +40,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
 import static org.springframework.util.Assert.notNull;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Shaoxianjun
  * @description 交易记录
  * @date 2019/1/17 17:07
  */
@@ -210,5 +214,64 @@ public class MemberTransactionController extends BaseAdminController {
             log.info(">>>>>>查询异常>>>"+e);
             return error("查询异常");
         }
+    }
+
+
+    /**
+     * 查询代理商下面资产变更记录
+     * @param pageModel
+     * @param screen
+     * @param memberId
+     * @return
+     */
+    @RequiresPermissions("finance:member-transaction:supertrans-page-query")
+    @PostMapping(value = "/supertrans-page-query")
+    @Transactional(rollbackFor = Exception.class)
+    @AccessLog(module = AdminModule.FINANCE, operation = "查询代理商下面资产变更记录MemberTransaction")
+    public MessageResult pageQuerySuper(
+            PageModel pageModel,
+            MemberTransactionScreen screen,
+            Long memberId) {
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        predicates.add(QMember.member.inviterId.eq(memberId));
+
+        if(screen.getMemberId()!=null) {
+            predicates.add((QMember.member.id.eq(screen.getMemberId())));
+        }
+        if (!StringUtils.isEmpty(screen.getAccount())) {
+            predicates.add(QMember.member.username.like("%"+screen.getAccount()+"%")
+                    .or(QMember.member.realName.like("%"+screen.getAccount()+"%")));
+        }
+        if (screen.getStartTime() != null) {
+            predicates.add(QMemberTransaction.memberTransaction.createTime.goe(screen.getStartTime()));
+        }
+        if (screen.getEndTime() != null){
+            predicates.add(QMemberTransaction.memberTransaction.createTime.lt(DateUtil.dateAddDay(screen.getEndTime(),1)));
+        }
+        if (screen.getType() != null) {
+            predicates.add(QMemberTransaction.memberTransaction.type.eq(screen.getType()));
+        }
+
+        if(screen.getMinMoney()!=null) {
+            predicates.add(QMemberTransaction.memberTransaction.amount.goe(screen.getMinMoney()));
+        }
+
+        if(screen.getMaxMoney()!=null) {
+            predicates.add(QMemberTransaction.memberTransaction.amount.loe(screen.getMaxMoney()));
+        }
+
+        if(screen.getMinFee()!=null) {
+            predicates.add(QMemberTransaction.memberTransaction.fee.goe(screen.getMinFee()));
+        }
+
+        if(screen.getMaxFee()!=null) {
+            predicates.add(QMemberTransaction.memberTransaction.fee.loe(screen.getMaxFee()));
+        }
+
+        Page<MemberTransactionVO> results = memberTransactionService.joinFind(predicates, pageModel);
+
+        return success(results);
     }
 }

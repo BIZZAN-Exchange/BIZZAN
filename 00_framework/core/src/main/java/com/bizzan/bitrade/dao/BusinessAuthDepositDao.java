@@ -7,7 +7,7 @@ import com.bizzan.bitrade.dao.base.BaseDao;
 import com.bizzan.bitrade.entity.BusinessAuthDeposit;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Shaoxianjun
  * @date 2019/5/5
  */
 public interface BusinessAuthDepositDao extends BaseDao<BusinessAuthDeposit> {

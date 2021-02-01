@@ -10,6 +10,7 @@ const os = require('os');
 const fs = require('fs');
 const path = require('path');
 const package = require('../package.json');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 fs.open('./build/env.js', 'w', function(err, fd) {
     const buf = 'export default "production";';
@@ -44,11 +45,12 @@ module.exports = merge(webpackBaseConfig, {
                 NODE_ENV: '"production"'
             }
         }),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            }
-        }),
+        // new webpack.optimize.UglifyJsPlugin({
+        //     compress: {
+        //         warnings: false
+        //     }
+        // }),
+		new UglifyJSPlugin(),
         // new UglifyJsParallelPlugin({
         //     workers: os.cpus().length,
         //     mangle: true,
@@ -74,7 +76,7 @@ module.exports = merge(webpackBaseConfig, {
             ]
         }),
         new HtmlWebpackPlugin({
-            title: '管理后台 - 币严|全球数字资产交易平台',
+            title: '管理后台 - ELVESBT|全球数字资产交易平台',
             favicon: './favicon.ico',
             filename: '../index.html',
             template: './src/template/index.ejs',

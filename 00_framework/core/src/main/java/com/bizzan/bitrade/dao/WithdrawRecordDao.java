@@ -10,8 +10,8 @@ import com.bizzan.bitrade.entity.WithdrawRecord;
 import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年01月29日
+ * @author Jammy
+ * @date 2020年01月29日
  */
 public interface WithdrawRecordDao extends BaseDao<WithdrawRecord> {
 

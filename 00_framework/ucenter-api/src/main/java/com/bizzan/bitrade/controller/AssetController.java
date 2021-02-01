@@ -2,6 +2,7 @@ package com.bizzan.bitrade.controller;
 
 
 import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
+import static org.springframework.util.Assert.hasText;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -9,12 +10,19 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import com.bizzan.bitrade.constant.WalletType;
+import com.bizzan.bitrade.entity.*;
+import com.bizzan.bitrade.service.*;
+import com.bizzan.bitrade.util.Md5;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,17 +31,15 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bizzan.bitrade.constant.TransactionType;
-import com.bizzan.bitrade.entity.MemberWallet;
 import com.bizzan.bitrade.entity.transform.AuthMember;
 import com.bizzan.bitrade.es.ESUtils;
-import com.bizzan.bitrade.service.MemberTransactionService;
-import com.bizzan.bitrade.service.MemberWalletService;
 import com.bizzan.bitrade.system.CoinExchangeFactory;
 import com.bizzan.bitrade.util.DateUtil;
 import com.bizzan.bitrade.util.MessageResult;
 import com.sparkframework.lang.Convert;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/asset")
@@ -41,6 +47,10 @@ import lombok.extern.slf4j.Slf4j;
 public class AssetController {
     @Autowired
     private MemberWalletService walletService;
+    @Autowired
+    private CoinService coinService;
+    @Autowired
+    private WalletTransRecordService walletTransRecordService;
     @Autowired
     private MemberTransactionService transactionService;
     @Autowired
@@ -53,6 +63,17 @@ public class AssetController {
     private KafkaTemplate kafkaTemplate;
     @Autowired
     private ESUtils esUtils;
+
+    @Autowired
+    private QuickExchangeService quickExchangeService;
+    @Autowired
+    private LocaleMessageSourceService sourceService;
+
+    @Autowired
+    private MemberService memberService;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     /**
      * 用户钱包信息
@@ -241,6 +262,131 @@ public class AssetController {
         }
     }
 
+    /**
+     * USDT、EUSDT、TUSDT互转
+     * @param member
+     * @param fromUnit
+     * @param toUnit
+     * @param amount
+     * @return
+     */
+    @RequestMapping("wallet/trans-usd")
+    public MessageResult transUsd(@SessionAttribute(SESSION_MEMBER) AuthMember member, String fromUnit, String toUnit, BigDecimal amount) {
+        try {
+            // 判断是否是需要转化的币种
+            if(!fromUnit.equals("USDT") && !fromUnit.equals("EUSDT") && !fromUnit.equals("TUSDT")){
+                return MessageResult.error("非可转币种！");
+            }
+            if(!toUnit.equals("USDT") && !toUnit.equals("EUSDT") && !toUnit.equals("TUSDT")){
+                return MessageResult.error("非可转币种！");
+            }
+            //币种相同
+            if(fromUnit.equals(toUnit)) {
+                return MessageResult.error("相同币种无需转化！");
+            }
+            MemberWallet fromWallet = walletService.findByCoinUnitAndMemberId(fromUnit, member.getId());
+            Assert.notNull(fromWallet, "币种钱包不存在!");
+            if(fromWallet.getBalance().compareTo(amount) >= 0) {
+                MemberWallet toWallet = walletService.findByCoinUnitAndMemberId(toUnit, member.getId());
+                Assert.notNull(toWallet, "币种钱包不存在!");
+                // 减少fromUnit钱包余额
+                walletService.deductBalance(fromWallet, amount);
+                // 增加toUnit钱包余额
+                walletService.increaseBalance(toWallet.getId(), amount);
+
+                return MessageResult.success("转化成功");
+            }else{
+                return MessageResult.error(fromUnit + "余额不足！");
+            }
+        } catch (Exception e) {
+            return MessageResult.error("未知异常");
+        }
+    }
+
+    /**
+     * 闪兑换（用于CCASH兑换USDT，本功能属定制功能，如不需要，可在前端隐藏）
+     * @param member
+     * @param fromUnit
+     * @param toUnit
+     * @param amount
+     * @param jyPassword
+     * @return
+     */
+    @RequestMapping("wallet/quick-exchange")
+    @Transactional(rollbackFor = Exception.class)
+    public MessageResult quickExchagne(@SessionAttribute(SESSION_MEMBER) AuthMember member, String fromUnit, String toUnit, BigDecimal amount, String jyPassword) throws Exception {
+        hasText(fromUnit, "源币种不能为空");
+        hasText(toUnit, "兑换币种不能为空");
+        hasText(jyPassword, sourceService.getMessage("MISSING_JYPASSWORD"));
+        Member memberResult = memberService.findOne(member.getId());
+        String mbPassword = memberResult.getJyPassword();
+        Assert.hasText(mbPassword, sourceService.getMessage("NO_SET_JYPASSWORD"));
+        Assert.isTrue(Md5.md5Digest(jyPassword + memberResult.getSalt()).toLowerCase().equals(mbPassword), sourceService.getMessage("ERROR_JYPASSWORD"));
+        try {
+            // 判断是否是需要转化的币种
+            if(!fromUnit.equals("CCASH")){
+                return MessageResult.error("非可兑换币种！");
+            }
+            if(!toUnit.equals("USDT")){
+                return MessageResult.error("非可兑换币种！");
+            }
+            //币种相同
+            if(fromUnit.equals(toUnit)) {
+                return MessageResult.error("相同币种无需兑换！");
+            }
+
+            // 获取USDT价格,设置买入/卖出价格
+            String url = "http://bitrade-market/market/exchange-rate/usdtcny";
+            ResponseEntity<MessageResult> result = restTemplate.getForEntity(url, MessageResult.class);
+            if (result.getStatusCode().value() == 200 && result.getBody().getCode() == 0) {
+                MemberWallet fromWallet = walletService.findByCoinUnitAndMemberId(fromUnit, member.getId());
+                Assert.notNull(fromWallet, "币种钱包不存在!");
+                if(fromWallet.getBalance().compareTo(amount) < 0) {
+                    return MessageResult.error("余额不足");
+                }
+
+                BigDecimal rate = new BigDecimal((String) result.getBody().getData());
+                BigDecimal exAmount = amount.divide(rate, 2, BigDecimal.ROUND_HALF_DOWN);
+                // 保存兑换记录
+                QuickExchange qe = new QuickExchange();
+                qe.setAmount(amount);
+                qe.setExAmount(exAmount);
+                qe.setFromUnit(fromUnit);
+                qe.setToUnit(toUnit);
+                qe.setMemberId(member.getId());
+                qe.setRate(rate);
+                qe.setStatus(1); // 直接成交
+                quickExchangeService.save(qe);
+
+                // 扣除资产
+                walletService.deductBalance(fromWallet, amount);
+                // 增加资产
+                MemberWallet toWallet = walletService.findByCoinUnitAndMemberId(toUnit, member.getId());
+                walletService.increaseBalance(toWallet.getId(), exAmount);
+
+                return MessageResult.success();
+            } else {
+                return MessageResult.error("USDT兑换比例获取失败，请联系客服或管理员！");
+            }
+        } catch (Exception e) {
+            return MessageResult.error("未知异常");
+        }
+    }
+
+    /**
+     * 获取兑换列表
+     * @param member
+     * @return
+     */
+    @RequestMapping("wallet/quick-exchange-list")
+    public MessageResult queryQuickExchange(@SessionAttribute(SESSION_MEMBER) AuthMember member) {
+        List<QuickExchange> retList =  quickExchangeService.findAllByMemberId(member.getId());
+        MessageResult ret = new MessageResult();
+        ret.setCode(0);
+        ret.setData(retList);
+        ret.setMessage("获取成功");
+        return ret;
+    }
     @RequestMapping("transaction_es")
     public MessageResult findTransactionByES(@RequestParam(value = "memberId",required = true) long memberId,
                                              @RequestParam(value = "page",required = true) int pageNum,
@@ -276,5 +422,4 @@ public class AssetController {
         }
         return messageResult;
     }
-
 }

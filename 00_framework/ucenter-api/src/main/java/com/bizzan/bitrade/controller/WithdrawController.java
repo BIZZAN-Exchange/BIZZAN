@@ -1,10 +1,7 @@
 package com.bizzan.bitrade.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.bizzan.bitrade.constant.BooleanEnum;
-import com.bizzan.bitrade.constant.CommonStatus;
-import com.bizzan.bitrade.constant.SysConstant;
-import com.bizzan.bitrade.constant.WithdrawStatus;
+import com.bizzan.bitrade.constant.*;
 import com.bizzan.bitrade.entity.*;
 import com.bizzan.bitrade.entity.transform.AuthMember;
 import com.bizzan.bitrade.exception.InformationExpiredException;
@@ -34,8 +31,8 @@ import static com.bizzan.bitrade.util.MessageResult.error;
 import static org.springframework.util.Assert.*;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年01月26日
+ * @author GS
+ * @date 2020年01月26日
  */
 @RestController
 @Slf4j
@@ -242,6 +239,10 @@ public class WithdrawController {
 //        isTrue(memberAddressService.findByMemberIdAndAddress(user.getId(), address).size() > 0, sourceService.getMessage("WRONG_ADDRESS"));
         isTrue(memberWallet.getIsLock()==BooleanEnum.IS_FALSE,"钱包已锁定");
         Member member = memberService.findOne(user.getId());
+        RealNameStatus realNameStatus = member.getRealNameStatus();
+        if(!"已认证".equals(realNameStatus.getCnName())){
+            return MessageResult.error(sourceService.getMessage("NO_REALNAM"));
+        }
         String mbPassword = member.getJyPassword();
         Assert.hasText(mbPassword, sourceService.getMessage("NO_SET_JYPASSWORD"));
         Assert.isTrue(Md5.md5Digest(jyPassword + member.getSalt()).toLowerCase().equals(mbPassword), sourceService.getMessage("ERROR_JYPASSWORD"));
@@ -288,7 +289,14 @@ public class WithdrawController {
             json.put("address", address);
             //提币记录id
             json.put("withdrawId", withdrawRecord.getId());
-            kafkaTemplate.send("withdraw", coin.getUnit(), json.toJSONString());
+
+            // 如果是USDT提现，并且地址符合ERC20地址格式，则走ERC20通道提现
+            if(coin.getUnit().equals("USDT") && address.substring(0, 2).equals("0x")) {
+                kafkaTemplate.send("withdraw", "EUSDT", json.toJSONString());
+            }else{
+                kafkaTemplate.send("withdraw", coin.getUnit(), json.toJSONString());
+            }
+
             return MessageResult.success(sourceService.getMessage("APPLY_SUCCESS"));
         } else {
             withdrawApply.setStatus(WithdrawStatus.PROCESSING);

@@ -9,8 +9,8 @@ import com.bizzan.bitrade.service.Base.BaseService;
 
 /**
  * @Description:
- * @author: Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date: create in 9:44 2018/6/28
+ * @author: GuoShuai
+ * @date: create in 9:44 2019/6/28
  * @Modified:
  */
 @Service

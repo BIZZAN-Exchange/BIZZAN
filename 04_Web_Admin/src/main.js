@@ -14,6 +14,7 @@ import Api from '@/config/api';
 import Cookies from 'js-cookie';
 import Viser from 'viser-vue';
 import { setStore, getStore, removeStore } from "@/config/storage.js";
+import fullscreen from 'vue-fullscreen'
 
 Vue.prototype.$ajax = axios;
 axios.defaults.withCredentials = true;
@@ -90,6 +91,7 @@ Vue.prototype.api = Api;
 Vue.use(VueI18n);
 Vue.use(iView);
 Vue.use(Viser);
+Vue.use(fullscreen);
 
 new Vue({
     el: '#app',

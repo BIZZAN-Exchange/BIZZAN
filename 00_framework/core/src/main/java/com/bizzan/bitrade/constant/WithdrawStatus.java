@@ -7,8 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年02月25日
+ * @author Jammy
+ * @date 2020年02月25日
  */
 @AllArgsConstructor
 @Getter

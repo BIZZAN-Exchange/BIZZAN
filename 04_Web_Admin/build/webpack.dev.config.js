@@ -16,7 +16,7 @@ fs.open('./build/env.js', 'w', function(err, fd) {
 module.exports = merge(webpackBaseConfig, {
     devtool: '#source-map',
     devServer: {
-        port: 9527,
+        port: 9576,
         host: "127.0.0.1"
     },
     output: {
@@ -34,7 +34,7 @@ module.exports = merge(webpackBaseConfig, {
             minChunks: Infinity
         }),
         new HtmlWebpackPlugin({
-            title: '管理后台 - 币严|全球数字资产交易平台',
+            title: '管理后台 - ELVESBT|全球数字资产交易平台',
             filename: '../index.html',
             template: './src/template/index.ejs',
             favicon: './favicon.ico',

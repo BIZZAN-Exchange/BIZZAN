@@ -5,9 +5,9 @@ import lombok.Data;
 import java.util.Date;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @description 统计对象(用于接受统计数据)
- * @date 2018/1/8 16:16
+ * @date 2019/1/8 16:16
  */
 @Data
 public class Statistics {

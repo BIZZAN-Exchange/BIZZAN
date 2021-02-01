@@ -23,9 +23,9 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @description
- * @date 2018/3/5 15:25
+ * @date 2019/3/5 15:25
  */
 @RestController
 @RequestMapping("announcement")
@@ -48,7 +48,8 @@ public class AnnouncementController extends BaseController {
     public MessageResult page(
             @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
-            @RequestParam(value = "lang", defaultValue = "CN") String lang
+            @RequestParam(value = "lang", defaultValue = "CN") String paramLang,
+            @RequestHeader(value = "lang") String lang
     ) {
         //条件
         ArrayList<Predicate> predicates = new ArrayList<>();
@@ -80,7 +81,7 @@ public class AnnouncementController extends BaseController {
      * @return
      */
     @RequestMapping(value = "more",method = RequestMethod.POST)
-    public MessageResult moreDetail(@RequestParam("id")Long id, @RequestParam("lang")String lang){
+    public MessageResult moreDetail(@RequestParam("id")Long id, @RequestParam("lang")String paramLang,@RequestHeader(value = "lang") String lang){
         ValueOperations redisOperations = redisTemplate.opsForValue();
         JSONObject result  = (JSONObject) redisOperations.get(SysConstant.NOTICE_DETAIL+id);
         if ( result != null){

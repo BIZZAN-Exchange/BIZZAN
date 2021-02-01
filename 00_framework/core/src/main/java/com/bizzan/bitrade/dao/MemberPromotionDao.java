@@ -12,8 +12,8 @@ import com.bizzan.bitrade.entity.MemberPromotion;
 import com.bizzan.bitrade.vo.MemberPromotionStasticVO;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年03月08日
+ * @author Jammy
+ * @date 2020年03月08日
  */
 public interface MemberPromotionDao extends BaseDao<MemberPromotion> {
 	@Query(value = "select *, count(*) as count from member_promotion where level = :level and create_time > :startDate and create_time < :endDate group by (inviter_id) order by count desc limit :limitNum", nativeQuery = true)

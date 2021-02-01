@@ -48,7 +48,7 @@ public class CoinExchangeRate {
     private BigDecimal usdHkdRate = new BigDecimal("7.8491");
     @Getter
     @Setter
-    private BigDecimal sgdCnyRate = new BigDecimal("4.77");
+    private BigDecimal sgdCnyRate = new BigDecimal("5.08");
     @Setter
     private CoinProcessorFactory coinProcessorFactory;
 
@@ -175,22 +175,26 @@ public class CoinExchangeRate {
     
     @Scheduled(cron = "0 */5 * * * *")
     public void syncUsdtCnyPrice() throws UnirestException {
-    	// 抹茶OTC接口
-    	String url = "https://otc.mxc.com/api/coin/USDT/price";
+    	// HuobiOTC接口
+    	String url = "https://otc-api.huobi.co/v1/data/market/detail";
         //如有报错 请自行官网申请获取汇率 或者默认写死
-        HttpResponse<JsonNode> resp = Unirest.get(url)
-                .asJson();
+        HttpResponse<JsonNode> resp = Unirest.get(url).asJson();
         if(resp.getStatus() == 200) { //正确返回
 	        JSONObject ret = JSON.parseObject(resp.getBody().toString());
-	        if(ret.getIntValue("code") == 0) {
-	        	JSONObject result = ret.getJSONObject("result");
-	        	setUsdtCnyRate(new BigDecimal(result.getDouble("buy")).setScale(2, RoundingMode.HALF_UP));
-	        	return;
+	        if(ret.getIntValue("code") == 200) {
+	        	JSONArray array = ret.getJSONObject("data").getJSONArray("detail");
+	        	for(int i=0; i<array.size(); i++) {
+	        		JSONObject json = array.getJSONObject(i);
+	        		if("USDT".equalsIgnoreCase(json.getString("coinName"))) {
+	        			setUsdtCnyRate(new BigDecimal(json.getString("buy")).setScale(2, RoundingMode.HALF_UP));
+	        			return;
+	        		}
+	        	}
 	        }
         }
         
         // Huobi Otc接口（如抹茶接口无效则走此路径）
-        String url2 = "https://otc-api-sz.eiijo.cn/v1/data/trade-market?coinId=2&currency=1&tradeType=sell&currPage=1&payMethod=0&country=37&blockType=general&online=1&range=0&amount=";
+        String url2 = "https://otc-api-hk.eiijo.cn/v1/data/trade-market?coinId=2&currency=1&tradeType=sell&currPage=1&payMethod=0&country=37&blockType=general&online=1&range=0&amount=";
         HttpResponse<JsonNode> resp2 = Unirest.get(url2)
                 .asJson();
         if(resp2.getStatus() == 200) { //正确返回
@@ -206,7 +210,7 @@ public class CoinExchangeRate {
         }
         
         // Okex Otc接口
-        String url3 = "https://www.okex.me/v3/c2c/tradingOrders/book?t=1566269221580&side=sell&baseCurrency=usdt&quoteCurrency=cny&userType=certified&paymentMethod=all";
+        String url3 = "https://www.okex.com/v3/c2c/tradingOrders/book?t=1566269221580&side=sell&baseCurrency=usdt&quoteCurrency=cny&userType=certified&paymentMethod=all";
         HttpResponse<JsonNode> resp3 = Unirest.get(url2)
                 .asJson();
         if(resp3.getStatus() == 200) { //正确返回

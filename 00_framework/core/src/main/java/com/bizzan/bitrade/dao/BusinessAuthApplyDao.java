@@ -9,7 +9,7 @@ import com.bizzan.bitrade.entity.BusinessAuthApply;
 import com.bizzan.bitrade.entity.Member;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Shaoxianjun
  * @date 2019/5/7
  */
 public interface BusinessAuthApplyDao extends BaseDao<BusinessAuthApply> {

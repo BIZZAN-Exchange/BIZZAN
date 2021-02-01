@@ -62,8 +62,7 @@ public class ExchangeCoin {
     /**
      * 机器人类型
      * 0：一般机器人，适用于有外部市场价格做参考
-     * 1：平价机器人，适用于只有一个价格的机器人
-     * 2：控盘机器人，适用于仅在本交易所的奇人
+     * 1：控盘机器人，适用于只有一个价格的机器人
      */
     @Column(columnDefinition = "int(11) default 0 comment '机器人类型'")
     private int robotType;
@@ -164,4 +163,12 @@ public class ExchangeCoin {
      */
     @Transient
     private int exEngineStatus = 0;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(columnDefinition = "int(11) default 1 comment '是否允许卖'")
+    private BooleanEnum  enableSell = BooleanEnum.IS_TRUE;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(columnDefinition = "int(11) default 1 comment '是否允许买'")
+    private BooleanEnum  enableBuy = BooleanEnum.IS_TRUE;
 }

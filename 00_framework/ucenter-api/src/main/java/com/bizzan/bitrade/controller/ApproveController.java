@@ -38,8 +38,8 @@ import static org.springframework.util.Assert.*;
 /**
  * 用户中心认证
  *
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年01月09日
+ * @author Jammy
+ * @date 2020年01月09日
  */
 @RestController
 @RequestMapping("/approve")
@@ -320,7 +320,7 @@ public class ApproveController {
         isTrue(member.getRealNameStatus() == RealNameStatus.NOT_CERTIFIED, msService.getMessage("REPEAT_REAL_NAME_REQUEST"));
         int count = memberApplicationService.queryByIdCard(idCard);
         if(count>0){
-            return MessageResult.error("同一个身份证号只能认证一次");
+            return MessageResult.error(msService.getMessage("ONLY_AUTHENTICATE_ONCE"));
         }
         MemberApplication memberApplication = new MemberApplication();
         memberApplication.setAuditStatus(AuditStatus.AUDIT_ING);

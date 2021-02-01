@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import javax.persistence.EntityManager;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @description
- * @date 2018/1/18 11:29
+ * @date 2019/1/18 11:29
  */
 @Configuration
 public class JPAQueryConfig {

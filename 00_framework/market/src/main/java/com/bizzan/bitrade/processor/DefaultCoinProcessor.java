@@ -298,7 +298,7 @@ public class DefaultCoinProcessor implements CoinProcessor {
         String fromTime = df.format(calendar.getTime());
         long startTick = calendar.getTimeInMillis();
         System.out.println("time range from " + fromTime + " to " + endTime);
-        List<ExchangeTrade> exchangeTrades = service.findTradeByTimeRange(this.symbol, startTick, endTick);
+
 
         KLine kLine = new KLine();
         kLine.setTime(endTick);
@@ -311,15 +311,23 @@ public class DefaultCoinProcessor implements CoinProcessor {
             rangeUnit = "week";
         } else if (field == Calendar.DAY_OF_YEAR) {
             rangeUnit = "day";
-        } else if (field == Calendar.MONTH) {
+        } else if (field == Calendar.DAY_OF_MONTH) {
             rangeUnit = "month";
         }
         kLine.setPeriod(range + rangeUnit);
 
-        // 处理K线信息
-        for (ExchangeTrade exchangeTrade : exchangeTrades) {
-            processTrade(kLine, exchangeTrade);
+        List<ExchangeTrade> exchangeTrades = null;
+        // 分钟线、日线，直接查询时间周期内的订单成交详情
+        if(field == Calendar.MINUTE || field == Calendar.HOUR_OF_DAY || field == Calendar.DAY_OF_YEAR){
+            exchangeTrades = service.findTradeByTimeRange(this.symbol, startTick, endTick);
+            // 处理K线信息
+            for (ExchangeTrade exchangeTrade : exchangeTrades) {
+                processTrade(kLine, exchangeTrade);
+            }
+        }else{ // 周线和月线的处理方法
+            processKline(kLine, startTick, endTick, field);
         }
+
         // 如果开盘价为0，则设置为前一个价格
         if(kLine.getOpenPrice().compareTo(BigDecimal.ZERO) == 0) {
         	kLine.setOpenPrice(coinThumb.getClose());
@@ -329,6 +337,23 @@ public class DefaultCoinProcessor implements CoinProcessor {
         }
         logger.info("generate " + range + rangeUnit + " kline in {},data={}", df.format(new Date(kLine.getTime())), JSON.toJSONString(kLine));
         service.saveKLine(symbol, kLine);
+    }
+
+    // 处理周K线和月K线的更具效率的方法
+    public void processKline(KLine kline, long fromTime, long endTime, int field){
+        // 查询过去时间段的日线（7条）
+        List<KLine> lines = service.findAllKLine(symbol, fromTime, endTime,"1day");
+        if(lines.size() > 0) {
+            kline.setOpenPrice(lines.get(0).getOpenPrice()); // 开盘价设置为首日开盘价
+            for (KLine item : lines) {
+                kline.setHighestPrice(kline.getHighestPrice().max(item.getHighestPrice()));
+                kline.setLowestPrice(kline.getLowestPrice().min(item.getLowestPrice()));
+                kline.setVolume(kline.getVolume().add(item.getVolume()));
+                kline.setTurnover(kline.getTurnover().add(item.getTurnover()));
+                kline.setCount(kline.getCount() + item.getCount());
+            }
+            kline.setClosePrice(lines.get(lines.size() - 1).getClosePrice()); // 收盘价设置为最后一日收盘价
+        }
     }
 
     @Override

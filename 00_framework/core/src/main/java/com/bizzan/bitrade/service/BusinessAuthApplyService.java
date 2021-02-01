@@ -24,7 +24,7 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Shaoxianjun
  * @date 2019/5/7
  */
 @Service
@@ -83,19 +83,19 @@ public class BusinessAuthApplyService extends BaseService{
         String jsonStr = vo.getAuthInfo() ;
         log.info("认证信息 jsonStr = {}", jsonStr);
         if (StringUtils.isEmpty(jsonStr)) {
-            result = MessageResult.error("认证相关信息不存在");
+            result = MessageResult.error("AUTHENTICATION_INFORMATION_DOES_NOT_EXIST");
             result.setData(vo);
             return result;
         }
         try {
             JSONObject json = JSONObject.parseObject(jsonStr);
             vo.setInfo(json);
-            result = MessageResult.success("认证详情");
+            result = MessageResult.success("CERTIFICATION_DETAILS");
             result.setData(vo);
             return result;
         } catch (Exception e) {
             log.info("认证信息格式异常:{}", e);
-            result = MessageResult.error("认证信息格式异常");
+            result = MessageResult.error("ABNORMAL_AUTHENTICATION_INFORMATION_FORMAT");
             return result;
         }
     }

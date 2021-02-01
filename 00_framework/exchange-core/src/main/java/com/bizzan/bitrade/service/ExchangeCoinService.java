@@ -46,6 +46,19 @@ public class ExchangeCoinService {
         return coinRepository.findAll(spec, sort);
     }
     
+    public List<ExchangeCoin> findAllByRobotType(int robotType) {
+        Specification<ExchangeCoin> spec = (root, criteriaQuery, criteriaBuilder) -> {
+            Path<String> visible = root.get("visible");
+            Path<String> enable = root.get("enable");
+            Path<String> rT = root.get("robotType");
+            criteriaQuery.where(criteriaBuilder.equal(enable, 1), criteriaBuilder.equal(visible, 1), criteriaBuilder.equal(rT, robotType));
+            return null;
+        };
+        Sort.Order order = new Sort.Order(Sort.Direction.ASC, "sort");
+        Sort sort = new Sort(order);
+        return coinRepository.findAll(spec, sort);
+    }
+    
     public List<ExchangeCoin> findAllByFlag(int flag) {
         Specification<ExchangeCoin> spec = (root, criteriaQuery, criteriaBuilder) -> {
             Path<String> enable = root.get("enable");

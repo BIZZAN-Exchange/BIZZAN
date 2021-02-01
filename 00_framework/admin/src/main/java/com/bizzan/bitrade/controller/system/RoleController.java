@@ -23,8 +23,8 @@ import javax.validation.Valid;
 import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年12月20日
+ * @author Shaoxianjun
+ * @date 2020年12月20日
  */
 @RestController
 @RequestMapping(value = "system/role")

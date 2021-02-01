@@ -75,17 +75,17 @@ public class OrderController {
     public MessageResult addOrder(@SessionAttribute(SESSION_MEMBER) AuthMember authMember,
                                     ExchangeOrderDirection direction,String symbol, BigDecimal price,
                                     BigDecimal amount, ExchangeOrderType type) {
-        //int expireTime = SysConstant.USER_ADD_EXCHANGE_ORDER_TIME_LIMIT_EXPIRE_TIME;
-        //ValueOperations valueOperations =  redisTemplate.opsForValue();
+//        int expireTime = SysConstant.USER_ADD_EXCHANGE_ORDER_TIME_LIMIT_EXPIRE_TIME;
+//        ValueOperations valueOperations =  redisTemplate.opsForValue();
         if(direction == null || type == null){
             return MessageResult.error(500,msService.getMessage("ILLEGAL_ARGUMENT"));
         }
         Member member=memberService.findOne(authMember.getId());
-        /*
-        if(member.getMemberLevel()== MemberLevelEnum.GENERAL){
-            return MessageResult.error(500,"请先进行实名认证");
-        }
-        */
+
+//        if(member.getMemberLevel()== MemberLevelEnum.GENERAL){
+//            return MessageResult.error(500,msService.getMessage("REAL_NAME_AUTHENTICATION"));
+//        }
+
         //是否被禁止交易
         if(member.getTransactionStatus().equals(BooleanEnum.IS_FALSE)){
             return MessageResult.error(500,msService.getMessage("CANNOT_TRADE"));
@@ -106,6 +106,15 @@ public class OrderController {
         }
         if(exchangeCoin.getEnable() != 1 || exchangeCoin.getExchangeable() != 1) {
         	return MessageResult.error(500, msService.getMessage("COIN_FORBIDDEN"));
+        }
+        // 不允许卖
+        if(exchangeCoin.getEnableSell() == BooleanEnum.IS_FALSE && direction == ExchangeOrderDirection.SELL){
+            return MessageResult.error(500, msService.getMessage("STOP_SELLING"));
+        }
+
+        // 不允许买
+        if(exchangeCoin.getEnableBuy() == BooleanEnum.IS_FALSE && direction == ExchangeOrderDirection.BUY){
+            return MessageResult.error(500,  msService.getMessage("STOP_BUYING"));
         }
 
         //获取基准币
@@ -129,7 +138,7 @@ public class OrderController {
             amount = amount.setScale(exchangeCoin.getBaseCoinScale(), BigDecimal.ROUND_DOWN);
             //最小成交额控制
             if (amount.compareTo(exchangeCoin.getMinTurnover()) < 0) {
-                return MessageResult.error(500, "成交额至少为" + exchangeCoin.getMinTurnover());
+                return MessageResult.error(500, msService.getMessage("LOWEST_TURNOVER") + exchangeCoin.getMinTurnover());
             }
         } else {
             amount = amount.setScale(exchangeCoin.getCoinScale(), BigDecimal.ROUND_DOWN);
@@ -160,24 +169,24 @@ public class OrderController {
         //如果有最低卖价限制，出价不能低于此价,且禁止市场价格卖
         if (direction == ExchangeOrderDirection.SELL && exchangeCoin.getMinSellPrice().compareTo(BigDecimal.ZERO) > 0
                 && ((price.compareTo(exchangeCoin.getMinSellPrice()) < 0) || type == ExchangeOrderType.MARKET_PRICE)) {
-            return MessageResult.error(500, "不能低于最低限价: " + exchangeCoin.getMinSellPrice());
+            return MessageResult.error(500, msService.getMessage("FLOOR_PRICE") + exchangeCoin.getMinSellPrice());
         }
         // 如果有最高买价限制，出价不能高于此价，且禁止市场价格买
         if(direction == ExchangeOrderDirection.BUY && exchangeCoin.getMaxBuyPrice().compareTo(BigDecimal.ZERO) > 0
         		&& ((price.compareTo(exchangeCoin.getMaxBuyPrice()) > 0) || type == ExchangeOrderType.MARKET_PRICE)) {
-        	return MessageResult.error(500, "不能高于最高限价:" + exchangeCoin.getMaxBuyPrice());
+        	return MessageResult.error(500, msService.getMessage("PRICE_CEILING") + exchangeCoin.getMaxBuyPrice());
         }
         //查看是否启用市价买卖
         if (type == ExchangeOrderType.MARKET_PRICE) {
             if (exchangeCoin.getEnableMarketBuy() == BooleanEnum.IS_FALSE && direction == ExchangeOrderDirection.BUY) {
-                return MessageResult.error(500, "不支持市价购买");
+                return MessageResult.error(500, msService.getMessage("NO_MARKET_PRICE_BUY"));
             } else if (exchangeCoin.getEnableMarketSell() == BooleanEnum.IS_FALSE && direction == ExchangeOrderDirection.SELL) {
-                return MessageResult.error(500, "不支持市价出售");
+                return MessageResult.error(500, msService.getMessage("NO_MARKET_PRICE_SELL"));
             }
         }
         //限制委托数量
         if (exchangeCoin.getMaxTradingOrder() > 0 && orderService.findCurrentTradingCount(member.getId(), symbol, direction) >= exchangeCoin.getMaxTradingOrder()) {
-            return MessageResult.error(500, "超过最大挂单数量 " + exchangeCoin.getMaxTradingOrder());
+            return MessageResult.error(500, msService.getMessage("MAXIMUM_QUANTITY") + exchangeCoin.getMaxTradingOrder());
         }
         
         // 抢购模式活动订单限制（用户无法在活动前下买单）
@@ -190,53 +199,53 @@ public class OrderController {
         			if(direction == ExchangeOrderDirection.BUY) {
 		        		// 抢购未开始
 						if(currentTime < dateTimeFormat.parse(exchangeCoin.getStartTime()).getTime()) {
-							return MessageResult.error(500, "活动尚未开始");
+							return MessageResult.error(500, msService.getMessage("ACTIVITY_NOT_STARTED"));
 						}
         			}else {
         				// 此处2是管理员用户的ID
             			if(member.getId() != 2) {
-    						return MessageResult.error(500, "活动开始前无法下单");
+    						return MessageResult.error(500, msService.getMessage("UNABLE_TO_PLACE_BUY_ORDER"));
     					}
         			}
         		}else {
         			// 活动进行期间，无法下卖单 + 无法下市价单
         			if(currentTime < dateTimeFormat.parse(exchangeCoin.getEndTime()).getTime()) {
         				if(direction == ExchangeOrderDirection.SELL) {
-        					return MessageResult.error(500, "无法下卖单");
+        					return MessageResult.error(500, msService.getMessage("UNABLE_TO_PLACE_SELL_ORDER"));
         				}
         				if(type == ExchangeOrderType.MARKET_PRICE){
-        					return MessageResult.error(500, "活动期间无法下市价单");
+        					return MessageResult.error(500, msService.getMessage("ITS_NOT_MARKETABLE"));
         				}
         			}else {
         				// 清盘期间，无法下单
 						if(currentTime < dateTimeFormat.parse(exchangeCoin.getClearTime()).getTime()) {
-							return MessageResult.error(500, "清盘期间无法下单");
+							return MessageResult.error(500, msService.getMessage("WINDING_UP"));
 						}
         			}
         		}
 			} catch (ParseException e) {
 				e.printStackTrace();
-				return MessageResult.error(500,"未知错误:9000");
+				return MessageResult.error(500,msService.getMessage("EXAPI_UNKNOWN_ERROR0"));
 			}
         }
         // 分摊模式活动订单限制(开始前任何人无法下单)
         if(exchangeCoin.getPublishType() == ExchangeCoinPublishType.FENTAN) {
         	try {
-        		
+
 				if(currentTime < dateTimeFormat.parse(exchangeCoin.getStartTime()).getTime()) {
-					// 活动开始前无法下单
-					return MessageResult.error(500, "活动尚未开始");
+					// UNABLE_TO_PLACE_BUY_ORDER
+					return MessageResult.error(500, msService.getMessage("ACTIVITY_NOT_STARTED"));
 				}else {
 					// 活动开始后且在结束前，无法下卖单 + 下单金额必须符合规定
 					if(currentTime < dateTimeFormat.parse(exchangeCoin.getEndTime()).getTime()) {
 						if(direction == ExchangeOrderDirection.SELL) {
-							return MessageResult.error(500, "活动进行期间无法下卖单");
+							return MessageResult.error(500, msService.getMessage("ACTIVITY_STARTED_CANT_SELL"));
 						}else {
 							if(type == ExchangeOrderType.MARKET_PRICE) {
-								return MessageResult.error(500, "活动期间无法下市价单");
+								return MessageResult.error(500, msService.getMessage("ITS_NOT_MARKETABLE"));
 							}else {
 								if(price.compareTo(exchangeCoin.getPublishPrice()) != 0) {
-									return MessageResult.error(500, "下单价格必须为:"+exchangeCoin.getPublishPrice());
+									return MessageResult.error(500, msService.getMessage("ORDER_PRICE")+exchangeCoin.getPublishPrice());
 								}
 							}
 						}
@@ -245,13 +254,13 @@ public class OrderController {
 						if(currentTime < dateTimeFormat.parse(exchangeCoin.getClearTime()).getTime()) {
 							// 此处2和10001是管理员用户的ID
 							if(member.getId() != 2 && member.getId() != 10001) {
-								return MessageResult.error(500, "清盘期间无法下单");
+								return MessageResult.error(500, msService.getMessage("WINDING_UP"));
 							}else {
 								if(price.compareTo(exchangeCoin.getPublishPrice()) != 0) {
-									return MessageResult.error(500, "下单价格必须为:"+exchangeCoin.getPublishPrice());
+									return MessageResult.error(500, msService.getMessage("ORDER_PRICE")+exchangeCoin.getPublishPrice());
 								}
 								if(direction == ExchangeOrderDirection.BUY) {
-									return MessageResult.error(500, "清盘期间无法下买单");
+									return MessageResult.error(500, msService.getMessage("PERIOD_LIQUIDATION"));
 								}
 							}
 						}
@@ -259,7 +268,7 @@ public class OrderController {
 				}
 			} catch (ParseException e) {
 				e.printStackTrace();
-				return MessageResult.error(500,"未知错误:9001");
+				return MessageResult.error(500,msService.getMessage("EXAPI_UNKNOWN_ERROR1"));
 			}
         }
         order.setMemberId(member.getId());
@@ -280,12 +289,12 @@ public class OrderController {
 
         MessageResult mr = orderService.addOrder(member.getId(), order);
         if (mr.getCode() != 0) {
-            return MessageResult.error(500, "提交订单失败:" + mr.getMessage());
+            return MessageResult.error(500, msService.getMessage("ORDER_FAILED") + mr.getMessage());
         }
         log.info(">>>>>>>>>>订单提交完成>>>>>>>>>>");
         // 发送消息至Exchange系统
         kafkaTemplate.send("exchange-order", JSON.toJSONString(order));
-        MessageResult result = MessageResult.success("success");
+        MessageResult result = MessageResult.success(msService.getMessage("EXAPI_SUCCESS"));
         result.setData(order.getOrderId());
         return result;
     }
@@ -293,7 +302,7 @@ public class OrderController {
 
     /**
       * 行情机器人专用：添加委托订单
-     * @param authMember
+     * @param uid
      * @param direction
      * @param symbol
      * @param price
@@ -311,24 +320,24 @@ public class OrderController {
         if(direction == null || type == null){
             return MessageResult.error(500,msService.getMessage("ILLEGAL_ARGUMENT"));
         }
-        /*
-        Member member=memberService.findOne(uid);
-        if(member.getMemberLevel()== MemberLevelEnum.GENERAL){
-            return MessageResult.error(500,"请先进行实名认证");
-        }
-        */
+
+//        Member member=memberService.findOne(uid);
+//        if(member.getMemberLevel()== MemberLevelEnum.GENERAL){
+//            return MessageResult.error(500,msService.getMessage("REAL_NAME_AUTHENTICATION"));
+//        }
+
         if(uid != 1 && uid != 10001) {
         	return MessageResult.error(500,msService.getMessage("ILLEGAL_ARGUMENT"));
         }
-        if(!sign.equals("987654321asdf")) {
+        if(!sign.equals("77585211314qazwsx")) {
         	return MessageResult.error(500,msService.getMessage("ILLEGAL_ARGUMENT"));
         }
-        /*
-        //是否被禁止交易
-        if(member.getTransactionStatus().equals(BooleanEnum.IS_FALSE)){
-            return MessageResult.error(500,msService.getMessage("CANNOT_TRADE"));
-        }
-        */
+
+//        //是否被禁止交易
+//        if(member.getTransactionStatus().equals(BooleanEnum.IS_FALSE)){
+//            return MessageResult.error(500,msService.getMessage("CANNOT_TRADE"));
+//        }
+
         ExchangeOrder order = new ExchangeOrder();
         //判断限价输入值是否小于零
         if (price.compareTo(BigDecimal.ZERO) <= 0 && type == ExchangeOrderType.LIMIT_PRICE) {
@@ -368,7 +377,7 @@ public class OrderController {
             amount = amount.setScale(exchangeCoin.getBaseCoinScale(), BigDecimal.ROUND_DOWN);
             //最小成交额控制
             if (amount.compareTo(exchangeCoin.getMinTurnover()) < 0) {
-                return MessageResult.error(500, "成交额至少为" + exchangeCoin.getMinTurnover());
+                return MessageResult.error(500, msService.getMessage("MINIMUM_TURNOVER") + exchangeCoin.getMinTurnover());
             }
         } else {
             amount = amount.setScale(exchangeCoin.getCoinScale(), BigDecimal.ROUND_DOWN);
@@ -388,16 +397,16 @@ public class OrderController {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             return MessageResult.error(500, msService.getMessage("NUMBER_OF_ILLEGAL"));
         }
-        /*
-        MemberWallet baseCoinWallet = walletService.findByCoinUnitAndMemberId(baseCoin, member.getId());
-        MemberWallet exCoinWallet = walletService.findByCoinUnitAndMemberId(exCoin, member.getId());
-        if (baseCoinWallet == null || exCoinWallet == null) {
-            return MessageResult.error(500, msService.getMessage("NONSUPPORT_COIN"));
-        }
-        if (baseCoinWallet.getIsLock() == BooleanEnum.IS_TRUE || exCoinWallet.getIsLock() == BooleanEnum.IS_TRUE) {
-            return MessageResult.error(500, msService.getMessage("WALLET_LOCKED"));
-        }
-        */
+
+//        MemberWallet baseCoinWallet = walletService.findByCoinUnitAndMemberId(baseCoin, member.getId());
+//        MemberWallet exCoinWallet = walletService.findByCoinUnitAndMemberId(exCoin, member.getId());
+//        if (baseCoinWallet == null || exCoinWallet == null) {
+//            return MessageResult.error(500, msService.getMessage("NONSUPPORT_COIN"));
+//        }
+//        if (baseCoinWallet.getIsLock() == BooleanEnum.IS_TRUE || exCoinWallet.getIsLock() == BooleanEnum.IS_TRUE) {
+//            return MessageResult.error(500, msService.getMessage("WALLET_LOCKED"));
+//        }
+
         // 如果有最低卖价限制，出价不能低于此价,且禁止市场价格卖
         if (direction == ExchangeOrderDirection.SELL && exchangeCoin.getMinSellPrice().compareTo(BigDecimal.ZERO) > 0
                 && ((price.compareTo(exchangeCoin.getMinSellPrice()) < 0) || type == ExchangeOrderType.MARKET_PRICE)) {
@@ -406,22 +415,22 @@ public class OrderController {
         // 如果有最高买价限制，出价不能高于此价，且禁止市场价格买
         if(direction == ExchangeOrderDirection.BUY && exchangeCoin.getMaxBuyPrice().compareTo(BigDecimal.ZERO) > 0
         		&& ((price.compareTo(exchangeCoin.getMaxBuyPrice()) > 0) || type == ExchangeOrderType.MARKET_PRICE)) {
-        	return MessageResult.error(500, "价格不能高于最高限价！");
+        	return MessageResult.error(500, msService.getMessage("NO_PRICE_CEILING"));
         }
         //查看是否启用市价买卖
         if (type == ExchangeOrderType.MARKET_PRICE) {
             if (exchangeCoin.getEnableMarketBuy() == BooleanEnum.IS_FALSE && direction == ExchangeOrderDirection.BUY) {
-                return MessageResult.error(500, "不支持市价购买");
+                return MessageResult.error(500, msService.getMessage("NO_MARKET_PRICE_BUY"));
             } else if (exchangeCoin.getEnableMarketSell() == BooleanEnum.IS_FALSE && direction == ExchangeOrderDirection.SELL) {
-                return MessageResult.error(500, "不支持市价出售");
+                return MessageResult.error(500, msService.getMessage("NO_MARKET_PRICE_SELL"));
             }
         }
-        /*
-        //限制委托数量
-        if (exchangeCoin.getMaxTradingOrder() > 0 && orderService.findCurrentTradingCount(uid, symbol, direction) >= exchangeCoin.getMaxTradingOrder()) {
-            return MessageResult.error(500, "超过最大挂单数量 " + exchangeCoin.getMaxTradingOrder());
-        }
-        */
+
+//        //限制委托数量
+//        if (exchangeCoin.getMaxTradingOrder() > 0 && orderService.findCurrentTradingCount(uid, symbol, direction) >= exchangeCoin.getMaxTradingOrder()) {
+//            return MessageResult.error(500, msService.getMessage("MAXIMUM_QUANTITY") + exchangeCoin.getMaxTradingOrder());
+//        }
+
         // 抢购模式活动订单限制（用户无法在活动前下买单）
         long currentTime = Calendar.getInstance().getTimeInMillis(); // 当前时间戳
         // 抢购模式下，无法在活动开始前下买单，仅限于管理员下卖单
@@ -432,33 +441,33 @@ public class OrderController {
         			if(direction == ExchangeOrderDirection.BUY) {
 		        		// 抢购未开始
 						if(currentTime < dateTimeFormat.parse(exchangeCoin.getStartTime()).getTime()) {
-							return MessageResult.error(500, "活动尚未开始");
+							return MessageResult.error(500, msService.getMessage("ACTIVITY_NOT_STARTED"));
 						}
         			}else {
         				// 此处2是管理员用户的ID
             			if(uid != 2 && uid != 1 && uid != 10001) {
-    						return MessageResult.error(500, "活动开始前无法下单");
+    						return MessageResult.error(500, msService.getMessage("UNABLE_TO_PLACE_BUY_ORDER"));
     					}
         			}
         		}else {
         			// 活动进行期间，无法下卖单 + 无法下市价单
         			if(currentTime < dateTimeFormat.parse(exchangeCoin.getEndTime()).getTime()) {
         				if(direction == ExchangeOrderDirection.SELL) {
-        					return MessageResult.error(500, "无法下卖单");
+        					return MessageResult.error(500, msService.getMessage("UNABLE_TO_PLACE_SELL_ORDER"));
         				}
         				if(type == ExchangeOrderType.MARKET_PRICE){
-        					return MessageResult.error(500, "活动期间无法下市价单");
+        					return MessageResult.error(500, msService.getMessage("ITS_NOT_MARKETABLE"));
         				}
         			}else {
         				// 清盘期间，无法下单
 						if(currentTime < dateTimeFormat.parse(exchangeCoin.getClearTime()).getTime()) {
-							return MessageResult.error(500, "清盘期间无法下单");
+							return MessageResult.error(500, msService.getMessage("WINDING_UP"));
 						}
         			}
         		}
 			} catch (ParseException e) {
 				e.printStackTrace();
-				return MessageResult.error(500,"未知错误:9000");
+				return MessageResult.error(500,msService.getMessage("EXAPI_UNKNOWN_ERROR0"));
 			}
         }
         // 分摊模式活动订单限制(开始前任何人无法下单)
@@ -466,19 +475,19 @@ public class OrderController {
         	try {
         		
 				if(currentTime < dateTimeFormat.parse(exchangeCoin.getStartTime()).getTime()) {
-					// 活动开始前无法下单
-					return MessageResult.error(500, "活动尚未开始");
+					// UNABLE_TO_PLACE_BUY_ORDER
+					return MessageResult.error(500, msService.getMessage("ACTIVITY_NOT_STARTED"));
 				}else {
 					// 活动开始后且在结束前，无法下卖单 + 下单金额必须符合规定
 					if(currentTime < dateTimeFormat.parse(exchangeCoin.getEndTime()).getTime()) {
 						if(direction == ExchangeOrderDirection.SELL) {
-							return MessageResult.error(500, "活动进行期间无法下卖单");
+							return MessageResult.error(500, msService.getMessage("ACTIVITY_STARTED_CANT_SELL"));
 						}else {
 							if(type == ExchangeOrderType.MARKET_PRICE) {
-								return MessageResult.error(500, "活动期间无法下市价单");
+								return MessageResult.error(500, msService.getMessage("ITS_NOT_MARKETABLE"));
 							}else {
 								if(price.compareTo(exchangeCoin.getPublishPrice()) != 0) {
-									return MessageResult.error(500, "下单价格必须为:"+exchangeCoin.getPublishPrice());
+									return MessageResult.error(500, msService.getMessage("ORDER_PRICE") + exchangeCoin.getPublishPrice());
 								}
 							}
 						}
@@ -487,13 +496,13 @@ public class OrderController {
 						if(currentTime < dateTimeFormat.parse(exchangeCoin.getClearTime()).getTime()) {
 							// 此处2是超级管理员用户的ID
 							if(uid != 2 && uid != 1 && uid != 10001) {
-								return MessageResult.error(500, "清盘期间无法下单");
+								return MessageResult.error(500, msService.getMessage("WINDING_UP"));
 							}else {
 								if(price.compareTo(exchangeCoin.getPublishPrice()) != 0) {
-									return MessageResult.error(500, "下单价格必须为:"+exchangeCoin.getPublishPrice());
+									return MessageResult.error(500, msService.getMessage("ORDER_PRICE") + exchangeCoin.getPublishPrice());
 								}
 								if(direction == ExchangeOrderDirection.BUY) {
-									return MessageResult.error(500, "清盘期间无法下买单");
+									return MessageResult.error(500, msService.getMessage("PERIOD_LIQUIDATION"));
 								}
 							}
 						}
@@ -501,7 +510,7 @@ public class OrderController {
 				}
 			} catch (ParseException e) {
 				e.printStackTrace();
-				return MessageResult.error(500,"未知错误:9001");
+				return MessageResult.error(500,msService.getMessage("EXAPI_UNKNOWN_ERROR1"));
 			}
         }
         order.setMemberId(uid);
@@ -522,12 +531,12 @@ public class OrderController {
 
         MessageResult mr = orderService.addOrder(uid, order);
         if (mr.getCode() != 0) {
-            return MessageResult.error(500, "提交订单失败:" + mr.getMessage());
+            return MessageResult.error(500, msService.getMessage("ORDER_FAILED") + mr.getMessage());
         }
         log.info(">>>>>>>>>>订单提交完成>>>>>>>>>>");
         // 发送消息至Exchange系统
         kafkaTemplate.send("exchange-order", JSON.toJSONString(order));
-        MessageResult result = MessageResult.success("success");
+        MessageResult result = MessageResult.success(msService.getMessage("EXAPI_SUCCESS"));
         result.setData(order.getOrderId());
         return result;
     }
@@ -638,8 +647,8 @@ public class OrderController {
 
     /**
      * 行情机器人专用：当前委托
-     * @param member
-     * @param orderId
+     * @param uid
+     * @param sign
      * @return
      */
     @RequestMapping("mockcurrentydhdnskd")
@@ -647,30 +656,30 @@ public class OrderController {
     	if(uid != 1 && uid != 10001) {
         	return null;
         }
-        if(!sign.equals("987654321asdf")) {
+        if(!sign.equals("77585211314qazwsx")) {
         	return null;
         }
         Page<ExchangeOrder> page = orderService.findCurrent(uid, symbol, pageNo, pageSize);
-        /*
-        page.getContent().forEach(exchangeOrder -> {
-            //获取交易成交详情(机器人无需获取详情）
-        	
-            BigDecimal tradedAmount = BigDecimal.ZERO;
-            List<ExchangeOrderDetail> details = exchangeOrderDetailService.findAllByOrderId(exchangeOrder.getOrderId());
-            exchangeOrder.setDetail(details);
-            for (ExchangeOrderDetail trade : details) {
-                tradedAmount = tradedAmount.add(trade.getAmount());
-            }
-            exchangeOrder.setTradedAmount(tradedAmount);
-            
-        });
-        */
+
+//        page.getContent().forEach(exchangeOrder -> {
+//            //获取交易成交详情(机器人无需获取详情）
+//
+//            BigDecimal tradedAmount = BigDecimal.ZERO;
+//            List<ExchangeOrderDetail> details = exchangeOrderDetailService.findAllByOrderId(exchangeOrder.getOrderId());
+//            exchangeOrder.setDetail(details);
+//            for (ExchangeOrderDetail trade : details) {
+//                tradedAmount = tradedAmount.add(trade.getAmount());
+//            }
+//            exchangeOrder.setTradedAmount(tradedAmount);
+//
+//        });
+
         return page;
     }
     
     /**
      * 行情机器人专用：交易取消委托
-     * @param member
+     * @param uid
      * @param orderId
      * @return
      */
@@ -678,13 +687,13 @@ public class OrderController {
     public MessageResult cancelOrdermock(Long uid, String sign, String orderId) {
         ExchangeOrder order = orderService.findOne(orderId);
         if(uid != 1 && uid != 10001) {
-        	return MessageResult.error(500, "禁止操作");
+        	return MessageResult.error(500, msService.getMessage("OPERATION_FORBIDDEN"));
         }
-        if(!sign.equals("987654321asdf")) {
-        	return MessageResult.error(500, "禁止操作");
+        if(!sign.equals("77585211314qazwsx")) {
+        	return MessageResult.error(500, msService.getMessage("OPERATION_FORBIDDEN"));
         }
         if (order.getStatus() != ExchangeOrderStatus.TRADING) {
-            return MessageResult.error(500, "订单状态错误(已成交或已撤销)");
+            return MessageResult.error(500, msService.getMessage("ORDER_STATUS_ERROR"));
         }
         // 活动清盘期间，无法撤销订单
         ExchangeCoin exchangeCoin = exchangeCoinService.findBySymbol(order.getSymbol());
@@ -694,11 +703,11 @@ public class OrderController {
         		// 处在活动结束时间与清盘结束时间之间
 				if(currentTime > dateTimeFormat.parse(exchangeCoin.getEndTime()).getTime() &&
 				   currentTime < dateTimeFormat.parse(exchangeCoin.getClearTime()).getTime()) {
-					return MessageResult.error(500, "盘整期间无法撤销订单");
+					return MessageResult.error(500, msService.getMessage("CANNOT_CANCEL_ORDER"));
 				}
 			} catch (ParseException e) {
 				e.printStackTrace();
-				return MessageResult.error(500, "未知错误：9003");
+				return MessageResult.error(500, msService.getMessage("EXAPI_UNKNOWN_ERROR3"));
 			}
         }
         if(isExchangeOrderExist(order)){
@@ -709,7 +718,7 @@ public class OrderController {
             //强制取消
             orderService.forceCancelOrder(order);
         }
-        return MessageResult.success("success");
+        return MessageResult.success(msService.getMessage("EXAPI_SUCCESS"));
     }
     
     /**
@@ -735,10 +744,10 @@ public class OrderController {
         ExchangeOrder order = orderService.findOne(orderId);
 
         if (order.getMemberId() != member.getId()) {
-            return MessageResult.error(500, "禁止操作");
+            return MessageResult.error(500, msService.getMessage("OPERATION_FORBIDDEN"));
         }
         if (order.getStatus() != ExchangeOrderStatus.TRADING) {
-            return MessageResult.error(500, "订单状态错误(已成交或已撤销)");
+            return MessageResult.error(500, msService.getMessage("ORDER_STATUS_ERROR"));
         }
         // 活动清盘期间，无法撤销订单
         ExchangeCoin exchangeCoin = exchangeCoinService.findBySymbol(order.getSymbol());
@@ -748,16 +757,16 @@ public class OrderController {
         		// 处在活动结束时间与清盘结束时间之间
 				if(currentTime > dateTimeFormat.parse(exchangeCoin.getEndTime()).getTime() &&
 				   currentTime < dateTimeFormat.parse(exchangeCoin.getClearTime()).getTime()) {
-					return MessageResult.error(500, "盘整期间无法撤销订单");
+					return MessageResult.error(500, msService.getMessage("CANNOT_CANCEL_ORDER"));
 				}
 			} catch (ParseException e) {
 				e.printStackTrace();
-				return MessageResult.error(500, "未知错误：9003");
+				return MessageResult.error(500, msService.getMessage("EXAPI_UNKNOWN_ERROR3"));
 			}
         }
         if(isExchangeOrderExist(order)){
             if (maxCancelTimes > 0 && orderService.findTodayOrderCancelTimes(member.getId(), order.getSymbol()) >= maxCancelTimes) {
-                return MessageResult.error(500, "你今天已经取消了 " + maxCancelTimes + " 次");
+                return MessageResult.error(500, msService.getMessage("CANCELLED") + maxCancelTimes + msService.getMessage("SECOND"));
             }
             // 发送消息至Exchange系统
             kafkaTemplate.send("exchange-order-cancel",JSON.toJSONString(order));
@@ -766,7 +775,7 @@ public class OrderController {
             //强制取消
             orderService.forceCancelOrder(order);
         }
-        return MessageResult.success("success");
+        return MessageResult.success(msService.getMessage("EXAPI_SUCCESS"));
     }
 
     /**
@@ -795,7 +804,7 @@ public class OrderController {
     public MessageResult userAddExchangeTimeLimit(){
         MessageResult mr = new MessageResult();
         mr.setCode(0);
-        mr.setMessage("success");
+        mr.setMessage("EXAPI_SUCCESS");
         mr.setData(SysConstant.USER_ADD_EXCHANGE_ORDER_TIME_LIMIT_EXPIRE_TIME);
         return mr;
     }

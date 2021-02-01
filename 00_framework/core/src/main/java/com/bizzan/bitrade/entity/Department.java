@@ -8,18 +8,19 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * 部门
  *
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2017年12月18日
+ * @author Jammy
+ * @date 2020年12月18日
  */
 @Entity
 @Data
 @Table
-public class Department {
+public class Department  implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Long id;

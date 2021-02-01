@@ -15,9 +15,9 @@ import com.bizzan.bitrade.entity.Coin;
 import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @description 货币操作
- * @date 2017/12/29 14:41
+ * @date 2019/12/29 14:41
  */
 @Repository
 public interface CoinDao extends JpaRepository<Coin, String>, JpaSpecificationExecutor<Coin>, QueryDslPredicateExecutor<Coin> {

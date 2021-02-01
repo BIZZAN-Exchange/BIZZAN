@@ -37,7 +37,7 @@ public class TestController extends BaseController {
 
     /***
      * 获取 所有币种rpc 是否正常
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * GS
      * @return
      */
     @RequestMapping("/rpc")

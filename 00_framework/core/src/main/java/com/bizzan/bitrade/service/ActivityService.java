@@ -15,6 +15,8 @@ import com.bizzan.bitrade.pagination.Restrictions;
 import com.bizzan.bitrade.service.Base.BaseService;
 import com.querydsl.core.types.Predicate;
 
+import java.util.List;
+
 @Service
 public class ActivityService extends BaseService {
 	
@@ -53,4 +55,8 @@ public class ActivityService extends BaseService {
         specification.add(Restrictions.eq("status", 1, false));
         return activityDao.findAll(specification, pageRequest);
 	}
+
+	public List<Activity> findByTypeAndStep(int type, int step) {
+	    return activityDao.findAllByTypeAndStep(type, step);
+    }
 }

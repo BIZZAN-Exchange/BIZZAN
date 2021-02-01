@@ -8,9 +8,9 @@ import com.bizzan.bitrade.entity.MemberSignRecord;
 import com.bizzan.bitrade.service.Base.TopBaseService;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @Description:
- * @date 2018/5/410:19
+ * @date 2019/5/410:19
  */
 @Service
 public class MemberSignRecordService extends TopBaseService<MemberSignRecord, MemberSignRecordDao> {

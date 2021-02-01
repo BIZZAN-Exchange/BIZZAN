@@ -70,9 +70,9 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Shaoxianjun
  * @description 后台货币web
- * @date 2018/12/29 15:01
+ * @date 2019/12/29 15:01
  */
 @RestController
 @RequestMapping("/system/coin")
@@ -123,6 +123,10 @@ public class CoinController extends BaseAdminController {
         if (result != null) {
             return result;
         }
+        if("decp".equalsIgnoreCase(coin.getName().trim()) || "dcep".equalsIgnoreCase(coin.getName().trim())){
+            return error(messageSource.getMessage("COIN_NAME_EXIST"));
+        }
+
         Coin one = coinService.findOne(coin.getName());
         if (one != null) {
             return error(messageSource.getMessage("COIN_NAME_EXIST"));
@@ -162,16 +166,18 @@ public class CoinController extends BaseAdminController {
             BindingResult bindingResult) {
 
         Assert.notNull(admin, messageSource.getMessage("DATA_EXPIRED_LOGIN_AGAIN"));
-        MessageResult checkCode = checkCode(code, SysConstant.ADMIN_COIN_REVISE_PHONE_PREFIX + admin.getMobilePhone());
-        if (checkCode.getCode() != 0) {
-            return checkCode;
-        }
-
+//        MessageResult checkCode = checkCode(code, SysConstant.ADMIN_COIN_REVISE_PHONE_PREFIX + admin.getMobilePhone());
+//        if (checkCode.getCode() != 0) {
+//            return checkCode;
+//        }
         notNull(coin.getName(), "validate coin.name!");
-        MessageResult result = BindingResultUtil.validate(bindingResult);
-        if (result != null) {
-            return result;
+        if("decp".equalsIgnoreCase(coin.getName().trim()) || "dcep".equalsIgnoreCase(coin.getName().trim())){
+            return error(messageSource.getMessage("COIN_NAME_EXIST"));
         }
+//        MessageResult result = BindingResultUtil.validate(bindingResult);
+//        if (result != null) {
+//            return result;
+//        }
         Coin one = coinService.findOne(coin.getName());
         notNull(one, "validate coin.name!");
         coinService.save(coin);
@@ -268,7 +274,7 @@ public class CoinController extends BaseAdminController {
         try {
             //String url = "http://" + serviceName + "/rpc/address/{account}";
             ResponseEntity<MessageResult> result = restTemplate.getForEntity(url, MessageResult.class);
-            log.info("result={}", result);
+            log.info("getRPCWalletBalance: result={}", result);
             if (result.getStatusCode().value() == 200) {
                 MessageResult mr = result.getBody();
                 if (mr.getCode() == 0) {
@@ -291,7 +297,7 @@ public class CoinController extends BaseAdminController {
     private Long getRPCBlockHeight(String url, String unit) {
     	try {
 	    	ResponseEntity<MessageResult> result = restTemplate.getForEntity(url, MessageResult.class);
-	        log.info("result={}", result);
+	        log.info("getRPCBlockHeight: result={}", result);
 	        if (result.getStatusCode().value() == 200) {
 	            MessageResult mr = result.getBody();
 	            if (mr.getCode() == 0) {

@@ -32,7 +32,7 @@ public class AuthExchangeCoinController extends BaseAdminController {
     public MessageResult detail(
             @RequestParam(value = "symbol") String symbol,
             @RequestParam(value = "sign") String sign) {
-    	if(!sign.equals("987654321asdf")) {
+    	if(!sign.equals("77585211314qazwsx")) {
     		return error("非法访问");
     	}
         ExchangeCoin exchangeCoin = exchangeCoinService.findBySymbol(symbol);
@@ -47,7 +47,7 @@ public class AuthExchangeCoinController extends BaseAdminController {
             @RequestParam(value = "minSellPrice") BigDecimal minSellPrice,
             @RequestParam(value = "sign") String sign) {
     	
-    	if(!sign.equals("987654321asdf")) {
+    	if(!sign.equals("77585211314qazwsx")) {
     		return error("非法访问");
     	}
     	

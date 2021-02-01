@@ -12,9 +12,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @Description: 签到活动
- * @date 2018/5/310:54
+ * @date 2019/5/310:54
  */
 @Entity
 @Data

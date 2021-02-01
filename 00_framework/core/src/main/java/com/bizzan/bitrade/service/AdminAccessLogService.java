@@ -22,8 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2017年12月19日
+ * @author Jammy
+ * @date 2020年12月19日
  */
 @Service
 public class AdminAccessLogService extends BaseService {

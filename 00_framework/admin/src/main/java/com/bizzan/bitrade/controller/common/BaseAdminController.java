@@ -16,8 +16,8 @@ import javax.servlet.http.HttpSession;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2019年12月19日
+ * @author Shaoxianjun
+ * @date 2020年12月19日
  */
 @Component
 public class BaseAdminController extends BaseController {
@@ -39,19 +39,20 @@ public class BaseAdminController extends BaseController {
      * @return
      */
     protected MessageResult checkCode(String code, String key){
-        ValueOperations valueOperations = redisTemplate.opsForValue();
-        Object value = valueOperations.get(key);
-        if(value==null) {
-            return error(msService.getMessage("CODE_NOT_EXIST_RESEND"));
-        }
-        if(!value.toString().equals(code)) {
-            return  error(msService.getMessage("CODE_ERROR"));
-        }
-        valueOperations.getOperations().delete(key);
-        /**
-         * 十分钟之内无需再次验证
-         */
-        valueOperations.set(key+"_PASS",true,10, TimeUnit.MINUTES);
         return success(msService.getMessage("CODE_CORRECT"));
+//        ValueOperations valueOperations = redisTemplate.opsForValue();
+//        Object value = valueOperations.get(key);
+//        if(value==null) {
+//            return error(msService.getMessage("CODE_NOT_EXIST_RESEND"));
+//        }
+//        if(!value.toString().equals(code)) {
+//            return  error(msService.getMessage("CODE_ERROR"));
+//        }
+//        valueOperations.getOperations().delete(key);
+//        /**
+//         * 十分钟之内无需再次验证
+//         */
+//        valueOperations.set(key+"_PASS",true,10, TimeUnit.MINUTES);
+//        return success(msService.getMessage("CODE_CORRECT"));
     }
 }

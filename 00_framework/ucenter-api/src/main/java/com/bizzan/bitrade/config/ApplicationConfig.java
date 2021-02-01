@@ -18,8 +18,8 @@ import com.bizzan.bitrade.ext.OrdinalToEnumConverterFactory;
 import com.bizzan.bitrade.interceptor.MemberInterceptor;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年02月06日
+ * @author Jammy
+ * @date 2020年02月06日
  * @see 重命名 corsFilter 解决与 Spring Security 冲突的问题
  */
 @Configuration
@@ -75,7 +75,8 @@ public class ApplicationConfig  extends WebMvcConfigurerAdapter {
                         ,"/redenvelope/query"
                         ,"/redenvelope/query-detail"
                         ,"/redenvelope/receive"
-                        ,"/redenvelope/code");
+                        ,"/redenvelope/code"
+                        ,"/reg/email/code");
         super.addInterceptors(registry);
     }
 

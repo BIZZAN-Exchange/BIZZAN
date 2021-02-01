@@ -20,8 +20,8 @@ import java.util.Date;
 /**
  * 场外交易订单
  *
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2017年12月11日
+ * @author Jammy
+ * @date 2020年12月11日
  */
 @Entity
 @Data

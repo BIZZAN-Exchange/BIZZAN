@@ -1,10 +1,10 @@
 package com.bizzan.bitrade.ability;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @Title: ${file_name}
  * @Description:
- * @date 2018/4/2417:35
+ * @date 2019/4/2417:35
  */
 public interface CreateAbility<T> {
     //创建能力

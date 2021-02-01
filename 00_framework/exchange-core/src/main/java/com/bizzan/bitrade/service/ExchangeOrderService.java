@@ -98,7 +98,7 @@ public class ExchangeOrderService extends BaseService {
         if (order.getDirection() == ExchangeOrderDirection.BUY) {
             MemberWallet wallet = memberWalletService.findByCoinUnitAndMemberId(order.getBaseSymbol(), memberId);
             if(wallet.getIsLock().equals(BooleanEnum.IS_TRUE)){
-                return MessageResult.error("钱包已锁定");
+                return MessageResult.error(500,msService.getMessage("WALLET_LOCKED"));
             }
             BigDecimal turnover;
             if (order.getType() == ExchangeOrderType.MARKET_PRICE) {
@@ -118,7 +118,7 @@ public class ExchangeOrderService extends BaseService {
         } else if (order.getDirection() == ExchangeOrderDirection.SELL) {
             MemberWallet wallet = memberWalletService.findByCoinUnitAndMemberId(order.getCoinSymbol(), memberId);
             if(wallet.getIsLock().equals(BooleanEnum.IS_TRUE)){
-                return MessageResult.error("钱包已锁定");
+                return MessageResult.error(500,msService.getMessage("WALLET_LOCKED"));
             }
             if (wallet.getBalance().compareTo(order.getAmount()) < 0) {
                 return MessageResult.error(500, msService.getMessage("INSUFFICIENT_COIN") + order.getCoinSymbol());
@@ -131,9 +131,9 @@ public class ExchangeOrderService extends BaseService {
         }
         order = exchangeOrderRepository.saveAndFlush(order);
         if (order != null) {
-            return MessageResult.success("success");
+            return MessageResult.success(msService.getMessage("EX_CORE_SUCCESS"));
         } else {
-            return MessageResult.error(500, "error");
+            return MessageResult.error(500, msService.getMessage("EX_CORE_ERROR"));
         }
     }
 
@@ -718,6 +718,16 @@ public class ExchangeOrderService extends BaseService {
         return exchangeOrderRepository.queryExchangeOrderByTimeById(cancelTime,sellMemberId,buyMemberId);
     }
 
+    /**
+     * 查询符合状态的订单
+     *
+     * @param cancelTime
+     * @return
+     */
+
+    public List<ExchangeOrder> queryExchangeOrderByTimeById(long cancelTime) {
+        return exchangeOrderRepository.queryExchangeOrderByTimeById(cancelTime);
+    }
     /**
      * API 添加订单接口
      *

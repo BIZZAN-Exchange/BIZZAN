@@ -8,8 +8,8 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年02月27日
+ * @author Jammy
+ * @date 2020年02月27日
  */
 @Configuration
 public class RestTemplateConfig {

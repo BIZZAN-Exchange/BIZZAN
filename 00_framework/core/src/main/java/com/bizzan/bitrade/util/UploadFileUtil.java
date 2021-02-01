@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Shaoxianjun
  * @date 2019/4/10
  */
 public class UploadFileUtil {

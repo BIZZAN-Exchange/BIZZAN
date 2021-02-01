@@ -13,9 +13,9 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @description 公告
- * @date 2018/3/5 14:59
+ * @date 2019/3/5 14:59
  */
 @Entity
 @Data

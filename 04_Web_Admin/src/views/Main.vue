@@ -24,7 +24,7 @@
             </shrinkable-menu>
         </div>
         <div class="main-header-con" :style="{paddingLeft: shrink?'60px':'170px'}">
-            <div class="main-header">
+            <div class="main-header" style="border-bottom: none;">
                 <div class="navicon-con">
                     <Button :style="{transform: 'rotateZ(' + (this.shrink ? '-90' : '0') + 'deg)'}" type="text" @click="toggleClick">
                         <Icon type="navicon" size="32"></Icon>
@@ -66,6 +66,7 @@
         </div>
         <div class="single-page-con" :style="{left: shrink?'60px':'170px'}">
             <div class="single-page">
+
                 <keep-alive :include="cachePage">
                     <router-view></router-view>
                 </keep-alive>

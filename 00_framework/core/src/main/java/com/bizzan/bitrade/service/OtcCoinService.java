@@ -25,9 +25,9 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.sparkframework.sql.model.Model;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @description
- * @date 2018/1/11 13:45
+ * @date 2019/1/11 13:45
  */
 @Service
 public class OtcCoinService extends BaseService {
@@ -87,9 +87,9 @@ public class OtcCoinService extends BaseService {
     }
 
     /**
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author Jammy
      * @description 分页请求
-     * @date 2018/1/11 15:04
+     * @date 2019/1/11 15:04
      */
     public Page<OtcCoin> pageQuery(Integer pageNo, Integer pageSize, String name, String nameCn) {
         //排序方式

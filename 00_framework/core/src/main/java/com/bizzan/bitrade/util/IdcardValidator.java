@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
  * ：第7、8、9、10位为出生年份(四位数)，第11、第12位为出生月份，第13、14位代表出生日期，第17位代表性别，奇数为男，偶数为女。
  *
  * @Author:chenssy
- * @date:2016年6月1日 下午12:29:41
+ * @date:2020年6月1日 下午12:29:41
  *
  */
 public class IdcardValidator {
@@ -30,7 +30,7 @@ public class IdcardValidator {
      * 验证身份证是否合法
      *
      * @author : chenssy
-     * @date : 2016年6月1日 下午12:30:03
+     * @date : 2020年6月1日 下午12:30:03
      *
      * @param idcard
      * @return
@@ -73,7 +73,7 @@ public class IdcardValidator {
      * </p>
      *
      * @author : chenssy
-     * @date : 2016年6月1日 下午12:31:10
+     * @date : 2020年6月1日 下午12:31:10
      *
      * @param idcard
      * 					待验证的身份证
@@ -119,7 +119,7 @@ public class IdcardValidator {
      * 18位身份证号码的基本数字和位数验校
      *
      * @author : chenssy
-     * @date : 2016年6月1日 下午12:31:49
+     * @date : 2020年6月1日 下午12:31:49
      *
      * @param idcard
      * 					待验证的身份证
@@ -133,7 +133,7 @@ public class IdcardValidator {
      * 数字验证
      *
      * @author : chenssy
-     * @date : 2016年6月1日 下午12:32:18
+     * @date : 2020年6月1日 下午12:32:18
      *
      * @param str
      * @return
@@ -146,7 +146,7 @@ public class IdcardValidator {
      * 将身份证的每位和对应位的加权因子相乘之后，再得到和值
      *
      * @author : chenssy
-     * @date : 2016年6月1日 下午12:32:34
+     * @date : 2020年6月1日 下午12:32:34
      *
      * @param bit
      * @return
@@ -172,7 +172,7 @@ public class IdcardValidator {
      * 将和值与11取模得到余数进行校验码判断
      *
      * @author : chenssy
-     * @date : 2016年6月1日 下午12:32:51
+     * @date : 2020年6月1日 下午12:32:51
      *
      * @param sum17
      * @return
@@ -223,7 +223,7 @@ public class IdcardValidator {
      * 将字符数组转为整型数组
      *
      * @author : chenssy
-     * @date : 2016年6月1日 下午12:33:22
+     * @date : 2020年6月1日 下午12:33:22
      *
      * @param c
      * @return

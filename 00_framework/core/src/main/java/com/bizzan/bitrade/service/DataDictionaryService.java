@@ -8,10 +8,10 @@ import com.bizzan.bitrade.entity.DataDictionary;
 import com.bizzan.bitrade.service.Base.TopBaseService;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @Title: ${file_name}
  * @Description:
- * @date 2018/4/1214:19
+ * @date 2019/4/1214:19
  */
 @Service
 public class DataDictionaryService extends TopBaseService<DataDictionary, DataDictionaryDao> {

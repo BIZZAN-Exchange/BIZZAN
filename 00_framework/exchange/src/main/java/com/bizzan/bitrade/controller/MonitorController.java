@@ -9,6 +9,7 @@ import com.bizzan.bitrade.entity.*;
 import com.bizzan.bitrade.service.ExchangeCoinService;
 import com.bizzan.bitrade.service.ExchangeOrderDetailService;
 import com.bizzan.bitrade.service.ExchangeOrderService;
+import com.bizzan.bitrade.service.LocaleMessageSourceService;
 import com.bizzan.bitrade.util.MessageResult;
 
 import org.slf4j.Logger;
@@ -159,6 +160,8 @@ public class MonitorController {
 	 * @param symbol
 	 * @return
 	 */
+	@Autowired
+	private LocaleMessageSourceService msService;
 	@RequestMapping("reset-trader")
 	public MessageResult resetTrader(String symbol) {
 		log.info("======[Start]Reset CoinTrader: " + symbol + "======");
@@ -167,16 +170,16 @@ public class MonitorController {
 			// 检查该币种在数据库定义中是否存在
 			ExchangeCoin coin = exchangeCoinService.findBySymbol(symbol);
 			if (coin == null || coin.getEnable() != 1) {
-	            return MessageResult.error(500, "币币交易对不存在或已下架");
+	            return MessageResult.error(500, "CURRENCY_PAIR_DOES_NOT_EXIST");
 	        }
 			
 			if(coin.getEnable() != 1) {
-				return MessageResult.error(500, "币币交易对处于禁用状态，无法启动");
+				return MessageResult.error(500, "PROHIBITION_OF_CURRENCY_PAIRS");
 			}
 			
 			CoinTrader trader= factory.getTrader(symbol);
 			if(!trader.isTradingHalt()) {
-				return MessageResult.error(500, "请先停止当前引擎再重置！");
+				return MessageResult.error(500, "STOP_CURRENT_ENGINE");
 			}
 			CoinTrader newTrader = new CoinTrader(symbol);
 			newTrader.setKafkaTemplate(kafkaTemplate);
@@ -213,18 +216,18 @@ public class MonitorController {
 			} catch (ParseException e) {
 				e.printStackTrace();
 				log.info("异常：trader.trade(tradingOrders);");
-				return MessageResult.error(500, symbol + "撮合交易引擎创建失败，无法处理订单");
+				return MessageResult.error(500, symbol + msService.getMessage("ENGINE_CREATION_FAILED"));
 			}
             //判断已完成的订单发送消息通知
             if(completedOrders.size() > 0){
                 kafkaTemplate.send("exchange-order-completed", JSON.toJSONString(completedOrders));
             }
             newTrader.setReady(true);
-            factory.addTrader(symbol, newTrader);
+            factory.resetTrader(symbol, newTrader);
             log.info("======[END]Reset CoinTrader: " + symbol + " successful======");
-			return MessageResult.success(symbol+" 撮合交易引擎创建成功");
+			return MessageResult.success(symbol+ msService.getMessage("ENGINE_CREATED_SUCCESSFULLY"));
 		}else {
-			return MessageResult.error(500, symbol+" 撮合引擎不存在");
+			return MessageResult.error(500, symbol + msService.getMessage("ENGINE_DOES_NOT_EXIST"));
 		}
 	}
 	
@@ -236,10 +239,10 @@ public class MonitorController {
 			// 检查该币种在数据库定义中是否存在
 			ExchangeCoin coin = exchangeCoinService.findBySymbol(symbol);
 			if (coin == null || coin.getEnable() != 1) {
-	            return MessageResult.error(500, "币币交易对不存在或已下架");
+	            return MessageResult.error(500, "CURRENCY_PAIR_DOES_NOT_EXIST");
 	        }
 			if(coin.getEnable() != 1) {
-				return MessageResult.error(500, "币币交易对处于禁用状态，无法启动");
+				return MessageResult.error(500, "PROHIBITION_OF_CURRENCY_PAIRS");
 			}
 			CoinTrader newTrader = new CoinTrader(symbol);
 			newTrader.setKafkaTemplate(kafkaTemplate);
@@ -276,7 +279,7 @@ public class MonitorController {
 			} catch (ParseException e) {
 				e.printStackTrace();
 				log.info("异常：trader.trade(tradingOrders);");
-				return MessageResult.error(500, "引擎创建失败，无法处理订单");
+				return MessageResult.error(500, "ENGINE_CREATION_FAILED");
 			}
             //判断已完成的订单发送消息通知
             if(completedOrders.size() > 0){
@@ -285,14 +288,14 @@ public class MonitorController {
             newTrader.setReady(true);
             factory.addTrader(symbol, newTrader);
             
-			return MessageResult.success("币币交易对创建成功");
+			return MessageResult.success("CURRENCY_PAIR_CREATED_SUCCESSFULLY");
 		}else {
 			CoinTrader trader= factory.getTrader(symbol);
 			if(trader.isTradingHalt()) {
 				trader.resumeTrading();
-				return MessageResult.success("撮合引擎处于暂停状态，已恢复运行");
+				return MessageResult.success("ENGINE_STATE_HAS_STOPPED");
 			}else {
-				return MessageResult.error(500, "撮合引擎处于正常运行状态，请不要重复启动");
+				return MessageResult.error(500, "ENGINE_STATUS_IS_RUNNING");
 			}
 		}
 	}
@@ -302,13 +305,13 @@ public class MonitorController {
 		CoinTrader trader = factory.getTrader(symbol);
 		log.info("======Stop CoinTrader: " + symbol + "======");
 		if(trader == null) {
-			return MessageResult.error(500, symbol + "交易对撮合引擎不存在");
+			return MessageResult.error(500, symbol + msService.getMessage("CURRENCY_PAIR_ENGINE_DOES_NOT_EXIST"));
 		}else {
 			if(trader.isTradingHalt()) {
-				return MessageResult.error(500, symbol + "撮合引擎已暂停，请不要重复停止");
+				return MessageResult.error(500, symbol + msService.getMessage("ENGINE_STATE_HAS_STOPPED"));
 			}else {
 				trader.haltTrading();
-				return MessageResult.success("撮合引擎暂停成功！");
+				return MessageResult.success("ENGINE_STOPPED_SUCCESSFULLY");
 			}
 		}
 	}

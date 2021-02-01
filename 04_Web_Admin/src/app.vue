@@ -3,7 +3,7 @@
 	@import "./styles/reset-iview-style.less";
 </style>
 <template>
-    <div id="main" class="app-main">
+    <div id="main" class="app-main" style="position: absolute;top:0;left: 0;">
         <router-view></router-view>
 			<transition name="loadingFade">
 				<div class="loadingMask" v-show="loading">

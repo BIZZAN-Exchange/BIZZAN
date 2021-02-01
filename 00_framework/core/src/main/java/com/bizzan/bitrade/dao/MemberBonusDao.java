@@ -11,8 +11,8 @@ import java.util.List;
 
 /**
  * @Description:
- * @author: Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date: create in 16:20 2018/6/30
+ * @author: GuoShuai
+ * @date: create in 16:20 2019/6/30
  * @Modified:
  */
 public interface MemberBonusDao extends BaseDao<MemberBonusDTO> {

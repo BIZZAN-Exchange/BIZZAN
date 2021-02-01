@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * GS
  * 分页接受参数
  */
 @Data

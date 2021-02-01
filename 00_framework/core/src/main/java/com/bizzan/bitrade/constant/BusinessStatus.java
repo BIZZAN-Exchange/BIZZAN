@@ -8,9 +8,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @description 交易状态
- * @date 2018/1/8 15:04
+ * @date 2019/1/8 15:04
  */
 @AllArgsConstructor
 @Getter

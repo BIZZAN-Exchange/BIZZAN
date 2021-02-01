@@ -9,7 +9,7 @@ import com.bizzan.bitrade.entity.Member;
 
 /**
  * @author jiangtao
- * @date 2018/5/17
+ * @date 2019/5/17
  */
 public interface BusinessCancelApplyDao extends BaseDao<BusinessCancelApply>{
 

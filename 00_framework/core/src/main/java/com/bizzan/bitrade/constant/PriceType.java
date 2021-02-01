@@ -8,8 +8,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2017年12月23日
+ * @author Jammy
+ * @date 2020年12月23日
  */
 @AllArgsConstructor
 @Getter

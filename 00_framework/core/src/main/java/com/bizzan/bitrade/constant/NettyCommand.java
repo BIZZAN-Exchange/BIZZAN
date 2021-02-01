@@ -26,4 +26,19 @@ public class NettyCommand {
     public static final short SUBSCRIBE_APNS = 20037;
     public static final short UNSUBSCRIBE_APNS = 20038;
     public static final short PUSH_GROUP_CHAT = 20039;
+
+    // 合约相关
+    public static final short CONTRACT_SUBSCRIBE_SYMBOL_THUMB = 30001; // 指令：订阅行情
+    public static final short CONTRACT_UNSUBSCRIBE_SYMBOL_THUMB = 30002; // 指令：取消订阅行情
+    public static final short CONTRACT_PUSH_SYMBOL_THUMB = 30003; // 指令：推送币种行情
+
+    public static final short CONTRACT_SUBSCRIBE_EXCHANGE = 30021; // 指令：订阅交易信息（盘口，K线、成交明细）
+    public static final short CONTRACT_UNSUBSCRIBE_EXCHANGE = 30022;  // 指令：取消订阅交易信息
+    public static final short CONTRACT_PUSH_EXCHANGE_TRADE = 30023;  // 指令：推送交易明细
+    public static final short CONTRACT_PUSH_EXCHANGE_PLATE = 30024;  // 指令：推送盘口数据
+    public static final short CONTRACT_PUSH_EXCHANGE_KLINE = 30025; // 指令：推送K线
+    public static final short CONTRACT_PUSH_EXCHANGE_ORDER_COMPLETED = 30026;  // 指令：推送订单完成信息（指定用户）
+    public static final short CONTRACT_PUSH_EXCHANGE_ORDER_CANCELED = 30027; // 指令：推送订单取消信息（指定用户）
+    public static final short CONTRACT_PUSH_EXCHANGE_ORDER_TRADE = 30028; // 指令：推送订单成交信息（指定用户）
+    public static final short CONTRACT_PUSH_EXCHANGE_DEPTH = 30029; // 指令：推送盘口深度
 }

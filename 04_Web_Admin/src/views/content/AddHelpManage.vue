@@ -24,11 +24,32 @@
       </div>
       <div>语言：
         <RadioGroup v-model="lang">
-          <Radio label="CN">
+          <Radio label="zh_CN">
             <span>中文</span>
           </Radio>
-          <Radio label="EN">
+          <Radio label="en_US">
             <span>English</span>
+          </Radio>
+          <Radio label="ja_JP">
+            <span>日语</span>
+          </Radio>
+          <Radio label="ko_KR">
+            <span>韩语</span>
+          </Radio>
+          <Radio label="de_DE">
+            <span>德语</span>
+          </Radio>
+          <Radio label="fr_FR">
+            <span>法语</span>
+          </Radio>
+          <Radio label="it_IT">
+            <span>意大利</span>
+          </Radio>
+          <Radio label="es_ES">
+            <span>西班牙</span>
+          </Radio>
+          <Radio label="zh_HK">
+            <span>繁体</span>
           </Radio>
         </RadioGroup>
       </div>
@@ -89,7 +110,7 @@ import { getStore, removeStore, setStore } from '@/config/storage';
         title: null,
         klass: null,
         status: 0,
-        lang: "CN",
+        lang: "zh_CN",
         sort: null,
         basicUrl: BASICURL,
         config :{

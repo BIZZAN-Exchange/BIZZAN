@@ -63,7 +63,7 @@ public class Activity {
     private String endTime;//开始时间
     
     /**
-     * 活动类型(0:未知，1：首发抢购，2：首发分摊，3：持仓瓜分，4：自由认购，5：云矿机）
+     * 活动类型(0:未知，1：首发抢购，2：首发分摊，3：持仓瓜分，4：自由认购，5：云矿机， 6：锁仓释放）
      */
     @NotNull
     private int type;
@@ -152,12 +152,12 @@ public class Activity {
     
 
     /**
-     * 挖矿产出周期（0：日，1：周，2：月，3：年）
+     * 云矿机/锁仓释放：挖矿产出周期（0：日，1：周，2：月，3：年）
      */
     private int miningPeriod = 0;
     
     /**
-     * 云矿机：挖矿持续周期数（仅type = 5时设置有效，如30天/周/月/年、60天等）
+     * 云矿机：挖矿持续周期数（仅type = 5设置有效，如30天/周/月/年、60天等）
      * 参数命名与实际意义不同，请注意
      */
     private int miningDays = 0;
@@ -175,7 +175,51 @@ public class Activity {
     private String miningUnit;
 
     /**
-     * 邀请好友（且购买矿机）产能增加百分比（为0则不增加）
+     * 锁仓释放：锁仓币种
+     */
+    private String lockedUnit;
+    
+    /**
+     * 锁仓释放：锁仓释放周期（0：日，1：周，2：月，3：年）
+     */
+    private int lockedPeriod;
+
+    /**
+     * 锁仓释放：释放周期数量，注意该变量名中Days的含义并不一定是天，还可以是周、月、年等
+     */
+    private int lockedDays;
+
+    /**
+     * 锁仓释放：释放类型（0：等额释放，1：等比释放）
+     */
+    private int releaseType = 0;
+    
+    /**
+     * 锁仓释放：释放比例（等比释放，该数值如输入 0.2则代表每周期释放20%）
+     */
+    @Column(columnDefinition = "decimal(24,8) DEFAULT 0 ")
+    private BigDecimal releasePercent = BigDecimal.ZERO;
+    
+    /**
+     * 锁仓释放：门槛费
+     */
+    @Column(columnDefinition = "decimal(24,8) DEFAULT 0 ")
+    private BigDecimal lockedFee = BigDecimal.ZERO;
+    
+    /**
+     * 锁仓释放：释放数量（等额释放）
+     */
+    @Column(columnDefinition = "decimal(24,8) DEFAULT 0 ")
+    private BigDecimal releaseAmount = BigDecimal.ZERO;
+    
+    /**
+     * 锁仓释放：释放倍数
+     */
+    @Column(columnDefinition = "decimal(24,8) DEFAULT 0 ")
+    private BigDecimal releaseTimes = BigDecimal.ZERO;
+    
+    /**
+     * 邀请好友（且购买矿机/锁仓）产能增加百分比（为0则不增加）
      */
     @Column(columnDefinition = "decimal(24,8) DEFAULT 0 ")
     private BigDecimal miningInvite = BigDecimal.ZERO;

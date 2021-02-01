@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 
 /**
  * 缴纳押金记录（包括缴纳押金和取回押金）
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Shaoxianjun
  * @date 2019/5/5
  */
 @Entity

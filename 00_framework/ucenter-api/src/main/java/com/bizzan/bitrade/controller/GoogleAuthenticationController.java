@@ -23,7 +23,7 @@ import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
 import java.util.Date;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author shenzucai
  * @time 2018.04.09 11:07
  */
 @RestController
@@ -36,7 +36,7 @@ public class GoogleAuthenticationController extends BaseController{
 
     /**
      * 验证google
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author shenzucai
      * @time 2018.04.09 11:36
      * @param user
      * @param codes
@@ -84,7 +84,7 @@ public class GoogleAuthenticationController extends BaseController{
         String secret = GoogleAuthenticatorUtil.generateSecretKey();
         log.info("secret完毕 耗时={}",System.currentTimeMillis()-current);
         String qrBarcodeURL = GoogleAuthenticatorUtil.getQRBarcodeURL(member.getId().toString(),
-                "bizzan.com", secret);
+                "www.bizzan.pro", secret);
         log.info("qrBarcodeURL完毕 耗时={}",System.currentTimeMillis()-current);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("link",qrBarcodeURL);
@@ -101,7 +101,7 @@ public class GoogleAuthenticationController extends BaseController{
 
     /**
      * google解绑
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author shenzucai
      * @time 2018.04.09 12:47
      * @param codes
      * @param user
@@ -151,7 +151,7 @@ public class GoogleAuthenticationController extends BaseController{
         //ga.setWindowSize(0); // should give 5 * 30 seconds of grace...
         /**
          * 绑定google
-         * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+         * @author shenzucai
          * @time 2018.04.09 15:19
          * @param codes
          * @param user

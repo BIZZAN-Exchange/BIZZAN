@@ -11,8 +11,8 @@ import com.bizzan.bitrade.service.OrderService;
 import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年01月22日
+ * @author Jammy
+ * @date 2020年01月22日
  */
 @Component
 @Slf4j

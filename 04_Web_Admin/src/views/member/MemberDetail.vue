@@ -71,6 +71,27 @@
           <p>充值数量：<span><Input v-model="payAmount"></Input></span></p>
         </Modal>
 
+        <Modal
+          class="manualPay"
+          width="400"
+          v-model="lockCoinModal"
+          @on-ok="confrimLockCoin"
+          @on-cancel="$Message.info('已取消！')">
+          <h3 class="header" slot="header">
+            <Icon type="information-circled"></Icon>
+            <span> 锁仓</span>
+          </h3>
+          <p>币种：<span>{{ lockUnit }}</span></p>
+
+          <p>选择锁仓活动：
+              <Select v-model="lockedActivityId">
+                <Option v-for="(item, index) in lockActivityArr" :key="item.id" :value="item.id">
+                  {{ item.title }}
+                </Option>
+              </Select>
+          </p>
+          <p>锁仓数量：<br><Input v-model="lockAmount"></Input></p>
+        </Modal>
       </Card>
     </Row>
     <Row class="triLine">
@@ -135,7 +156,7 @@
 </template>
 
 <script>
-import { getCoinName, memberDetail, perTradeAll, manualPay, lockWallet, unlockWallet, resetMemberAddr } from "@/service/getData";
+import { getCoinName, memberDetail, perTradeAll, manualPay, lockWallet, unlockWallet, resetMemberAddr, lockedActivityList, lockMemberCoin } from "@/service/getData";
 import { setStore, getStore, removeStore } from "@/config/storage";
 
 export default {
@@ -144,6 +165,11 @@ export default {
 			currentPageIdx: 1,
 			cbData: {},
 			allSymbol: [],
+      lockCoinModal: false,
+      lockUnit: "",
+      lockAmount: "",
+      lockActivityArr:[],
+      lockedActivityId: null,
 			filterSearch: {
 				pageNo: 1,
 				pageSize: 10,
@@ -171,6 +197,15 @@ export default {
         "CTC卖出",
         "发红包",
         "收红包",
+        "提现码提现",
+        "提现码充值",
+        "合约手续费",
+        "合约盈利",
+        "合约亏损",
+        "期权合约失败",
+        "期权合约手续费",
+        "期权合约奖金",
+        "合约开仓保证金",
         "全部"
 			],
 			memberInfo: {},
@@ -251,7 +286,7 @@ export default {
         },
         {
 					title: "操作",
-					width: 200,
+					width: 240,
           render: (h, param) => {
 						let btnTxt = '';
 						let btnType = '';
@@ -263,6 +298,23 @@ export default {
 							btnType = 'success';
 						}
 						return h('div', {}, [
+              h("Button",
+                {
+                  props: {
+                    type: "success",
+                    size: "small"
+                  },
+                  on: {
+                    click: () => {
+                      this.showLockCoin(param.row.coin.unit);
+                    },
+                  },
+                  style: {
+                    marginRight: "8px"
+                  }
+                },
+                "锁仓"
+              ),
 							h("Button",
                 {
                   props: {
@@ -394,6 +446,19 @@ export default {
 				}else this.$Message.error(res.message);
 			})
     },
+    showLockCoin(unit){
+      this.lockCoinModal = true;
+      this.lockUnit = unit;
+      this.lockAmount = 0;
+    },
+    confrimLockCoin(){
+      lockMemberCoin({memberId: this.userID, activityId: this.lockedActivityId, unit: this.lockUnit, amount: this.lockAmount}).then(res => {
+        if(res.code == 0){
+          this.$Message.success(res.message);
+          this.lockCoinModal = false;
+        }else this.$Message.error(res.message);
+      });
+    },
     showManualPay(wallet) {
       this.ifManualPay = true;
       this.payAddress = wallet.address;
@@ -425,6 +490,13 @@ export default {
 					this.userID = getStore("memberID");
 					this.personRecode( this.filterSearch );
         } else   this.$Message.err("个人资料获取失败!");
+      });
+
+      // 获取锁仓列表
+      lockedActivityList().then(res => {
+        if(!res.code) {
+          this.lockActivityArr = res.data;
+        }
       });
     }
   },

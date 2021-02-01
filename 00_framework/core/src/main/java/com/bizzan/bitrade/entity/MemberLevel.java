@@ -7,9 +7,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @description 会员等级实体
- * @date 2017/12/26 17:12
+ * @date 2019/12/26 17:12
  */
 @Data
 @Entity

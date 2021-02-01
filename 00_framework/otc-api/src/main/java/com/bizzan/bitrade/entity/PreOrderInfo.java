@@ -9,8 +9,8 @@ import com.bizzan.bitrade.constant.AdvertiseType;
 import com.bizzan.bitrade.constant.BooleanEnum;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年01月16日
+ * @author Jammy
+ * @date 2020年01月16日
  */
 @Builder
 @Data

@@ -7,9 +7,9 @@ import com.bizzan.bitrade.dao.base.BaseDao;
 import com.bizzan.bitrade.entity.Announcement;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @description
- * @date 2018/3/5 15:32
+ * @date 2019/3/5 15:32
  */
 public interface AnnouncementDao extends BaseDao<Announcement> {
 

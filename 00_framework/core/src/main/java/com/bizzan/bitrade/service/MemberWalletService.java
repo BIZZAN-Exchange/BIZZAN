@@ -99,6 +99,7 @@ public class MemberWalletService extends BaseService {
             transaction.setMemberId(wallet.getMemberId());
             transaction.setType(TransactionType.RECHARGE);
             transaction.setFee(BigDecimal.ZERO);
+            transaction.setDiscountFee("0");
             transactionService.save(transaction);
             //增加记录
             return new MessageResult(0, "success");
@@ -132,7 +133,13 @@ public class MemberWalletService extends BaseService {
         deposit.setUnit(wallet.getCoin().getUnit());
         depositDao.save(deposit);
 
-        wallet.setBalance(wallet.getBalance().add(amount)); // 为用户增加余额
+        // ERC20 USDT充值，余额增加到USDT上
+        if(coin.getUnit().equals("EUSDT")) {
+            MemberWallet walletShadow = findByCoinUnitAndMemberId("USDT", wallet.getMemberId());
+            walletShadow.setBalance(walletShadow.getBalance().add(amount));
+        }else {
+            wallet.setBalance(wallet.getBalance().add(amount)); // 为用户增加余额
+        }
         
         MemberTransaction transaction = new MemberTransaction();
         transaction.setAmount(amount);
@@ -547,4 +554,24 @@ public class MemberWalletService extends BaseService {
 	public void increaseFrozen(Long id, BigDecimal amount) {
 		memberWalletDao.increaseFrozen(id, amount);
 	}
+
+    /**
+     * 增加待释放资产（与余额无关）
+     * @param id
+     * @param amount
+     */
+    @Transactional
+    public void increaseToRelease(Long id, BigDecimal amount) {
+        memberWalletDao.increaseToRelease(id, amount);
+    }
+
+    /**
+     * 减少待释放资产（与余额无关）
+     * @param id
+     * @param amount
+     */
+    @Transactional
+    public void decreaseToRelease(Long id, BigDecimal amount) {
+        memberWalletDao.decreaseToRelease(id, amount);
+    }
 }

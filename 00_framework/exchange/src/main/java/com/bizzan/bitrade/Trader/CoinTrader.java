@@ -259,6 +259,7 @@ public class CoinTrader {
                 Map.Entry<BigDecimal,MergeOrder> entry = mergeOrderIterator.next();
                 MergeOrder mergeOrder = entry.getValue();
                 Iterator<ExchangeOrder> orderIterator = mergeOrder.iterator();
+
                 //买入单需要匹配的价格不大于委托价，否则退出
                 if (focusedOrder.getDirection() == ExchangeOrderDirection.BUY && mergeOrder.getPrice().compareTo(focusedOrder.getPrice()) > 0) {
                     break;
@@ -269,6 +270,7 @@ public class CoinTrader {
                 }
                 while (orderIterator.hasNext()) {
                     ExchangeOrder matchOrder = orderIterator.next();
+
                     //处理匹配
                     ExchangeTrade trade = processMatch(focusedOrder, matchOrder);
                     exchangeTrades.add(trade);

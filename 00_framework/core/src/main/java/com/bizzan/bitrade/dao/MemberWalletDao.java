@@ -22,6 +22,7 @@ public interface MemberWalletDao extends BaseDao<MemberWallet> {
      * @param amount
      * @return
      */
+    @Transactional
     @Modifying
     @Query("update MemberWallet wallet set wallet.balance = wallet.balance + :amount where wallet.id = :walletId")
     int increaseBalance(@Param("walletId") long walletId, @Param("amount") BigDecimal amount);
@@ -33,6 +34,7 @@ public interface MemberWalletDao extends BaseDao<MemberWallet> {
      * @param amount
      * @return
      */
+    @Transactional
     @Modifying
     @Query("update MemberWallet wallet set wallet.balance = wallet.balance - :amount where wallet.id = :walletId and wallet.balance >= :amount")
     int decreaseBalance(@Param("walletId") long walletId, @Param("amount") BigDecimal amount);
@@ -55,6 +57,7 @@ public interface MemberWalletDao extends BaseDao<MemberWallet> {
      * @param amount
      * @return
      */
+    @Transactional
     @Modifying
     @Query("update MemberWallet wallet set wallet.balance = wallet.balance + :amount,wallet.frozenBalance=wallet.frozenBalance - :amount where wallet.id = :walletId and wallet.frozenBalance >= :amount")
     int thawBalance(@Param("walletId") long walletId, @Param("amount") BigDecimal amount);
@@ -66,6 +69,7 @@ public interface MemberWalletDao extends BaseDao<MemberWallet> {
      * @param amount
      * @return
      */
+    @Transactional
     @Modifying
     @Query("update MemberWallet wallet set wallet.frozenBalance=wallet.frozenBalance - :amount where wallet.id = :walletId and wallet.frozenBalance >= :amount")
     int decreaseFrozen(@Param("walletId") long walletId, @Param("amount") BigDecimal amount);
@@ -201,4 +205,26 @@ public interface MemberWalletDao extends BaseDao<MemberWallet> {
     @Modifying
     @Query("update MemberWallet wallet set wallet.frozenBalance=wallet.frozenBalance + :amount where wallet.id = :walletId")
 	int increaseFrozen(@Param("walletId") Long walletId, @Param("amount") BigDecimal amount);
+
+    /**
+     * 增加待释放资产
+     * @param id
+     * @param amount
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Modifying
+    @Query("update MemberWallet wallet set wallet.toReleased=wallet.toReleased + :amount where wallet.id = :walletId")
+    int increaseToRelease(@Param("walletId") Long walletId, @Param("amount") BigDecimal amount);
+
+    /**
+     * 减少待释放资产
+     * @param id
+     * @param amount
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Modifying
+    @Query("update MemberWallet wallet set wallet.toReleased=wallet.toReleased - :amount where wallet.id = :walletId")
+    int decreaseToRelease(@Param("walletId") Long walletId, @Param("amount") BigDecimal amount);
 }

@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * GS
  */
 @RestController
 @RequestMapping("legal-wallet-recharge")

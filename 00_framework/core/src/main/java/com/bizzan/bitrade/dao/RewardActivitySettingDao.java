@@ -6,8 +6,8 @@ import com.bizzan.bitrade.dao.base.BaseDao;
 import com.bizzan.bitrade.entity.RewardActivitySetting;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年03月08日
+ * @author Jammy
+ * @date 2020年03月08日
  */
 public interface RewardActivitySettingDao extends BaseDao<RewardActivitySetting> {
     RewardActivitySetting findByStatusAndType(BooleanEnum booleanEnum, ActivityRewardType type);

@@ -27,7 +27,7 @@ import static com.bizzan.bitrade.entity.QMemberApplication.memberApplication;
 import static org.springframework.util.Assert.notNull;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Shaoxianjun
  * @description 实名审核单
  * @date 2019/12/26 15:05
  */

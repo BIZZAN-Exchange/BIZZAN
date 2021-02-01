@@ -9,8 +9,8 @@ import lombok.Data;
 import java.util.Date;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年01月15日
+ * @author Jammy
+ * @date 2020年01月15日
  */
 @Builder
 @Data

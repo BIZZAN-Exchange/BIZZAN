@@ -72,6 +72,36 @@ export default {
   width: calc(100% - 20px);
 }
 
+.insert-link button {
+  outline: none;
+  cursor: pointer;
+  margin-left: calc(50% - 40px);
+  margin-top: 10px;
+  width: 80px;
+  height: 40px;
+  border: none;
+  text-align: center;
+  color: #898989;
+  background-color: #fff;
+  font-size: 15px;
+  border-radius: 1px;
+  -webkit-border-radius: 1px;
+  -moz-border-radius: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-transition: all .2s ease-in;
+  -moz-transition: all .2s ease-in;
+  transition: all .2s ease-in;
+  -webkit-box-shadow: 0 2px 8px hsla(0,0%,70%,.8);
+  -moz-box-shadow: 0 2px 8px hsla(0,0%,70%,.8);
+  -ms-box-shadow: 0 2px 8px hsla(0,0%,70%,.8);
+  -o-box-shadow: 0 2px 8px hsla(0,0%,70%,.8);
+  box-shadow: 1px 2px 8px hsla(0,0%,70%,.8);
+  transition-property: right;
+  transition: all 0.3s;
+}
+
 .insert-link .cancel {
   position: absolute;
   top: 10px;

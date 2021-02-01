@@ -62,8 +62,8 @@ import com.sparkframework.sql.DataException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2017年12月07日
+ * @author Jammy
+ * @date 2020年12月07日
  */
 @Service
 @Slf4j

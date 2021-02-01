@@ -14,8 +14,8 @@ import com.bizzan.bitrade.service.Base.TopBaseService;
 import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年02月27日
+ * @author Jammy
+ * @date 2020年02月27日
  */
 @Service
 public class TransferAddressService extends TopBaseService<TransferAddress,TransferAddressDao> {

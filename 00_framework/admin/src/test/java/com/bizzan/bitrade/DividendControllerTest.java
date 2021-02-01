@@ -11,8 +11,8 @@ import com.bizzan.bitrade.service.OrderDetailAggregationService;
 import com.bizzan.bitrade.util.DateUtil;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2019年03月22日
+ * @author Shaoxianjun
+ * @date 2020年03月22日
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes=WebApplication.class)

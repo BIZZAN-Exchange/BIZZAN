@@ -9,8 +9,8 @@ import com.bizzan.bitrade.entity.DividendStartRecord;
 import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年03月22日
+ * @author Jammy
+ * @date 2020年03月22日
  */
 public interface DividendStartRecordDao extends BaseDao<DividendStartRecord> {
 

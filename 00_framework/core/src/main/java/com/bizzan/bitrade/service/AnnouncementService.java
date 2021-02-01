@@ -15,9 +15,9 @@ import org.springframework.util.Assert;
 import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @description
- * @date 2018/3/5 15:24
+ * @date 2019/3/5 15:24
  */
 @Service
 public class AnnouncementService extends BaseService<Announcement> {

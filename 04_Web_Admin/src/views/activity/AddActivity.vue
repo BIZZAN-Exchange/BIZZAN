@@ -34,6 +34,7 @@
                     <Radio label="3"><em>持仓瓜分</em></Radio>
                     <Radio label="4"><em>自由认购</em></Radio>
                     <Radio label="5"><em>云矿机</em></Radio>
+                    <Radio label="6"><em>锁仓</em></Radio>
                   </RadioGroup>
           </FormItem>
 
@@ -54,10 +55,55 @@
           <FormItem label="挖矿币种:" v-if="activityForm.type==5">
               <Input v-model="activityForm.miningUnit"></Input>
           </FormItem>
-          <FormItem label="邀请(购买)产能增加:" v-if="activityForm.type==5">
+
+
+          <FormItem label="锁仓币种:" v-if="activityForm.type==6">
+              <Input v-model="activityForm.lockedUnit"></Input>
+          </FormItem>
+          <FormItem label="锁仓类型:" v-if="activityForm.type == 6">
+                  <RadioGroup v-model="activityForm.releaseType">
+                    <Radio label="0"><em>等额释放</em></Radio>
+                    <Radio label="1"><em>等比释放</em></Radio>
+                  </RadioGroup><br>
+                  <span style="font-size:10px;color:#FF0000;">等比释放的含义是在剩余未释放量的基础上进行百分比计算，而不是一开始的总数，所以，如果释放周期设置的足够大，那么锁仓释放将是无止境的。</span>
+          </FormItem>
+
+          <FormItem label="周期释放比例:" v-if="activityForm.type == 6 && activityForm.releaseType == 1">
+              <Input v-model="activityForm.releasePercent"></Input>
+              <span style="font-size:10px;color:#FF0000;">释放比例如填写0.15则代表每个周期释放15%</span>
+          </FormItem>
+
+          <FormItem label="周期释放额度:" v-if="activityForm.type == 6 && activityForm.releaseType == 0">
+              <Input v-model="activityForm.releaseAmount"></Input>
+          </FormItem>
+          <FormItem label="释放周期:" v-if="activityForm.type == 6">
+                  <RadioGroup v-model="activityForm.lockedPeriod">
+                    <Radio label="0"><em>天</em></Radio>
+                    <Radio label="1"><em>周</em></Radio>
+                    <Radio label="2"><em>月</em></Radio>
+                    <Radio label="3"><em>年</em></Radio>
+                  </RadioGroup>
+          </FormItem>
+
+          <FormItem label="锁仓总周期数:" v-if="activityForm.type == 6">
+              <Input v-model="activityForm.lockedDays"></Input>
+              <span style="font-size:10px;color:#FF0000;">等比释放会在最后一个周期全部释放完毕，不管剩余多少</span>
+          </FormItem>
+
+          <FormItem label="参与门槛:" v-if="activityForm.type == 6">
+              <Input v-model="activityForm.lockedFee"></Input>
+              <span style="font-size:10px;color:#FF0000;">此门槛费用为锁仓特有参数，用户参与该锁仓后，将从余额中扣除该数量的币种</span>
+          </FormItem>
+
+          <FormItem label="释放倍数:" v-if="activityForm.type == 6">
+              <Input v-model="activityForm.releaseTimes"></Input>
+              <span style="font-size:10px;color:#FF0000;">释放倍数填写大于0的数值后，”周期释放额度“将失效。周期释放数量将自动以总量/周期数量释放。此数值可为小数，如1.5</span>
+          </FormItem>
+
+          <FormItem label="邀请(购买)产能增加:" v-if="activityForm.type==5 || activityForm.type == 6">
               <Input v-model="activityForm.miningInvite" placeholder="如：0.01(即基础产能增加1%)，0则不增加"></Input>
           </FormItem>
-          <FormItem label="产能增加上限:" v-if="activityForm.type==5">
+          <FormItem label="产能增加上限:" v-if="activityForm.type==5 || activityForm.type == 6">
               <Input v-model="activityForm.miningInvitelimit" placeholder="如：0.1(即基础产能增加上限为10%)，0则无上限"></Input>
           </FormItem>
           <FormItem label="一级邀请:">
@@ -229,6 +275,14 @@ import { getStore, removeStore, setStore } from '@/config/storage';
             leveloneCount: 0,
             holdUnit: "",
             holdLimit: 0,
+            lockedUnit: "",
+            lockedPeriod: "0",
+            lockedDays: 0,
+            releaseType: "0",
+            releasePercent: 0,
+            lockedFee: 0,
+            releaseAmount: 0,
+            releaseTimes: 0,
             miningDays: 0,
             miningDaysprofit: "",
             miningUnit: "",
@@ -381,7 +435,15 @@ import { getStore, removeStore, setStore } from '@/config/storage';
             this.activityForm.miningUnit = res.data.miningUnit;
             this.activityForm.miningInvite = res.data.miningInvite;
             this.activityForm.miningInvitelimit = res.data.miningInvitelimit;
-            this.activityForm.miningPeriod = res.data.miningPeriod;
+            this.activityForm.miningPeriod = String(res.data.miningPeriod);
+            this.activityForm.lockedUnit = res.data.lockedUnit;
+            this.activityForm.lockedPeriod = String(res.data.lockedPeriod);
+            this.activityForm.lockedDays = res.data.lockedDays;
+            this.activityForm.releaseType = String(res.data.releaseType);
+            this.activityForm.releasePercent = res.data.releasePercent;
+            this.activityForm.lockedFee = res.data.lockedFee;
+            this.activityForm.releaseAmount = res.data.releaseAmount;
+            this.activityForm.releaseTimes = res.data.releaseTimes;
 
             setStore('smeditor', res.data.content);
 

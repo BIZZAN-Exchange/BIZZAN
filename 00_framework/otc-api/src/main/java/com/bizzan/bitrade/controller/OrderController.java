@@ -41,8 +41,8 @@ import static org.springframework.util.Assert.isTrue;
 import static org.springframework.util.Assert.notNull;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2017年12月11日
+ * @author Jammy
+ * @date 2020年12月11日
  */
 @RestController
 @RequestMapping(value = "/order", method = RequestMethod.POST)

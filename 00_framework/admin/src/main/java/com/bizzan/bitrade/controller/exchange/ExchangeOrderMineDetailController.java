@@ -21,7 +21,7 @@ import java.util.List;
 /***
  * 交易挖矿明细
  * @auther: Hou RuiPeng
- * @Date: 2018/8/30
+ * @Date: 2019/8/30
  */
 @RestController
 @RequestMapping("/exchange/exchange-order-Mine-Detail")

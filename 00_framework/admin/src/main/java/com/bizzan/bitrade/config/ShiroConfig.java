@@ -25,8 +25,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年12月19日
+ * @author Shaoxianjun
+ * @date 2020年12月19日
  */
 @Slf4j
 @Configuration

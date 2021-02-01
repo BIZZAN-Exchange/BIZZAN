@@ -21,8 +21,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年01月09日
+ * @author Jammy
+ * @date 2020年01月09日
  */
 @Service
 @Slf4j
@@ -41,6 +41,8 @@ public class MemberEvent {
     private RewardRecordService rewardRecordService;
     @Autowired
     private MemberTransactionService memberTransactionService;
+    @Autowired
+    private MemberWeightUpperService memberWeightUpperService;
     /**
      * 如果值为1，推荐注册的推荐人必须被推荐人实名认证才能获得奖励
      */
@@ -60,6 +62,10 @@ public class MemberEvent {
         json.put("uid", member.getId());
         //发送给wallet项目consumer处理（）
         kafkaTemplate.send("member-register", json.toJSONString());
+
+        //发送给contract-swap-api项目consumer处理
+        kafkaTemplate.send("member-register-swap", json.toJSONString());
+
         //推广活动
         if (StringUtils.hasText(promotionCode)) {
             Member member1 = memberDao.findMemberByPromotionCode(promotionCode);
@@ -71,6 +77,27 @@ public class MemberEvent {
                 }
             }
         }
+        //增加upper关系
+        memberWeightUpperService.saveMemberWeightUpper(member);
+    }
+
+    /**
+     * 设置邀请人
+     * @param member
+     * @param inviterMember
+     * @throws InterruptedException
+     */
+    public void setMemberInviter(Member member, Member inviterMember) throws InterruptedException {
+        //推广活动
+        if (inviterMember != null) {
+            member.setInviterId(inviterMember.getId());
+            //如果不需要实名认证，直接发放奖励
+            if (needRealName == 0) {
+                promotion(inviterMember, member);
+            }
+        }
+        //增加upper关系
+        memberWeightUpperService.saveMemberWeightUpper(member);
     }
 
     /**

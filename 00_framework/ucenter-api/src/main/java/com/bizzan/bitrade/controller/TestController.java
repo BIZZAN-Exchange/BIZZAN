@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @Description:
- * @author: Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date: create in 10:47 2018/6/28
+ * @author: GuoShuai
+ * @date: create in 10:47 2019/6/28
  * @Modified:
  */
 @RestController

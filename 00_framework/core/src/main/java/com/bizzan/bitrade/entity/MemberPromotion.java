@@ -12,8 +12,8 @@ import com.bizzan.bitrade.constant.PromotionLevel;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年03月08日
+ * @author Jammy
+ * @date 2020年03月08日
  */
 @Entity
 @Data

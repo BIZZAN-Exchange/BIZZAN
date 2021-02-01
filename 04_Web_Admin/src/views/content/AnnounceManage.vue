@@ -101,9 +101,30 @@ import { setStore, removeStore } from '@/config/storage';
             render:(h, obj) => {
               let lang = obj.row.lang;
               var langText = "中文";
-              if(lang == "EN"){
-                langText = "English";
-              }
+				if(lang == "en_US"){
+					langText = "English";
+				}
+				if(lang == "ja_JP"){
+					langText = "日语";
+				}
+				if(lang == "ko_KR"){
+					langText = "韩语";
+				}
+				if(lang == "de_DE"){
+					langText = "德语";
+				}
+				if(lang == "fr_FR"){
+					langText = "法语";
+				}
+				if(lang == "it_IT"){
+					langText = "意大利";
+				}
+				if(lang == "es_ES"){
+					langText = "西班牙";
+				}
+				if(lang == "zh_HK"){
+					langText = "中文繁体";
+				}
               return h('span', {
               },langText);
             }

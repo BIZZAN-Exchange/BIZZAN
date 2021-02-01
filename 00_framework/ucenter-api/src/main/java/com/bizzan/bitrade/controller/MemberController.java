@@ -25,9 +25,9 @@ import com.bizzan.bitrade.service.SignService;
 import com.bizzan.bitrade.util.MessageResult;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @Description:
- * @date 2018/5/49:30
+ * @date 2019/5/49:30
  */
 @RestController
 @RequestMapping("member")
@@ -80,7 +80,7 @@ public class MemberController extends BaseController {
 
         Member member = memberService.findOne(user.getId());
         Assert.notNull(member, "登录信息错误!");
-        
+
         Sign sign = signService.fetchUnderway();
         LoginInfo loginInfo;
         if (sign == null) {

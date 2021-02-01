@@ -26,7 +26,7 @@ import java.util.List;
 import static org.springframework.util.Assert.notNull;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Shaoxianjun
  * @description 日志管理
  * @date 2019/12/22 17:27
  */

@@ -19,8 +19,8 @@ import java.util.concurrent.RecursiveTask;
 
 /**
  * @Description:
- * @Author: Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @Date: 2018/8/1 下午4:27
+ * @Author: GuoShuai
+ * @Date: 2019/8/1 下午4:27
  */
 @Slf4j
 public class ForkJoinWork extends RecursiveTask<Integer> {

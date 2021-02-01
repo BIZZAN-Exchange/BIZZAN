@@ -18,4 +18,5 @@ public interface ActivityDao extends  BaseDao<Activity> {
 	
     List<Activity> findAllByStep(int step);
 
+    List<Activity> findAllByTypeAndStep(int type, int step);
 }

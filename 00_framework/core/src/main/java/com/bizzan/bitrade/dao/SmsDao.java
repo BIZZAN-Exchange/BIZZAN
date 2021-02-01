@@ -9,8 +9,8 @@ import java.util.List;
 
 /**
  * @Description:
- * @author: Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date: create in 9:47 2018/6/28
+ * @author: GuoShuai
+ * @date: create in 9:47 2019/6/28
  * @Modified:
  */
 public interface SmsDao extends BaseDao<SmsDTO> {

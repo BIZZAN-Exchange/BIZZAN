@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static com.bizzan.bitrade.constant.TransactionType.ACTIVITY_AWARD;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -41,6 +42,8 @@ public class MemberService extends BaseService {
 
     @Autowired
     private MemberTransactionDao transactionDao;
+    @Autowired
+    private LocaleMessageSourceService messageSourceService;
 
     /**
      * 条件查询对象 pageNo pageSize 同时传时分页
@@ -85,28 +88,28 @@ public class MemberService extends BaseService {
     public Member login(String username, String password) throws Exception {
         Member member = memberDao.findMemberByMobilePhoneOrEmail(username, username);
         if (member == null) {
-            throw new AuthenticationException("账号或密码错误");
+            throw new AuthenticationException(messageSourceService.getMessage("USER_PASSWORD_ERROR"));
         } else if (!Md5.md5Digest(password + member.getSalt()).toLowerCase().equals(member.getPassword())) {
-            throw new AuthenticationException("账号或密码错误");
+            throw new AuthenticationException(messageSourceService.getMessage("USER_PASSWORD_ERROR"));
         } else if (member.getStatus().equals(CommonStatus.ILLEGAL)) {
-            throw new AuthenticationException("该帐号处于未激活/禁用状态，请联系客服");
+            throw new AuthenticationException("ACCOUNT_ACTIVATION_DISABLED");
         }
         return member;
     }
 
     /**
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author Jammy
      * @description
-     * @date 2017/12/25 18:42
+     * @date 2019/12/25 18:42
      */
     public Member findOne(Long id) {
         return memberDao.findOne(id);
     }
 
     /**
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author Jammy
      * @description 查询所有会员
-     * @date 2017/12/25 18:43
+     * @date 2019/12/25 18:43
      */
     @Override
     public List<Member> findAll() {
@@ -127,9 +130,9 @@ public class MemberService extends BaseService {
     }
 
     /**
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author Jammy
      * @description 分页
-     * @date 2018/1/12 15:35
+     * @date 2019/1/12 15:35
      */
     public Page<Member> page(Integer pageNo, Integer pageSize, CommonStatus status) {
         //排序方式 (需要倒序 这样    Criteria.sort("id","createTime.desc") ) //参数实体类为字段名
@@ -227,4 +230,21 @@ public class MemberService extends BaseService {
 	public Member findMemberByPromotionCode(String code) {
 		return memberDao.findMemberByPromotionCode(code);
 	}
+
+    public List<Member> findSuperPartnerMembersByIds(String uppers) {
+        String[] idss = uppers.split(",");
+        List<Long> ids = new ArrayList<>();
+        for(String id:idss){
+            ids.add(Long.parseLong(id));
+        }
+        return memberDao.findSuperPartnerMembersByIds(ids);
+    }
+    public List<Member> findAllByIds(String uppers) {
+        String[] idss = uppers.split(",");
+        List<Long> ids = new ArrayList<>();
+        for(String id:idss){
+            ids.add(Long.parseLong(id));
+        }
+        return memberDao.findAllByIds(ids);
+    }
 }

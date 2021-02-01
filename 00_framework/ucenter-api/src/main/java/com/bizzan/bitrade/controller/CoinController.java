@@ -18,9 +18,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @Description: coin
- * @date 2018/4/214:20
+ * @date 2019/4/214:20
  */
 @RestController
 @RequestMapping("coin")

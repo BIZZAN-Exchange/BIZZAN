@@ -29,8 +29,8 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年01月08日
+ * @author Jammy
+ * @date 2020年01月08日
  */
 @Slf4j
 @RestController
@@ -336,6 +336,36 @@ public class SmsController {
         if (result.getCode() == 0) {
             ValueOperations valueOperations = redisTemplate.opsForValue();
             String key = SysConstant.PHONE_CHANGE_CODE_PREFIX + member.getMobilePhone();
+            valueOperations.getOperations().delete(key);
+            // 缓存验证码
+            valueOperations.set(key, randomCode, 10, TimeUnit.MINUTES);
+            return success(localeMessageSourceService.getMessage("SEND_SMS_SUCCESS"));
+        } else {
+            return error(localeMessageSourceService.getMessage("SEND_SMS_FAILED"));
+        }
+    }
+
+    /**
+     * 绑定API发送验证码
+     * @param user
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "api/code", method = RequestMethod.POST)
+    public MessageResult bindApiSendCode(@SessionAttribute(SESSION_MEMBER) AuthMember user) throws Exception {
+        Member member = memberService.findOne(user.getId());
+        Assert.hasText(member.getMobilePhone(), localeMessageSourceService.getMessage("NOT_BIND_PHONE"));
+        MessageResult result;
+        log.info("===API密钥验证码发送===mobile："+member.getMobilePhone());
+        String randomCode = String.valueOf(GeneratorUtil.getRandomNumber(100000, 999999));
+        if ("86".equals(member.getCountry().getAreaCode())) {
+            result = smsProvider.sendVerifyMessage(member.getMobilePhone(), randomCode);
+        } else {
+            result = smsProvider.sendInternationalMessage(randomCode, member.getCountry().getAreaCode() + member.getMobilePhone());
+        }
+        if (result.getCode() == 0) {
+            ValueOperations valueOperations = redisTemplate.opsForValue();
+            String key = SysConstant.API_BIND_CODE_PREFIX + member.getMobilePhone();
             valueOperations.getOperations().delete(key);
             // 缓存验证码
             valueOperations.set(key, randomCode, 10, TimeUnit.MINUTES);

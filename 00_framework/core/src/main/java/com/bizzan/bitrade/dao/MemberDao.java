@@ -76,4 +76,10 @@ public interface MemberDao extends BaseDao<Member> {
     Long getMaxId();
 
     List<Member> getAllByPromotionCodeEquals(String promotion);
+
+    @Query(value = "select * from member where id in (:ids) and super_partner='1' order by id desc",nativeQuery = true)
+    List<Member> findSuperPartnerMembersByIds(@Param("ids") List<Long> ids);
+
+    @Query(value = "select * from member where id in (:ids) order by id desc",nativeQuery = true)
+    List<Member> findAllByIds(@Param("ids") List<Long> ids);
 }

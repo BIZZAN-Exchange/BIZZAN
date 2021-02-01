@@ -37,17 +37,17 @@ public class FavorController {
     @RequestMapping("add")
     public MessageResult addFavor(@SessionAttribute(SESSION_MEMBER) AuthMember member, String symbol){
         if(StringUtils.isEmpty(symbol)){
-            return MessageResult.error("symbol cannot be empty");
+            return MessageResult.error(500,msService.getMessage("SYMBOL_CANNOT_BE_EMPTY"));
         }
         FavorSymbol favorSymbol = favorSymbolService.findByMemberIdAndSymbol(member.getId(),symbol);
         if(favorSymbol != null){
-            return MessageResult.error("symbol already favored");
+            return MessageResult.error(500,msService.getMessage("SYMBOL_ALREADY_FAVORED"));
         }
         FavorSymbol favor =  favorSymbolService.add(member.getId(),symbol);
         if(favor!= null){
-            return MessageResult.success("success");
+            return MessageResult.success(msService.getMessage("EXAPI_SUCCESS"));
         }
-        return MessageResult.error("error");
+        return MessageResult.error(msService.getMessage("EXAPI_ERROR"));
     }
 
     /**
@@ -69,13 +69,13 @@ public class FavorController {
     @RequestMapping("delete")
     public MessageResult deleteFavor(@SessionAttribute(SESSION_MEMBER) AuthMember member,String symbol){
         if(StringUtils.isEmpty(symbol)){
-            return MessageResult.error("symbol cannot be empty");
+            return MessageResult.error(msService.getMessage("SYMBOL_CANNOT_BE_EMPTY"));
         }
         FavorSymbol favorSymbol = favorSymbolService.findByMemberIdAndSymbol(member.getId(),symbol);
         if(favorSymbol == null){
-            return MessageResult.error("favor not exists");
+            return MessageResult.error(msService.getMessage("FAVOR_NOT_EXISTS"));
         }
         favorSymbolService.delete(member.getId(),symbol);
-        return MessageResult.success("success");
+        return MessageResult.success(msService.getMessage("EXAPI_SUCCESS"));
     }
 }

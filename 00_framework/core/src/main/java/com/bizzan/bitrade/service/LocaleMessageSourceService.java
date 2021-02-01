@@ -8,8 +8,8 @@ import javax.annotation.Resource;
 import java.util.Locale;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
- * @date 2018年01月30日
+ * @author Jammy
+ * @date 2020年01月30日
  */
 @Component
 public class LocaleMessageSourceService {

@@ -24,7 +24,7 @@ export default {
         //法币申诉管理
         appeal:'admin/otc/appeal/page-query',
         detail:'admin/otc/appeal/detail',
-        cancelOrder:'admin/otc/appeal/cancel-order',
-        releaseCoin: 'admin/otc/appeal/release-coin'
+        cancelOrder:'admin/otc/appeal/cancel-order',//取消订单
+        releaseCoin: 'admin/otc/appeal/release-coin',//放币
     }
 }

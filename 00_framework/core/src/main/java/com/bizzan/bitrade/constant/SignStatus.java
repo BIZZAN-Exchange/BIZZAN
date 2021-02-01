@@ -1,9 +1,9 @@
 package com.bizzan.bitrade.constant;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Jammy
  * @Description:
- * @date 2018/5/311:33
+ * @date 2019/5/311:33
  */
 public enum SignStatus {
     UNDERWAY, FINISH;
