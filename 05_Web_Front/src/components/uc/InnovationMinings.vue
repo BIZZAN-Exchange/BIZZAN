@@ -12,7 +12,7 @@
                 <Col span="24" v-if="miningList.length == 0" style="text-align:center;margin-top: 30px;">
                   {{$t('uc.mining.empty')}}
                 </Col>
-                <Col :xs="24" :sm="24" :md="8" :lg="8" v-for="item in miningList" :key=item>
+                <Col :xs="24" :sm="24" :md="8" :lg="8" v-for="item in miningList" :key="item">
                   <Card style="width:100%;position:relative;">
                     <div style="width: 100%;min-height: 58px;">
                       <div style="float:left;"><img style="width:50px;height:50px;border-radius:50px;" :src="item.image"></div>

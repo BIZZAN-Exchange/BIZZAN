@@ -20080,7 +20080,7 @@ webpackJsonp([4], [function(t, e, i) {
                 return m = "{0}:{1}{2}{3}:{4}".format(t[0], t[1], n, o[0], o[1]), u.map(function(t) { return t + i + m })
             }
             var n, s, r, a, l;
-            return i = i || " ", n = "-", t ? "24x7" === t ? o(["00", "00"], ["00", "00"], { openEveryDay: !0 }) : (s = /([0-2]\d)([0-5]\d)-([0-2]\d)([0-5]\d)(?:\:(\d+))?/, (r = s.exec(t)) ? (a = [r[1], r[2]], l = [r[3], r[4]], o(a, l, { openOnDays: r[5] })) : {}) : {}
+            return i = i || " ", n = "-", t ? "24x7" === t ? o(["00", "00"], ["00", "00"], { openEveryDay: !0 }) : (s = /([0-2]\d)([0-5]\d)-([0-2]\d)([0-5]\d)(?:\:(\d+))?/, (r = s.exec(t)) ? (a = [r[1], r[2]], l = [r[3], r[4]], o(a, l, { openOnDays: r[5] })) : {}) : {}
         }
 
         function r(t, e) {
@@ -23181,7 +23181,7 @@ webpackJsonp([4], [function(t, e, i) {
     function i(t) { var e = new XMLHttpRequest; return e.open("GET", t, !1), e.send(), 200 === e.status ? JSON.parse(e.responseText) : null }
     if (Object.defineProperty(e, "__esModule", { value: !0 }), window.language) {
         if (!window._tv_languages) {
-            var o = "https://bizzan.oss-cn-hangzhou.aliyuncs.com/assets/charting_library/static/localization/translations/" + window.language + ".json";
+            var o = "https://bizzanex.oss-cn-hangzhou.aliyuncs.com/assets/charting_library/static/localization/translations/" + window.language + ".json";
             window._tv_languages = {}, window._tv_languages[window.language] = i(o) || {}
         }
     } else window.language = "en"

@@ -12,7 +12,7 @@
             <div class="action-inner">
               <div class="inner-left">
                 <p class="describe">{{$t('uc.finance.recharge.symbol')}}</p>
-                <Select v-model="coinType" style="width:100px;margin-top: 23px;" @on-change="changeCoin">
+                <Select v-model="coinType" style="width:100px;margin-top: 23px;" @on-change="changeCoin" :placeholder="$t('common.pleaseselect')">
                   <Option v-for="item in coinList" :value="item.coin.unit" :key="item.coin.unit">{{ item.coin.unit }}</Option>
                 </Select>
               </div>
@@ -40,6 +40,9 @@
                   <a style="color: #f0a70a;" v-clipboard:copy="memoCode" v-clipboard:success="onCopy" v-clipboard:error="onError" href="javascript:;" id="copyBtn" class="link-copy">{{$t('uc.finance.recharge.copy')}} Memo</a>
                 </p>
               </div>
+              <div class="inner-right">
+                <p class="describe"><a class="withdrawcoderecharge" @click="openCodeModal">{{$t('uc.finance.recharge.withdrawrecharge')}}</a></p>
+              </div>
             </div>
             <div class="action-content">
               <div class="action-body">
@@ -64,6 +67,41 @@
         </section>
       </div>
     </div>
+
+    <!-- model1 -->
+    <Modal v-model="modal1" width="360">
+      <p slot="header" style="color:#f60;text-align:center">
+        <Icon type="ios-mail" size="20" color="#00b5f6;" />
+        <span>{{$t('uc.finance.recharge.coderechargetip')}}</span>
+      </p>
+      <div style="text-align:center">
+        <Form ref="formValidate" :label-width="0">
+          <FormItem>
+            <Input v-model="withdrawCode" :placeholder="$t('uc.finance.recharge.coderechargetip')"></Input>
+          </FormItem>
+        </Form>
+      </div>
+      <div slot="footer">
+        <Button type="primary" size="large" long @click="getCodeInfo">{{$t('uc.finance.withdraw.submit')}}</Button>
+      </div>
+    </Modal>
+
+    <!-- model2 -->
+    <Modal v-model="modal2" width="360">
+      <p slot="header" style="color:#f60;text-align:center">
+        <Icon type="ios-mail" size="20" color="#00b5f6;" />
+        <span>{{$t('uc.finance.recharge.rechargeconfirm')}}</span>
+      </p>
+      <div style="text-align:center">
+        <p><span>{{$t('uc.finance.recharge.symbol')}}: </span><span>{{withdrawCodeInfo.coin.unit}}</span></p>
+
+        <p><span>{{$t('uc.finance.recharge.amount')}}: </span><span>{{withdrawCodeInfo.withdrawAmount}}</span></p>
+
+      </div>
+      <div slot="footer">
+        <Button type="primary" size="large" long @click="submitCode">{{$t('uc.finance.withdraw.submit')}}</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 <script>
@@ -78,6 +116,10 @@ export default {
   inject: ['reload'],
   data() {
     return {
+      modal1: false,
+      modal2: false,
+      withdrawCode: "",
+      fundpwd: "",
       accountType: 0,
       memoCode: "",
       minRechargeAmount:"0.001",
@@ -94,7 +136,12 @@ export default {
       coinType: "",
       coinList: [],
       tableRecharge: [],
-      allTableRecharge: []
+      allTableRecharge: [],
+      withdrawCodeInfo: {
+        coin: {
+          unit: ""
+        }
+      },
     };
   },
   methods: {
@@ -149,6 +196,53 @@ export default {
       }
       this.getCurrentCoinRecharge();
     },
+    openCodeModal(){
+      this.modal1 = true;
+      this.withdrawCode = "";
+    },
+    getCodeInfo(){
+      if(this.withdrawCode == "") {
+        this.$Message.warning(this.$t("uc.finance.recharge.coderechargetip"));
+        return;
+      }
+      let param = {};
+      param["withdrawCode"] = this.withdrawCode;
+
+      this.$http
+        .post(this.host + "/uc/withdrawcode/apply/info", param)
+        .then(response => {
+          var resp = response.body;
+          if (resp.code == 0) {
+            this.withdrawCodeInfo = resp.data;
+            this.modal1 = false;
+          } else {
+            this.$Message.error(resp.message);
+          }
+        });
+      this.modal1 = false;
+      this.modal2 = true;
+    },
+    submitCode(){
+      if(this.withdrawCode == "") {
+        this.$Message.warning(this.$t("uc.finance.recharge.coderechargetip"));
+        return;
+      }
+      let param = {};
+      param["withdrawCode"] = this.withdrawCode;
+
+      this.$http
+        .post(this.host + "/uc/withdrawcode/apply/recharge", param)
+        .then(response => {
+          var resp = response.body;
+          if (resp.code == 0) {
+            this.$Message.success(this.$t("uc.finance.recharge.rechargesuccess"));
+            this.modal1 = false;
+          } else {
+            this.$Message.error(resp.message);
+          }
+        });
+      this.modal2 = false;
+    },
     resetAddress(){
       var self = this;
       if(this.qrcode.value == "" || this.qrcode.value == null || this.qrcode.value == undefined){
@@ -196,6 +290,7 @@ export default {
             var coin = resp.data[i];
             if (coin.coin.canRecharge == 1) {
               this.coinList.push(coin);
+              console.log(coin);
             }
           }
           this.changeCoin(this.coinType);
@@ -451,5 +546,8 @@ p.describe {
   right: 0;
   display: flex;
   /* border: #c5cdd7 solid 1px; */
+}
+a.withdrawcoderecharge{
+font-weight:normal;line-height: 40px; color: #f0a70a;width: 160px;height: 40px;border: 1px solid #f0a70a;display:inline-block;text-align:center;
 }
 </style>

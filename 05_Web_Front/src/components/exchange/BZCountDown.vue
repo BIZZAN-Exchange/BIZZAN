@@ -108,19 +108,19 @@
         if(this.state == 0){
           // 活动未开始
           this.showPublishMask();
-          this.$emit('update:countDownBgColor',"#003478")
+          this.$emit('update:countDownBgColor',"linear-gradient(-45deg, rgb(0 196 255), rgb(0 67 255), rgb(0 60 169), rgb(0 41 103), rgb(0 55 138))")
           this.$emit('update:publishState', 0)
         }
         if(this.state == 1){
           // 活动开始中
           this.hidePublishMask();
-          this.$emit('update:countDownBgColor',"#094802")
+          this.$emit('update:countDownBgColor',"linear-gradient(-45deg, #a73e00, #3f0084, #a73e00, #3f0084, #a73e00)")
           this.$emit('update:publishState', 1)
         }
         if(this.state == 2){
           // 清盘中
           this.showPublishMask();
-          this.$emit('update:countDownBgColor',"#5b0000")
+          this.$emit('update:countDownBgColor',"linear-gradient(135deg, rgb(48 102 255 / 63%) 10%, rgb(0 34 132) 100%)")
           this.$emit('update:publishState', 2)
         }
         if(this.state == 2 && leftTime <= 0){

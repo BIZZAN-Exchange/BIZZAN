@@ -7,7 +7,7 @@
             <div style="width: 100%;height: 50px;">
               <div class="header-btn" @click="exchangeCard">{{$t('uc.promotion.exchangewithcode')}}</div>
             </div>
-            <Table :columns="tableColumnsCard" :data="tableCardList" :loading="loading" :disabled-hover="true"></Table>
+            <Table :no-data-text="$t('common.nodata')" :columns="tableColumnsCard" :data="tableCardList" :loading="loading" :disabled-hover="true"></Table>
           </div>
         </div>
       </div>

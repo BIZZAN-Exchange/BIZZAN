@@ -28,12 +28,12 @@
                 </RadioGroup>
               </FormItem>
               <FormItem :label="$t('otc.publishad.exchangecoin')" prop="coin">
-                <Select v-model="form.coin" :disabled='isId' @on-change="changeCoin">
+                <Select v-model="form.coin" :disabled='isId' @on-change="changeCoin" :placeholder="$t('common.pleaseselect')">
                   <Option v-for="(item, index) in coinList" :value="item.id" :key="index">{{item.unit}}</Option>
                 </Select>
               </FormItem>
               <FormItem :label="$t('otc.publishad.country')" prop="country">
-                <Select v-model="form.country" @on-change="onAreaChange">
+                <Select v-model="form.country" @on-change="onAreaChange" :placeholder="$t('common.pleaseselect')">
                   <Option v-for="(area,index) in areas" :value="area.zhName" :key="index">{{area.zhName}}</Option>
                 </Select>
               </FormItem>
@@ -84,7 +84,7 @@
 
               <router-link to="/uc/account" style="padding-left: 90px;color:#f0ac19;">{{$t('otc.publishad.tip2')}}</router-link>
               <FormItem :label="$t('otc.publishad.paymode')" prop="payMode">
-                <Select v-model="form.payMode" multiple>
+                <Select v-model="form.payMode" multiple :placeholder="$t('common.pleaseselect')">
                   <Option v-for="(item,index) in payModeList" :value="item.value" :key="item.value" :disabled="item.isOpen">{{ item.label }}</Option>
                 </Select>
               </FormItem>

@@ -89,6 +89,9 @@ export default {
           if(params.row.type == 5){
             text = "云矿机认购";
           }
+          if(params.row.type == 6){
+            text = "锁仓";
+          }
           return h(
             "span",{}, text
           );

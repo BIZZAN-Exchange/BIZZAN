@@ -109,11 +109,11 @@
                             </div>
                         </div>
                         <!-- 2 -->
-                        <div class="account-item" style="display: none;">
+                        <div class="account-item" >
                             <div class="account-item-in">
                                 <Icon type="ios-mail" size="20" color="#00b5f6;"/>
                                 <span class="card-number">{{$t('uc.safe.email')}}</span>
-                                <p v-if="user.emailVerified==1" class="bankInfo" style="color: grey;font-size: 13px;">
+                                <p v-if="user.emailVerified==1" class="bankInfo" style="color:#fff;font-size: 13px;">
                                     {{user.email}}
                                 </p>
                                 <p v-else class="bankInfo" style="color: #828ea1;font-size: 13px;">
@@ -296,16 +296,16 @@
                                             <Input v-model="formValidate5.newMPwConfirm" size="large" type="password"></Input>
                                         </FormItem>
                                         <!-- 邮箱验证码 -->
-                                        <!--<FormItem :label="$t('uc.safe.phonecode')" prop="vailCode5">-->
-                                        <!--<Input v-model="formValidate5.vailCode5" size="large">-->
-                                        <!--<div class="timebox" slot="append">-->
-                                        <!--<Button @click="send(5)" :disabled="sendMsgDisabled5">-->
-                                        <!--<span v-if="sendMsgDisabled5">{{time5+$t('uc.safe.second')}}</span>-->
-                                        <!--<span v-if="!sendMsgDisabled5">{{$t('uc.safe.clickget')}}</span>-->
-                                        <!--</Button>-->
-                                        <!--</div>-->
-                                        <!--</Input>-->
-                                        <!--</FormItem>-->
+                                        <FormItem :label="$t('uc.safe.phonecode')" prop="vailCode5">
+                                        <Input v-model="formValidate5.vailCode5" size="large">
+                                        <div class="timebox" slot="append">
+                                        <Button @click="send(5)" :disabled="sendMsgDisabled5">
+                                        <span v-if="sendMsgDisabled5">{{time5+$t('uc.safe.second')}}</span>
+                                        <span v-if="!sendMsgDisabled5">{{$t('uc.safe.clickget')}}</span>
+                                        </Button>
+                                        </div>
+                                        </Input>
+                                        </FormItem>
                                         <p style="text-align:right;">
                                             <a @click="handleReset('formValidate8');fGetBackFundpwd=!fGetBackFundpwd" style="color:#f0ac19;">忘记密码?</a>
                                         </p>

@@ -6,6 +6,7 @@
           <!-- <i class="merchant-icon tips"></i>
           <span class="tips-word">{{$t('uc.finance.withdraw.pickup')}}</span> -->
           <router-link to="/uc/withdraw/address">{{$t('uc.finance.withdraw.addressmanager')}}</router-link>
+          <router-link to="/uc/withdraw/code" style="margin-right:10px;">{{$t('uc.finance.withdraw.withdrawbycode')}}</router-link>
         </section>
         <section>
           <div class="table-inner action-box">
@@ -13,7 +14,7 @@
             <div class="action-inner">
               <div class="inner-left">
                 <p class="describe">{{$t('uc.finance.withdraw.symbol')}}</p>
-                <Select v-model="coinType" style="width:100px;margin-top: 14px;" @on-change="getAddrList">
+                <Select v-model="coinType" style="width:100px;margin-top: 14px;" @on-change="getAddrList" :placeholder="$t('common.pleaseselect')">
                   <Option v-for="item in coinList" :value="item.unit" :key="item.unit">{{ item.unit }}</Option>
                 </Select>
               </div>
@@ -21,7 +22,7 @@
                 <div class="form-group form-address">
                   <label for="controlAddress" class="controlAddress describe">{{$t('uc.finance.withdraw.address')}}</label>
                   <div class="control-input-group">
-                    <Select ref="address" v-model="withdrawAdress" filterable clearable @on-query-change="onAddressChange"  :placeholder="$t('common.pleaseselect')">
+                    <Select ref="address" v-model="withdrawAdress" filterable clearable @on-query-change="onAddressChange"  :placeholder="$t('common.pleaseselect')" :noMatch="$t('common.nomatch')">
                       <Option v-for="item in currentCoin.addresses" :value="item.address" :key="item.address">{{ item.remark +'('+ item.address+')' }}</Option>
                     </Select>
                   </div>
@@ -51,13 +52,13 @@
             </div>
             <div class="form-group-container form-group-container2">
               <div class="form-group form-fee">
-                <label class="label-amount"> {{$t('uc.finance.withdraw.fee')}}
+                <label class="label-amount"> {{$t('uc.finance.withdraw.fee')}}({{currentCoin.unit}})
                   <!--<p class="label-fr">-->
                   <!--<span>{{$t('uc.finance.withdraw.range')}}：{{currentCoin.minTxFee}} - {{currentCoin.maxTxFee}}</span>-->
                   <!--</p>-->
                 </label>
-                <div class="input-group" style="margin-top:14px;position:relative;">
-                  <Slider v-if="currentCoin.maxTxFee > currentCoin.minTxFee" v-model="withdrawFee" show-input :step="(currentCoin.maxTxFee - currentCoin.minTxFee)/10" :max="currentCoin.maxTxFee" :min="currentCoin.minTxFee"></Slider>
+                <div class="input-group" style="margin-top:30px;">
+                  <Slider style="float: left;width: 100%;" v-if="currentCoin.maxTxFee > currentCoin.minTxFee" v-model="withdrawFee" show-input :step="(currentCoin.maxTxFee - currentCoin.minTxFee)/10" :max="currentCoin.maxTxFee" :min="currentCoin.minTxFee"></Slider>
                   <!--<Poptip v-else trigger="focus" :content="$t('uc.finance.withdraw.tip1')+currentCoin.minTxFee+$t('uc.finance.withdraw.tip1')+currentCoin.maxTxFee" style="width: 100%;">-->
                   <InputNumber readonly v-model="withdrawFee" :min="currentCoin.minTxFee" :max="currentCoin.maxTxFee" size="large"></InputNumber>
                   <span class="input-group-addon addon-tag uppercase">{{currentCoin.unit}}</span>
@@ -107,7 +108,7 @@
         <Input type="password" v-model="fundpwd" :placeholder="$t('otc.chat.msg7')"></Input>
       </p> -->
       <p slot="header">
-        提示
+        {{$t("swap.tip")}}
       </p>
       <Form class="withdraw-form-inline" ref="formInline" :model="formInline" inline>
         <!-- <FormItem>
@@ -124,8 +125,8 @@
         </FormItem>
       </Form>
       <div slot="footer">
-        <span style="margin-right:50px" @click="cancel">取消</span>
-        <span style="background:#f0ac19;color:#fff;width:80px;border-radius:30px;display:inline-block;text-align:center;height:30px;line-height: 30px;" @click="ok">确定</span>
+        <span style="margin-right:50px" @click="cancel">{{$t("common.close")}}</span>
+        <span style="background:#f0ac19;color:#fff;width:80px;border-radius:30px;display:inline-block;text-align:center;height:30px;line-height: 30px;" @click="ok">{{$t("common.ok")}}</span>
       </div>
     </Modal>
   </div>
@@ -280,7 +281,7 @@ export default {
         });
     },
     getAddrList() {
-      //初始化页面上的值
+      // 初始化页面上的值
       this.clearValues();
       //获取地址
       this.$http
@@ -542,6 +543,12 @@ export default {
 </style>
 
 <style scoped lang="scss">
+.ivu-slider-wrap{
+	top: 75px !important;
+	z-index: 999 !important;
+	width: 100% !important;
+}
+
 #sendCode {
   position: absolute;
   border: none;

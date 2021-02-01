@@ -27,7 +27,7 @@
                             <p style="font-size: 12px;margin-top: -20px;text-align:right;margin-bottom: 10px;">&nbsp; </p>
                             <FormItem>
                               <label class="before">{{$t('ctc.payType')}}：</label>
-                              <Select v-model="payType" style="width:70%;float:right;height:40px;" size="large">
+                              <Select v-model="payType" style="width:70%;float:right;height:40px;" size="large" :placeholder="$t('common.pleaseselect')">
                                   <Option v-for="item in payTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                               </Select>
                             </FormItem>
@@ -67,7 +67,7 @@
                             </p>
                             <FormItem>
                               <label class="before">{{$t('ctc.receiveType')}}：</label>
-                              <Select v-model="receiveType" style="width:70%;float:right;height:40px;" size="large">
+                              <Select v-model="receiveType" style="width:70%;float:right;height:40px;" size="large" :placeholder="$t('common.pleaseselect')">
                                   <Option v-for="item in receiveTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                               </Select>
                             </FormItem>
@@ -499,13 +499,7 @@ export default {
       return this.$store.state.lang;
     },
     langPram(){
-      if(this.$store.state.lang == "简体中文"){
-        return "CN";
-      }
-      if(this.$store.state.lang == "English"){
-        return "EN";
-      }
-      return "CN";
+      return this.$store.state.lang;
     },
     isLogin: function() {
       return this.$store.getters.isLogin;

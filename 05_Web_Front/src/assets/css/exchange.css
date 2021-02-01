@@ -855,6 +855,20 @@ iframe {
 
 .lightning-panel{
     height:264px;width:100%;z-index:2;background:#003478;margin-bottom: 10px;
+    background-size: 400% 400%!important;
+    animation: gradientBG 5s ease infinite;
+}
+
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 50% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
 }
 .lightning-panel img{
     width: 100%;
@@ -899,4 +913,12 @@ iframe {
 }
 .lightning-panel .l-content .l-info .l-unit{
     font-size: 8px;
+}
+.ivu-table th.swap-coin-menu-symbol {
+  text-align:left!important;
+  padding-left: 20px;
+}
+.ivu-table th.swap-coin-menu-lastprice {
+  text-align:right!important;
+  padding-right: 10px;
 }

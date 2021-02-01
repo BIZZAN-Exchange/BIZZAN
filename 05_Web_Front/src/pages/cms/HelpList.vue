@@ -110,13 +110,7 @@ export default {
       return this.$store.state.lang;
     },
     langPram(){
-      if(this.$store.state.lang == "简体中文"){
-        return "CN";
-      }
-      if(this.$store.state.lang == "English"){
-        return "EN";
-      }
-      return "CN";
+      this.$store.state.lang
     }
   },
   watch: {

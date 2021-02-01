@@ -107,11 +107,11 @@
         </div>
         <div class="content1">
           <h5>{{$t('cms.contactus')}}</h5>
-          <p>{{$t('description.service')}}：service@bizzan.com</p>
-          <p>{{$t('description.support')}}：support@bizzan.com</p>
-          <p>{{$t('description.apply')}}：apply@bizzan.com</p>
-          <p>{{$t('description.report')}}：ceo@bizzan.com</p>
-          <p>{{$t('description.coop')}}：coop@bizzan.com</p>
+          <p>{{$t('description.service')}}：service@bizzan.pro</p>
+          <p>{{$t('description.support')}}：support@bizzan.pro</p>
+          <p>{{$t('description.apply')}}：apply@bizzan.pro</p>
+          <p>{{$t('description.report')}}：ceo@bizzan.pro</p>
+          <p>{{$t('description.coop')}}：coop@bizzan.pro</p>
         </div>
         <div class="content1" style="border:none;">
           <h5>{{$t('description.community')}}</h5>

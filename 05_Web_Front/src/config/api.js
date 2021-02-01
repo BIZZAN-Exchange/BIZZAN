@@ -25,7 +25,8 @@ export default {
         memberInfo: "/uc/member/my-info", // 获取用户信息
         mypromotionrecord: "/uc/promotion/record", //获取推广邀请人记录
         myInnovationOrderList: "/uc/activity/getmyorders", // 创新实验区参与订单列表
-        myInnovationMinings: "/uc/miningorder/my-minings" // 获取我的矿机列表
+        myInnovationMinings: "/uc/miningorder/my-minings", // 获取我的矿机列表
+        myInnovationLocked: "/uc/lockedorder/my-locked" // 获取我的矿机列表
     },
     market: { //币币交易行情接口
         ws: '/market/market-ws',

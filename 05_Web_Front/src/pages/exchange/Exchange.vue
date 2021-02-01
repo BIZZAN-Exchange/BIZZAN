@@ -1,6 +1,6 @@
 <template>
   <div class="container exchange" :class="skin">
-
+    <div style="background-image: linear-gradient( 135deg, #F0A70A 10%, #0D25B9 100%);text-align: center;height:30px;line-height:30px;letter-spacing: 1px;">这只是一个测试站，请勿充值！币币+法币前后端、钱包RPC已经开源（APP、机器人暂不开源）购买商用系统请联系QQ:390330302 QQ:3233751642 QQ:739149823（唯一渠道，谨防被骗）</div>
     <div class="main">
       <div class="right">
         <div class="coin-menu">
@@ -156,7 +156,7 @@
                     <FormItem>
                       <label class="before">{{$t('exchange.buynum')}}</label>
                       <Input @on-keyup="keyEvent" v-model="form.buy.marketAmount" :placeholder="$t('exchange.amount')"></Input>
-                      <label class="after">{{currentCoin.base}}</label>
+                      <label class="after">{{currentCoin.coin}}</label>
                     </FormItem>
                     <div class="slider-wrap">
                       <Slider class="silder-buy" v-model="sliderBuyMarketPercent" :step="25" show-tip="always" :tip-format="tipFormat" :disabled="sliderBuyDisabled"></Slider>
@@ -235,11 +235,11 @@
         </div>
       </div>
       <div class="left plate-wrap" style="position:relative;">
-        <div class="lightning-panel" v-if="showCountDown" :style="{backgroundColor:countDownBgColor}">
-          <img v-if="lang == '简体中文' && publishType=='FENTAN'" src="../../assets/images/lightning-bg.png"></img>
-          <img v-if="lang == 'English' && publishType=='FENTAN'" src="../../assets/images/lightning-bg-en.png"></img>
-          <img v-if="lang == '简体中文' && publishType=='QIANGGOU'" src="../../assets/images/lightning-bg2.png"></img>
-          <img v-if="lang == 'English' && publishType=='QIANGGOU'" src="../../assets/images/lightning-bg2-en.png"></img>
+        <div class="lightning-panel" v-if="showCountDown" :style="{background:countDownBgColor}">
+          <img v-if="lang == 'zh_CN' && publishType=='FENTAN'" src="../../assets/images/lightning-bg.png"></img>
+          <img v-if="lang == 'en_US' && publishType=='FENTAN'" src="../../assets/images/lightning-bg-en.png"></img>
+          <img v-if="lang == 'zh_CN' && publishType=='QIANGGOU'" src="../../assets/images/lightning-bg2.png"></img>
+          <img v-if="lang == 'en_US' && publishType=='QIANGGOU'" src="../../assets/images/lightning-bg2-en.png"></img>
           <div class="l-content">
             <BZCountDown style="width:100%;margin-top:5px;"
                     :countDownBgColor.sync="countDownBgColor"
@@ -301,12 +301,14 @@ $night-headerbg: #27313e;
 $night-contentbg: #192330;
 $night-color: #fff;
 
+.exchange .ivu-tooltip-inner{
+  padding: 2px 5px!important;
+  min-height: 24px!important;
+}
 .exchange {
   color: #fff;
   background-color: #0b1520;
   .main {
-    width:99%;
-    margin-left: 0.5%;
     display: flex;
     margin-top: 5px;
     .left {
@@ -517,8 +519,6 @@ $night-color: #fff;
     }
   }
   .order {
-    width: 98.6%;
-    margin-left: 0.5%;
     min-height: 227px;
     margin-bottom: 10px;
     .order-handler {
@@ -672,7 +672,7 @@ import expandRow from "@components/exchange/expand.vue";
 import Datafeeds from "@js/charting_library/datafeed/bitrade.js";
 var Stomp = require("stompjs");
 var SockJS = require("sockjs-client");
-var moment = require("moment");
+var moment = require("moment-timezone");
 import DepthGraph from "@components/exchange/DepthGraph.vue";
 import $ from "@js/jquery.min.js";
 import BZCountDown from "@components/exchange/BZCountDown.vue";
@@ -727,7 +727,7 @@ export default {
       clearTime: "2000-01-01 00:00:00",
       showPublish: false,
       showCountDown: false,
-      countDownBgColor: "#003478",
+      countDownBgColor: "linear-gradient(135deg, rgb(0 199 144 / 63%) 10%, rgb(18 33 41) 100%)",
       publishState: 0,
       favorColumns: [
         {
@@ -831,7 +831,7 @@ export default {
             width: 120,
             className: "coin-menu-symbol",
             render: (h, params) => {
-              if(params.row.coin == "QIB"){
+              if(params.row.coin == "FLOW"){
                 return h("div", [
                   h("Icon", {
                     props: {
@@ -857,15 +857,87 @@ export default {
                               "ivu-icon ivu-icon-ios-star";
                           }
                         } else {
-                          this.$Message.warning("请先登录");
+                          this.$Message.warning(this.$t("common.logintip"));
                         }
                       }
                     }
                   }),
                   h("span", params.row.coin),
-                  h("span", {
-                    style: {fontSize: "8px", padding: "2px 5px 1px 5px", color: "#FFF", marginLeft: "5px", background:"#F30", borderRadius:"4px"}
-                  }, "HOT")
+                  h("Tooltip", { props: {placement:"top-start",content:"价格跟随演示，价格为BTC价格的0.92%"}}, [h("span", {
+                    style: {fontSize: "8px", padding: "2px 2px 1px 2px", color: "#FFF", marginLeft: "5px", background:"#F30", borderRadius:"8px", display: "inline-block", height: "8px", width: "8px"}
+                  }, "")])
+                ]);
+              }else if(params.row.coin == "FDC"){
+                return h("div", [
+                  h("Icon", {
+                    props: {
+                      // color:"red",
+                      type: params.row.isFavor
+                        ? "ios-star"
+                        : "ios-star-outline"
+                    },
+                    nativeOn: {
+                      click: () => {
+                        event.stopPropagation(); //阻止事件冒泡
+                        if (this.isLogin) {
+                          if (
+                            event.currentTarget.className ==
+                            "ivu-icon ivu-icon-ios-star"
+                          ) {
+                            this.cancelCollect(params.index, params.row);
+                            event.currentTarget.className ==
+                              "ivu-icon ivu-icon-ios-star-outline";
+                          } else {
+                            this.collect(params.index, params.row);
+                            event.currentTarget.className =
+                              "ivu-icon ivu-icon-ios-star";
+                          }
+                        } else {
+                          this.$Message.warning(this.$t("common.logintip"));
+                        }
+                      }
+                    }
+                  }),
+                  h("span", params.row.coin),
+                  h("Tooltip", { props: {placement:"right",content:"首发抢购活动演示"}}, [h("span", {
+                    style: {fontSize: "8px", padding: "2px 2px 1px 2px", color: "#FFF", marginLeft: "5px", background:"#F30", borderRadius:"8px", display: "inline-block", height: "8px", width: "8px"}
+                  }, "")])
+                ]);
+              }else if(params.row.coin == "FDB") {
+                return h("div", [
+                  h("Icon", {
+                    props: {
+                      // color:"red",
+                      type: params.row.isFavor
+                        ? "ios-star"
+                        : "ios-star-outline"
+                    },
+                    nativeOn: {
+                      click: () => {
+                        event.stopPropagation(); //阻止事件冒泡
+                        if (this.isLogin) {
+                          if (
+                            event.currentTarget.className ==
+                            "ivu-icon ivu-icon-ios-star"
+                          ) {
+                            this.cancelCollect(params.index, params.row);
+                            event.currentTarget.className ==
+                              "ivu-icon ivu-icon-ios-star-outline";
+                          } else {
+                            this.collect(params.index, params.row);
+                            event.currentTarget.className =
+                              "ivu-icon ivu-icon-ios-star";
+                          }
+                        } else {
+                          this.$Message.warning(this.$t("common.logintip"));
+                        }
+                      }
+                    }
+                  }),
+                  h("span", params.row.coin),
+                  h("Tooltip", { props: {placement:"right",content:"首发分摊活动演示"}}, [h("span", {
+                    style: {fontSize: "8px", padding: "2px 2px 1px 2px", color: "#FFF", marginLeft: "5px", background:"#F30", borderRadius:"8px", display: "inline-block", height: "8px", width: "8px"}
+                  }, "")])
                 ]);
               }
               return h("div", [
@@ -893,7 +965,7 @@ export default {
                             "ivu-icon ivu-icon-ios-star";
                         }
                       } else {
-                        this.$Message.warning("请先登录");
+                        this.$Message.warning(this.$t("common.logintip"));
                       }
                     }
                   }
@@ -1018,29 +1090,6 @@ export default {
       plate: {
         maxPostion: 10,
         columns: [
-          // {
-          //   title: self.$t("exchange.stall"),
-          //   key: "postion",
-          //   render: (h, params) => {
-          //     const row = params.row;
-          //     const className = row.direction.toLowerCase();
-          //     const title =
-          //       (row.direction == "BUY"
-          //         ? self.$t("exchange.buyin")
-          //         : self.$t("exchange.sellout")) +
-          //       " " +
-          //       row.position;
-          //     return h(
-          //       "span",
-          //       {
-          //         attrs: {
-          //           class: className
-          //         }
-          //       },
-          //       title
-          //     );
-          //   }
-          // },
           {
             //   价格;
             title: self.$t("exchange.price"),
@@ -1173,7 +1222,7 @@ export default {
             render(h, params) {
               return h(
                 "span",
-                params.row.type === "LIMIT_PRICE" ? "限价" : "市价"
+                params.row.type === "LIMIT_PRICE" ? self.$t("exchange.limited_price") : self.$t("exchange.market_price")
               );
             }
           },
@@ -1288,7 +1337,7 @@ export default {
             render(h, params) {
               return h(
                 "span",
-                params.row.type === "LIMIT_PRICE" ? "限价" : "市价"
+                params.row.type === "LIMIT_PRICE" ? self.$t("exchange.limited_price") : self.$t("exchange.market_price")
               );
             }
           },
@@ -1683,6 +1732,38 @@ export default {
     getCoin(symbol) {
       return this.coins._map[symbol];
     },
+	getLang4K(){
+		var curlang = this.$store.getters.lang;
+		if(curlang=="en_US"){
+			return "en";
+		}
+		if(curlang=="ja_JP"){
+			return "ja";
+		}
+		if(curlang=="ko_KR"){
+			return "ko";
+		}
+		if(curlang=="de_DE"){
+			return "de_DE";
+		}
+		if(curlang=="fr_FR"){
+			return "fr";
+		}
+		if(curlang=="it_IT"){
+			return "it";
+		}
+		if(curlang=="es_ES"){
+			return "es";
+		}
+		if(curlang=="zh_HK"){
+			return "zh_TW";
+		}
+		if(curlang=="zh_CN"){
+			return "zh";
+		}
+		return curlang;
+	},
+	
     getKline() {
       var that = this;
       let config = {
@@ -1691,7 +1772,7 @@ export default {
         fullscreen: true,
         symbol: that.symbol,
         interval: "5", // 默认K线周期
-        timezone: "Asia/Shanghai",
+        timezone: this.getTimezone4K(),
         toolbar_bg: "#18202a",
         container_id: "kline_container",
         datafeed: that.datafeed,
@@ -1699,7 +1780,7 @@ export default {
           process.env.NODE_ENV === "production"
             ? "/assets/charting_library/"
             : "/src/assets/js/charting_library/",
-        locale: "zh",
+        locale: this.getLang4K(),
         debug: false,
         drawings_access: {
           type: "black",
@@ -1714,14 +1795,48 @@ export default {
           "header_undo_redo",
           "header_screenshot",
           "header_saveload",
-          "use_localstorage_for_settings",
-          "left_toolbar",
-          "volume_force_overlay"
+          //"use_localstorage_for_settings",
+          //"left_toolbar",
+          "volume_force_overlay",
+		  "widget_logo",
+		  "compare_symbol", 
+		  "display_market_status",
+		  "go_to_date", 
+		  "header_interval_dialog_button", 
+		  "legend_context_menu", 
+		  "show_hide_button_in_legend",
+		  "show_interval_dialog_on_key_press", 
+		  "snapshot_trading_drawings", 
+		  "symbol_info", 
+		  //"header_widget", 
+		  "edit_buttons_in_legend",
+		  "context_menus", 
+		  "control_bar", 
+		  "border_around_the_chart"
+
         ],
         enabled_features: [
+		  "disable_resolution_rebuild",
+		  "keep_left_toolbar_visible_on_small_screens", //防止左侧工具栏在小屏幕上消失
           "hide_last_na_study_output",
-          "move_logo_to_main_pane"
+          "move_logo_to_main_pane",
+		  "dont_show_boolean_study_arguments",
+		  "use_localstorage_for_settings",
+		  "remove_library_container_border",
+		  "save_chart_properties_to_local_storage",
+		  "side_toolbar_in_fullscreen_mode",
+		  "constraint_dialogs_movement",
+		  "hide_left_toolbar_by_default",
+		  "left_toolbar",
+		  "same_data_requery",
+		  "header_in_fullscreen_mode"
         ],
+		//成交量样式
+         studies_overrides: {
+             "volume.volume.color.0": "#fa5252",
+             "volume.volume.color.1": "#12b886",
+             "volume.volume.transparency": 25,
+        },
         custom_css_url: "bundles/common.css",
         supported_resolutions: ["1", "5", "15", "30", "60", "1D", "1W", "1M"],
         charts_storage_url: "http://saveload.tradingview.com",
@@ -1734,12 +1849,12 @@ export default {
           "paneProperties.horzGridProperties.color": "rgba(0,0,0,.1)",
           //"scalesProperties.textColor" : "#AAA",
           "scalesProperties.textColor": "#61688A",
-          "mainSeriesProperties.candleStyle.upColor": "#00b275",
-          "mainSeriesProperties.candleStyle.downColor": "#f15057",
-          "mainSeriesProperties.candleStyle.drawBorder": false,
+          "mainSeriesProperties.candleStyle.upColor": "#12b886",
+          "mainSeriesProperties.candleStyle.downColor": "#fa5252",
+          "mainSeriesProperties.candleStyle.drawBorder": true,
           "mainSeriesProperties.candleStyle.wickUpColor": "#589065",
           "mainSeriesProperties.candleStyle.wickDownColor": "#AE4E54",
-          "paneProperties.legendProperties.showLegend": false,
+          "paneProperties.legendProperties.showLegend": true,
 
           "mainSeriesProperties.areaStyle.color1": "rgba(71, 78, 112, 0.5)",
           "mainSeriesProperties.areaStyle.color2": "rgba(71, 78, 112, 0.5)",
@@ -1754,17 +1869,21 @@ export default {
             title: that.$t("exchange.realtime")
           },
           { text: "1min", resolution: "1", description: "1min" },
-          { text: "5min", resolution: "5", description: "5min"},
-          { text: "15min", resolution: "15", description: "15min"},
-          { text: "30min", resolution: "30", description: "30min"},
+          { text: "5min", resolution: "5", description: "5min" },
+          { text: "15min", resolution: "15", description: "15min" },
+          { text: "30min", resolution: "30", description: "30min" },
           {
             text: "1hour",
             resolution: "60",
             description: "1hour",
             title: "1hour"
           },
-          //{ text: "4hour", resolution: "240", description: "4hour",title: "4hour" },
-		  //{ text: "12hour", resolution: "720", description: "12hour",title: "12hour" },
+          /*{ 
+			text: "4hour", 
+			resolution: "240", 
+			description: "4hour",
+			title: "4hour" 
+		  },*/
           {
             text: "1day",
             resolution: "1D",
@@ -1777,7 +1896,11 @@ export default {
             description: "1week",
             title: "1week"
           },
-          { text: "1mon", resolution: "1M", description: "1mon" }
+          { 
+			text: "1mon",
+			resolution: "1M", 
+			description: "1mon" ,
+		  }
         ]
       };
       if (that.skin === "day") {
@@ -1827,7 +1950,7 @@ export default {
               widget.chart().setChartType(3);
               widget.setSymbol("", "1");
             })
-            .append("<span>分时</span>");
+            .append("<span>Time</span>");
 
           widget
             .createButton()
@@ -1908,38 +2031,6 @@ export default {
               widget.setSymbol("", "60");
             })
             .append("<span>H1</span>");
-
-          /*widget
-            .createButton()
-            .attr("title", "H4")
-            .on("click", function() {
-              if ($(this).hasClass("selected")) return;
-              $(this)
-                .addClass("selected")
-                .parent(".group")
-                .siblings(".group")
-                .find(".button.selected")
-                .removeClass("selected");
-              widget.chart().setChartType(1);
-              widget.setSymbol("", "240");
-            })
-            .append("<span>H4</span>");
-			
-          widget
-            .createButton()
-            .attr("title", "H12")
-            .on("click", function() {
-              if ($(this).hasClass("selected")) return;
-              $(this)
-                .addClass("selected")
-                .parent(".group")
-                .siblings(".group")
-                .find(".button.selected")
-                .removeClass("selected");
-              widget.chart().setChartType(1);
-              widget.setSymbol("", "720");
-            })
-            .append("<span>H12</span>");*/
 
           widget
             .createButton()
@@ -2846,12 +2937,12 @@ export default {
       this.getHistoryOrder();
       this.getWallet();
     },
-    timeFormat: function(tick) {
-      return moment(tick).format("HH:mm:ss");
-    },
-    dateFormat: function(tick) {
-      return moment(tick).format("YYYY-MM-DD HH:mm:ss");
-    },
+    // timeFormat: function(tick) {
+    //   return this.timeFormat();
+    // },
+    // dateFormat: function(tick) {
+    //   return this.dateFormat();
+    // },
     keyEvent(event) {
       var re1 = new RegExp(
         "([0-9]+.[0-9]{" + this.baseCoinScale + "})[0-9]*",

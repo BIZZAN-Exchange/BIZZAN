@@ -114,13 +114,7 @@ export default {
       return this.$store.state.lang;
     },
     langPram() {
-      if(this.$store.state.lang == "简体中文"){
-        return "CN";
-      }
-      if(this.$store.state.lang == "English"){
-        return "EN";
-      }
-      return "CN";
+      return this.$store.state.lang;
     }
   },
   methods: {
@@ -155,7 +149,7 @@ export default {
             this.hasContent = true;
             this.spinShow = false;
 
-            window.document.title = (this.lang == "简体中文" ? "公告 - " : "Announcement - ") + this.data.info.title + " - 币严 | 全球比特币交易平台 | 全球数字货币交易平台";
+            window.document.title = (this.lang == "zh_CN" ? "公告 - " : "Announcement - ") + this.data.info.title + " - BIZZAN | Global digital currency trading platform";
           }else{
             this.hasContent = false;
             this.spinShow = false;

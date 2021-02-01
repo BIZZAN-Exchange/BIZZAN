@@ -4,8 +4,7 @@
       <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
         <FormItem style="text-align:center;">
           <ButtonGroup>
-            <!-- <Button v-for="(list,index) in buttonLists" :key="list.text" :class="{ active:changeActive == index}" @click="actives(index)">{{list.text}}</Button> -->
-            <div class="tel-title">{{$t('uc.login.getlostpwd')}}</div>
+		<div class="tel-title">{{$t('uc.forget.title')}}</div>
           </ButtonGroup>
         </FormItem>
         <FormItem prop="user">
@@ -13,7 +12,7 @@
           </Input>
         </FormItem>
         <FormItem prop="code">
-          <Input type="text" v-model="formInline.code" :placeholder="$t('uc.regist.smscode')">
+          <Input type="text" v-model="formInline.code" :placeholder="$t('uc.forget.smscode')">
           </Input>
           <input id="sendCode"  type="Button" :value="sendcodeValue" :disabled="codedisabled">
           </input>
@@ -116,8 +115,25 @@
   color: #666;
   margin: 0;
 }
+.ivu-btn-group>.ivu-btn.active, .ivu-btn-group>.ivu-btn:active, .ivu-btn-group>.ivu-btn:hover{
+  background: transparent!important;
+  border-color: transparent!important;
+  color: #f0ac19!important;
+}
+.ivu-btn-group>.ivu-btn:focus{
+  box-shadow: none!important;
+}
+.ivu-btn-group>.ivu-btn.ivu-btn-default{
+  background: transparent!important;
+  color: #828ea1;
+}
+.ivu-btn-group>.ivu-btn{
+  font-size: 16px;
+}
 </style>
 <script>
+const mobilereg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
+    emailReg = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
 import gtInit from "../../assets/js/gt.js";
 import $ from "jquery";
 export default {
@@ -162,6 +178,9 @@ export default {
       buttonLists: [
         {
           text: this.$t("uc.forget.resettelpwd")
+        },
+        {
+          text: this.$t("uc.forget.resetemailpwd")
         }
       ],
       changeActive: 0,
@@ -173,7 +192,7 @@ export default {
         repassword: ""
       },
       ruleInline: {
-        user: [{ validator: validateUser, trigger: "blur" }],
+        // user: [{ validator: validateUser, trigger: "blur" }],
         code: [{ required: true, message: "请输入验证码", trigger: "blur" }],
         password: [
           {
@@ -226,7 +245,6 @@ export default {
       }
       this.initGtCaptcha();
     },
-    // 切换
     // actives: function(index) {
     //   this.changeActive = index;
     //   if (this.changeActive == 0) {
@@ -281,7 +299,8 @@ export default {
             offline: !res.body.success, //表示用户后台检测极验服务器是否宕机
             new_captcha: res.body.new_captcha, //用于宕机时表示是新验证码的宕机
             product: "bind",
-            width: "100%"
+            width: "100%",
+			lang: "zh_CN"
           },
           this.handler
         );
@@ -295,20 +314,46 @@ export default {
           if (!result) {
             this.$Message.error("请完成验证");
           } else {
+            // mobilereg.test(this.formInline.user) && this.afterValidate();
             this.afterValidate();
-          }
+            emailReg.test(this.formInline.user) && this.emailReset();
+	  }
         });
       $("#sendCode").click(()=> {
-         let reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
-         tel = this.formInline.user,
-         flagtel = reg.test(tel);
+         const tel = this.formInline.user,
+                    // flagtel = mobilereg.test(tel) || emailReg.test(tel);
+                    flagtel =  true;
          flagtel && captchaObj.verify();
-         !flagtel &&  this.$Message.error("请填写正确的手机号");
+         !flagtel && this.$Message.error("请填写正确的手机号或者邮箱号");
       });
+    },
+    emailReset() {
+        this.modal1 = false;
+        var params = {};
+        params["account"] = this.formInline.user;
+        params["geetest_challenge"] = this._captchaResult.geetest_challenge; //极验验证二次验证表单数据 chllenge
+        params["geetest_validate"] = this._captchaResult.geetest_validate; //极验验证二次验证表单数据 validate
+        params["geetest_seccode"] = this._captchaResult.geetest_seccode; //极验验证二次验证表单数据 seccode
+
+        this.$http.post(this.host + "/uc/reset/email/code", params).then(response => {
+            this.countdown = 60;
+            var resp = response.body;
+            if (resp.code == 0) {
+                this.$Notice.success({
+                    title: this.$t("common.tip"),
+                    desc: resp.message
+                });
+            } else {
+                this.$Notice.error({
+                    title: this.$t("common.tip"),
+                    desc: resp.message
+                });
+            }
+        });
     },
     afterValidate() {
       this.modal1 = false;
-      if (this.changeActive == 1) {
+      if (emailReg.test(this.formInline.user)) {
         //发送邮件
         var params = {};
         params["account"] = this.formInline.user;
@@ -351,7 +396,7 @@ export default {
     handleSubmit(name) {
       this.$refs[name].validate(valid => {
         if (valid) {
-          if (this.changeActive == 1) {
+          if (emailReg.test(this.formInline.user)) {
             var params = {};
             params["account"] = this.formInline.user;
             params["code"] = this.formInline.code;

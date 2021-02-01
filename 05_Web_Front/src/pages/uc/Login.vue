@@ -5,22 +5,6 @@
         <div class="login_title">{{$t('uc.login.login')}}</div>
         <FormItem prop="user">
           <Input name="user" type="text" v-model="formInline.user" :placeholder="$t('uc.login.usertip')" class="user">
-            <Select v-model="country" slot="prepend" style="width: 65px">
-              <Option value="+86" label="+86"><span>+86</span><span style="margin-left:10px;color:#ccc">中国</span></Option>
-              <Option value="+65" label="+65"><span>+65</span><span style="margin-left:10px;color:#ccc">新加坡</span></Option>
-              <Option value="+82" label="+82"><span>+82</span><span style="margin-left:10px;color:#ccc">韩国</span></Option>
-              <Option value="+81" label="+81"><span>+81</span><span style="margin-left:10px;color:#ccc">日本</span></Option>
-              <Option value="+66" label="+66"><span>+66</span><span style="margin-left:10px;color:#ccc">泰国</span></Option>
-              <Option value="+7" label="+7"><span>+7</span><span style="margin-left:10px;color:#ccc">俄罗斯</span></Option>
-              <Option value="+44" label="+44"><span>+44</span><span style="margin-left:10px;color:#ccc">英国</span></Option>
-              <Option value="+84" label="+84"><span>+84</span><span style="margin-left:10px;color:#ccc">越南</span></Option>
-              <Option value="+91" label="+91"><span>+91</span><span style="margin-left:10px;color:#ccc">印度</span></Option>
-              <Option value="+39" label="+39"><span>+39</span><span style="margin-left:10px;color:#ccc">意大利</span></Option>
-              <Option value="+852" label="+852"><span>+852</span><span style="margin-left:10px;color:#ccc">香港</span></Option>
-              <Option value="+60" label="+60"><span>+60</span><span style="margin-left:10px;color:#ccc">马来西亚</span></Option>
-              <Option value="+886" label="+886"><span>+886</span><span style="margin-left:10px;color:#ccc">台湾省</span></Option>
-              <Option value="+90" label="+90"><span>+90</span><span style="margin-left:10px;color:#ccc">土耳其</span></Option>
-            </Select>
           </Input>
         </FormItem>
         <FormItem prop="password" class="password">
@@ -220,12 +204,13 @@ export default {
           }
         });
       $(".login_btn").click(() => {
-        let reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
-          tel = this.formInline.user,
-          flagtel = reg.test(tel),
+        // let reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
+          // tel = this.formInline.user,
+         let flagtel = this.formInline.user.length>=4 ? true : false,
           flagpass = this.formInline.password.length >= 6 ? true : false;
-        flagtel && flagpass && captchaObj.verify();
-        (!flagtel || !flagpass) && this.$Message.error("请填写完整的信息");
+        flagtel && flagpass; // && captchaObj.verify();
+        (!flagtel || !flagpass) && this.$Message.error(this.$t("common.fillComplete"));
+        this.handleSubmit("formInline"); // 屏蔽了验证
       });
     },
     logout() {
@@ -241,6 +226,30 @@ export default {
       });
     },
     handleSubmit(name) {
+      // 不带验证
+      this.$refs[name].validate(valid => {
+        if (valid) {
+          var params = {};
+          params["username"] = this.formInline.user;
+          params["password"] = this.formInline.password;
+          this.$http.post(this.host + this.api.uc.login, params).then(response => {
+              var resp = response.body;
+              if (resp.code == 0) {
+                this.$Message.success(this.$t("uc.login.success"));
+                this.$store.commit("setMember", response.body.data);
+                if (this.$route.query.key != null && this.$route.query.key != "") {
+                  localStorage.setItem("USERKEY", this.$route.query.key);
+                }
+                this.$router.push("/uc/safe");
+              } else {
+                this.$Message.error(resp.message);
+              }
+            });
+        } else {
+
+        }
+      });
+      /* 带验证*/
       var result = this._captchaResult;
       if (!result) {
         $("#notice").show();
@@ -271,6 +280,7 @@ export default {
           }
         });
       }
+      
     }
   }
 };

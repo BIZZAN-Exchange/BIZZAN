@@ -48,22 +48,54 @@
                                 <p class="value" style="color:#F90;" v-if="activityDetail.type==3">{{$t('activity.activitytype3')}} <router-link to="/helpdetail?cate=1&id=36&cateTitle=常见问题" target="_blank">{{$t('activity.ruledetail')}}</router-link></p>
                                 <p class="value" style="color:#F90;" v-if="activityDetail.type==4">{{$t('activity.activitytype4')}} <router-link to="/helpdetail?cate=1&id=37&cateTitle=常见问题" target="_blank">{{$t('activity.ruledetail')}}</router-link></p>
                                 <p class="value" style="color:#F90;" v-if="activityDetail.type==5">{{$t('activity.activitytype5')}}</p>
+                                <p class="value" style="color:#F90;" v-if="activityDetail.type==6">{{$t('activity.activitytype6')}}</p>
                             </div>
+                            <div class="info-item" v-if="activityDetail.type == 6">
+                                <p class="title gray">{{$t('activity.releaseType')}}</p>
+                                <p class="value" style="color:#F90;" v-if="activityDetail.releaseType==0">{{$t('activity.releaseType0')}}</p>
+                                <p class="value" style="color:#F90;" v-if="activityDetail.releaseType==1">{{$t('activity.releaseType1')}}</p>
+                            </div>
+
+                            <div class="info-item" v-if="activityDetail.type == 6">
+                                <p class="title gray">{{$t('activity.releaseDetail')}}</p>
+                                <p class="value" style="color:#F90;">{{activityDetail.lockedDays}} {{$t('activity.lock')}} 
+                                    <span v-if="activityDetail.lockPeriod == 0">{{$t('activity.lockday')}}</span>
+                                    <span v-if="activityDetail.lockPeriod == 1">{{$t('activity.lockweek')}}</span>
+                                    <span v-if="activityDetail.lockPeriod == 2">{{$t('activity.lockmonth')}}</span>
+                                    <span v-if="activityDetail.lockPeriod == 3">{{$t('activity.lockyear')}}</span>
+                                </p>
+                            </div>
+
+                            <div class="info-item" v-if="activityDetail.type == 6 && activityDetail.releaseType == 1">
+                                <p class="title gray">{{$t('activity.releasePercent')}}</p>
+                                <p class="value" style="color:#F90;">{{activityDetail.releasePercent * 100}} %</p>
+                            </div>
+
+                            <div class="info-item" v-if="activityDetail.type == 6">
+                                <p class="title gray">{{$t('activity.lockFee')}}</p>
+                                <p class="value" style="color:#F90;">{{activityDetail.lockedFee}} {{activityDetail.lockedUnit}}</p>
+                            </div>
+
+                            <div class="info-item" v-if="activityDetail.type == 6">
+                                <p class="title gray">{{$t('activity.releaseTimes')}}</p>
+                                <p class="value" style="color:#F90;">{{activityDetail.releaseTimes}} {{$t('activity.times')}}</p>
+                            </div>
+
                             <div class="info-item">
                                 <p class="title gray">{{$t('activity.totalsupply')}}</p>
                                 <p class="value">{{activityDetail.totalSupply | fixedScale(activityDetail.amountScale)}}<span style="font-size:12px;margin-left:5px;">{{activityDetail.unit}}</span></p>
                             </div>
-                            <div class="info-item" v-if="activityDetail.type != 3">
+                            <div class="info-item" v-if="activityDetail.type != 3 && activityDetail.type != 6">
                                 <p class="title gray">{{$t('activity.publishprice')}}</p>
                                 <p class="value">{{activityDetail.price | fixedScale(activityDetail.priceScale)}}<span style="font-size:12px;margin-left:5px;">{{activityDetail.acceptUnit}}</span></p>
                             </div>
-                            <div class="info-item" v-if="activityDetail.type != 5">
+                            <div class="info-item" v-if="activityDetail.type != 5 && activityDetail.type != 6">
                                 <p class="title gray">{{$t('activity.activitycoin')}}</p>
                                 <p class="value">{{activityDetail.unit}}</p>
                             </div>
                             <div class="info-item">
-                                <p class="title gray" v-if="activityDetail.type!=3">{{$t('activity.acceptcoin')}}</p>
-                                <p class="title gray" v-if="activityDetail.type==3">{{$t('activity.holdcoin')}}</p>
+                                <p class="title gray" v-if="activityDetail.type != 3 && activityDetail.type != 6">{{$t('activity.acceptcoin')}}</p>
+                                <p class="title gray" v-if="activityDetail.type == 3 || activityDetail.type == 6">{{$t('activity.holdcoin')}}</p>
                                 <p class="value">{{activityDetail.acceptUnit}}</p>
                             </div>
                             <div class="info-item">
@@ -81,7 +113,7 @@
 
                                 <p class="value" v-if="activityDetail.minLimitAmout == 0 && activityDetail.maxLimitAmout > 0"> ≤  {{activityDetail.maxLimitAmout | fixedScale(activityDetail.amountScale)}}</p>
 
-                                <p class="value" v-if="activityDetail.minLimitAmout == 0 && activityDetail.maxLimitAmout == 0"> 不限 </p>
+                                <p class="value" v-if="activityDetail.minLimitAmout == 0 && activityDetail.maxLimitAmout == 0"> {{$t('activity.unlimited')}} </p>
                             </div>
 
                             <div class="info-item" v-if="activityDetail.leveloneCount > 0">
@@ -98,7 +130,7 @@
                                 <p class="value">{{activityDetail.endTime | dateFormat}}</p>
                             </div>
                         </div>
-                        <!-- 仅自由申购类型显示已兑/剩余数量 -->
+                        <!-- 仅自由申购类型/矿机显示已兑/剩余数量 -->
                         <div class="tips" v-if="activityDetail.type == 4 || activityDetail.type == 5">
                             <div class="left-tip">
                                 <p class="title gray">{{$t('activity.alreadyamount')}}</p>
@@ -126,13 +158,14 @@
                             </div>
                         </div>
                         <p v-if="activityDetail.type == 3" class="hold-tips">*{{$t('activity.holdtips')}}</p>
-                        <div class="do-activity" v-if="isLogin && (activityDetail.type==3 || activityDetail.type==4 || activityDetail.type==5)">
+                        <div class="do-activity" v-if="isLogin && (activityDetail.type==3 || activityDetail.type==4 || activityDetail.type==5 || activityDetail.type==6)">
                             <div class="do-left">
-                                <p class="p-title" v-if="activityDetail.type==3">{{$t('activity.inputholdamount')}}</p>
+                                <p class="p-title" v-if="activityDetail.type==3 || activityDetail.type == 6">{{$t('activity.inputholdamount')}}</p>
                                 <p class="p-title" v-if="activityDetail.type==4">{{$t('activity.inputamount')}}</p>
                                 <p class="p-title" v-if="activityDetail.type==5">{{$t('activity.inputminingamount')}}</p>
                                 <Input style="width: 90%;" placeholder="0.00000" v-model="attendAmount" type="number">
                                     <span slot="append" v-if="activityDetail.type==3">{{activityDetail.acceptUnit}}</span>
+                                    <span slot="append" v-if="activityDetail.type==6">{{activityDetail.lockedUnit}}</span>
                                     <span slot="append" v-else>{{activityDetail.unit}}</span>
                                 </Input>
                             </div>
@@ -347,13 +380,7 @@ export default {
       return this.$store.state.lang;
     },
     langPram(){
-      if(this.$store.state.lang == "简体中文"){
-        return "CN";
-      }
-      if(this.$store.state.lang == "English"){
-        return "EN";
-      }
-      return "CN";
+      return this.$store.state.lang;
     },
     isLogin: function() {
       return this.$store.getters.isLogin;
@@ -370,7 +397,7 @@ export default {
         this.$http.post(this.host + "/uc/activity/detail", param).then(res => {
         if (res.status == 200 && res.body.code == 0) {
             this.activityDetail = res.body.data;
-            window.document.title = (this.lang == "简体中文" ? "活动 - " : "Activity - ") + this.activityDetail.title + " - 币严 | 全球比特币交易平台 | 全球数字货币交易平台";
+            window.document.title = (this.lang == "zh_CN" ? "活动 - " : "Activity - ") + this.activityDetail.title + " - BIZZAN | Global Bitcoin trading platform ";
             //持仓瓜分类型进度显示处理
             if(this.activityDetail.type == 3){
                 if(this.activityDetail.step == 1){
@@ -457,7 +484,7 @@ export default {
         }
       }
       // 云矿机需整数购买
-      if(this.activityDetail.type == 5) {
+      if(this.activityDetail.type == 5 || this.activityDetail.type == 6) {
         if (!(/(^[1-9]\d*$)/.test(this.attendAmount))) {
             this.$Notice.error({
               title: this.$t("common.tip"),

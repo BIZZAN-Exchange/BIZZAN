@@ -76,19 +76,19 @@
           <p>{{$t('invite.ruletext9')}}</p>
           <p>{{$t('invite.ruletext10')}}</p>
           <p>{{$t('invite.ruletext11')}}</p>
-          <p class="rule-update">{{$t('invite.lastupdate')}}：2019/07/18 12:15:34</p>
+          <p class="rule-update">{{$t('invite.lastupdate')}}：2020/10/18 12:15:34</p>
         </div>
       </div>
       <div class="promotion-tools">
         <h2>{{$t('invite.ptools')}}</h2>
         <div class="tools">
           <div class="item" @click="showCardItem">
-              <img src="https://bizzan.oss-cn-hangzhou.aliyuncs.com/2019/promotioncard.png"></img>
+              <img src="https://bizzanex.oss-cn-hangzhou.aliyuncs.com/2019/08/08/promotioncard.png"></img>
               <p class="title">{{$t('invite.pt_title')}}<span style="color:#FF0000;margin-left:10px;font-size:13px;">{{$t('invite.pt_card_title_tips')}}</span></p>
               <p class="desc">{{$t('invite.pt_desc')}}</p>
           </div>
           <div class="item" @click="useInviteImage">
-              <img src="https://bizzan.oss-cn-hangzhou.aliyuncs.com/2019/invitebg.jpg"></img>
+              <img src="https://bizzanex.oss-cn-hangzhou.aliyuncs.com/2019/08/08/invitebg.jpg"></img>
               <p class="title">{{$t('invite.pt_invite_title')}}</p>
               <p class="desc">{{$t('invite.pt_invite_desc')}}</p>
           </div>
@@ -136,7 +136,7 @@
 
     <Drawer :title="$t('invite.pt_title')" :closable="false" v-model="showCardModal" width="600">
       <div class="ptcard-header">
-        <img class="card-img" src="https://bizzan.oss-cn-hangzhou.aliyuncs.com/2019/promotioncard.png"></img>
+        <img class="card-img" src="https://bizzanex.oss-cn-hangzhou.aliyuncs.com/2019/08/08/promotioncard.png"></img>
         <div class="desc">
           <p class="title">{{$t('invite.pt_title')}}</p>
           <p class="amount">{{$t('invite.pt_card_amount')}}：0.001 BTC</p>
@@ -150,7 +150,7 @@
       <Divider style="margin-top: 40px;" orientation="left">{{$t('invite.pt_card_rule')}}</Divider>
       <div class="ptcard-info">
         <p class="title">{{$t('invite.pt_card_summary')}}</p>
-        <p class="detail">{{$t('invite.pt_card_rule1')}}：promotion@bizzan.com。</p>
+        <p class="detail">{{$t('invite.pt_card_rule1')}}：promotion@bizzan.pro。</p>
         <p class="detail">{{$t('invite.pt_card_rule2')}}</p>
         <p class="detail">{{$t('invite.pt_card_rule3')}}</p>
         <p class="detail">{{$t('invite.pt_card_rule4')}}</p>
@@ -163,20 +163,20 @@
       <div style="position:relative;width: 318px;" id="promotionImage" ref="promotionImage">
         <img style="width:100%;display:block;" src="../../assets/images/promotion/promotionbg1.jpg"></img>
         <p style="position:absolute;top: 210px;text-align:center;width: 100%;text-align:center;font-size:26px;color:#F90;font-weight:bold;">{{promotionCode}}</p>
-        <p style="position:absolute;top: 250px;text-align:center;width: 100%;text-align:center;">推广合伙人专属兑换码</p>
+        <p style="position:absolute;top: 250px;text-align:center;width: 100%;text-align:center;">{{$t('invite.context_title')}}</p>
       </div>
       <p style="text-align:center;font-size:12px;color:#888;margin-top: 10px;">{{$t('invite.imagetips')}}</p>
       <Button type="error" size="large" :loading="saveImageLoading" long style="margin-top: 20px;" @click="saveImage">{{$t('invite.saveimage')}}</Button>
     </Drawer>
 
-    <Drawer title="邀请图片" :closable="false" v-model="showInviteImageModal" width="350" style="text-align:center;">
+    <Drawer :title="$t('invite.context_title3')" :closable="false" v-model="showInviteImageModal" width="350" style="text-align:center;">
       <div style="position:relative;width: 318px;" id="inviteImage" ref="inviteImage">
         <img style="width:100%;display:block;" src="../../assets/images/promotion/invitebg1.jpg"></img>
         <div class="qr-code" style="background:#FFF;position:absolute;top: 260px;left:105px;border-radius: 5px;height: 100px;">
           <qriously :value="myInfo.inviteLink" :size="100" foreground="#000" />
         </div>
-        <p style="position:absolute;top: 375px;text-align:center;width: 100%;text-align:center;">扫一扫了解更多</p>
-        <p style="position:absolute;top: 395px;text-align:center;width: 100%;text-align:center;font-size:16px;">我的邀请码：{{inviteCode}}</p>
+        <p style="position:absolute;top: 375px;text-align:center;width: 100%;text-align:center;">{{$t('invite.context_title1')}}</p>
+        <p style="position:absolute;top: 395px;text-align:center;width: 100%;text-align:center;font-size:16px;">{{$t('invite.context_title2')}}：{{inviteCode}}</p>
       </div>
       <p style="text-align:center;font-size:12px;color:#888;margin-top: 10px;">{{$t('invite.imagetips')}}</p>
       <Button type="error" size="large" :loading="saveImageLoading" long style="margin-top: 20px;" @click="saveInviteImage">{{$t('invite.saveimage')}}</Button>
@@ -305,13 +305,7 @@ export default {
       return this.$store.state.lang;
     },
     langPram(){
-      if(this.$store.state.lang == "简体中文"){
-        return "CN";
-      }
-      if(this.$store.state.lang == "English"){
-        return "EN";
-      }
-      return "CN";
+      return this.$store.state.lang;;
     },
     isLogin: function() {
       return this.$store.getters.isLogin;

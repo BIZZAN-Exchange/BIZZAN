@@ -169,7 +169,7 @@
       <Row :gutter="20" style="min-height: 600px;padding-top: 10px;">
         <Col :xs="24" :sm="24" :md="4" :lg="4">
           <div class="header_nav_mobile_triggle" @click="toggleMemu()">
-            <Icon type="md-menu" style="font-size: 26px;color:#cccccc;"/> 个人中心
+            <Icon type="md-menu" style="font-size: 26px;color:#cccccc;"/> {{$t('uc.member.usercenter')}}
           </div>
           <Menu class="pc_menu" :active-name="activename" :open-names="opennames" @on-open-change="sss" ref="test" :accordion="true" style="width:100%;">
             <div class="title">{{$t('uc.member.usercenter')}}</div>
@@ -193,8 +193,12 @@
               <MenuItem name="2-1">
               <router-link to="/uc/money">{{$t('uc.finance.personalassets')}}</router-link>
               </MenuItem>
+
               <MenuItem name="2-2">
               <router-link to="/uc/record">{{$t('uc.finance.billdetail')}}</router-link>
+              </MenuItem>
+              <MenuItem name="2-9">
+              <router-link to="/uc/quickExchange">{{$t('uc.finance.record.quickExchange')}}</router-link>
               </MenuItem>
               <MenuItem name="2-3">
               <router-link to="/uc/recharge">{{$t('uc.finance.charge')}}</router-link>
@@ -215,7 +219,7 @@
               <router-link to="/uc/entrust/history">{{$t('uc.member.hisdelegate')}}</router-link>
               </MenuItem>
             </Submenu>
-            <Submenu name="4" style="display:none;">
+            <Submenu name="4">
               <template slot="title">
                 <span class="isclick"></span>
                 <span class="content">{{$t('uc.member.otc')}}</span>
@@ -250,6 +254,19 @@
               <MenuItem name="6-2">
               <router-link to="/uc/innovation/myminings">{{$t('uc.activity.subNavTitle2')}}</router-link>
               </MenuItem>
+              <MenuItem name="6-3">
+              <router-link to="/uc/innovation/mylocked">{{$t('uc.activity.subNavTitle3')}}</router-link>
+              </MenuItem>
+            </Submenu>
+
+            <Submenu name="7">
+                <template slot="title">
+                    <span class="isclick"></span>
+                    <span class="content">{{$t("uc.api.apiAdmin")}}</span>
+                </template>
+                <MenuItem name="7-1">
+                <router-link to="/uc/apiManage">{{$t("uc.api.apiAdmin")}}</router-link>
+                </MenuItem>
             </Submenu>
           </Menu>
         </Col>
@@ -283,6 +300,9 @@
               <MenuItem name="2-2">
               <router-link to="/uc/record">{{$t('uc.finance.billdetail')}}</router-link>
               </MenuItem>
+              <MenuItem name="2-9">
+              <router-link to="/uc/quickExchange">{{$t('uc.finance.record.quickExchange')}}</router-link>
+              </MenuItem>
               <MenuItem name="2-3">
               <router-link to="/uc/recharge">{{$t('uc.finance.charge')}}</router-link>
               </MenuItem>
@@ -336,6 +356,9 @@
               </MenuItem>
               <MenuItem name="6-2">
               <router-link to="/uc/innovation/myminings">{{$t('uc.activity.subNavTitle2')}}</router-link>
+              </MenuItem>
+              <MenuItem name="6-3">
+              <router-link to="/uc/innovation/mylocked">{{$t('uc.activity.subNavTitle3')}}</router-link>
               </MenuItem>
             </Submenu>
           </Menu>
@@ -370,7 +393,10 @@ export default {
         "/uc/promotion/mypromotion":"5-1",
         "/uc/promotion/mycards":"5-2",
         "/uc/innovation/myorders":"6-1",
-        "/uc/innovation/myminings":"6-2"
+        "/uc/innovation/myminings":"6-2",
+        "/uc/innovation/mylocked":"6-3",
+        "/uc/quickExchange":"2-9",
+        "/uc/apiManage": "7-1"
       },
       ucNavDrawerModal: false
     };
@@ -430,6 +456,13 @@ export default {
         case "6-2":
           this.$router.push("/uc/innovation/myminings");
           break;
+        case "6-3":
+          this.$router.push("/uc/innovation/mylocked");
+          break;
+        case "2-9":
+          this.$router.push("/uc/quickExchange");
+        case "7-1":
+          this.$router.push("/uc/apiManage");
         default:
           this.$router.push("/uc/safe");
           break;

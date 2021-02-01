@@ -10,7 +10,7 @@
             <div class="action-inner">
               <div class="inner-left">
                 <p class="describe">{{$t('uc.finance.withdraw.symbol')}}</p>
-                <Select v-model="coinType" style="width:100px;margin-top: 10px;" size="large">
+                <Select v-model="coinType" style="width:100px;margin-top: 10px;" size="large" :placeholder="$t('common.pleaseselect')">
                   <Option v-for="item in coinList" :value="item" :key="item">{{ item }}</Option>
                 </Select>
               </div>
@@ -34,7 +34,7 @@
               <div class="action-body">
                 <p class="acb-p1 describe">{{$t('uc.finance.withdraw.addresslist')}}</p>
                 <div class="order-table">
-                  <Table :columns="tableColumnsRecharge" :data="dataRecharge" :disabled-hover="true"></Table>
+                  <Table :columns="tableColumnsRecharge" :no-data-text="$t('common.nodata')" :data="dataRecharge" :disabled-hover="true"></Table>
                   <div style="margin: 10px;overflow: hidden">
                     <div style="float: right;">
                       <Page :total="dataCount" :current="1" @on-change="changePage" :loading="loading" class="recharge_btn"></Page>

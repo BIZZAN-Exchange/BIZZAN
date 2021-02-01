@@ -1,5 +1,6 @@
 <template>
   <div class="nav-right tradeCenter">
+	      <div style="background-image: linear-gradient( 135deg, #F0A70A 40%, #0D25B9 100%);text-align: center;height:30px;line-height:30px;letter-spacing: 1px;">这只是一个测试站，请勿充值！币币+法币前后端、钱包RPC已经开源（APP、机器人暂不开源）购买商用系统请联系QQ:390330302 QQ:3233751642 QQ:739149823（唯一渠道，谨防被骗）</div>
     <!-- <section class="trade-group merchant-top"> -->
     <!-- <i class="merchant-icon tips"></i>
             <span class="tips-word">{{this.coin.toUpperCase()}}</span> -->
@@ -1007,7 +1008,8 @@ export default {
       return this.$store.getters.member;
     },
     coin: function() {
-      return this.$route.params[0];
+      if(this.$route.query.unit == undefined) return "USDT";
+      return this.$route.query.unit;
     },
     lang: function() {
       return this.$store.state.lang;

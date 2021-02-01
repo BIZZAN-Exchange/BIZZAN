@@ -22,7 +22,7 @@ module.exports = {
         },
 
         // Various Dev Server settings
-        host: 'localhost', // can be overwritten by process.env.HOST
+        host: '127.0.0.1', // can be overwritten by process.env.HOST
         port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
         autoOpenBrowser: true,
         errorOverlay: true,
@@ -64,7 +64,7 @@ module.exports = {
         // Paths
         assetsRoot: path.resolve(__dirname, '../dist'),
         assetsSubDirectory: 'assets',
-        assetsPublicPath: 'https://qibit.oss-cn-hangzhou.aliyuncs.com/',
+        assetsPublicPath: 'https://bizzanex.oss-cn-hangzhou.aliyuncs.com/',
 
         /**
          * Source Maps

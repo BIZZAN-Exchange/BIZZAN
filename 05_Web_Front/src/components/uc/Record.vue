@@ -29,6 +29,7 @@
               <Option v-for="item in recordType" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             <Button type="warning" @click="queryOrder" style="padding: 6px 30px;margin-left:10px;background-color:#f0a70a;border-color:#f0a70a">{{$t('uc.finance.record.search')}}</Button>
+
           </div>
           <div class="order-table">
             <Table :no-data-text="$t('common.nodata')" :columns="tableColumnsRecord" :data="tableRecord" :disabled-hover="true" :loading="loading"></Table>
@@ -122,6 +123,38 @@ export default {
         {
           value: 16,
           label: this.$t("uc.finance.record.redin")
+        },
+        {
+          value: 17,
+          label: this.$t("uc.finance.record.withdrawcodeout")
+        },
+        {
+          value: 18,
+          label: this.$t("uc.finance.record.withdrawcodein")
+        },
+        {
+          value: 19,
+          label: this.$t("uc.finance.record.contractfee")
+        },
+        {
+          value: 20,
+          label: this.$t("uc.finance.record.contractprofit")
+        },
+        {
+          value: 21,
+          label: this.$t("uc.finance.record.contractloss")
+        },
+        {
+          value: 22,
+          label: this.$t("uc.finance.record.optionfail")
+        },
+        {
+          value: 23,
+          label: this.$t("uc.finance.record.optionfee")
+        },
+        {
+          value: 24,
+          label: this.$t("uc.finance.record.optionreward")
         }
       ],
       coinList: [],
@@ -247,7 +280,10 @@ export default {
         title: this.$t("uc.finance.record.chargetime"),
         align: "center",
         width: 160,
-        key:"createTime"
+        key:"createTime",
+		render: function(h,params){
+			return h("div", {}, that.dateFormatFromString(params.row.createTime));
+		}
       });
       columns.push({
         title: this.$t("uc.finance.record.type"),
@@ -288,8 +324,24 @@ export default {
             str = that.$t("uc.finance.record.redout");
           } else if (type == 16) {
             str = that.$t("uc.finance.record.redin");
+          } else if (type == 17) {
+            str = that.$t("uc.finance.record.withdrawcodeout");
+          } else if (type == 18) {
+            str = that.$t("uc.finance.record.withdrawcodein");
+          } else if (type == 19) {
+            str = that.$t("uc.finance.record.contractfee");
+          } else if (type == 20) {
+            str = that.$t("uc.finance.record.contractprofit");
+          } else if (type == 21) {
+            str = that.$t("uc.finance.record.contractloss");
+          } else if (type == 22) {
+            str = that.$t("uc.finance.record.optionfail");
+          } else if (type == 23) {
+            str = that.$t("uc.finance.record.optionfee");
+          } else if (type == 24) {
+            str = that.$t("uc.finance.record.optionreward");
           }else {
-            str = "充值";
+            str = that.$t("uc.finance.record.other");
           }
           return h("div", str, "");
         }

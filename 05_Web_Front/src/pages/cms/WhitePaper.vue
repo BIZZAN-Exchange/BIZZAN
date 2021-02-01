@@ -1,6 +1,6 @@
 <template>
   <div class="pdf">
-    <embed src="https://bizzan.oss-cn-hangzhou.aliyuncs.com/BIZZANWhitePaperVer%201.0.pdf" width="100%" height="800">
+    <embed src="https://bizzanex.oss-cn-hangzhou.aliyuncs.com/BIZZANWhitePaperVer%201.0.pdf" width="100%" height="800">
     <p class="arrow" style="text-align:center;color:#000;margin: 20px 0 20px 0;">
       <a style="color: #FFF;" href="https://raw.githubusercontent.com/bizzanpublic/bizzan/master/BIZZANWhitePaperVer%201.0.pdf" target="_blank">{{$t("sectionPage.downloadwhite")}}</a>
     </p>
@@ -10,7 +10,7 @@
 export default {
   data() {
     return {
-      src: 'https://bizzan.oss-cn-hangzhou.aliyuncs.com/BIZZANWhitePaperVer%201.0.pdf'
+      src: 'https://bizzanex.oss-cn-hangzhou.aliyuncs.com/BIZZANWhitePaperVer%201.0.pdf'
     };
   },
   created: function() {
@@ -21,13 +21,7 @@ export default {
       return this.$store.state.lang;
     },
     langPram(){
-      if(this.$store.state.lang == "简体中文"){
-        return "CN";
-      }
-      if(this.$store.state.lang == "English"){
-        return "EN";
-      }
-      return "CN";
+      return this.$store.state.lang;
     }
   },
   methods: {

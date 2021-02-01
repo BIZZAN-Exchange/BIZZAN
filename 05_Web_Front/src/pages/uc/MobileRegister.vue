@@ -2,8 +2,8 @@
   <div class="login_form mob-login">
     <div class="login_right">
       <div style="color: #F90;margin-bottom: 60px;margin-top: 60px;">
-        <h1 style="border-left: 5px solid #F90;padding-left: 10px;letter-spacing: 2px;line-height:30px;height:30px;">BIZZAN.COM</h1>
-        <p style="padding-left:15px;letter-spacing: 6px;">严选全球优质数字资产</p>
+        <h1 style="border-left: 5px solid #F90;padding-left: 10px;letter-spacing: 2px;line-height:30px;height:30px;">BIZZAN.PRO</h1>
+        <p style="padding-left:15px;letter-spacing: 6px;">{{$t('footer.gsmc')}}</p>
         <div style="margin-left:5px;letter-spacing: 2px;margin-top: 10px;color: rgb(226, 226, 227);font-size:13px;padding: 5px 10px;">安全 ● 诚实 ● 公平 ● 热情 ● 开放</div>
       </div>
       <Form v-if="allowRegister" ref="formInline" :model="formInline" :rules="ruleInline" inline>
@@ -15,19 +15,22 @@
           <Input type="text" v-model="formInline.user" :placeholder="key">
             <Select v-model="country" slot="prepend" style="width: 65px;border-bottom: 1px solid #27313e;">
               <Option value="中国" label="+86"><span>+86</span><span style="margin-left:10px;color:#ccc">中国</span></Option>
-              <Option value="新加坡" label="+65"><span>+65</span><span style="margin-left:10px;color:#ccc">新加坡</span></Option>
-              <Option value="韩国" label="+82"><span>+82</span><span style="margin-left:10px;color:#ccc">韩国</span></Option>
-              <Option value="日本" label="+81"><span>+81</span><span style="margin-left:10px;color:#ccc">日本</span></Option>
-              <Option value="泰国" label="+66"><span>+66</span><span style="margin-left:10px;color:#ccc">泰国</span></Option>
-              <Option value="俄罗斯" label="+7"><span>+7</span><span style="margin-left:10px;color:#ccc">俄罗斯</span></Option>
-              <Option value="英国" label="+44"><span>+44</span><span style="margin-left:10px;color:#ccc">英国</span></Option>
-              <Option value="越南" label="+84"><span>+84</span><span style="margin-left:10px;color:#ccc">越南</span></Option>
-              <Option value="印度" label="+91"><span>+91</span><span style="margin-left:10px;color:#ccc">印度</span></Option>
-              <Option value="意大利" label="+39"><span>+39</span><span style="margin-left:10px;color:#ccc">意大利</span></Option>
-              <Option value="香港" label="+852"><span>+852</span><span style="margin-left:10px;color:#ccc">香港</span></Option>
-              <Option value="马来西亚" label="+60"><span>+60</span><span style="margin-left:10px;color:#ccc">马来西亚</span></Option>
-              <Option value="台湾省" label="+886"><span>+886</span><span style="margin-left:10px;color:#ccc">台湾省</span></Option>
-              <Option value="土耳其" label="+90"><span>+90</span><span style="margin-left:10px;color:#ccc">土耳其</span></Option>
+	      <Option value="新加坡" label="+65"><span>+65</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.singapore')}}</span></Option>
+              <Option value="韩国" label="+82"><span>+82</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.korea')}}</span></Option>
+              <Option value="日本" label="+81"><span>+81</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.japan')}}</span></Option>
+              <Option value="泰国" label="+66"><span>+66</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.thailand')}}</span></Option>
+              <Option value="俄罗斯" label="+7"><span>+7</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.russia')}}</span></Option>
+              <Option value="英国" label="+44"><span>+44</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.uk')}}</span></Option>
+              <Option value="越南" label="+84"><span>+84</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.vietnam')}}</span></Option>
+              <Option value="印度" label="+91"><span>+91</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.india')}}</span></Option>
+              <Option value="意大利" label="+39"><span>+39</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.italy')}}</span></Option>
+              <Option value="香港" label="+852"><span>+852</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.hk')}}</span></Option>
+              <Option value="马来西亚" label="+60"><span>+60</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.malaysia')}}</span></Option>
+              <Option value="台湾省" label="+886"><span>+886</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.taiwan')}}</span></Option>
+              <Option value="土耳其" label="+90"><span>+90</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.turkey')}}</span></Option>
+              <Option value="德国" label="+49"><span>+49</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.germany')}}</span></Option>
+              <Option value="法国" label="+33"><span>+33</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.france')}}</span></Option>
+              <Option value="西班牙" label="+34"><span>+34</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.spain')}}</span></Option>
             </Select>
           </Input>
         </FormItem>
@@ -55,8 +58,8 @@
           <label>
             <Checkbox v-model="agree">{{$t('uc.regist.agreement')}}</Checkbox>
           </label>
-          <a v-if="lang=='简体中文'" href="/helpdetail?cate=1&id=5&cateTitle=常见问题" target="_blank" style="">《{{$t('uc.regist.userprotocol')}}》</a>
-          <a v-if="lang=='English'" href="/helpdetail?cate=1&id=35&cateTitle=Privacy Policy" target="_blank" style="">《{{$t('uc.regist.userprotocol')}}》</a>
+          <a v-if="lang=='zh_CN'" href="/helpdetail?cate=1&id=5&cateTitle=常见问题" target="_blank" style="">《{{$t('uc.regist.userprotocol')}}》</a>
+          <a v-if="lang=='zh_CN'" href="/helpdetail?cate=1&id=35&cateTitle=Privacy Policy" target="_blank" style="">《{{$t('uc.regist.userprotocol')}}》</a>
         </div>
         <FormItem>
           <Button class="register_btn" @click="handleSubmit('formInline')" :disabled="registing">{{$t('uc.regist.regist')}}</Button>
@@ -244,12 +247,10 @@ export default {
   data() {
     const validateUser = (rule, value, callback) => {
       if (this.changeActive == 0) {
-        var reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+        // var reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
         if (value == "") {
           callback(new Error(this.$t("uc.regist.teltip")));
-        } else if (!reg.test(this.formInline.user)) {
-          callback(new Error(this.$t("uc.regist.telerr")));
-        } else {
+        }else {
           callback();
         }
       } else {
@@ -388,7 +389,7 @@ export default {
       if (this.isLogin) {
         this.$router.push("/");
       }
-      window.document.title = (this.lang == "简体中文" ? "新用户注册 - " : "New Register - ") + "币严 | 全球比特币交易平台 | 全球数字货币交易平台";
+      window.document.title = (this.lang == "zh_CN" ? "新用户注册 - " : "New Register - ") + "BZEX | Global digital currency trading platform";
       // this.getAreas();
       // this.initGtCaptcha();
     },
@@ -528,7 +529,8 @@ export default {
     sendCode() {
       var mobilePhone = this.formInline.user;
       let reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
-      if (mobilePhone == "" || !reg.test(mobilePhone)) {
+      // if (mobilePhone == "" || !reg.test(mobilePhone)) {
+      if (mobilePhone == "") {
         this.$Message.error(this.$t("uc.regist.teltip"));
         return;
       } else {
@@ -540,13 +542,14 @@ export default {
       params["phone"] = this.formInline.user;
       params["country"] = "中国";
       var reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
-      reg.test(params["phone"]) && this.$http.post(this.host + "/uc/mobile/code", params).then(response => {
+      // reg.test(params["phone"]) && this.$http.post(this.host + "/uc/mobile/code", params).then(response => {
+      this.$http.post(this.host + "/uc/mobile/code", params).then(response => {
             var resp = response.body;
             resp.code == 0 && this.$Notice.success({title: this.$t("common.tip"),desc: resp.message});
             resp.code == 0 && this.settime();
             resp.code != 0 && this.$Notice.error({title: this.$t("common.tip"),desc: resp.message});
           });
-      !reg.test(params["phone"]) &&this.$Notice.error({title: this.$t("common.tip"),desc: this.$t("uc.finance.withdraw.telerr")});
+      // !reg.test(params["phone"]) &&this.$Notice.error({title: this.$t("common.tip"),desc: this.$t("uc.finance.withdraw.telerr")});
     }
   }
 };

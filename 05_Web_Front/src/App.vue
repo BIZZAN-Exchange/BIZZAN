@@ -21,20 +21,26 @@
                   <router-link to="/">
                     <MenuItem name="nav-index">{{$t("header.index")}}</MenuItem>
                   </router-link>
-                  <router-link to="/exchange">
-                    <MenuItem name="nav-exchange">{{$t("header.exchange")}}</MenuItem>
-                  </router-link>
                   <router-link to="/ctc">
                     <MenuItem name="nav-ctc">{{$t("header.ctc")}}</MenuItem>
                   </router-link>
-                  <router-link to="/otc/trade/usdt" style="display:none;">
-                    <MenuItem name="nav-otc">{{$t("header.otc")}}</MenuItem>
+				  <router-link to="/otc/trade/usdt">
+				    <MenuItem name="nav-otc">{{$t("header.otc")}}</MenuItem>
+				  </router-link>
+                  <router-link to="/exchange">
+                    <MenuItem name="nav-exchange">{{$t("header.exchange")}}</MenuItem>
                   </router-link>
                   <router-link to="/lab" style="position:relative;">
                     <MenuItem name="nav-lab">{{$t("header.lab")}}</MenuItem>
                   </router-link>
+		              <router-link to="/cexchange">
+                    <MenuItem name="nav-cexchange">{{$t("header.cexchange")}}</MenuItem>
+                  </router-link>
                   <router-link to="/invite">
                     <MenuItem name="nav-invite">{{$t("header.invite")}}</MenuItem>
+                  </router-link>
+                  <router-link to="/news" style="display: none;">
+                    <MenuItem name="nav-news">{{$t("header.news")}}</MenuItem>
                   </router-link>
                   <router-link to="/announcement/0">
                     <MenuItem name="nav-service">{{$t("header.service")}}</MenuItem>
@@ -52,12 +58,26 @@
               <Menu mode="horizontal" width="auto" @on-select="changelanguage" style="height: 50px;line-height:50px;">
                   <Submenu name="lang">
                       <template slot="title" class="lang-title">
-                        <span style="display: none;">{{languageValue}}</span>
-                        <img class="lang-img" v-if="lang=='简体中文'" src="./assets/images/lang-zh.png"></img>
-                        <img class="lang-img" v-if="lang=='English'" src="./assets/images/lang-en.png"></img>
+                        <span>{{languageValue}}</span>
+                        <img class="lang-img" v-if="lang=='en_US'"></img>
+						<img class="lang-img" v-if="lang=='ja_JP'"></img>
+						<img class="lang-img" v-if="lang=='ko_KR'"></img>
+						<img class="lang-img" v-if="lang=='de_DE'"></img>
+						<img class="lang-img" v-if="lang=='fr_FR'"></img>
+						<img class="lang-img" v-if="lang=='it_IT'"></img>
+						<img class="lang-img" v-if="lang=='es_ES'"></img>
+						<img class="lang-img" v-if="lang=='zh_HK'"></img>
+						<img class="lang-img" v-if="lang=='zh_CN'"></img>
                       </template>
-                      <MenuItem name="zh" class="lang-item"><img src="./assets/images/lang-zh.png"></img>简体中文</MenuItem>
-                      <MenuItem name="en" class="lang-item"><img src="./assets/images/lang-en.png"></img>ENGLISH</MenuItem>
+                      <MenuItem name="en_US" class="lang-item"></img>English</MenuItem>
+					  <MenuItem name="ja_JP" class="lang-item"></img>日本語</MenuItem>
+					  <MenuItem name="ko_KR" class="lang-item"></img>한국어</MenuItem>
+					  <MenuItem name="de_DE" class="lang-item"></img>Deutsche</MenuItem>
+					  <MenuItem name="fr_FR" class="lang-item"></img>français</MenuItem>
+					  <MenuItem name="it_IT" class="lang-item"></img>italiano</MenuItem>
+					  <MenuItem name="es_ES" class="lang-item"></img>Español</MenuItem>
+					  <MenuItem name="zh_HK" class="lang-item"></img>繁體中文</MenuItem>
+					  <MenuItem name="zh_CN" class="lang-item"></img>简体中文</MenuItem>
                   </Submenu>
               </Menu>
             </div>
@@ -96,16 +116,6 @@
                         </router-link>
                       </DropdownItem>
                       <DropdownItem>
-                        <router-link to="/uc/entrust/current">
-                          <Icon type="md-swap" /> &nbsp;{{$t("header.trademanage")}}
-                        </router-link>
-                      </DropdownItem>
-                      <DropdownItem>
-                        <router-link to="/uc/innovation/myorders">
-                          <Icon type="md-swap" /> &nbsp;{{$t("header.innovationmanage")}}
-                        </router-link>
-                      </DropdownItem>
-                      <DropdownItem>
                         <div @click="logout">
                           <Icon type="md-log-out" /> &nbsp;{{$t("common.logout")}}
                         </div>
@@ -137,8 +147,8 @@
         <Menu :active-name="activeNav" width="auto" @on-select="changelanguage">
             <MenuItem name="nav-index" style="text-align:left;">{{$t("header.index")}}</MenuItem>
             <MenuItem name="nav-exchange" style="text-align:left;">{{$t("header.exchange")}}</MenuItem>
-            <MenuItem name="nav-ctc" style="text-align:left;">{{$t("header.ctc")}}</MenuItem>
-            <router-link to="/otc/trade/usdt" style="display:none;">
+            <!-- <MenuItem name="nav-ctc" style="text-align:left;">{{$t("header.ctc")}}</MenuItem> -->
+            <router-link to="/otc/trade/usdt">
               <MenuItem name="nav-otc" style="text-align:left;">{{$t("header.otc")}}</MenuItem>
             </router-link>
             <router-link to="/lab">
@@ -181,8 +191,15 @@
                 <template slot="title" class="lang-title">
                   <span style="color:#bdc2ca;">{{languageValue}}</span>
                 </template>
-                <MenuItem name="zh" class="lang-item" style="padding-left:20px!important;"><img src="./assets/images/lang-zh.png"></img>简体中文</MenuItem>
-                <MenuItem name="en" class="lang-item" style="padding-left:20px!important;"><img src="./assets/images/lang-en.png"></img>ENGLISH</MenuItem>
+				<MenuItem name="en_US" class="lang-item" style="padding-left:20px!important;"></img>English</MenuItem>
+				<MenuItem name="ja_JP" class="lang-item" style="padding-left:20px!important;"></img>日本語</MenuItem>
+				<MenuItem name="ko_KR" class="lang-item" style="padding-left:20px!important;"></img>한국어</MenuItem>
+				<MenuItem name="de_DE" class="lang-item" style="padding-left:20px!important;"></img>Deutsche</MenuItem>
+				<MenuItem name="fr_FR" class="lang-item" style="padding-left:20px!important;"></img>français</MenuItem>
+				<MenuItem name="it_IT" class="lang-item" style="padding-left:20px!important;"></img>italiano</MenuItem>
+				<MenuItem name="es_ES" class="lang-item" style="padding-left:20px!important;"></img>Español</MenuItem>
+				<MenuItem name="zh_HK" class="lang-item" style="padding-left:20px!important;"></img>繁體中文</MenuItem>
+				<MenuItem name="zh_CN" class="lang-item" style="padding-left:20px!important;"></img>简体中文</MenuItem>
             </Submenu>
             <router-link to="/app">
               <MenuItem name="nav-appdownload"style="text-align:left;color:#bdc2ca;">{{$t("header.appdownlaod")}}</MenuItem>
@@ -195,7 +212,7 @@
           <img  src="./assets/images/logo-bottom.png" style="margin:0" ></img>
           <!-- <h3>Caymanex.Pro</h3> -->
           <p style="letter-spacing:2px;">{{$t("footer.gsmc")}}</p>
-          <p>Copyright © 2019 - Bizzan.com All rights reserved.&nbsp;&nbsp;</p>
+          <p>Copyright © 2012-2021 WWW.BIZZAN.PRO All rights reserved.&nbsp;&nbsp;</p>
           <div class="social-list">
             <ul>
               <Tooltip content="Wechat" theme="dark" placement="top">
@@ -279,7 +296,7 @@
               <router-link target="_blank" to="/about-us">{{$t("footer.gywm")}}</router-link>
             </li>
             <li>
-              <router-link target="_blank" to="/helpdetail?cate=6&id=39&cateTitle=其他">{{$t("footer.jrwm")}}</router-link>
+              <router-link target="_blank" :to="getUrl(1)">{{$t("footer.jrwm")}}</router-link>
             </li>
             <li>
               <router-link target="_blank" to="/announcement/0">{{$t("footer.notice")}}</router-link>
@@ -298,16 +315,16 @@
               <span>{{$t("footer.bzzx")}}</span>
             </li>
             <li>
-              <router-link target="_blank" to="/helplist?cate=0&cateTitle=新手指南">{{$t("footer.xszn")}}</router-link>
+              <router-link target="_blank" :to="getUrl(2)" >{{$t("footer.xszn")}}</router-link>
             </li>
             <li>
-              <router-link target="_blank" to="/helplist?cate=1&cateTitle=常见问题">{{$t("footer.cjwt")}}</router-link>
+              <router-link target="_blank" :to="getUrl(3)" >{{$t("footer.cjwt")}}</router-link>
             </li>
             <li>
-              <router-link target="_blank" to="/helplist?cate=2&cateTitle=交易指南">{{$t("footer.jyzn")}}</router-link>
+              <router-link target="_blank" :to="getUrl(4)" >{{$t("footer.jyzn")}}</router-link>
             </li>
             <li>
-              <router-link target="_blank" to="/helplist?cate=3&cateTitle=币种资料">{{$t("footer.bzzl")}}</router-link>
+              <router-link target="_blank" :to="getUrl(5)" >{{$t("footer.bzzl")}}</router-link>
             </li>
           </ul>
           <ul>
@@ -315,16 +332,16 @@
               <span>{{$t("footer.tkxy")}}</span>
             </li>
             <li>
-              <router-link target="_blank" to="/helpdetail?cate=5&id=2&cateTitle=条款协议">{{$t("footer.mztk")}}</router-link>
+              <router-link target="_blank" :to="getUrl(6)" >{{$t("footer.mztk")}}</router-link>
             </li>
             <li>
-              <router-link target="_blank" to="/helpdetail?cate=5&id=3&cateTitle=条款协议">{{$t("footer.ystk")}}</router-link>
+              <router-link target="_blank" :to="getUrl(7)" >{{$t("footer.ystk")}}</router-link>
             </li>
             <li>
-              <router-link target="_blank" to="/helpdetail?cate=5&id=5&cateTitle=条款协议">{{$t("footer.fwtk")}}</router-link>
+              <router-link target="_blank" :to="getUrl(8)" >{{$t("footer.fwtk")}}</router-link>
             </li>
             <li>
-              <router-link target="_blank" to="/helpdetail?cate=5&id=38&cateTitle=条款协议">{{$t("footer.fltk")}}</router-link>
+              <router-link target="_blank" :to="getUrl(9)">{{$t("footer.fltk")}}</router-link>
             </li>
           </ul>
           <ul>
@@ -335,7 +352,7 @@
               <poptip width="200" trigger="hover" placement="right">
                 <a href="javascript:;" class="wechat">{{$t("footer.kfyx")}}</a>
                 <div slot="content">
-                  <p style="text-align:center;">service@bizzan.com</p>
+                  <p style="text-align:center;">service@bizzan.pro</p>
                 </div>
               </poptip>
             </li>
@@ -343,7 +360,7 @@
               <poptip width="200" trigger="hover" placement="right">
                 <a href="javascript:;" class="wechat">{{$t("footer.swhz")}}</a>
                 <div slot="content">
-                  <p style="text-align:center;">support@bizzan.com</p>
+                  <p style="text-align:center;">support@bizzan.pro</p>
                 </div>
               </poptip>
             </li>
@@ -351,7 +368,7 @@
               <poptip width="200" trigger="hover" placement="right">
                 <a href="javascript:;" class="wechat">{{$t("footer.sbsq")}}</a>
                 <div slot="content">
-                  <p style="text-align:center;">list@bizzan.com</p>
+                  <p style="text-align:center;">list@bizzan.pro</p>
                 </div>
               </poptip>
             </li>
@@ -359,7 +376,7 @@
               <poptip width="200" trigger="hover" placement="right">
                 <a href="javascript:;" class="wechat">{{$t("footer.tsjb")}}</a>
                 <div slot="content">
-                  <p style="text-align:center;">ceo@bizzan.com</p>
+                  <p style="text-align:center;">ceo@bizzan.pro</p>
                 </div>
               </poptip>
             </li>
@@ -397,22 +414,25 @@ export default {
     activeNav: function() {
       switch (this.activeNav) {
         case "nav-exchange":
-          window.document.title = (this.lang == "简体中文" ? "交易中心" : "Exchange") + " - BIZZAN | 币严 | 全球比特币交易平台 | 全球数字货币交易平台";
+          window.document.title = (this.lang == "zh_CN" ? "交易中心" : "Exchange") + " - BIZZAN | BIZZAN | Global digital currency trading platform";
           break;
         case "nav-service":
-          window.document.title = (this.lang == "简体中文" ? "公告" : "Announcement") + " - BIZZAN | 币严 | 全球比特币交易平台 | 全球数字货币交易平台";
+          window.document.title = (this.lang == "zh_CN" ? "公告" : "Announcement") + " - BIZZAN | BIZZAN | Global digital currency trading platform";
           break;
         case "nav-about":
-          window.document.title = (this.lang == "简体中文" ? "关于" : "About") + " - BIZZAN | 币严 | 全球比特币交易平台 | 全球数字货币交易平台";
+          window.document.title = (this.lang == "zh_CN" ? "关于" : "About") + " - BIZZAN | BIZZAN | Global digital currency trading platform";
           break;
         case "nav-lab":
-          window.document.title = (this.lang == "简体中文" ? "创新实验室" : "Lab") + " - BIZZAN | 币严 | 全球比特币交易平台 | 全球数字货币交易平台";
+          window.document.title = (this.lang == "zh_CN" ? "创新实验室" : "Lab") + " - BIZZAN | BIZZAN | Global digital currency trading platform";
           break;
         case "nav-invite":
-          window.document.title = (this.lang == "简体中文" ? "推广合伙人" : "Promotion") + " - BIZZAN | 币严 | 全球比特币交易平台 | 全球数字货币交易平台";
+          window.document.title = (this.lang == "zh_CN" ? "推广合伙人" : "Promotion") + " - BIZZAN | BIZZAN | Global digital currency trading platform";
+          break;
+	case "nav-cexchange":
+          window.document.title = (this.lang == "zh_CN" ? "活动" : "Activity") + " - BIZZAN | Global digital currency trading platform";
           break;
         default:
-          window.document.title = "币严 | 币严官网 - 全球比特币交易平台 | 全球数字货币交易平台";
+          window.document.title = "BIZZAN | BIZZAN官网 - 全球比特币交易平台 | 全球数字货币交易平台";
           break;
       }
     },
@@ -460,7 +480,34 @@ export default {
     },
     languageValue: function() {
       var curlang = this.$store.getters.lang;
-      if (curlang == "English") this.$i18n.locale = "en";
+      this.$i18n.locale = curlang;
+	  if(curlang=="en_US"){
+		  return "English";
+	  }
+	  if(curlang=="ja_JP"){
+	  	return "日本語";
+	  }
+	  if(curlang=="ko_KR"){
+	  	return "한국어";
+	  }
+	  if(curlang=="de_DE"){
+	  	return "Deutsche";
+	  }
+	  if(curlang=="fr_FR"){
+	  	return "français";
+	  }
+	  if(curlang=="it_IT"){
+	  	return "italiano";
+	  }
+	  if(curlang=="es_ES"){
+	  	return "Español";
+	  }
+	  if(curlang=="zh_HK"){
+	  	return "繁體中文";
+	  }
+	  if(curlang=="zh_CN"){
+	  	return "简体中文";
+	  }
       return curlang;
     },
     lang() {
@@ -472,6 +519,7 @@ export default {
   },
   created: function() {
     this.initialize();
+	zE('webWidget', 'hide');
     var d = new Date(),
       gmtHours = d.getTimezoneOffset() / 60;
     this.utc = "GMT " + (gmtHours > 0 ? "-" : "+") + " " + String(gmtHours)[1];
@@ -507,6 +555,28 @@ export default {
       }
       return str;
     },
+	getUrl(type){
+		if(type==1){
+			return "/helpdetail?cate=6&id=39&cateTitle="+this.$t("footer.jrwm");
+		}else if(type==2){
+			return "/helplist?cate=0&cateTitle="+this.$t("footer.xszn");
+		}else if(type==3){
+			return "/helplist?cate=1&cateTitle="+this.$t("footer.cjwt");
+		}else if(type==4){
+			return "/helplist?cate=2&cateTitle="+this.$t("footer.jyzn");
+		}else if(type==5){
+			return "/helplist?cate=3&cateTitle="+this.$t("footer.bzzl");
+		}else if(type==6){
+			return "/helpdetail?cate=5&id=2&cateTitle="+this.$t("footer.mztk");
+		}else if(type==7){
+			return "/helpdetail?cate=5&id=3&cateTitle="+this.$t("footer.ystk");
+		}else if(type==8){
+			return "/helpdetail?cate=5&id=5&cateTitle="+this.$t("footer.fwtk");
+		}else if(type==9){
+			return "/helpdetail?cate=5&id=38&cateTitle="+this.$t("footer.fltk");
+		}
+		
+	},
     initialize() {
       this.$store.commit("navigate", "nav-index");
       this.$store.commit("recoveryMember");
@@ -539,16 +609,41 @@ export default {
     },
     changelanguage: function(name) {
       console.log("change language: " + name);
-      if (name == "en") {
-        this.$store.commit("setlang", "English");
-        this.$i18n.locale = "en";
-        this.reload();
-      }
-      if (name == "zh") {
-        this.$store.commit("setlang", "简体中文");
-        this.$i18n.locale = "zh";
-        this.reload();
-      }
+	  if(name!="en_US" && name!="ja_JP" && name!="ko_KR" && name!="de_DE" && name!="fr_FR" && name!="it_IT" && name!="es_ES" && name!="zh_HK" && name!="zh_CN"){
+		  
+	  }else{
+		  this.$store.commit("setlang", name);
+		  this.$i18n.locale = name;
+		  this.reload();
+	  }
+      // if (name == "en") {
+        
+   //    }
+   //    if (name == "zh") {
+   //      this.$store.commit("setlang", "简体中文");
+   //      this.$i18n.locale = "zh";
+   //      this.reload();
+   //    }
+	  // if (name == "hk") {
+	  //   this.$store.commit("setlang", "繁体中文");
+	  //   this.$i18n.locale = "hk";
+	  //   this.reload();
+	  // }
+	  // if (name == "jp") {
+	  //   this.$store.commit("setlang", "日本语");
+	  //   this.$i18n.locale = "jp";
+	  //   this.reload();
+	  // }
+	  // if (name == "ko") {
+	  //   this.$store.commit("setlang", "韩语");
+	  //   this.$i18n.locale = "ko";
+	  //   this.reload();
+	  // }
+	  // if (name == "de") {
+	  //   this.$store.commit("setlang", "德语");
+	  //   this.$i18n.locale = "de";
+	  //   this.reload();
+	  // }
     }
   }
 };
@@ -1359,7 +1454,7 @@ body {
 /*自定义滚动条样式*/
 
 ::-webkit-scrollbar {
-  width: 3px;
+  width: 0px;
   background: transparent;
 }
 

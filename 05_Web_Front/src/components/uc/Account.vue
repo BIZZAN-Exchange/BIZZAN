@@ -31,7 +31,7 @@
                                         </FormItem>
                                         <!-- bankName -->
                                         <FormItem :label="$t('uc.account.bankaccount')" prop="bankName">
-                                            <Select v-model="formValidate1.bankName" size="large">
+                                            <Select v-model="formValidate1.bankName" size="large" :placeholder="$t('common.pleaseselect')">
                                                 <Option v-for="item in bankNameList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                                             </Select>
                                         </FormItem>
@@ -455,6 +455,17 @@ export default {
                     } else {
                       this.$Message.error(resp.message);
                     }
+                  })
+                }else {
+                  this.$http.post(this.host + '/uc/approve/bind/ali', param).then(response => {
+                      var resp = response.body;
+                      if (resp.code == 0) {
+                          this.$Message.success(this.$t('uc.account.save_success'));
+                          this.getAccount()
+                          this.choseItem = 0
+                      } else {
+                          this.$Message.error(resp.message);
+                      }
                   })
                 }
             }

@@ -3,12 +3,14 @@
     <div class="login_right">
       <div style="color: #000;margin-bottom: 60px;padding-top: 160px;width: 100%;text-align:center;z-index: 10;">
         <img src="../../assets/images/applogo.png" style="width: 22%;border-radius: 15px;"></img>
-        <p style="font-size:18px;">币严</p>
-        <p style="font-size:12px;margin-top: 10px;color:#888;">最新版本：v{{version}}</p>
-        <p style="font-size:10px;margin-top: 10px;color:#888;letter-spacing: 1px;">发布时间：{{publishTime}}</p>
+        <p style="font-size:18px;">BIZZAN</p>
+        <p style="font-size:12px;margin-top: 10px;color:#888;">Latest Version：v{{version}}</p>
+        <p style="font-size:10px;margin-top: 10px;color:#888;letter-spacing: 1px;">Publish Time：{{publishTime}}</p>
         <p style="font-size:18px;margin-top: 45px;">
             <span style="border: 1px solid #F90; padding: 8px 30px;border-radius: 5px;background-color:#F90;color:#FFF;" @click="downloadClick">
-            <Icon custom="i-icon iconfont iconupload-demo" style="font-size: 24px;margin-right: 5px;" />立即下载</span>
+            <Icon custom="i-icon iconfont iconupload-demo" style="font-size: 24px;margin-right: 5px;" />Android</span>
+			<span style="border: 1px solid #F90; padding: 8px 50px;border-radius: 5px;background-color:#F90;color:#FFF;" @click="downloadClick2">
+			<Icon custom="i-icon iconfont iconupload-demo" style="font-size: 24px;margin-right: 5px;" />iOS</span>
         </p>
         <p style="font-size:12px;margin-top: 20px;color:#888;"></p>
       </div>
@@ -17,34 +19,34 @@
     <div class="section" id="page4">
       <ul>
         <li>
-          <div><img src="https://bizzan.oss-cn-hangzhou.aliyuncs.com/2019/download1.png" alt=""></div>
-          <p class="title">极致体验</p>
-          <p>精心优化的界面显示，体验流畅的操作响应</p>
+          <div><img src="https://bizzanex.oss-cn-hangzhou.aliyuncs.com/2019/08/08/download1.png" alt=""></div>
+          <p class="title">Extreme Experience</p>
+          <p>Meticulously optimized interface display, experience smooth operation response</p>
         </li>
         <li>
-          <div><img src="https://bizzan.oss-cn-hangzhou.aliyuncs.com/2019/download2.png" alt=""></div>
-          <p class="title">币种行情</p>
-          <p>支持MACD、KDJ、RSI、BOLL等多种专业指标</p>
+          <div><img src="https://bizzanex.oss-cn-hangzhou.aliyuncs.com/2019/08/08/download2.png" alt=""></div>
+          <p class="title">Currency Quotes</p>
+          <p>Support MACD, KDJ, RSI, BOLL and other professional indicators</p>
         </li>
         <li>
-          <div><img src="https://bizzan.oss-cn-hangzhou.aliyuncs.com/2019/download5.png" alt=""></div>
-          <p class="title">币币交易</p>
-          <p>支持限价委托与市价委托两种方式</p>
+          <div><img src="https://bizzanex.oss-cn-hangzhou.aliyuncs.com/2019/08/08/download5.png" alt=""></div>
+          <p class="title">Currency Transaction</p>
+          <p>Support two methods of limit order and market order</p>
         </li>
         <li>
-          <div><img src="https://bizzan.oss-cn-hangzhou.aliyuncs.com/2019/download3.png" alt=""></div>
-          <p class="title">法币交易</p>
-          <p>优质承兑商，保证资金通道顺畅无阻</p>
+          <div><img src="https://bizzanex.oss-cn-hangzhou.aliyuncs.com/2019/08/08/download3.png" alt=""></div>
+          <p class="title">Fiat currency transaction</p>
+          <p>Quality acceptors, to ensure the smooth flow of funds</p>
         </li>
         <li>
-          <div><img src="https://bizzan.oss-cn-hangzhou.aliyuncs.com/2019/download4.png" alt=""></div>
-          <p class="title">资产中心</p>
-          <p>随时随地关注资产变化，极速充值/提现</p>
+          <div><img src="https://bizzanex.oss-cn-hangzhou.aliyuncs.com/2019/08/08/download4.png" alt=""></div>
+          <p class="title">Asset Center</p>
+          <p>Focus on asset changes anytime, anywhere, fast recharge/withdraw</p>
         </li>
       </ul>
     </div>
 
-    <div class="cover" id="cover" @click="coverClick"><img src="https://bizzan.oss-cn-hangzhou.aliyuncs.com/2019/appdowncover.png"></img></div>
+    <div class="cover" id="cover" @click="coverClick"><img src="https://bizzanex.oss-cn-hangzhou.aliyuncs.com/2019/08/08/appdowncover.png"></img></div>
   </div>
 </template>
 <style scoped lang="scss">
@@ -98,7 +100,7 @@ export default {
     return {
       country: "中国",
       version: "1.0.0",
-      publishTime: "2019/08/08 12:32:00"
+      publishTime: "2019/08/08/08/08 12:32:00"
     };
   },
   watch: {
@@ -120,14 +122,21 @@ export default {
   },
   methods: {
     init() {
-      window.document.title = (this.lang == "简体中文" ? "APP下载 - " : "APP Download - ") + "币严 | 全球比特币交易平台 | 全球数字货币交易平台";
+      window.document.title = (this.lang == "zh_CN" ? "APP下载 - " : "APP Download - ") + "BIZZAN | Global digital currency trading platform";
       this.getVersion();
     },
     downloadClick(){
       if(this.isWeiXin()){
         document.getElementById("cover").style.display = "block";
       }else{
-        location.href = "https://bizzan.oss-cn-hangzhou.aliyuncs.com/appdownload/BIZZAN-release.apk";
+        location.href = "https://bizzanex.oss-cn-hangzhou.aliyuncs.com/appdownload/BIZZAN.apk";
+      }
+    },
+    downloadClick2(){
+      if(this.isWeiXin()){
+        document.getElementById("cover").style.display = "block";
+      }else{
+        location.href = "https://testflight.apple.com/join/Exf8d0uH";
       }
     },
     coverClick(){

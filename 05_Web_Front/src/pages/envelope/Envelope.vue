@@ -14,7 +14,7 @@
       </p>
     </div>
     <img style="width: 100%;" :src="envelopeInfo.bgImage"></img>
-    <p style="margin-top: -80px;margin-bottom: 80px;text-align:center;color: rgb(255, 136, 79);font-size:13px;">该红包通过币严(BIZZAN.COM)发出</p>
+    <p style="margin-top: -80px;margin-bottom: 80px;text-align:center;color: rgb(255, 136, 79);font-size:13px;">该红包通过币严(BIZZAN.PRO)发出</p>
     <div class="input-panel"  v-if="!hasReceived &&  envelopeInfo.state == 0">
       <div style="color: rgb(177, 177, 177);font-size: 16px;margin: 10px 0 20px 0;" v-html="envelopeInfo.detail"></div>
       <Form ref="formInline" inline>
@@ -61,7 +61,7 @@
       </div>
     </div>
     <p style="text-align:center;margin-top: 25px;margin-bottom: 20px;">
-    <router-link style="font-size:14px;text-align:center;color: #EEE;margin-top:15px;text-decoration:underline;" to="/app">© BIZZAN.COM | 下载APP</router-link>
+    <router-link style="font-size:14px;text-align:center;color: #EEE;margin-top:15px;text-decoration:underline;" to="/app">© BIZZAN.PRO | 下载APP</router-link>
     </p>
 
     <Spin size="large" fix v-if="spinShow"></Spin>
@@ -83,7 +83,7 @@ export default {
       promotionCode: "",
       hasInviteUser: false,
       inviteUserId: "***********",
-      inviteUserAvatar: "https://bizzan.oss-cn-hangzhou.aliyuncs.com/defaultavatar.png",
+      inviteUserAvatar: "https://bizzanex.oss-cn-hangzhou.aliyuncs.com/defaultavatar.png",
       envelopeInfo: {
         id: 0,
         name: "**********",
@@ -93,8 +93,8 @@ export default {
         count: 0,
         invite: 0,
         type: 0,
-        logo: "https://bizzan.oss-cn-hangzhou.aliyuncs.com/applogo.png",
-        bgImage: "https://bizzan.oss-cn-hangzhou.aliyuncs.com/redenvelope.png",
+        logo: "https://bizzanex.oss-cn-hangzhou.aliyuncs.com/applogo.png",
+        bgImage: "https://bizzanex.oss-cn-hangzhou.aliyuncs.com/redenvelope.png",
         state: 0,
         detail: "留给未来一个暴富的可能"
       },
@@ -121,13 +121,7 @@ export default {
       return this.$store.state.lang;
     },
     langPram(){
-      if(this.$store.state.lang == "简体中文"){
-        return "CN";
-      }
-      if(this.$store.state.lang == "English"){
-        return "EN";
-      }
-      return "CN";
+      return this.$store.state.lang;
     }
   },
   methods: {
@@ -251,7 +245,7 @@ export default {
               this.envelopeInfo.bgImage = res.body.data.bgImage;
             }
 
-            window.document.title = "【" + this.envelopeInfo.totalAmount + " " + this.envelopeInfo.unit + "】" + this.envelopeInfo.name + "  — 币严(BIZZAN.COM)交易所"
+            window.document.title = "【" + this.envelopeInfo.totalAmount + " " + this.envelopeInfo.unit + "】" + this.envelopeInfo.name + "  — BZEX(WWW.BIZZAN.COM)交易所"
             this.getEnvelopeDetailList();
           } else {
               this.$Message.error(res.body.message);

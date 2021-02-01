@@ -4,7 +4,7 @@
       <div class="bill_box rightarea padding-right-clear">
         <div class="shaow">
           <div class="money_table">
-            <Table :columns="tableColumnsPromotion" :data="promotionList" :loading="loading" :disabled-hover="true"></Table>
+            <Table :no-data-text="$t('common.nodata')" :columns="tableColumnsPromotion" :data="promotionList" :loading="loading" :disabled-hover="true"></Table>
             <div class="page">
               <Page :total="total" :pageSize="pageSize" :current="pageNo" @on-change="loadDataPage"></Page>
             </div>

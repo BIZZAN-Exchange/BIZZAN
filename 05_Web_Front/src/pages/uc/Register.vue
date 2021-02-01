@@ -4,7 +4,7 @@
       <Form v-if="allowRegister" ref="formInline" :model="formInline" :rules="ruleInline" inline>
         <FormItem style="text-align:center;">
           <ButtonGroup>
-            <div class="tel-title">{{$t('uc.regist.regist')}}</div>
+            <Button v-for="(list,index) in buttonLists" :key="list.text" :class="{ active:changeActive == index}" @click="actives(index)">{{list.text}}</Button>
           </ButtonGroup>
         </FormItem>
         <FormItem prop="username" style="display:none;">
@@ -12,30 +12,35 @@
           </Input>
         </FormItem>
         <FormItem prop="user">
-          <Input type="text" v-model="formInline.user" :placeholder="key">
+          <Input type="text" v-model="formInline.user" :placeholder="key" v-if="changeActive==0">
             <Select v-model="country" slot="prepend" style="width: 65px;border-bottom: 1px solid #27313e;">
-              <Option value="中国" label="+86"><span>+86</span><span style="margin-left:10px;color:#ccc">中国</span></Option>
-              <Option value="新加坡" label="+65"><span>+65</span><span style="margin-left:10px;color:#ccc">新加坡</span></Option>
-              <Option value="韩国" label="+82"><span>+82</span><span style="margin-left:10px;color:#ccc">韩国</span></Option>
-              <Option value="日本" label="+81"><span>+81</span><span style="margin-left:10px;color:#ccc">日本</span></Option>
-              <Option value="泰国" label="+66"><span>+66</span><span style="margin-left:10px;color:#ccc">泰国</span></Option>
-              <Option value="俄罗斯" label="+7"><span>+7</span><span style="margin-left:10px;color:#ccc">俄罗斯</span></Option>
-              <Option value="英国" label="+44"><span>+44</span><span style="margin-left:10px;color:#ccc">英国</span></Option>
-              <Option value="越南" label="+84"><span>+84</span><span style="margin-left:10px;color:#ccc">越南</span></Option>
-              <Option value="印度" label="+91"><span>+91</span><span style="margin-left:10px;color:#ccc">印度</span></Option>
-              <Option value="意大利" label="+39"><span>+39</span><span style="margin-left:10px;color:#ccc">意大利</span></Option>
-              <Option value="香港" label="+852"><span>+852</span><span style="margin-left:10px;color:#ccc">香港</span></Option>
-              <Option value="马来西亚" label="+60"><span>+60</span><span style="margin-left:10px;color:#ccc">马来西亚</span></Option>
-              <Option value="台湾省" label="+886"><span>+886</span><span style="margin-left:10px;color:#ccc">台湾省</span></Option>
-              <Option value="土耳其" label="+90"><span>+90</span><span style="margin-left:10px;color:#ccc">土耳其</span></Option>
+              <Option value="中国" label="+86"><span>+86</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.china')}}</span></Option>             
+			  <Option value="新加坡" label="+65"><span>+65</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.singapore')}}</span></Option>
+              <Option value="韩国" label="+82"><span>+82</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.korea')}}</span></Option>
+              <Option value="日本" label="+81"><span>+81</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.japan')}}</span></Option>
+              <Option value="泰国" label="+66"><span>+66</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.thailand')}}</span></Option>
+              <Option value="俄罗斯" label="+7"><span>+7</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.russia')}}</span></Option>
+              <Option value="英国" label="+44"><span>+44</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.uk')}}</span></Option>
+              <Option value="越南" label="+84"><span>+84</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.vietnam')}}</span></Option>
+              <Option value="印度" label="+91"><span>+91</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.india')}}</span></Option>
+              <Option value="意大利" label="+39"><span>+39</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.italy')}}</span></Option>
+              <Option value="香港" label="+852"><span>+852</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.hk')}}</span></Option>
+              <Option value="马来西亚" label="+60"><span>+60</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.malaysia')}}</span></Option>
+              <Option value="台湾省" label="+886"><span>+886</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.taiwan')}}</span></Option>
+              <Option value="土耳其" label="+90"><span>+90</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.turkey')}}</span></Option>
+              <Option value="德国" label="+49"><span>+49</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.germany')}}</span></Option>
+              <Option value="法国" label="+33"><span>+33</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.france')}}</span></Option>
+              <Option value="西班牙" label="+34"><span>+34</span><span style="margin-left:10px;color:#ccc">{{$t('uc.regist.spain')}}</span></Option>
             </Select>
+          </Input>
+          <Input type="text" v-model="formInline.user" :placeholder="key" v-if="changeActive==1">
           </Input>
         </FormItem>
 
-        <FormItem prop="code" v-show="showCode">
+        <FormItem prop="code">
           <Input type="text" v-model="formInline.code" :placeholder="$t('uc.regist.smscode')">
           </Input>
-          <input id="sendCode" @click="sendCode();" type="Button" shape="circle" :value="sendcodeValue" :disabled='codedisabled'>
+          <input id="sendCode" type="Button" shape="circle" :value="sendcodeValue" :disabled='codedisabled'>
           </input>
         </FormItem>
         <FormItem prop="password"  class="password">
@@ -48,15 +53,15 @@
         </FormItem>
         <FormItem prop="promotion">
           <Input type="text" v-model="formInline.promotion">
-            <span slot="prepend">{{$t('uc.regist.promotion')}} :</span>
+            <span slot="prepend" style="margin-left: 7px;">{{$t('uc.regist.promotion')}} :</span>
           </Input>
         </FormItem>
         <div class="check-agree" style="">
           <label>
             <Checkbox v-model="agree">{{$t('uc.regist.agreement')}}</Checkbox>
           </label>
-          <a v-if="lang=='简体中文'" href="/helpdetail?cate=1&id=5&cateTitle=常见问题" target="_blank" style="">《{{$t('uc.regist.userprotocol')}}》</a>
-          <a v-if="lang=='English'" href="/helpdetail?cate=1&id=35&cateTitle=Privacy Policy" target="_blank" style="">《{{$t('uc.regist.userprotocol')}}》</a>
+          <a v-if="lang=='zh_CN'" href="/helpdetail?cate=1&id=5&cateTitle=常见问题" target="_blank" style="">《{{$t('uc.regist.userprotocol')}}》</a>
+          <a v-if="lang=='en_US'" href="/helpdetail?cate=1&id=35&cateTitle=Privacy Policy" target="_blank" style="">《{{$t('uc.regist.userprotocol')}}》</a>
         </div>
         <FormItem>
           <Button class="register_btn" @click="handleSubmit('formInline')" :disabled="registing">{{$t('uc.regist.regist')}}</Button>
@@ -65,7 +70,7 @@
       <Alert v-else type="warning">
         Coming soon!
         <template slot="desc">
-          BIZZAN.COM will open register soon
+          BIZZAN.PRO will open register soon
         </template>
       </Alert>
     </div>
@@ -119,7 +124,7 @@
             position: absolute;
             border: 1px solid #f0ac19;
             background: transparent;
-            top: -10px;
+            top: 0px;
             outline: none;
             right: 0;
             width: 30%;
@@ -183,20 +188,20 @@
 }
 </style>
 <script>
-//   import gtInit from '../../assets/js/gt.js';
+  import gtInit from '../../assets/js/gt.js';
 import $ from "jquery";
 export default {
   data() {
     const validateUser = (rule, value, callback) => {
       if (this.changeActive == 0) {
-        var reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
-        if (value == "") {
-          callback(new Error(this.$t("uc.regist.teltip")));
-        } else if (!reg.test(this.formInline.user)) {
-          callback(new Error(this.$t("uc.regist.telerr")));
-        } else {
+        // var reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+        // if (value == "") {
+        //   callback(new Error(this.$t("uc.regist.teltip")));
+        // } else if (!reg.test(this.formInline.user)) {
+        //   callback(new Error(this.$t("uc.regist.telerr")));
+        // } else {
           callback();
-        }
+        // }
       } else {
         var reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
         reg = /^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/;
@@ -334,20 +339,51 @@ export default {
         this.$router.push("/");
       }
       // this.getAreas();
-      // this.initGtCaptcha();
+      this.initGtCaptcha();
     },
     initGtCaptcha() {
       // 直接生成一个验证码对象
-      var self = this;
-      var captcha1 = new TencentCaptcha("2031827463", function(res) {
-        res.ret == 0 &&
-          (self.isRegister = true) &&
-          (self.ticket = res.ticket) &&
-          (self.randStr = res.randstr) &&
-          self.success();
-      });
-      captcha1.show(); // 显示验证码
+      // var self = this;
+      // var captcha1 = new TencentCaptcha("2076680797", function(res) {
+      //   res.ret == 0 &&
+      //     (self.isRegister = true) &&
+      //     (self.ticket = res.ticket) &&
+      //     (self.randStr = res.randstr) &&
+      //     self.success();
+      // });
+      // captcha1.show(); // 显示验证码
+	  var that = this;
+	  this.$http.get(this.host + this.api.uc.captcha).then(function(res) {
+	    window.initGeetest(
+	      {
+	        // 以下配置参数来自服务端 SDK
+	        gt: res.body.gt,
+	        challenge: res.body.challenge,
+	        offline: !res.body.success, //表示用户后台检测极验服务器是否宕机
+	        new_captcha: res.body.new_captcha, //用于宕机时表示是新验证码的宕机
+	        product: "bind",
+	        width: "100%",
+	  		lang: "en"
+	      },
+			this.handler
+	    );
+	  });
     },
+	handler(captchaObj) {
+	  captchaObj.onReady(() => {
+	      $("#wait").hide();
+	    }).onSuccess(() => {
+            this.isRegister = true;
+			this.success();
+	    });
+	  $("#sendCode").click(()=> {
+	     const tel = this.formInline.user,
+	                // flagtel = mobilereg.test(tel) || emailReg.test(tel);
+	                flagtel =  true;
+	     flagtel && captchaObj.verify();
+	     !flagtel && this.$Message.error("请填写正确的手机号或者邮箱号");
+	  });
+	},
     onAreaChange(value) {
       for (var i = 0; i < this.areas.length; i++) {
         if (this.areas[i].zhName == value) {
@@ -386,7 +422,59 @@ export default {
         if (valid) {
           if (this.agree == true) {
             if (this.changeActive == 1) {
-              this.openValidateModal();
+              if (this.isRegister) {
+                this.registing = true;
+                var params = {};
+                params["email"] = this.formInline.user;
+                params["username"] = this.formInline.username + this.formInline.user;
+                params["password"] = this.formInline.password;
+                params["promotion"] = this.formInline.promotion; // 邀请码
+                params["country"] = this.country;//"中国";
+                params["superPartner"] = "";//this.formInline.superType;
+                params["code"] = this.formInline.code;
+                params["visitCode"] = this.formInline.visitPassword;
+
+                this.$http
+                  .post(this.host + "/uc/register/email", params)
+                  .then(response => {
+                    this.registing = false;
+                    var resp = response.body;
+                    if (resp.code == 0) {
+                      if (
+                        this.formInline.superType == "1" ||
+                        this.formInline.superType == "2"
+                      ) {
+                        this.$Notice.success({
+                          title: this.$t("common.tip"),
+                          desc: "已注册成功!"
+                        });
+                        var that = this;
+                        setTimeout(() => {
+                          that.$router.push("/");
+                        }, 3000);
+                      } else {
+                        this.$Notice.success({
+                          title: this.$t("common.tip"),
+                          desc: resp.message
+                        });
+                        var that = this;
+                        setTimeout(() => {
+                          that.$router.push("/login");
+                        }, 3000);
+                      }
+                    } else {
+                      this.$Notice.error({
+                        title: this.$t("common.tip"),
+                        desc: resp.message
+                      });
+                    }
+                  });
+              } else {
+                this.$Notice.error({
+                  title: this.$t("common.tip"),
+                  desc: "opps"
+                });
+              }
             } else {
               if (this.isRegister) {
                 this.registing = true;
@@ -413,7 +501,7 @@ export default {
                       ) {
                         this.$Notice.success({
                           title: this.$t("common.tip"),
-                          desc: "已注册成功!"
+                          desc: "Success!"
                         });
                         var that = this;
                         setTimeout(() => {
@@ -467,28 +555,44 @@ export default {
         }
       }, 1000);
     },
-    sendCode() {
-      var mobilePhone = this.formInline.user;
-      let reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
-      if (mobilePhone == "" || !reg.test(mobilePhone)) {
-        this.$Message.error(this.$t("uc.regist.teltip"));
-        return;
-      } else {
-        this.initGtCaptcha();
-      }
-    },
+    // sendCode() {
+    //   if(this.changeActive == 0) {
+    //     var mobilePhone = this.formInline.user;
+    //     // let reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+    //     if (mobilePhone == "") {
+    //       this.$Message.error(this.$t("uc.regist.teltip"));
+    //       return;
+    //     } else {
+    //       this.initGtCaptcha();
+    //     }
+    //   }else{
+    //     this.initGtCaptcha();
+    //   }
+    // },
     success() {
-      var params = {};
-      params["phone"] = this.formInline.user;
-      params["country"] = "中国";
-      var reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
-      reg.test(params["phone"]) && this.$http.post(this.host + "/uc/mobile/code", params).then(response => {
-            var resp = response.body;
-            resp.code == 0 && this.$Notice.success({title: this.$t("common.tip"),desc: resp.message});
-            resp.code == 0 && this.settime();
-            resp.code != 0 && this.$Notice.error({title: this.$t("common.tip"),desc: resp.message});
-          });
-      !reg.test(params["phone"]) &&this.$Notice.error({title: this.$t("common.tip"),desc: this.$t("uc.finance.withdraw.telerr")});
+      if(this.changeActive == 0){
+        var params = {};
+        params["phone"] = this.formInline.user;
+        params["country"] = this.country;
+        // var reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+        // reg.test(params["phone"]) &&
+        this.$http.post(this.host + "/uc/mobile/code", params).then(response => {
+              var resp = response.body;
+              resp.code == 0 && this.$Notice.success({title: this.$t("common.tip"),desc: resp.message});
+              resp.code == 0 && this.settime();
+              resp.code != 0 && this.$Notice.error({title: this.$t("common.tip"),desc: resp.message});
+            });
+        // !reg.test(params["phone"]) &&this.$Notice.error({title: this.$t("common.tip"),desc: this.$t("uc.finance.withdraw.telerr")});
+      }else{
+        var params = {};
+        params["email"] = this.formInline.user;
+        this.$http.post(this.host + "/uc/reg/email/code", params).then(response => {
+              var resp = response.body;
+              resp.code == 0 && this.$Notice.success({title: this.$t("common.tip"),desc: resp.message});
+              resp.code == 0 && this.settime();
+              resp.code != 0 && this.$Notice.error({title: this.$t("common.tip"),desc: resp.message});
+            });
+      }
     }
   }
 };
@@ -561,7 +665,7 @@ export default {
   }
   .ivu-form-item-error .ivu-input-group-append, .ivu-form-item-error .ivu-input-group-prepend,.ivu-input-group-append, .ivu-input-group-prepend{
     background-color: #17212e;
-    border-bottom: 1px solid #27313e;
+    border-bottom: 0px solid #27313e;
     border-top:none;
     border-left: none;
     border-right: none;
@@ -571,5 +675,22 @@ export default {
     display: inline-block;
     width: 30px;
     text-align: left;
+  }
+  .ivu-btn-group>.ivu-btn.ivu-btn-default{
+    background: transparent!important;
+    color: #828ea1;
+  }
+  .ivu-btn-group>.ivu-btn.active, .ivu-btn-group>.ivu-btn:active, .ivu-btn-group>.ivu-btn:hover{
+    border-color: transparent!important;
+    color: #f0ac19!important;
+  }
+  .ivu-btn-group>.ivu-btn:focus{
+    box-shadow: none!important;
+  }
+  .ivu-btn-group>.ivu-btn{
+    font-size: 16px;
+  }
+  .ivu-input-group-append, .ivu-input-group-prepend{
+    padding: 0 0!important;
   }
 </style>

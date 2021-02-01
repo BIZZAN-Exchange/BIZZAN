@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="fullpage">
-      <div style="background-image: linear-gradient( 135deg, #F0A70A 10%, #0D25B9 100%);text-align: center;height:30px;line-height:30px;letter-spacing: 1px;">这只是一个测试站，请勿充值！购买商用系统请联系QQ:390330302（唯一渠道，谨防被骗）</div>
+      <div style="background-image: linear-gradient( 135deg, #F0A70A 10%, #0D25B9 100%);text-align: center;height:30px;line-height:30px;letter-spacing: 1px;">这只是一个测试站，请勿充值！购买商用系统请联系QQ:390330302 QQ:3233751642 QQ:739149823（唯一渠道，谨防被骗）</div>
       <div id="pagetips" style="border-bottom:1px solid rgb(28, 39, 58);">
         <div class="topnav">
           <div class="carl">
@@ -19,9 +19,9 @@
           </div>
         </div>
       </div>
+      
       <div class="section" id="page1">
         <!-- <div v-if="lang==='简体中文'"> -->
-
         <div class="spin-wrap banner-panel">
           <img style="height: 100%;" src="../../assets/images/bannerbg.png"></img>
           <p style="text-align:center;font-size:40px;color:#fff;position:absolute;top: 70px;width:100%;letter-spacing:5px;text-shadow: 0px 0px 10px #000000;">{{$t("common.slogan")}}</p>
@@ -102,8 +102,22 @@
       </div>
       <div style="width: 100%;background: #141e2c;display:none;">
         <router-link to="/announcement/118930" target="_blank" style="width: 100%;">
-          <img src="https://bizzan.oss-cn-hangzhou.aliyuncs.com/bannerimg.png" style="width: 72%;margin-left: 14%;margin-top: 20px;">
+          <img src="https://bizzanex.oss-cn-hangzhou.aliyuncs.com/bannerimg.png" style="width: 72%;margin-left: 14%;margin-top: 20px;">
         </router-link>
+      </div>
+      <div class="section" style="padding: 0px 14%;padding-top:50px;background: #141e2c;">
+        <div ref="trendPanel" style="width:100%;border-top:1px solid #1e2834;border-left:1px solid #1e2834;border-right:1px solid #1e2834;text-align: center;padding: 50px 0 0 0;position: relative;">
+          <div style="position: absolute;top: 20px;left:20px;font-size: 20px;font-weight: bold;color:#828ea1;">BTC/USDT Trend</div>
+          <SvgIndex ref="svgIndexRef" style="margin-bottom: -5px;" :width="800" :height="150" :values="lineValues"></SvgIndex>
+          <div style="position:absolute;top:50px;left:20px;color:#828ea1;"><span class="lastest-price" style="font-size:40px;font-weight: normal;">{{trendData.close | fixed2}}</span><span style="font-weight: bold;">/USDT</span></div>
+
+          <div style="position: absolute;bottom: 10px;left:20px;color:#828ea1;">
+            <span>Highest price: {{trendData.highest}}</span>
+            <span style="margin-left:15px;">Lowest price: {{trendData.lowest}}</span>
+            <span style="margin-left:15px;">Change(24H): {{trendData.rose}}</span>
+            <span style="margin-left:15px;">Volume(24H): {{trendData.volume}}</span>
+          </div>
+        </div>
       </div>
       <div class="section" id="page2">
         <div class="page2nav">
@@ -159,7 +173,7 @@
           <li class="qrcode">{{$t('description.scanqrcode')}}</li>
           <li class="wrapper">
             <div class="download_app">
-              <img src="../../assets/images/appdownload.png">
+              <img  src="../../assets/images/appdownload.png">
             </div>
             <div class="abstract">
               <div class="content">
@@ -184,15 +198,23 @@ var Stomp = require("stompjs");
 var SockJS = require("sockjs-client");
 var moment = require("moment");
 import SvgLine from "@components/exchange/SvgLine.vue";
+import SvgIndex from "@components/exchange/SvgIndex.vue";
 import $ from "@js/jquery.min.js";
 
 import Swiper from 'swiper';
 
 export default {
-  components: { SvgLine },
+  components: { SvgLine, SvgIndex },
   data() {
     let self = this;
     return {
+      lineValues :[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      trendData: {
+        highest: 0,
+        lowest: 0,
+        close: 0,
+        volume: 0
+      },
       loading: false,
       percent: 0,
       pageNo: 1,
@@ -794,7 +816,12 @@ export default {
   },
   created: function() {
     this.init();
+	zE('webWidget', 'show'); 
+	zE('webWidget', 'setLocale', 'zh_CN');//进到页面就启动组件  
   },
+  destroyed: function () {  
+	zE('webWidget', 'hide');  
+  }, 
   computed: {
     isLogin: function() {
       return this.$store.getters.isLogin;
@@ -803,18 +830,17 @@ export default {
       return this.$store.state.lang;
     },
     langPram: function(){
-      if(this.$store.state.lang == "简体中文"){
-        return "CN";
-      }
-      if(this.$store.state.lang == "English"){
-        return "EN";
-      }
-      return "CN";
+      return this.$store.state.lang;;
     }
   },
   watch: {
     lang: function() {
       this.updateLangData();
+    }
+  },
+  filters:{
+    fixed2: function(value){
+      return value.toFixed(2);
     }
   },
   mounted: function() {
@@ -1008,9 +1034,28 @@ export default {
             coin.high = resp.high;
             coin.low = resp.low;
             coin.turnover = parseInt(resp.volume);
+
+            if(resp.symbol == "BTC/USDT") {
+              that.trendData.highest = resp.high;
+              that.trendData.lowest = resp.low;
+              that.trendData.volume = resp.volume;
+              that.trendData.close = resp.close;
+              that.trendData.rose = resp.chg > 0
+                ? "+" + (resp.chg * 100).toFixed(2) + "%"
+                : (resp.chg * 100).toFixed(2) + "%";
+            }
           }
         });
       });
+    },
+    loadTrendData(){
+      this.$http
+        .post(this.host + "/market/btc/trend", {})
+        .then(response => {
+          var resp = response.body;
+          this.lineValues = resp.data;
+          this.$refs["svgIndexRef"].reload(this.lineValues, this.$refs.trendPanel.offsetWidth, this.$refs.trendPanel.offsetWidth/8);
+        });
     },
     round(v, e) {
       var t = 1;
@@ -1072,6 +1117,16 @@ export default {
             }else{
               this.coins[coin.base+"2"].push(coin); // 创新版
             }
+
+            if(resp[i].symbol == "BTC/USDT") {
+              this.trendData.highest = resp[i].high;
+              this.trendData.lowest = resp[i].low;
+              this.trendData.volume = resp[i].volume;
+              this.trendData.close = resp[i].close;
+              this.trendData.rose = resp[i].chg > 0
+                ? "+" + (resp[i].chg * 100).toFixed(2) + "%"
+                : (resp[i].chg * 100).toFixed(2) + "%";
+            }
           }
           if (this.isLogin) {
             this.getFavor();
@@ -1079,6 +1134,8 @@ export default {
           this.startWebsock();
           this.loading = false;
         });
+
+        this.loadTrendData();
     },
     // getFavor() {
     //   //查询自选
@@ -1487,11 +1544,13 @@ export default {
   ul {
     width: 88%;
     margin: 0 auto;
+    display: flex;
     li {
       flex: 0 0  25%;
       display: inline-block;
       width: 24%;
       padding: 0 15px;
+      height: 260px;
       div {
         width: 130px;
         height: 130px;
@@ -1974,6 +2033,23 @@ th .ivu-table-cell span{
   display: block;
   margin-top: 7px;
   background: linear-gradient(200deg, #ff9900, #ffbe2b, #ffa500);
+}
+
+.lastest-price{
+  background:-webkit-linear-gradient(left,#828ea1,#4c5563 25%,#828ea1 50%,#4c5563 75%,#828ea1);
+  color:transparent;
+  -webkit-background-clip:text;
+  background-size:200% 100%;
+  animation:masked-animation 2s infinite linear;
+}
+
+@-webkit-keyframes masked-animation {
+    0% {
+        background-position:0 0;
+    }
+    100% {
+        background-position:-100% 0;
+    }
 }
 </style>
 
