@@ -31,7 +31,7 @@ public class AliyunUtil {
             mdTemp.update(utfBytes);
             byte[] md5Bytes = mdTemp.digest();
             Base64 base64 = new Base64();
-            String encodedText = base64.encodeToString(md5Bytes);
+            encodeStr = base64.encodeToString(md5Bytes);
         } catch (Exception e) {
             throw new Error("Failed to generate MD5 : " + e.getMessage());
         }
