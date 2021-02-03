@@ -106,7 +106,7 @@
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-starter-eureka</artifactId>
+				<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 				<version>1.4.7.RELEASE</version>
 				<exclusions>
 					<!--务必排除旧版。版本大于1.4.14 否则有远程执行等高危漏洞-->
