@@ -11,6 +11,7 @@
 
     <groupId>com.bizzan.wallet</groupId>
     <artifactId>usdt</artifactId>
+    <version>${project-version}</version>
 
     <dependencies>
         <dependency>
@@ -55,7 +56,6 @@
         <dependency>
             <groupId>com.bizzan.wallet</groupId>
             <artifactId>rpc-common</artifactId>
-            <version>1.2</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -64,7 +64,6 @@
         <dependency>
             <groupId>com.mashape.unirest</groupId>
             <artifactId>unirest-java</artifactId>
-            <version>1.4.9</version>
         </dependency>
     </dependencies>
     <build>

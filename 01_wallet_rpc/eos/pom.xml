@@ -16,7 +16,6 @@
     	<dependency>
             <groupId>cash.bitcoinj</groupId>
             <artifactId>bitcoinj-core</artifactId>
-            <version>0.14.5.2</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -54,7 +53,6 @@
         <dependency>
             <groupId>com.github.briandilley.jsonrpc4j</groupId>
             <artifactId>jsonrpc4j</artifactId>
-            <version>1.4.6</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>

@@ -54,7 +54,6 @@
         <dependency>
             <groupId>com.github.briandilley.jsonrpc4j</groupId>
             <artifactId>jsonrpc4j</artifactId>
-            <version>1.4.6</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>

@@ -48,13 +48,10 @@
         <dependency>
             <groupId>com.bizzan.wallet</groupId>
             <artifactId>rpc-common</artifactId>
-            <version>1.2</version>
         </dependency>
-
         <dependency>
             <groupId>com.bizzan.wallet</groupId>
             <artifactId>bitcoin-rpc</artifactId>
-            <version>1.2</version>
         </dependency>
     </dependencies>
     <build>

@@ -11,6 +11,7 @@
 
     <groupId>com.bizzan.bitrade</groupId>
     <artifactId>exchange-api</artifactId>
+    <version>1.0</version>
 
     <dependencies>
         <dependency>
@@ -80,6 +81,7 @@
 			<groupId>com.sparkframework</groupId>
 			<artifactId>spark-core</artifactId>
 			<scope>system</scope>
+            <version>2.6.0</version>
 			<systemPath>${project.basedir}/lib/spark-core-2.6.0.jar</systemPath>
 		</dependency>
     </dependencies>
