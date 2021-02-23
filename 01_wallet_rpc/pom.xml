@@ -20,7 +20,6 @@
         <module>ltc</module>
         <module>erc-eusdt</module>
         <module>bsv</module>
-        <module>eos</module>
     </modules>
 
     <parent>
@@ -36,6 +35,7 @@
         <spring-cloud.version>Edgware.RELEASE</spring-cloud.version>
         <jackson.version>2.12.1</jackson.version>
     </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -45,19 +45,16 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
             <dependency>
                 <groupId>commons-httpclient</groupId>
                 <artifactId>commons-httpclient</artifactId>
                 <version>3.1</version>
             </dependency>
-
             <dependency>
                 <groupId>cash.bitcoinj</groupId>
                 <artifactId>bitcoinj-core</artifactId>
                 <version>0.14.5.2</version>
             </dependency>
-
             <!--必须排除jackson 低于2.9.9有远程执行高危漏洞-->
             <dependency>
                 <groupId>com.github.briandilley.jsonrpc4j</groupId>
@@ -78,7 +75,6 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-
             <!--jackson 低于2.9.9有远程执行漏洞【高危】-->
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
@@ -95,13 +91,11 @@
                 <artifactId>jackson-annotations</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>io.reactivex</groupId>
                 <artifactId>rxjava</artifactId>
                 <version>1.3.8</version>
             </dependency>
-
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
@@ -134,7 +128,7 @@
                 <artifactId>bitcoin-rpc</artifactId>
                 <version>1.2.0</version>
                 <scope>system</scope>
-				<systemPath>${project.basedir}/lib/bitcoin-rpc-1.2.0.jar</systemPath>
+                <systemPath>${project.basedir}/lib/bitcoin-rpc-1.2.0.jar</systemPath>
             </dependency>
             <dependency>
                 <groupId>com.bizzan.wallet</groupId>
@@ -152,15 +146,11 @@
                 <version>${project-version}</version>
             </dependency>
             <dependency>
-                <groupId>org.web3j</groupId>
-                <artifactId>core</artifactId>
-                <version>3.3.1</version>
-            </dependency>
-            <dependency>
                 <groupId>com.mashape.unirest</groupId>
                 <artifactId>unirest-java</artifactId>
                 <version>1.4.9</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
+
 </project>

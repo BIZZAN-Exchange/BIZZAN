@@ -7,10 +7,11 @@
         <groupId>com.bizzan.wallet</groupId>
         <version>1.2</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.bizzan.wallet</groupId>
     <artifactId>eth</artifactId>
     <version>${project-version}</version>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -58,6 +59,7 @@
             <artifactId>eth-support</artifactId>
         </dependency>
     </dependencies>
+
     <build>
         <finalName>${project.artifactId}-${version}</finalName>
         <plugins>
@@ -91,4 +93,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

@@ -122,7 +122,7 @@ public class PaymentHandler {
             EthSendTransaction ethSendTransaction = web3j.ethSendRawTransaction(hexValue).sendAsync().get();
             String transactionHash = ethSendTransaction.getTransactionHash();
             logger.info("txid = {}", transactionHash);
-            if (StringUtils.isEmpty(transactionHash)) {
+            if (StringUtils.isEmpty(transactionHash) || transactionHash.equals("null")) {
                 return new MessageResult(500, "发送交易失败");
             }
             else {

@@ -7,8 +7,8 @@
         <artifactId>wallet-rpc</artifactId>
         <version>1.2</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.bizzan.wallet</groupId>
     <artifactId>bsv</artifactId>
     <version>${project-version}</version>
     
@@ -59,6 +59,7 @@
             <artifactId>fastjson</artifactId>
         </dependency>
     </dependencies>
+
     <build>
         <finalName>${project.artifactId}-${version}</finalName>
         <plugins>
@@ -92,4 +93,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
