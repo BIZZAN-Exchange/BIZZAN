@@ -57,17 +57,6 @@ BIZZAN 开源数字货币交易系统
 - 其他：redis、kafka、阿里云OSS、腾讯防水校验、环信推送
 - 前端：Vue、iView、less
 
-## 服务部署准备
-
-1. 项目用了Lombok插件，无论用什么IDE工具，请务必先安装Lombok插件
-2. 项目用了QueryDsl，如果遇见以Q开头的类找不到，请先编译一下对应的core模块，例如core、exchange-core、xxx-core这种模块
-3. 找不到的jar包在项目jar文件夹下
-4. jdk版本1.8以上
-5. 初始化sql在sql文件夹中配置文件
-配置文件打开这个设置会自动建表
-#jpa
-spring.jpa.hibernate.ddl-auto=update
-
 ### 测试环境
 - 测试环境仅供学习参考！！！请各位学习的小伙伴合理运用。
 
