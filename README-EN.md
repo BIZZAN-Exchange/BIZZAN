@@ -1,4 +1,4 @@
-ZTuo Open source digital currency trading system
+BIZZAN Open source digital currency trading system
 
 This source code is limited to exchange and study, where it involves legal issues and I have nothing to do with it
 =====================================
@@ -16,7 +16,7 @@ This source code is limited to exchange and study, where it involves legal issue
 - ETH/USDT(以太坊/USDT)：0x4f1ea0f10aa99f608f31f70b4d3119f6928693ed
 - LTC(莱特币)：LXr4TMtDhCSpdAo98vg2sbvX3UXDVPQvMa
 
-#### ZTuo is a free and open source digital currency trading system, which is developed using the most popular Java framework and related technologies.
+#### BIZZAN is a free and open source digital currency trading system, which is developed using the most popular Java framework and related technologies.
 
 # Vision
      Our mission is to develop the world's best, high-performance, secure, and open source (key) digital currency trading system in Java. (Please ignore our awesomeness, because Niubi has a lot of boasting, and it may become really awesome over time)
@@ -29,17 +29,17 @@ This source code is limited to exchange and study, where it involves legal issue
 
 1. It is very difficult to operate an exchange.
 
-    The Ztuo framework can make it easy for you to build a digital currency trading system, but it is far more difficult than building a website. Don't think that the simple one is to click next and the next step is complete. The entire system architecture is divided into many components, which require professional knowledge or a team to run successfully. Fortunately, if you have us, you can contact us at any time.
+    The BIZZAN framework can make it easy for you to build a digital currency trading system, but it is far more difficult than building a website. Don't think that the simple one is to click next and the next step is complete. The entire system architecture is divided into many components, which require professional knowledge or a team to run successfully. Fortunately, if you have us, you can contact us at any time.
 
 2. System security knowledge.
 
-    The Ztuo framework cannot protect the security of your digital assets, nor can it guarantee the safe operation of your system. During the deployment process, you need to pay attention to the network security settings. If you are not good at it, you can find a professional operation and maintenance personnel.
+    The BIZZAN framework cannot protect the security of your digital assets, nor can it guarantee the safe operation of your system. During the deployment process, you need to pay attention to the network security settings. If you are not good at it, you can find a professional operation and maintenance personnel.
 
 3. Legal risks
 
 - Legal Risk Article 1: Do not violate the laws and regulations of the People's Republic of China.
-- Technology is not guilty, please use the Ztuo framework within the scope of the law.
-- If you want to use Ztuo as a commercial application, it is best to hire a lawyer to ensure that your commercial application is within the scope permitted by law. The ztuo team is not responsible for any legal and economic issues caused by commercial projects.
+- Technology is not guilty, please use the BIZZAN framework within the scope of the law.
+- If you want to use BIZZAN as a commercial application, it is best to hire a lawyer to ensure that your commercial application is within the scope permitted by law. The BIZZAN team is not responsible for any legal and economic issues caused by commercial projects.
 
 4. Basic knowledge you need to know
 
