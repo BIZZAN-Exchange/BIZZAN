@@ -10,7 +10,7 @@ import lombok.Data;
 import java.util.Date;
 
 /**
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @date 2020年03月20日
  */
 @Data

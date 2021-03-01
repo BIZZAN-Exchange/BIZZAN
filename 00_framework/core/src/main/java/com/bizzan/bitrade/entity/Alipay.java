@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * 支付宝信息
  *
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @date 2020年01月16日
  */
 @Data

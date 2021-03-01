@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 
 /**
  * 邀请注册奖励配置
- * @author shaox
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  *
  */
 @RestController

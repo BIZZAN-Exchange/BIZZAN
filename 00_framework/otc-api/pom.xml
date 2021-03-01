@@ -5,6 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>otc-api</artifactId>
 	<version>1.0</version>
+
 	<parent>
 		<artifactId>bitrade-parent</artifactId>
 		<groupId>com.bizzan.bitrade</groupId>
@@ -13,13 +14,14 @@
 	</parent>
 
 	<name>otc-api</name>
-	<description>API for client of OTC</description>
+	<description>法币接口模块</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.alibaba</groupId>
@@ -29,10 +31,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<!--<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-freemarker</artifactId>
-		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -54,10 +52,9 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-ribbon</artifactId>
+			<artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -70,6 +67,7 @@
 		<dependency>
 			<groupId>org.springframework.session</groupId>
 			<artifactId>spring-session</artifactId>
+			<version>1.3.1.RELEASE</version>
 		</dependency>
 		<!-- 发送邮件. -->
 		<!--<dependency>
@@ -89,7 +87,6 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>com.bizzan.bitrade</groupId>
 			<artifactId>core</artifactId>
@@ -107,7 +104,7 @@
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-core</artifactId>
-			<version>${shiro_version}</version>
+			<version>1.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.bizzan.bitrade</groupId>
@@ -122,6 +119,7 @@
 		<dependency>
 			<groupId>io.reactivex</groupId>
 			<artifactId>rxjava</artifactId>
+			<version>1.3.4</version>
 		</dependency>
 	</dependencies>
 

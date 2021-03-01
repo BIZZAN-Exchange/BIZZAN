@@ -15,7 +15,7 @@ import com.bizzan.bitrade.util.DateUtil;
 import java.util.Date;
 
 /**
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @Description: 关于签到活动的定时任务
  * @date 2019/5/410:41
  */

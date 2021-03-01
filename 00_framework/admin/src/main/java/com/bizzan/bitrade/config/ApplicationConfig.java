@@ -19,7 +19,7 @@ import com.bizzan.bitrade.interceptor.OutExcelInterceptor;
 import com.bizzan.bitrade.interceptor.SessionInterceptor;
 
 /**
- * @author Administrator
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  */
 @Configuration
 public class ApplicationConfig extends WebMvcConfigurerAdapter {

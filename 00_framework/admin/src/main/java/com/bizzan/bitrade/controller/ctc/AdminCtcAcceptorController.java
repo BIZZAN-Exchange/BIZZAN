@@ -32,7 +32,7 @@ import com.bizzan.bitrade.util.DateUtil;
 import com.bizzan.bitrade.util.MessageResult;
 import com.sparkframework.security.Encrypt;
 /**
- * @author Shaoxianjun
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @description otc承兑商
  * @date 2019/1/11 13:35
  */

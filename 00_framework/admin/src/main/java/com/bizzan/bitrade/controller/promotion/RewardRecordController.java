@@ -12,7 +12,7 @@ import com.bizzan.bitrade.util.MessageResult;
 
 /**
  * 奖励记录
- * @author shaox
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  *
  */
 @RestController

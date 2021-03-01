@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @description 用户来源枚举
  * @date 2019/12/26 10:18
  */

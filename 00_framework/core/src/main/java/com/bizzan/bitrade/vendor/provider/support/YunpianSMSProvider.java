@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 
 /**
  * @author tansitao
- * @time 2018-04-05
+ * @time 2020-04-05
  * 云片短信验证码发送类
  */
 @Slf4j

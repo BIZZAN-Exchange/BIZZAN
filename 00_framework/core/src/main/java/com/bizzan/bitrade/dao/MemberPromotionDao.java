@@ -12,7 +12,7 @@ import com.bizzan.bitrade.entity.MemberPromotion;
 import com.bizzan.bitrade.vo.MemberPromotionStasticVO;
 
 /**
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @date 2020年03月08日
  */
 public interface MemberPromotionDao extends BaseDao<MemberPromotion> {

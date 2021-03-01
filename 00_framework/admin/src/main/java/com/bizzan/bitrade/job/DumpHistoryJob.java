@@ -34,8 +34,8 @@ import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 清理机器人订单（8天前订单）
- * @author shaox
+ * 清理机器人订单（5天前订单）
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  *
  */
 @Component
@@ -73,7 +73,7 @@ public class DumpHistoryJob {
 	@Scheduled(cron = "0 20 3 * * *")
 	public void deleteHistoryOrders(){
 		log.info("开始清理交易历史数据");
-		long beforeTime = System.currentTimeMillis() - (3 * 24 * 60 * 60 * 1000); // 3天前
+		long beforeTime = System.currentTimeMillis() - (2 * 24 * 60 * 60 * 1000); // 2天前
 		log.info("清除指定时间之前的订单："+beforeTime);
 		List<ExchangeOrder> list = exchangeOrderService.queryHistoryDelete(beforeTime);
 		log.info("历史订单数量："+list.size());
@@ -94,7 +94,7 @@ public class DumpHistoryJob {
 		Date today = new Date();
 		Calendar now =Calendar.getInstance();
 		now.setTime(today);  
-		now.set(Calendar.DATE,now.get(Calendar.DATE) - 8); // 清理8天前数据  
+		now.set(Calendar.DATE,now.get(Calendar.DATE) - 5); // 清理5天前数据
 		Date startTime = now.getTime();
 
 		log.info("清除资产变更记录时间：" + startTime.getTime());

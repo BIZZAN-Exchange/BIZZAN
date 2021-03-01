@@ -21,7 +21,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 /**
- * @author Shaoxianjun
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @description 会员等级管理类
  * @date 2019/12/27 10:16
  */

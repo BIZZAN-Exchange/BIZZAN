@@ -18,7 +18,7 @@ import com.bizzan.bitrade.ext.OrdinalToEnumConverterFactory;
 import com.bizzan.bitrade.interceptor.MemberInterceptor;
 
 /**
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @date 2020年02月06日
  * @see 重命名 corsFilter 解决与 Spring Security 冲突的问题
  */

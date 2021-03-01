@@ -10,7 +10,7 @@ import com.bizzan.bitrade.entity.Member;
 import com.bizzan.bitrade.entity.MemberSignRecord;
 
 /**
- * @author Shaoxianjun
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @Title: ${file_name}
  * @Description:
  * @date 2019/5/714:22

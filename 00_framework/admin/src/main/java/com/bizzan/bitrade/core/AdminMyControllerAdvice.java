@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bizzan.bitrade.util.MessageResult;
 
 /**
- * @author Shaoxianjun
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @date 2020年12月22日
  */
 @ControllerAdvice

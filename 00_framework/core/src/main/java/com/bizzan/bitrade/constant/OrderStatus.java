@@ -10,7 +10,7 @@ import lombok.Setter;
 /**
  * 场外订单状态
  *
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @date 2020年12月11日
  */
 @AllArgsConstructor

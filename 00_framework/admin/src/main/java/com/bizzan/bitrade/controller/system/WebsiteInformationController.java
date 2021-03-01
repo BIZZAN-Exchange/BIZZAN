@@ -15,7 +15,7 @@ import com.bizzan.bitrade.service.WebsiteInformationService;
 import com.bizzan.bitrade.util.MessageResult;
 
 /**
- * @author Shaoxianjun
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @description 站点信息
  * @date 2019/1/26 10:41
  */

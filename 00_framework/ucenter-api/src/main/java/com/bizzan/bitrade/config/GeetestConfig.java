@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import com.bizzan.bitrade.system.GeetestLib;
 
 /**
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @date 2020年02月23日
  */
 @Configuration

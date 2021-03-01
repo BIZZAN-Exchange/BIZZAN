@@ -129,13 +129,13 @@ private KafkaTemplate kafkaTemplate ;
 		Date date = memberDao.getStartRegistrationDate() ;
 
 		System.out.println(date);
-		/*int a = memberDao.getApplicationNum("2018-03-27");
+		/*int a = memberDao.getApplicationNum("2020-03-27");
 		System.out.println(",,,,,,,,,,,,,,,,,,,,,,,,,"+a);*/
 	/*	Admin admin = adminService.login("root","47943eeeab5ed28f8a93f7fb77ec5111");
 		System.out.println(admin);*/
 		/*try {
 			MemberStatisticsJob job = new MemberStatisticsJob() ;
-			Date startDate = DateUtil.YYYY_MM_DD.parse("2018-03-18");
+			Date startDate = DateUtil.YYYY_MM_DD.parse("2020-03-18");
 			Date endDate = DateUtil.dateAddDay(DateUtil.getCurrentDate(),-1);
 			while(!startDate.after(endDate)){
 				String dateStr = DateUtil.YYYY_MM_DD.format(startDate);
@@ -156,9 +156,9 @@ private KafkaTemplate kafkaTemplate ;
 		//System.out.println(memberWalletDao.getWalletAllBalance("Bitcoin"));
 		System.out.println(page.getContent());*/
 		//kafkaTemplate.send("test","aaaa");
-		/*System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:"+memberService.getRegistrationNum("2018-03-19"));
-		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:"+memberService.getApplicationNum("2018-03-19"));
-		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:"+memberService.getBusinessNum("2018-03-19"));*/
+		/*System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:"+memberService.getRegistrationNum("2020-03-19"));
+		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:"+memberService.getApplicationNum("2020-03-19"));
+		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:"+memberService.getBusinessNum("2020-03-19"));*/
 		/*for(Map<String,Object> map : orderService.getOtcOrderStatistics()){
 			System.out.println(map.keySet()+"-----------------------"+map.values());
 		}*/
@@ -166,7 +166,7 @@ private KafkaTemplate kafkaTemplate ;
 		/*System.out.println(orderDao.getOtcTurnoverAmount());*/
 	/*	Date date = *//*DateUtil.dateAddDay(DateUtil.getCurrentDate(),-1);*//* new Date();
 		String dateStr = DateUtil.getFormatTime(DateUtil.YYYY_MM_DD,date);*/
-		String dateStr = "2018-03-20";
+		String dateStr = "2020-03-20";
 		Date date = DateUtil.YYYY_MM_DD.parse(dateStr);
 		/**
 		 * 法币成交

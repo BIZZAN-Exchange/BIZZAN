@@ -19,7 +19,7 @@ import lombok.Data;
 
 /**
  * 邀请日榜、周榜、月榜排名数据
- * @author shaox
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  *
  */
 @Entity

@@ -16,7 +16,7 @@ import java.util.Date;
 /**
  * 提币申请(提币码)
  *
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @date 2020年01月29日
  */
 @Entity

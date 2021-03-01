@@ -15,7 +15,7 @@ import com.bizzan.bitrade.entity.Coin;
 import java.util.List;
 
 /**
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @description 货币操作
  * @date 2019/12/29 14:41
  */

@@ -10,7 +10,7 @@ import com.bizzan.bitrade.entity.WebsiteInformation;
 import com.bizzan.bitrade.service.Base.BaseService;
 
 /**
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @description
  * @date 2019/1/26 10:18
  */

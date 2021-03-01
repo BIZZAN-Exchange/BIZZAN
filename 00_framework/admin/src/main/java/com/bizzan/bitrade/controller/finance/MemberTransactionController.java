@@ -44,7 +44,7 @@ import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
 import static org.springframework.util.Assert.notNull;
 
 /**
- * @author Shaoxianjun
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @description 交易记录
  * @date 2019/1/17 17:07
  */

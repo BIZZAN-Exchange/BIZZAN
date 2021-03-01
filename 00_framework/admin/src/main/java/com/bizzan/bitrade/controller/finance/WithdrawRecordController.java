@@ -55,7 +55,7 @@ import com.sparkframework.security.Encrypt;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author Shaoxianjun
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @description 提现
  * @date 2019/2/25 11:22
  */

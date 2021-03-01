@@ -24,7 +24,7 @@ import com.bizzan.bitrade.util.MessageResult;
 import com.sparkframework.sql.model.Model;
 
 /**
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @date 2020年01月26日
  */
 @Service

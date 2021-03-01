@@ -3,7 +3,7 @@ package com.bizzan.bitrade.constant;
 /**
  * 系统常量
  *
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @date 2020年12月18日
  */
 public class SysConstant {

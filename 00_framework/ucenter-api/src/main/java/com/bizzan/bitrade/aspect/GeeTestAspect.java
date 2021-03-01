@@ -22,7 +22,7 @@ import java.util.HashMap;
 /**
  * 极验验证
  *
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @date 2020年03月14日
  */
 //@Aspect

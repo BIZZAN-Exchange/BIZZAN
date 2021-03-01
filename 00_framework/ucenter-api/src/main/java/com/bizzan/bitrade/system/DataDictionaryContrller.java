@@ -12,7 +12,7 @@ import com.bizzan.bitrade.service.DataDictionaryService;
 import com.bizzan.bitrade.util.MessageResult;
 
 /**
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @Title: ${file_name}
  * @Description:
  * @date 2019/4/1214:21

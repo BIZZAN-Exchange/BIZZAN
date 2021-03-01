@@ -20,8 +20,8 @@ import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
 
 import java.util.Date;
 /**
- * @author shenzucai
- * @time 2018.04.09 11:07
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @time 2020.04.09 11:07
  */
 @RestController
 @Slf4j
@@ -32,8 +32,8 @@ public class GoogleVerificationController {
 
     /**
      * 验证google
-     * @author shenzucai
-     * @time 2018.04.09 11:36
+     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @time 2020.04.09 11:36
      * @param user
      * @param codes
      * @return true
@@ -97,8 +97,8 @@ public class GoogleVerificationController {
 
     /**
      * google解绑
-     * @author shenzucai
-     * @time 2018.04.09 12:47
+     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @time 2020.04.09 12:47
      * @param codes
      * @param user
      * @return true
@@ -147,8 +147,8 @@ public class GoogleVerificationController {
     //ga.setWindowSize(0); // should give 5 * 30 seconds of grace...
     /**
      * 绑定google
-     * @author shenzucai
-     * @time 2018.04.09 15:19
+     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @time 2020.04.09 15:19
      * @param codes
      * @param user
      * @return true

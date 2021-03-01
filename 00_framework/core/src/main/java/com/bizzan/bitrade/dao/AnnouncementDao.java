@@ -7,7 +7,7 @@ import com.bizzan.bitrade.dao.base.BaseDao;
 import com.bizzan.bitrade.entity.Announcement;
 
 /**
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @description
  * @date 2019/3/5 15:32
  */

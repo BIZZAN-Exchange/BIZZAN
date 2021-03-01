@@ -28,7 +28,8 @@ Vue.use(VueI18n);
 Vue.use(ViewUI, { locale });
 
 Vue.prototype.rootHost = "https://www.bizzan.pro"; //BIZZAN
-Vue.prototype.host = "https://api.bizzan.pro"; //BIZZAN
+//Vue.prototype.host = "https://api.bizzan.pro"; //BIZZAN
+Vue.prototype.host = "http://127.0.0.1"; //BIZZAN
 
 Vue.prototype.api = Api;
 Vue.http.options.credentials = true;

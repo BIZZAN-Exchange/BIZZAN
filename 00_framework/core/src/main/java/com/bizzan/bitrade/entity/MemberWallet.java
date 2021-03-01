@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 /**
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @description 会员钱包
  * @date 2019/1/2 15:28
  */

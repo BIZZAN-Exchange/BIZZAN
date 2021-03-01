@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * ‘整型’字符串映射成枚举
  *
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @date 2020年12月12日
  */
 public class OrdinalToEnumConverterFactory implements ConverterFactory<String, Enum<?>> {

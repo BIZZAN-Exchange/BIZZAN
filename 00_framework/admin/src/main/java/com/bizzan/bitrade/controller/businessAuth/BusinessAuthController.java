@@ -42,7 +42,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * 商家认证可用保证金类型
  *
- * @author Shaoxianjun
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @date 2019/5/5
  */
 @RestController

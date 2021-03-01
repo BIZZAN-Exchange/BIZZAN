@@ -19,7 +19,7 @@ import java.util.concurrent.RecursiveTask;
 
 /**
  * @Description:
- * @Author: GuoShuai
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @Date: 2019/8/1 下午4:27
  */
 @Slf4j

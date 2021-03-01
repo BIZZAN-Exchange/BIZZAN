@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * @author Shaoxianjun
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @Description:
  * @date 2019/5/311:24
  */

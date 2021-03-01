@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 /**
- * @author Shaoxianjun
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @date 2019/4/10
  */
 public class UploadFileUtil {
@@ -138,7 +138,7 @@ public class UploadFileUtil {
     /**
      * @param inputStream 上传文件的流
      * @return 文件头信息
-     * @author guoxk
+     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
      * <p>
      * 方法描述：根据文件路径获取文件头信息
      */
@@ -149,7 +149,7 @@ public class UploadFileUtil {
     /**
      * @param inputStream 上传文件的流
      * @return 文件头信息
-     * @author guoxk
+     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
      * <p>
      * 方法描述：根据文件路径获取文件头信息
      */
@@ -179,7 +179,7 @@ public class UploadFileUtil {
     /**
      * @param src 要读取文件头信息的文件的byte数组
      * @return 文件头信息
-     * @author guoxk
+     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
      * <p>
      * 方法描述：将要读取文件头信息的文件的byte数组转换成string类型表示
      */

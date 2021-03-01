@@ -25,7 +25,7 @@ import com.bizzan.bitrade.service.SignService;
 import com.bizzan.bitrade.util.MessageResult;
 
 /**
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @Description:
  * @date 2019/5/49:30
  */

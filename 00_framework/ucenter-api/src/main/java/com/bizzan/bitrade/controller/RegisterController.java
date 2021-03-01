@@ -46,7 +46,7 @@ import static org.springframework.util.Assert.notNull;
 /**
  * 会员注册
  *
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @date 2020年12月29日
  */
 @Controller
@@ -105,7 +105,7 @@ public class RegisterController {
     private final NECaptchaVerifier verifier = new NECaptchaVerifier(captchaId, new NESecretPair(secretId, secretKey));
 
     // 邮件配置
-    private IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", "jcC9y3s110TrN0Hs", "Lrhrntpc11Os6jOw5qoCTm6YfUsbE4");
+    private IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", "5f6ce0d8ef4545fb28dc", "50155d47f0b1sad1e7cf7e9029dd");
 
     private IAcsClient client = new DefaultAcsClient(profile);
     private SingleSendMailRequest request = new SingleSendMailRequest();

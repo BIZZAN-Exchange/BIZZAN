@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2017-2018 阿期米德 All Rights Reserved.
- * @Author: sanfeng
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @Date: 2019/7/10 14:06
  * @Version: 1.0
  * History:
@@ -22,7 +22,7 @@ import org.junit.Test;
 /**
  * <p>Description: </p>
  *
- * @Author: sanfeng
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @Date: 2019/7/10 14:06
  */
 public class LockFreeTest {

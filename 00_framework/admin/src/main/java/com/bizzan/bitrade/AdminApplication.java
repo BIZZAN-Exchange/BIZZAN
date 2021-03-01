@@ -5,13 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
- * @author Shaoxianjun
- * @create 2020年12月07日
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  */
 @SpringBootApplication
 @EnableAspectJAutoProxy(exposeProxy=true)
-public class WebApplication {
+public class AdminApplication {
     public static void main(String[] args) {
-        SpringApplication.run(WebApplication.class, args);
+        SpringApplication.run(AdminApplication.class, args);
     }
 }

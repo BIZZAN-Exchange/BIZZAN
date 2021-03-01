@@ -8,7 +8,7 @@ import com.bizzan.bitrade.constant.Platform;
 import com.bizzan.bitrade.entity.AppRevision;
 
 /**
- * @author Shaoxianjun
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @Title: ${file_name}
  * @Description:
  * @date 2019/4/2416:48

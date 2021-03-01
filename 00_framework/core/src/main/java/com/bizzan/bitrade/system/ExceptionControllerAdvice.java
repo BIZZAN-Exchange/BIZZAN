@@ -15,7 +15,7 @@ import com.bizzan.bitrade.exception.InformationExpiredException;
 import com.bizzan.bitrade.util.MessageResult;
 
 /**
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @date 2020年12月23日
  */
 @ControllerAdvice
@@ -126,7 +126,7 @@ public class ExceptionControllerAdvice {
     /**
      * @param
      * @return
-     * @author Jammy
+     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
      * @description 错误请求方式异常  HttpRequestMethodNotSupportedException
      * @date 2019/2/28 17:32
      */

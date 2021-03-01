@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 检查实名认证申请用户
- * @author shaox
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  *
  */
 @Component

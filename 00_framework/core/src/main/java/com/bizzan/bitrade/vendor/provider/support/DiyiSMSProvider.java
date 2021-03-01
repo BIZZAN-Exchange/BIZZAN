@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 第一信息短信接口（http://www.1xinxi.cn）
- * @author shaox
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  *
  */
 @Slf4j

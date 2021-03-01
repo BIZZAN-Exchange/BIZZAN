@@ -10,7 +10,7 @@ import java.util.Map;
 
 /**
  * @author tansitao
- * @time 2018-04-05
+ * @time 2020-04-05
  * http短信接口访问工具
  */
 public class HttpSend {

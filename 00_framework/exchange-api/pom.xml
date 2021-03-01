@@ -7,11 +7,11 @@
         <groupId>com.bizzan.bitrade</groupId>
         <version>1.0</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.bizzan.bitrade</groupId>
+    <modelVersion>4.0.0</modelVersion>
     <artifactId>exchange-api</artifactId>
     <version>1.0</version>
+    <description>撮合API模块</description>
 
     <dependencies>
         <dependency>
@@ -72,7 +72,6 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -81,7 +80,6 @@
 			<groupId>com.sparkframework</groupId>
 			<artifactId>spark-core</artifactId>
 			<scope>system</scope>
-            <version>2.6.0</version>
 			<systemPath>${project.basedir}/lib/spark-core-2.6.0.jar</systemPath>
 		</dependency>
     </dependencies>

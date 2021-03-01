@@ -33,9 +33,6 @@
                   <router-link to="/lab" style="position:relative;">
                     <MenuItem name="nav-lab">{{$t("header.lab")}}</MenuItem>
                   </router-link>
-		              <router-link to="/cexchange">
-                    <MenuItem name="nav-cexchange">{{$t("header.cexchange")}}</MenuItem>
-                  </router-link>
                   <router-link to="/invite">
                     <MenuItem name="nav-invite">{{$t("header.invite")}}</MenuItem>
                   </router-link>

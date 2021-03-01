@@ -7,8 +7,10 @@
 		<version>1.0</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
+
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>core</artifactId>
+	<description>项目核心模块</description>
 
 	<dependencies>
 		<dependency>
@@ -63,7 +65,6 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>com.aliyun.oss</groupId>
 			<artifactId>aliyun-sdk-oss</artifactId>
@@ -87,7 +88,6 @@
 			<groupId>com.sparkframework</groupId>
 			<artifactId>spark-core</artifactId>
 			<scope>system</scope>
-			<version>2.6.0</version>
 			<systemPath>${project.basedir}/lib/spark-core-2.6.0.jar</systemPath>
 		</dependency>
 		<dependency>
@@ -100,13 +100,9 @@
 			<artifactId>fastjson</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.aliyun.oss</groupId>
-			<artifactId>aliyun-sdk-oss</artifactId>
-			<version>2.8.1</version>
-		</dependency>
-		<dependency>
 			<groupId>com.mashape.unirest</groupId>
 			<artifactId>unirest-java</artifactId>
+			<version>1.4.9</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-fileupload</groupId>
@@ -116,28 +112,35 @@
 		<dependency>
 			<groupId>com.querydsl</groupId>
 			<artifactId>querydsl-apt</artifactId>
+			<version>4.1.3</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.querydsl</groupId>
 			<artifactId>querydsl-jpa</artifactId>
+			<version>4.1.3</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
+			<version>1</version>
 		</dependency>
 		<!---QueryDSL结束 -->
 		<!--easypoi开始 -->
 		<dependency>
 			<groupId>cn.afterturn</groupId>
 			<artifactId>easypoi-base</artifactId>
+			<version>3.0.3</version>
 		</dependency>
 		<dependency>
 			<groupId>cn.afterturn</groupId>
 			<artifactId>easypoi-web</artifactId>
+			<version>3.0.3</version>
 		</dependency>
 		<dependency>
 			<groupId>cn.afterturn</groupId>
 			<artifactId>easypoi-annotation</artifactId>
+			<version>3.0.3</version>
 		</dependency>
 		<!--easypoi结束 -->
 		<dependency>
@@ -145,27 +148,28 @@
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
 		</dependency>
-
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-spring</artifactId>
+			<version>1.2.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-ehcache</artifactId>
+			<version>1.2.2</version>
 		</dependency>
-
 		<!-- swagger2 结束 -->
+		<!-- https://mvnrepository.com/artifact/commons-httpclient/commons-httpclient -->
 		<dependency>
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.jexcelapi</groupId>
 			<artifactId>jxl</artifactId>
 			<version>2.6.10</version>
 		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -183,14 +187,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.7.0</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>

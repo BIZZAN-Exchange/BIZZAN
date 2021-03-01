@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2017-2018 阿期米德 All Rights Reserved.
- * @Author: sanfeng
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @Date: 2019/7/12 14:16
  * @Version: 1.0
  * History:
@@ -11,7 +11,7 @@ package com.bizzan.bitrade;
 /**
  * <p>Description: </p>
  *
- * @Author: sanfeng
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @Date: 2019/7/12 14:16
  */
 public class ThreadTest {

@@ -9,7 +9,7 @@ import com.bizzan.bitrade.constant.CommonStatus;
 import java.math.BigDecimal;
 
 /**
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @date 2020年02月27日
  */
 @Entity

@@ -10,6 +10,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>market</artifactId>
 	<packaging>jar</packaging>
+	<description>市场接口模块</description>
 
 	<dependencies>
 		<dependency>
@@ -43,7 +44,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-ribbon</artifactId>
+			<artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
 			<exclusions>
 				<exclusion>
 					<groupId>io.netty</groupId>
@@ -67,10 +68,10 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 		<dependency>
 			<groupId>com.google.protobuf</groupId>
 			<artifactId>protobuf-java</artifactId>
+			<version>3.11.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -107,10 +108,10 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/aqmd-netty-core-2.0.1.jar</systemPath>
 		</dependency>
-
 		<dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-quartz</artifactId>
+            <version>1.4.0</version>
         </dependency>
 	</dependencies>
 

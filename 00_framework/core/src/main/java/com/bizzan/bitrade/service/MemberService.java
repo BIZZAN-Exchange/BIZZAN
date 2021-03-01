@@ -98,7 +98,7 @@ public class MemberService extends BaseService {
     }
 
     /**
-     * @author Jammy
+     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
      * @description
      * @date 2019/12/25 18:42
      */
@@ -107,7 +107,7 @@ public class MemberService extends BaseService {
     }
 
     /**
-     * @author Jammy
+     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
      * @description 查询所有会员
      * @date 2019/12/25 18:43
      */
@@ -130,7 +130,7 @@ public class MemberService extends BaseService {
     }
 
     /**
-     * @author Jammy
+     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
      * @description 分页
      * @date 2019/1/12 15:35
      */

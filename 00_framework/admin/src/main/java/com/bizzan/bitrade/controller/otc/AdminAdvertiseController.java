@@ -31,7 +31,7 @@ import java.util.List;
 
 
 /**
- * @author Shaoxianjun
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @description 后台广告web层
  * @date 2019/1/3 9:42
  */

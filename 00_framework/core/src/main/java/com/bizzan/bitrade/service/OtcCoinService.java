@@ -25,7 +25,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.sparkframework.sql.model.Model;
 
 /**
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @description
  * @date 2019/1/11 13:45
  */
@@ -87,7 +87,7 @@ public class OtcCoinService extends BaseService {
     }
 
     /**
-     * @author Jammy
+     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
      * @description 分页请求
      * @date 2019/1/11 15:04
      */

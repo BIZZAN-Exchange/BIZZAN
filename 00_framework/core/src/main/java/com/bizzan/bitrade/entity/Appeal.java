@@ -13,7 +13,7 @@ import java.util.Date;
 /**
  * 申诉
  *
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @date 2020年01月22日
  */
 @Entity

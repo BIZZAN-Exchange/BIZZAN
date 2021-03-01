@@ -32,7 +32,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @description 会员审核单Service
  * @date 2019/12/26 15:10
  */

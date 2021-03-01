@@ -6,7 +6,7 @@ import com.bizzan.bitrade.constant.MemberLevelEnum;
 import lombok.Data;
 
 /**
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @date 2020年02月26日
  */
 @Data

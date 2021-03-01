@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @Description:
- * @Author: GuoShuai
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @Date: 2019/11/6 2:33 PM
  */
 @Component

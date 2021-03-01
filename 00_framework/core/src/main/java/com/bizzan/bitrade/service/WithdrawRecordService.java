@@ -39,7 +39,7 @@ import static org.springframework.util.Assert.isTrue;
 import static org.springframework.util.Assert.notNull;
 
 /**
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @date 2020年01月29日
  */
 @Service
@@ -121,7 +121,7 @@ public class WithdrawRecordService extends BaseService {
     public void audit(Long[] ids, WithdrawStatus status) {
         WithdrawRecord withdrawRecord;
         for (Long id : ids) {
-            //20	4.70000000	0	2018-02-27 17:47:37		0.30000000	0	28	0	5.00000000			GalaxyChain
+            //20	4.70000000	0	2020-02-27 17:47:37		0.30000000	0	28	0	5.00000000			GalaxyChain
             withdrawRecord = withdrawApplyDao.findOne(id);
             //确认提现申请存在
             notNull(withdrawRecord, "不存在");

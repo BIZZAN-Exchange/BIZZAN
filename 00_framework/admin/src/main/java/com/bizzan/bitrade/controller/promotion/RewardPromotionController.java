@@ -38,7 +38,7 @@ import com.sparkframework.security.Encrypt;
 
 /**
  * 邀请交易佣金奖励设置
- * @author shaox
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  *
  */
 @RestController

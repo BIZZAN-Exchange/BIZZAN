@@ -50,12 +50,12 @@
                               <Col span="24">
                                 <div class="bottom">
                                     <span><Icon type="md-information-circle" /> {{item.detail}}</span>
-                                    <Button v-if="item.step==1" type="warning" :to="'#/lab/detail/'+ item.id" target="_blank">{{$t('activity.viewdetail')}}</Button>
+                                    <Button v-if="item.step==1" type="warning" :to="'/lab/detail/'+ item.id" target="_blank">{{$t('activity.viewdetail')}}</Button>
                                     <Button v-else type="primary" :to="'#/lab/detail/'+ item.id" target="_blank">{{$t('activity.viewdetail')}}</Button>
                                 </div>
                                 <div class="bottom-mobile">
                                     <p><span><Icon type="md-information-circle" /> {{item.detail}}</span></p>
-                                    <Button v-if="item.step==1" long type="warning" :to="'#/lab/detail/'+ item.id">{{$t('activity.viewdetail')}}</Button>
+                                    <Button v-if="item.step==1" long type="warning" :to="'/lab/detail/'+ item.id">{{$t('activity.viewdetail')}}</Button>
                                     <Button v-else type="primary" long :to="'#/lab/detail/'+ item.id">{{$t('activity.viewdetail')}}</Button>
                                 </div>
                               </Col>
@@ -112,12 +112,12 @@
                               <Col span="24">
                                 <div class="bottom">
                                     <span><Icon type="md-information-circle" /> {{item.detail}}</span>
-                                    <Button v-if="item.step==1" type="warning" :to="'#/lab/detail/'+ item.id" target="_blank">{{$t('activity.viewdetail')}}</Button>
+                                    <Button v-if="item.step==1" type="warning" :to="'/lab/detail/'+ item.id" target="_blank">{{$t('activity.viewdetail')}}</Button>
                                     <Button v-else type="primary" :to="'#/lab/detail/'+ item.id" target="_blank">{{$t('activity.viewdetail')}}</Button>
                                 </div>
                                 <div class="bottom-mobile">
                                     <p><span><Icon type="md-information-circle" /> {{item.detail}}</span></p>
-                                    <Button v-if="item.step==1" long type="warning" :to="'#/lab/detail/'+ item.id">{{$t('activity.viewdetail')}}</Button>
+                                    <Button v-if="item.step==1" long type="warning" :to="'/lab/detail/'+ item.id">{{$t('activity.viewdetail')}}</Button>
                                     <Button v-else type="primary" long :to="'#/lab/detail/'+ item.id">{{$t('activity.viewdetail')}}</Button>
                                 </div>
                               </Col>
@@ -174,12 +174,12 @@
                               <Col span="24">
                                 <div class="bottom">
                                     <span><Icon type="md-information-circle" /> {{item.detail}}</span>
-                                    <Button v-if="item.step==1" type="warning" :to="'#/lab/detail/'+ item.id" target="_blank">{{$t('activity.viewdetail')}}</Button>
+                                    <Button v-if="item.step==1" type="warning" :to="'/lab/detail/'+ item.id" target="_blank">{{$t('activity.viewdetail')}}</Button>
                                     <Button v-else type="primary" :to="'#/lab/detail/'+ item.id" target="_blank">{{$t('activity.viewdetail')}}</Button>
                                 </div>
                                 <div class="bottom-mobile">
                                     <p><span><Icon type="md-information-circle" /> {{item.detail}}</span></p>
-                                    <Button v-if="item.step==1" long type="warning" :to="'#/lab/detail/'+ item.id">{{$t('activity.viewdetail')}}</Button>
+                                    <Button v-if="item.step==1" long type="warning" :to="'/lab/detail/'+ item.id">{{$t('activity.viewdetail')}}</Button>
                                     <Button v-else type="primary" long :to="'#/lab/detail/'+ item.id">{{$t('activity.viewdetail')}}</Button>
                                 </div>
                               </Col>

@@ -15,7 +15,7 @@ import com.bizzan.bitrade.ext.OrdinalToEnumConverterFactory;
 import com.bizzan.bitrade.interceptor.MemberInterceptor;
 
 /**
- * @author Administrator
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  */
 @Configuration
 public class ApplicationConfig extends WebMvcConfigurerAdapter {

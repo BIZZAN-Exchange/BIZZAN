@@ -9,7 +9,7 @@ import com.bizzan.bitrade.entity.Sign;
 import com.bizzan.bitrade.service.Base.TopBaseService;
 
 /**
- * @author Jammy
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @Description:
  * @date 2019/5/311:11
  */

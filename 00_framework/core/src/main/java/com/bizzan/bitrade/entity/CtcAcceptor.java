@@ -17,7 +17,7 @@ import lombok.Data;
 
 /**
  * 承兑商名单列表
- * @author shaox
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  *
  */
 @Entity

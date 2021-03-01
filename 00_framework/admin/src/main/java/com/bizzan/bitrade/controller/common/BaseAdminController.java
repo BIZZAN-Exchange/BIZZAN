@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author Shaoxianjun
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * @date 2020年12月19日
  */
 @Component

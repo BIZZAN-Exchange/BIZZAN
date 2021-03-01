@@ -20,7 +20,7 @@ import lombok.Data;
  * 推广合伙人总榜单（每日更新）
  * 与日、周、月榜单(MemberInviteStasticRank表)的主要区别是总榜单保存返佣金额，但分类榜单不会保存
  * 同时，总榜单无历史快照，而分类榜单中可以查询历史日期的榜单
- * @author shaox
+ * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
  * 
  */
 @Entity

@@ -16,7 +16,6 @@ export default [
     { path: '/invite', component: resolve=>(require(["../pages/invite/Invite"],resolve)) },
     { path: '/lab', component: resolve=>(require(["../pages/activity/Activity"],resolve)) },
     { path: '/ctc', component: resolve=>(require(["../pages/ctc/Ctc"],resolve)) },
-    { path: '/cexchange', component: resolve=>(require(["../pages/cexchange/cexchange"],resolve)) },
     { path: '/news', component: resolve=>(require(["../pages/news/News"],resolve)) },
     { path: '/lab/detail/:id', component: resolve=>(require(["../pages/activity/ActivityDetail"],resolve)) },
     { path: '/announcement/:id', component: resolve=>(require(["../pages/cms/NoticeItem"],resolve)), name: "NoticeDetail" },
