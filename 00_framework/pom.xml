@@ -13,7 +13,6 @@
 	<modules>
 		<module>core</module>
 		<module>admin</module>
-        <module>chat</module>
         <module>exchange</module>
         <module>market</module>
         <module>exchange-core</module>

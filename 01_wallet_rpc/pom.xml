@@ -14,7 +14,6 @@
         <module>bitcoin</module>
         <module>usdt</module>
         <module>eth</module>
-        <module>erc-token</module>
         <module>eth-support</module>
         <module>bch</module>
         <module>ltc</module>
