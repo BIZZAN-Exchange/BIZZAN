@@ -30,9 +30,6 @@
                   <router-link to="/exchange">
                     <MenuItem name="nav-exchange">{{$t("header.exchange")}}</MenuItem>
                   </router-link>
-                  <router-link to="/lab" style="position:relative;">
-                    <MenuItem name="nav-lab">{{$t("header.lab")}}</MenuItem>
-                  </router-link>
                   <router-link to="/invite">
                     <MenuItem name="nav-invite">{{$t("header.invite")}}</MenuItem>
                   </router-link>
@@ -57,22 +54,10 @@
                       <template slot="title" class="lang-title">
                         <span>{{languageValue}}</span>
                         <img class="lang-img" v-if="lang=='en_US'"></img>
-						<img class="lang-img" v-if="lang=='ja_JP'"></img>
-						<img class="lang-img" v-if="lang=='ko_KR'"></img>
-						<img class="lang-img" v-if="lang=='de_DE'"></img>
-						<img class="lang-img" v-if="lang=='fr_FR'"></img>
-						<img class="lang-img" v-if="lang=='it_IT'"></img>
-						<img class="lang-img" v-if="lang=='es_ES'"></img>
 						<img class="lang-img" v-if="lang=='zh_HK'"></img>
 						<img class="lang-img" v-if="lang=='zh_CN'"></img>
                       </template>
                       <MenuItem name="en_US" class="lang-item"></img>English</MenuItem>
-					  <MenuItem name="ja_JP" class="lang-item"></img>日本語</MenuItem>
-					  <MenuItem name="ko_KR" class="lang-item"></img>한국어</MenuItem>
-					  <MenuItem name="de_DE" class="lang-item"></img>Deutsche</MenuItem>
-					  <MenuItem name="fr_FR" class="lang-item"></img>français</MenuItem>
-					  <MenuItem name="it_IT" class="lang-item"></img>italiano</MenuItem>
-					  <MenuItem name="es_ES" class="lang-item"></img>Español</MenuItem>
 					  <MenuItem name="zh_HK" class="lang-item"></img>繁體中文</MenuItem>
 					  <MenuItem name="zh_CN" class="lang-item"></img>简体中文</MenuItem>
                   </Submenu>
@@ -148,9 +133,6 @@
             <router-link to="/otc/trade/usdt">
               <MenuItem name="nav-otc" style="text-align:left;">{{$t("header.otc")}}</MenuItem>
             </router-link>
-            <router-link to="/lab">
-              <MenuItem name="nav-lab" style="text-align:left;color:#bdc2ca;">{{$t("header.lab")}}</MenuItem>
-            </router-link>
             <MenuItem name="nav-invite" style="text-align:left;">{{$t("header.invite")}}</MenuItem>
             <router-link to="/announcement/0">
               <MenuItem name="nav-service" style="text-align:left;color:#bdc2ca;">{{$t("header.service")}}</MenuItem>
@@ -189,12 +171,6 @@
                   <span style="color:#bdc2ca;">{{languageValue}}</span>
                 </template>
 				<MenuItem name="en_US" class="lang-item" style="padding-left:20px!important;"></img>English</MenuItem>
-				<MenuItem name="ja_JP" class="lang-item" style="padding-left:20px!important;"></img>日本語</MenuItem>
-				<MenuItem name="ko_KR" class="lang-item" style="padding-left:20px!important;"></img>한국어</MenuItem>
-				<MenuItem name="de_DE" class="lang-item" style="padding-left:20px!important;"></img>Deutsche</MenuItem>
-				<MenuItem name="fr_FR" class="lang-item" style="padding-left:20px!important;"></img>français</MenuItem>
-				<MenuItem name="it_IT" class="lang-item" style="padding-left:20px!important;"></img>italiano</MenuItem>
-				<MenuItem name="es_ES" class="lang-item" style="padding-left:20px!important;"></img>Español</MenuItem>
 				<MenuItem name="zh_HK" class="lang-item" style="padding-left:20px!important;"></img>繁體中文</MenuItem>
 				<MenuItem name="zh_CN" class="lang-item" style="padding-left:20px!important;"></img>简体中文</MenuItem>
             </Submenu>

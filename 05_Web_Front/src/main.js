@@ -28,8 +28,8 @@ Vue.use(VueI18n);
 Vue.use(ViewUI, { locale });
 
 Vue.prototype.rootHost = "https://www.bizzan.pro"; //BIZZAN
-//Vue.prototype.host = "https://api.bizzan.pro"; //BIZZAN
-Vue.prototype.host = "http://127.0.0.1"; //BIZZAN
+Vue.prototype.host = "https://api.bizzan.pro"; //BIZZAN
+//Vue.prototype.host = "http://127.0.0.1"; //BIZZAN
 
 Vue.prototype.api = Api;
 Vue.http.options.credentials = true;
@@ -66,12 +66,6 @@ const i18n = new VueI18n({
         'zh_CN': require('./assets/lang/cn.js'),
         'en_US': require('./assets/lang/en.js'),
 		'zh_HK': require('./assets/lang/hk.js'),
-		'ja_JP': require('./assets/lang/jp.js'),
-		'ko_KR': require('./assets/lang/ko.js'),
-		'de_DE': require('./assets/lang/de.js'),
-		'fr_FR': require('./assets/lang/fr.js'),
-		'it_IT': require('./assets/lang/it.js'),
-		'es_ES': require('./assets/lang/es.js'),
     },
     silentTranslationWarn: true
 });
