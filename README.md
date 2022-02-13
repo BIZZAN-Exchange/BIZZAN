@@ -63,8 +63,8 @@ BIZZAN 开源数字货币交易系统
 - 测试环境仅供学习参考！！！请各位学习的小伙伴合理运用。
 
 - 测试环境地址 : 
-- https://www.bizzan.pro 账户：13800138001 密码：123456
-- https://admin.bizzan.pro 账户：test 密码：123456
+- https://www.bizzan.biz 账户：13800138001 密码：123456
+- https://admin.bizzan.biz 账户：test 密码：123456
 
 ### 加入我们
     为方便大家交流和学习，请各位小伙伴加入QQ交流群：

@@ -60,8 +60,8 @@ This source code is limited to exchange and study, where it involves legal issue
 - The test environment is for learning reference only! ! ! Please use it reasonably.
 
 - Test environment address: 
-- https://www.bizzan.pro Account：13800138001 Password：123456
-- https://admin.bizzan.pro Account：test Password：123456
+- https://www.bizzan.biz Account：13800138001 Password：123456
+- https://admin.bizzan.biz Account：test Password：123456
 ### join us
      In order to facilitate everyone to communicate and learn, please join the QQ exchange group:
      *Blockchain exchange technical knowledge exchange group [QQ group: 735446452]
