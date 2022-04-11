@@ -36,7 +36,7 @@ import com.bizzan.bitrade.es.ESUtils;
 import com.bizzan.bitrade.system.CoinExchangeFactory;
 import com.bizzan.bitrade.util.DateUtil;
 import com.bizzan.bitrade.util.MessageResult;
-import com.sparkframework.lang.Convert;
+import com.bizzan.bitrade.core.Convert;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.client.RestTemplate;

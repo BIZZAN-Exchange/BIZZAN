@@ -34,7 +34,7 @@ import com.bizzan.bitrade.service.LocaleMessageSourceService;
 import com.bizzan.bitrade.service.RewardPromotionSettingService;
 import com.bizzan.bitrade.util.MessageResult;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.sparkframework.security.Encrypt;
+import com.bizzan.bitrade.core.Encrypt;
 
 /**
  * 邀请交易佣金奖励设置

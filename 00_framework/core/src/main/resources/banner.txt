@@ -9,7 +9,7 @@ ${AnsiColor.BRIGHT_YELLOW}
 ░███████ ░██ ████████ ████████░██     ░██░██    ░░███
 ░░░░░░░  ░░ ░░░░░░░░ ░░░░░░░░ ░░      ░░ ░░      ░░░ 
 
-              https://www.bizzan.pro
+              https://www.bizzan.biz
 			  
 ${AnsiColor.BRIGHT_GREEN}
                      Spring Boot Version: ${spring-boot.formatted-version}

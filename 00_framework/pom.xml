@@ -8,11 +8,12 @@
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
 	<description>数字货币交易系统父节点</description>
-	<url>bizzan.com</url>
+	<url>www.bizzan.biz</url>
 
 	<modules>
 		<module>core</module>
 		<module>admin</module>
+        <module>chat</module>
         <module>exchange</module>
         <module>market</module>
         <module>exchange-core</module>
@@ -21,8 +22,9 @@
         <module>otc-api</module>
         <module>ucenter-api</module>
         <module>cloud</module>
+		<module>netty</module>
         <module>wallet</module>
-	</modules>
+    </modules>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -40,6 +42,8 @@
 		<spring-cloud.version>Edgware.RELEASE</spring-cloud.version>
 		<spring-boot_version>1.5.19.RELEASE</spring-boot_version>
 		<cloud_starter_version>1.4.7.RELEASE</cloud_starter_version>
+		<!--反序列化-->
+		<xstream_version>1.4.19</xstream_version>
 		<!-- 数据库连接 -->
 		<druid_version>1.1.22</druid_version>
 		<mysql.version>8.0.23</mysql.version>
@@ -83,6 +87,17 @@
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 				<version>${cloud_starter_version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>xstream</artifactId>
+						<groupId>com.thoughtworks.xstream</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>com.thoughtworks.xstream</groupId>
+				<artifactId>xstream</artifactId>
+				<version>${xstream_version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
@@ -268,7 +283,7 @@
 			<dependency>
 				<groupId>org.apache.shiro</groupId>
 				<artifactId>shiro-spring</artifactId>
-				<version>1.4.0</version>
+				<version>${shiro_version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.pac4j</groupId>
@@ -298,7 +313,27 @@
 			<dependency>
 	        	<groupId>org.apache.shiro</groupId>
 	            <artifactId>shiro-quartz</artifactId>
-	            <version>1.3.2</version>
+	            <version>${shiro_version}</version>
+	        </dependency>
+			<dependency>
+				<groupId>com.aliyun</groupId>
+				<artifactId>aliyun-java-sdk-core</artifactId>
+				<version>4.5.3</version>
+			</dependency>
+			<dependency>
+				<groupId>com.aliyun</groupId>
+				<artifactId>aliyun-java-sdk-dm</artifactId>
+				<version>3.1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.maxmind.geoip2</groupId>
+				<artifactId>geoip2</artifactId>
+				<version>2.12.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.squareup.okhttp3</groupId>
+				<artifactId>okhttp</artifactId>
+				<version>3.8.1</version>
 	        </dependency>
 		</dependencies>
 	</dependencyManagement>

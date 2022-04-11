@@ -21,7 +21,7 @@ import com.bizzan.bitrade.pagination.Criteria;
 import com.bizzan.bitrade.pagination.Restrictions;
 import com.bizzan.bitrade.service.Base.BaseService;
 import com.bizzan.bitrade.util.MessageResult;
-import com.sparkframework.sql.model.Model;
+import com.bizzan.bitrade.core.Model;
 
 /**
  * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com

@@ -76,12 +76,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>
-        <dependency>
-			<groupId>com.sparkframework</groupId>
-			<artifactId>spark-core</artifactId>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/spark-core-2.6.0.jar</systemPath>
-		</dependency>
     </dependencies>
 
     <build>

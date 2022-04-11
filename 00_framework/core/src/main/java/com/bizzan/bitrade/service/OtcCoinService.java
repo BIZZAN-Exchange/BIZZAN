@@ -22,7 +22,7 @@ import com.bizzan.bitrade.service.Base.BaseService;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
-import com.sparkframework.sql.model.Model;
+import com.bizzan.bitrade.core.Model;
 
 /**
  * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com

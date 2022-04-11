@@ -27,7 +27,7 @@ import com.bizzan.bitrade.util.MessageResult;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
-import com.sparkframework.sql.DB;
+import  com.bizzan.bitrade.core.DB;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

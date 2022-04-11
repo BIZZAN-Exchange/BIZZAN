@@ -2,10 +2,10 @@ package com.bizzan.bitrade.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.aqmd.netty.annotation.HawkBean;
-import com.aqmd.netty.annotation.HawkMethod;
-import com.aqmd.netty.common.NettyCacheUtils;
-import com.aqmd.netty.push.HawkPushServiceApi;
+import com.bizzan.aqmd.core.annotation.HawkBean;
+import com.bizzan.aqmd.core.annotation.HawkMethod;
+import com.bizzan.aqmd.netty.common.NettyCacheUtils;
+import com.bizzan.aqmd.netty.push.HawkPushServiceApi;
 import com.bizzan.bitrade.constant.NettyCommand;
 import com.bizzan.bitrade.entity.*;
 import com.bizzan.bitrade.netty.QuoteMessage;

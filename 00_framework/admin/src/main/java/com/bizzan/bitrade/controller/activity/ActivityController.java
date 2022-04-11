@@ -38,7 +38,7 @@ import com.bizzan.bitrade.controller.common.BaseAdminController;
 import com.bizzan.bitrade.util.DateUtil;
 import com.bizzan.bitrade.util.MessageResult;
 import com.bizzan.bitrade.vendor.provider.SMSProvider;
-import com.sparkframework.security.Encrypt;
+import com.bizzan.bitrade.core.Encrypt;
 
 @RestController
 @RequestMapping("activity/activity")

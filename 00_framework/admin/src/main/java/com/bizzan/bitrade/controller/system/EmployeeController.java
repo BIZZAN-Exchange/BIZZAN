@@ -56,8 +56,8 @@ import com.bizzan.bitrade.util.CaptchaUtil;
 import com.bizzan.bitrade.util.MessageResult;
 import com.bizzan.bitrade.vendor.provider.SMSProvider;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.sparkframework.lang.Convert;
-import com.sparkframework.security.Encrypt;
+import com.bizzan.bitrade.core.Convert;
+import com.bizzan.bitrade.core.Encrypt;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;

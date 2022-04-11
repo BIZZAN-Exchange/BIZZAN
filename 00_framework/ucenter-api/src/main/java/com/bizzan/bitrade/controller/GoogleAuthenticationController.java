@@ -84,7 +84,7 @@ public class GoogleAuthenticationController extends BaseController{
         String secret = GoogleAuthenticatorUtil.generateSecretKey();
         log.info("secret完毕 耗时={}",System.currentTimeMillis()-current);
         String qrBarcodeURL = GoogleAuthenticatorUtil.getQRBarcodeURL(member.getId().toString(),
-                "www.bizzan.pro", secret);
+                "www.bizzan.biz", secret);
         log.info("qrBarcodeURL完毕 耗时={}",System.currentTimeMillis()-current);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("link",qrBarcodeURL);

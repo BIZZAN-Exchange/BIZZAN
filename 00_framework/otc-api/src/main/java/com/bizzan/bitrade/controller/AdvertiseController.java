@@ -15,7 +15,7 @@ import com.bizzan.bitrade.util.Md5;
 import com.bizzan.bitrade.util.MessageResult;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.sparkframework.sql.DataException;
+import  com.bizzan.bitrade.core.DataException;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;

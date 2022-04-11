@@ -50,7 +50,7 @@ import com.bizzan.bitrade.util.MessageResult;
 import com.bizzan.bitrade.vendor.provider.SMSProvider;
 import com.bizzan.bitrade.vo.WithdrawRecordVO;
 import com.querydsl.core.types.Predicate;
-import com.sparkframework.security.Encrypt;
+import com.bizzan.bitrade.core.Encrypt;
 
 import lombok.extern.slf4j.Slf4j;
 

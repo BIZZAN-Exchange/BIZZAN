@@ -14,7 +14,7 @@ import com.bizzan.bitrade.entity.OtcCoin;
 import com.bizzan.bitrade.exception.InformationExpiredException;
 import com.bizzan.bitrade.service.AdvertiseService;
 import com.bizzan.bitrade.service.OtcCoinService;
-import com.sparkframework.sql.DataException;
+import  com.bizzan.bitrade.core.DataException;
 
 import lombok.extern.slf4j.Slf4j;
 

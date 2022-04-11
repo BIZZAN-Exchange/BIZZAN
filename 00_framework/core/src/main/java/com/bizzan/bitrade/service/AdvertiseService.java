@@ -56,8 +56,8 @@ import com.bizzan.bitrade.util.DateUtil;
 import com.bizzan.bitrade.util.MessageResult;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
-import com.sparkframework.sql.DB;
-import com.sparkframework.sql.DataException;
+import  com.bizzan.bitrade.core.DB;
+import  com.bizzan.bitrade.core.DataException;
 
 import lombok.extern.slf4j.Slf4j;
 

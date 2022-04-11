@@ -103,7 +103,7 @@
 			</map>
 		</property>
 	</bean>
-	<bean id="db" class="com.sparkframework.sql.DB">
+	<bean id="db" class=" com.bizzan.bitrade.core.DB">
 		<constructor-arg index="0" ref="dataSource" />
 		<constructor-arg index="1" value="true" />
 	</bean>
