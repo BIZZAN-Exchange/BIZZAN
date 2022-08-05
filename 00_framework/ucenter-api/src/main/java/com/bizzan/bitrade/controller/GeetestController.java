@@ -1,11 +1,7 @@
 package com.bizzan.bitrade.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.aliyun.oss.common.utils.HttpUtil;
-import com.bizzan.bitrade.config.GeetestConfig;
-import com.bizzan.bitrade.controller.BaseController;
 import com.bizzan.bitrade.system.GeetestLib;
-
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
@@ -15,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +18,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年02月23日
  */
 @RestController

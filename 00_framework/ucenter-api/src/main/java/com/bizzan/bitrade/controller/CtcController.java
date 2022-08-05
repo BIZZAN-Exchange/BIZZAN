@@ -1,22 +1,20 @@
 package com.bizzan.bitrade.controller;
 
-import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
-import static com.bizzan.bitrade.util.BigDecimalUtils.compare;
-import static org.springframework.util.Assert.hasText;
-import static org.springframework.util.Assert.isTrue;
-import static org.springframework.util.Assert.notNull;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
+import com.bizzan.bitrade.constant.BooleanEnum;
+import com.bizzan.bitrade.constant.MemberLevelEnum;
+import com.bizzan.bitrade.constant.SysConstant;
+import com.bizzan.bitrade.entity.*;
+import com.bizzan.bitrade.entity.transform.AuthMember;
+import com.bizzan.bitrade.service.*;
+import com.bizzan.bitrade.util.DateUtil;
+import com.bizzan.bitrade.util.GeneratorUtil;
+import com.bizzan.bitrade.util.Md5;
+import com.bizzan.bitrade.util.MessageResult;
+import com.bizzan.bitrade.vendor.provider.SMSProvider;
+import com.querydsl.core.types.Predicate;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -29,38 +27,21 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.client.RestTemplate;
 
-import com.alibaba.fastjson.JSONObject;
-import com.bizzan.bitrade.constant.BooleanEnum;
-import com.bizzan.bitrade.constant.MemberLevelEnum;
-import com.bizzan.bitrade.constant.SysConstant;
-import com.bizzan.bitrade.entity.CtcAcceptor;
-import com.bizzan.bitrade.entity.CtcOrder;
-import com.bizzan.bitrade.entity.Member;
-import com.bizzan.bitrade.entity.MemberWallet;
-import com.bizzan.bitrade.entity.QCtcOrder;
-import com.bizzan.bitrade.entity.transform.AuthMember;
-import com.bizzan.bitrade.service.CtcAcceptorService;
-import com.bizzan.bitrade.service.CtcOrderService;
-import com.bizzan.bitrade.service.LocaleMessageSourceService;
-import com.bizzan.bitrade.service.MemberService;
-import com.bizzan.bitrade.service.MemberWalletService;
-import com.bizzan.bitrade.util.DateUtil;
-import com.bizzan.bitrade.util.GeneratorUtil;
-import com.bizzan.bitrade.util.Md5;
-import com.bizzan.bitrade.util.MessageResult;
-import com.bizzan.bitrade.vendor.provider.SMSProvider;
-import com.querydsl.core.types.Predicate;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.*;
 
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
+import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
+import static com.bizzan.bitrade.util.BigDecimalUtils.compare;
+import static org.springframework.util.Assert.*;
 
 @RestController
 @RequestMapping("ctc")

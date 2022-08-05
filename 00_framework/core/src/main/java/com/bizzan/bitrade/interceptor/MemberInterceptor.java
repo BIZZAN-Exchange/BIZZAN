@@ -1,6 +1,11 @@
 package com.bizzan.bitrade.interceptor;
 
 
+import com.bizzan.bitrade.constant.SysConstant;
+import com.bizzan.bitrade.entity.Member;
+import com.bizzan.bitrade.entity.transform.AuthMember;
+import com.bizzan.bitrade.event.MemberEvent;
+import com.bizzan.bitrade.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -8,12 +13,6 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.bizzan.bitrade.constant.SysConstant;
-import com.bizzan.bitrade.entity.Member;
-import com.bizzan.bitrade.entity.transform.AuthMember;
-import com.bizzan.bitrade.event.MemberEvent;
-import com.bizzan.bitrade.service.MemberService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +22,7 @@ import java.io.PrintWriter;
 import java.util.Calendar;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年01月11日
  */
 @Slf4j

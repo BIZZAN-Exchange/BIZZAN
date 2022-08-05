@@ -18,7 +18,6 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -263,6 +262,29 @@ public class MemberTransactionService extends BaseService {
         long total = query.fetchCount();
         return new PageImpl<>(list, pageModel.getPageable(), total);
     }
+    public List<MemberTransactionVO> joinFindAll(List<Predicate> predicates, PageModel pageModel){
+        List<OrderSpecifier> orderSpecifiers = pageModel.getOrderSpecifiers() ;
+        JPAQuery<MemberTransactionVO> query = queryFactory.select(Projections.fields(MemberTransactionVO.class,
+                QMemberTransaction.memberTransaction.address,
+                QMemberTransaction.memberTransaction.amount,
+                QMemberTransaction.memberTransaction.createTime.as("createTime"),
+                QMemberTransaction.memberTransaction.fee,
+                QMemberTransaction.memberTransaction.flag,
+                QMemberTransaction.memberTransaction.id.as("id"),
+                QMemberTransaction.memberTransaction.symbol,
+                QMemberTransaction.memberTransaction.type,
+                QMember.member.username.as("memberUsername"),
+                QMember.member.mobilePhone.as("phone"),
+                QMember.member.email,
+                QMember.member.realName.as("memberRealName"),
+                QMember.member.id.as("memberId")))
+                .from(QMemberTransaction.memberTransaction, QMember.member);
+        predicates.add(QMemberTransaction.memberTransaction.memberId.eq(QMember.member.id));
+                query.where(predicates.toArray(new BooleanExpression[predicates.size()]));
+        query.orderBy(orderSpecifiers.toArray(new OrderSpecifier[orderSpecifiers.size()]));
+        List<MemberTransactionVO> list = query.fetch();
+        return list;
+    }
     
     /**
      * 清理机器人交易记录
@@ -271,5 +293,8 @@ public class MemberTransactionService extends BaseService {
      */
     public int deleteHistory(Date beforeTime) {
     	return transactionDao.deleteHistory(beforeTime);
+    }
+    public int deleteWalletHistory(Date beforeTime) {
+    	return transactionDao.deleteWalletHistory(beforeTime);
     }
 }

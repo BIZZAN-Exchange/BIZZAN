@@ -44,8 +44,7 @@
         <Card>
             <p slot="title">
                 <Icon type="person"></Icon>
-                个人信息
-            </p>
+                {{ $t('personalinformation.personalinformation') }} </p>
             <div>
                 <Form
                     ref="userForm"
@@ -54,12 +53,12 @@
                     label-position="right"
                     :rules="inforValidate"
                 >
-                    <FormItem label="用户姓名：" prop="name">
+                    <FormItem :label="$t('personalinformation.username')" prop="name">
                         <div style="display:inline-block;width:300px;">
                             <Input v-model="userForm.name" ></Input>
                         </div>
                     </FormItem>
-                    <FormItem label="用户手机：" prop="cellphone" >
+                    <FormItem :label="$t('personalinformation.usermobile')" prop="cellphone" >
                         <div style="display:inline-block;width:204px;">
                             <Input v-model="userForm.cellphone" @on-keydown="hasChangePhone"></Input>
                         </div>
@@ -67,47 +66,47 @@
                             <Button @click="getIdentifyCode" :disabled="canGetIdentifyCode">{{ gettingIdentifyCodeBtnContent }}</Button>
                             <div class="own-space-input-identifycode-con" v-if="inputCodeVisible">
                                 <div style="background-color:white;z-index:110;margin:10px;">
-                                    <Input v-model="securityCode" placeholder="请填写短信验证码" ></Input>
+                                    <Input v-model="securityCode" :placeholder="$t('personalinformation.pleasefillinthesmsverificationcode')" ></Input>
                                     <div style="margin-top:10px;text-align:right">
-                                        <Button type="ghost" @click="cancelInputCodeBox">取消</Button>
-                                        <Button type="primary" @click="submitCode" :loading="checkIdentifyCodeLoading">确定</Button>
+                                        <Button type="ghost" @click="cancelInputCodeBox">{{ $t('currencywithdrawalauditmanagement.cancel') }}</Button>
+                                        <Button type="primary" @click="submitCode" :loading="checkIdentifyCodeLoading">{{ $t('collectionconfigurationmanagement.determine') }}</Button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </FormItem>
-                    <FormItem label="公司：">
+                    <FormItem :label="$t('personalinformation.company')">
                         <span>{{ userForm.company }}</span>
                     </FormItem>
-                    <FormItem label="部门：">
+                    <FormItem :label="$t('personalinformation.department')">
                         <span>{{ userForm.department }}</span>
                     </FormItem>
-                    <FormItem label="登录密码：">
-                        <Button type="text" size="small" @click="showEditPassword">修改密码</Button>
+                    <FormItem :label="$t('personalinformation.loginpassword')">
+                        <Button type="text" size="small" @click="showEditPassword">{{ $t('personalinformation.changepassword') }}</Button>
                     </FormItem>
                     <div>
-                        <Button type="text" style="width: 100px;" @click="cancelEditUserInfor">取消</Button>
-                        <Button type="primary" style="width: 100px;" :loading="save_loading" @click="saveEdit">保存</Button>
+                        <Button type="text" style="width: 100px;" @click="cancelEditUserInfor">{{ $t('currencywithdrawalauditmanagement.cancel') }}</Button>
+                        <Button type="primary" style="width: 100px;" :loading="save_loading" @click="saveEdit">{{ $t('personalinformation.preservation') }}</Button>
                     </div>
                 </Form>
             </div>
         </Card>
         <Modal v-model="editPasswordModal" :closable='false' :mask-closable=false :width="500">
-            <h3 slot="header" style="color:#2D8CF0">修改密码</h3>
+            <h3 slot="header" style="color:#2D8CF0">{{ $t('personalinformation.changepassword') }}</h3>
             <Form ref="editPasswordForm" :model="editPasswordForm" :label-width="100" label-position="right" :rules="passwordValidate">
-                <FormItem label="原密码" prop="oldPass" :error="oldPassError">
-                    <Input v-model="editPasswordForm.oldPass" placeholder="请输入现在使用的密码" ></Input>
+                <FormItem :label="$t('personalinformation.originalpassword')" prop="oldPass" :error="oldPassError">
+                    <Input v-model="editPasswordForm.oldPass" :placeholder="$t('personalinformation.note2')" ></Input>
                 </FormItem>
-                <FormItem label="新密码" prop="newPass">
-                    <Input v-model="editPasswordForm.newPass" placeholder="请输入新密码，至少6位字符" ></Input>
+                <FormItem :label="$t('personalinformation.newpassword')" prop="newPass">
+                    <Input v-model="editPasswordForm.newPass" :placeholder="$t('personalinformation.note1')" ></Input>
                 </FormItem>
-                <FormItem label="确认新密码" prop="rePass">
-                    <Input v-model="editPasswordForm.rePass" placeholder="请再次输入新密码" ></Input>
+                <FormItem :label="$t('personalinformation.confirmnewpassword')" prop="rePass">
+                    <Input v-model="editPasswordForm.rePass" :placeholder="$t('personalinformation.pleaseenterthenewpasswordagain')" ></Input>
                 </FormItem>
             </Form>
             <div slot="footer">
-                <Button type="text" @click="cancelEditPass">取消</Button>
-                <Button type="primary" :loading="savePassLoading" @click="saveEditPass">保存</Button>
+                <Button type="text" @click="cancelEditPass">{{ $t('currencywithdrawalauditmanagement.cancel') }}</Button>
+                <Button type="primary" :loading="savePassLoading" @click="saveEditPass">{{ $t('personalinformation.preservation') }}</Button>
             </div>
         </Modal>
     </div>
@@ -120,14 +119,14 @@ export default {
         const validePhone = (rule, value, callback) => {
             var re = /^1[0-9]{10}$/;
             if (!re.test(value)) {
-                callback(new Error('请输入正确格式的手机号'));
+                callback(new Error(this.$t('personalinformation.note3')));
             } else {
                 callback();
             }
         };
         const valideRePassword = (rule, value, callback) => {
             if (value !== this.editPasswordForm.newPass) {
-                callback(new Error('两次输入密码不一致'));
+                callback(new Error(this.$t('personalinformation.thetwoinputpasswordsareinconsistent')));
             } else {
                 callback();
             }
@@ -153,10 +152,10 @@ export default {
             checkIdentifyCodeLoading: false,
             inforValidate: {
                 name: [
-                    { required: true, message: '请输入姓名', trigger: 'blur' }
+                    { required: true, message: this.$t('personalinformation.pleaseentername'), trigger: 'blur' }
                 ],
                 cellphone: [
-                    { required: true, message: '请输入手机号码' },
+                    { required: true, message: this.$t('personalinformation.pleaseenteryourmobilenumber') },
                     { validator: validePhone }
                 ]
             },
@@ -167,21 +166,21 @@ export default {
             },
             passwordValidate: {
                 oldPass: [
-                    { required: true, message: '请输入原密码', trigger: 'blur' }
+                    { required: true, message: this.$t('personalinformation.pleaseentertheoriginalpassword'), trigger: 'blur' }
                 ],
                 newPass: [
-                    { required: true, message: '请输入新密码', trigger: 'blur' },
-                    { min: 6, message: '请至少输入6个字符', trigger: 'blur' },
-                    { max: 32, message: '最多输入32个字符', trigger: 'blur' }
+                    { required: true, message: this.$t('personalinformation.pleaseenteranewpassword'), trigger: 'blur' },
+                    { min: 6, message: this.$t('personalinformation.pleaseenteratleast6characters'), trigger: 'blur' },
+                    { max: 32, message: this.$t('personalinformation.enterupto32characters'), trigger: 'blur' }
                 ],
                 rePass: [
-                    { required: true, message: '请再次输入新密码', trigger: 'blur' },
+                    { required: true, message: this.$t('personalinformation.pleaseenterthenewpasswordagain'), trigger: 'blur' },
                     { validator: valideRePassword, trigger: 'blur' }
                 ]
             },
             inputCodeVisible: false, // 显示填写验证码box
             initPhone: '',
-            gettingIdentifyCodeBtnContent: '获取验证码' // “获取验证码”按钮的文字
+            gettingIdentifyCodeBtnContent: this.$t('personalinformation.getverificationcode') // “获取验证码”按钮的文字
         };
     },
     methods: {
@@ -193,11 +192,11 @@ export default {
                     let timeLast = 60;
                     let timer = setInterval(() => {
                         if (timeLast >= 0) {
-                            this.gettingIdentifyCodeBtnContent = timeLast + '秒后重试';
+                            this.gettingIdentifyCodeBtnContent = timeLast + this.$t('personalinformation.retryinseconds');
                             timeLast -= 1;
                         } else {
                             clearInterval(timer);
-                            this.gettingIdentifyCodeBtnContent = '获取验证码';
+                            this.gettingIdentifyCodeBtnContent = this.$t('personalinformation.getverificationcode');
                             this.canGetIdentifyCode = false;
                         }
                     }, 1000);
@@ -230,10 +229,10 @@ export default {
                             if (this.identifyCodeRight) { // 判断验证码是否正确
                                 this.saveInfoAjax();
                             } else {
-                                this.$Message.error('验证码错误，请重新输入');
+                                this.$Message.error(this.$t('personalinformation.note4'));
                             }
                         } else {
-                            this.$Message.warning('请先点击获取验证码');
+                            this.$Message.warning(this.$t('personalinformation.pleaseclicktogettheverificationcodefirst'));
                         }
                     } else {
                         this.saveInfoAjax();
@@ -257,7 +256,7 @@ export default {
             this.userForm.cellphone = '17712345678';
             this.initPhone = '17712345678';
             this.userForm.company = 'TalkingData';
-            this.userForm.department = '可视化部门';
+            this.userForm.department = this.$t('personalinformation.visualizationdepartment');
         },
         cancelInputCodeBox () {
             this.inputCodeVisible = false;
@@ -267,10 +266,10 @@ export default {
             let vm = this;
             vm.checkIdentifyCodeLoading = true;
             if (this.securityCode.length === 0) {
-                this.$Message.error('请填写短信验证码');
+                this.$Message.error(this.$t('personalinformation.pleasefillinthesmsverificationcode'));
             } else {
                 setTimeout(() => {
-                    this.$Message.success('验证码正确');
+                    this.$Message.success(this.$t('personalinformation.verificationcodeiscorrect'));
                     this.inputCodeVisible = false;
                     this.checkIdentifyCodeLoading = false;
                 }, 1000);
@@ -284,7 +283,7 @@ export default {
         saveInfoAjax () {
             this.save_loading = true;
             setTimeout(() => {
-                this.$Message.success('保存成功');
+                this.$Message.success(this.$t('personalinformation.savedsuccessfully'));
                 this.save_loading = false;
             }, 1000);
         }

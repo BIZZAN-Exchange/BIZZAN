@@ -16,7 +16,6 @@ import com.bizzan.bitrade.vo.WithdrawRecordVO;
 import com.querydsl.core.types.*;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
-
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,13 +32,14 @@ import java.util.Date;
 import java.util.List;
 
 import static com.bizzan.bitrade.constant.BooleanEnum.IS_FALSE;
-import static com.bizzan.bitrade.constant.WithdrawStatus.*;
+import static com.bizzan.bitrade.constant.WithdrawStatus.FAIL;
+import static com.bizzan.bitrade.constant.WithdrawStatus.PROCESSING;
 import static com.bizzan.bitrade.entity.QWithdrawRecord.withdrawRecord;
 import static org.springframework.util.Assert.isTrue;
 import static org.springframework.util.Assert.notNull;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年01月29日
  */
 @Service
@@ -186,7 +186,7 @@ public class WithdrawRecordService extends BaseService {
         if (record == null || record.getStatus() != WithdrawStatus.PROCESSING) {
             return;
         }
-        MemberWallet wallet = walletService.findByCoinAndAddress(record.getCoin(), record.getAddress());
+        MemberWallet wallet = walletService.findByCoinAndMemberId(record.getCoin(), record.getMemberId());
         if (wallet != null) {
             wallet.setBalance(wallet.getBalance().add(record.getTotalAmount()));
             wallet.setFrozenBalance(wallet.getFrozenBalance().subtract(record.getTotalAmount()));

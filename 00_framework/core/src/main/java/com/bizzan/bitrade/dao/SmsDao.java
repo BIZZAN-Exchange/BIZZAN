@@ -1,15 +1,12 @@
 package com.bizzan.bitrade.dao;
 
-import org.springframework.data.jpa.repository.Query;
-
 import com.bizzan.bitrade.dao.base.BaseDao;
 import com.bizzan.bitrade.dto.SmsDTO;
-
-import java.util.List;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * @Description:
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date: create in 9:47 2019/6/28
  * @Modified:
  */

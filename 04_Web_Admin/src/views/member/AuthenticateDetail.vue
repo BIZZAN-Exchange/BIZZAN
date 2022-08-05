@@ -2,13 +2,13 @@
    <div>
       <div class="examin_mian">
         <Row type="flex" justify="center" class="code-row-bg e_mianinput">
-          <Col span="2"> 客户名称 : </Col>
+          <Col span="2"> {{ $t('customername.customername') }} </Col>
           <Col span="8"> 
             <span>{{ memberName }}</span>
           </Col>
         </Row>
         <Row type="flex" justify="center" class="code-row-bg e_mianinput">
-          <Col span="2"> 身份证号码 : </Col>
+          <Col span="2"> {{ $t('customername.idnumber') }} </Col>
           <Col span="8">
             <span>{{ IDCard }}</span>
           </Col>
@@ -49,8 +49,8 @@
           <Row type="flex" justify="center" class="code-row-bg" style='margin-top:20px;text-aligin: center'>
             <Col span="6" >
               <RadioGroup v-model="ifPass" @on-change="tabSwitch = !tabSwitch">
-                <Radio label="审核通过"></Radio>
-                <Radio label="审核驳回" style='margin-left:35px'>
+                <Radio :label="$t('surrendermanagement.approved')"></Radio>
+                <Radio :label="$t('customername.reviewrejected')" style='margin-left:35px'>
                 </Radio>
               </RadioGroup>
             </Col>
@@ -59,24 +59,24 @@
             <Col span="12">
             <div style="text-align: center">
               <Row  type="flex" justify="center" class="code-row-bg" v-show="!tabSwitch">
-                <Col span="4" style='font-size:16px'>驳回理由 :</Col>
+                <Col span="4" style='font-size:16px'>{{ $t('customername.reasonsforrejection') }}</Col>
                 <Col span="16"> <Input v-model="rejectReason" type="textarea" :rows="4" ></Input></Col>
               </Row>
               <Row  type="flex" justify="center" class="code-row-bg" v-show="tabSwitch">
-                <Col span="8" style='font-size:16px;color:#2287fe'>审核通过</Col>
+                <Col span="8" style='font-size:16px;color:#2287fe'>{{ $t('surrendermanagement.approved') }}</Col>
               </Row>
             </div>
             </Col>
           </Row>
           <Row type="flex" justify="center" class="code-row-bg" style='margin-top:20px'>
             <Col span="6">
-              <Button @click="pass" type="success" long size="large">确 认</Button>
+              <Button @click="pass" type="success" long size="large">{{ $t('customername.confirm') }}</Button>
             </Col>
           </Row>
         </Row>
         <Row v-if="!!status" class="passInfo">
-          <p v-if="status === 2">审核通过</p>
-          <p v-if="status === 1" style="color: #ed3f14">审核未通过</p>
+          <p v-if="status === 2">{{ $t('surrendermanagement.approved') }}</p>
+          <p v-if="status === 1" style="color: #ed3f14">{{ $t('customername.auditfailed') }}</p>
         </Row>
         <!-- <Row v-if="status === 2" class="reject-btn-wrap">
             <Button type="primary" @click="showReasonModal">撤回</Button>
@@ -85,7 +85,7 @@
       <Modal
 								v-model="rejectModel"
 								:width="450"
-								title="请备注失败原因(选填)"
+								:title="$t('customername.note1')"
 								@on-ok="noPass">
 								<Input type="textarea" v-model="rejectReason"></Input>
 							</Modal>
@@ -102,13 +102,13 @@ export default {
   return {
     rejectModel: false,
       rejectReason: "",
-      imgAltArr: ['身份证正面','手持证件', '身份证反面'],
+      imgAltArr: [this.$t('customername.frontofidcard'),this.$t('customername.handheldcertificate'), this.$t('customername.reversesideofidcard')],
       clickIndex: null,
       ifEnlarge: false,
       memberName: null,
       IDCard: null,
       imgUrlArr: [],
-      ifPass: '审核通过',
+      ifPass: this.$t('surrendermanagement.approved'),
       tabSwitch: true,
       rejectReason: null,
       status: null,

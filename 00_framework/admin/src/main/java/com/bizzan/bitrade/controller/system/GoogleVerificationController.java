@@ -7,7 +7,6 @@ import com.bizzan.bitrade.service.MemberService;
 import com.bizzan.bitrade.util.GoogleAuthenticatorUtil;
 import com.bizzan.bitrade.util.Md5;
 import com.bizzan.bitrade.util.MessageResult;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -16,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
-
 import java.util.Date;
+
+import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @time 2020.04.09 11:07
  */
 @RestController
@@ -32,7 +31,7 @@ public class GoogleVerificationController {
 
     /**
      * 验证google
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
      * @time 2020.04.09 11:36
      * @param user
      * @param codes
@@ -51,10 +50,10 @@ public class GoogleVerificationController {
         boolean r = ga.check_code(member.getGoogleKey(), code, t);
         System.out.println("rrrr="+r);
         if(!r){
-            return MessageResult.error("验证失败");
+            return MessageResult.error("Validation failed");
         }
         else{
-            return MessageResult.success("验证通过");
+            return MessageResult.success("Verification passed");
         }
     }
 
@@ -80,7 +79,7 @@ public class GoogleVerificationController {
         String secret = GoogleAuthenticatorUtil.generateSecretKey();
         log.info("secret完毕 耗时={}",System.currentTimeMillis()-current);
         String qrBarcodeURL = GoogleAuthenticatorUtil.getQRBarcodeURL(member.getId().toString(),
-                "bizzan.com", secret);
+                "www.bizzan.biz", secret);
         log.info("qrBarcodeURL完毕 耗时={}",System.currentTimeMillis()-current);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("link",qrBarcodeURL);
@@ -97,7 +96,7 @@ public class GoogleVerificationController {
 
     /**
      * google解绑
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
      * @time 2020.04.09 12:47
      * @param codes
      * @param user
@@ -112,7 +111,7 @@ public class GoogleVerificationController {
         Member member = memberService.findOne(user.getId());
         String GoogleKey = member.getGoogleKey();
         if(StringUtils.isEmpty(password)){
-            return MessageResult.error("密码不能为空");
+            return MessageResult.error("Password cannot be empty");
         }
         try {
             if(!(Md5.md5Digest(password + member.getSalt()).toLowerCase().equals(member.getPassword().toLowerCase()))){
@@ -127,16 +126,16 @@ public class GoogleVerificationController {
         // ga.setWindowSize(0); // should give 5 * 30 seconds of grace...
         boolean r = ga.check_code(GoogleKey, code, t);
         if(!r){
-            return MessageResult.error("验证失败");
+            return MessageResult.error("Validation failed");
 
         }else{
             member.setGoogleDate(new Date());
             member.setGoogleState(0);
             Member result = memberService.save(member);
             if(result != null){
-                return MessageResult.success("解绑成功");
+                return MessageResult.success("Unbinding succeeded");
             }else{
-                return MessageResult.error("解绑失败");
+                return MessageResult.error("Unbinding failed");
             }
         }
     }
@@ -147,7 +146,7 @@ public class GoogleVerificationController {
     //ga.setWindowSize(0); // should give 5 * 30 seconds of grace...
     /**
      * 绑定google
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
      * @time 2020.04.09 15:19
      * @param codes
      * @param user
@@ -162,16 +161,16 @@ public class GoogleVerificationController {
         GoogleAuthenticatorUtil ga = new GoogleAuthenticatorUtil();
         boolean r = ga.check_code(secret, code, t);
         if(!r){
-            return MessageResult.error("验证失败");
+            return MessageResult.error("Validation failed");
         }else{
             member.setGoogleState(1);
             member.setGoogleKey(secret);
             member.setGoogleDate(new Date());
             Member result = memberService.save(member);
             if(result != null){
-                return MessageResult.success("绑定成功");
+                return MessageResult.success("Binding succeeded");
             }else{
-                return MessageResult.error("绑定失败");
+                return MessageResult.error("Binding failed");
             }
         }
     }

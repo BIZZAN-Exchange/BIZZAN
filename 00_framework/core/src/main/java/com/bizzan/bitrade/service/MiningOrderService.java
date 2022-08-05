@@ -1,7 +1,11 @@
 package com.bizzan.bitrade.service;
 
-import java.util.List;
-
+import com.bizzan.bitrade.dao.MiningOrderDao;
+import com.bizzan.bitrade.entity.MiningOrder;
+import com.bizzan.bitrade.pagination.Criteria;
+import com.bizzan.bitrade.pagination.Restrictions;
+import com.bizzan.bitrade.service.Base.BaseService;
+import com.querydsl.core.types.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,13 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.bizzan.bitrade.dao.MiningOrderDao;
-import com.bizzan.bitrade.entity.Activity;
-import com.bizzan.bitrade.entity.MiningOrder;
-import com.bizzan.bitrade.pagination.Criteria;
-import com.bizzan.bitrade.pagination.Restrictions;
-import com.bizzan.bitrade.service.Base.BaseService;
-import com.querydsl.core.types.Predicate;
+import java.util.List;
 @Service
 public class MiningOrderService extends BaseService {
 	@Autowired

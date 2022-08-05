@@ -23,4 +23,5 @@ public class MemberWalletScreen extends AccountScreen{
 
     BigDecimal maxAllBalance ;
 
+    Integer isOut;
 }

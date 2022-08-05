@@ -4,7 +4,7 @@
             v-for="item in currentPath"
             :href="item.path"
             :key="item.name"
-        >{{ itemTitle(item) }}</BreadcrumbItem>
+        >{{ $t(`app.${itemTitle(item)}`) }}</BreadcrumbItem>
     </Breadcrumb>
 </template>
 
@@ -16,10 +16,10 @@ export default {
     },
     methods: {
         itemTitle (item) {
-            if (typeof item.title === 'object') {
-                return this.$t(item.title.i18n);
+            if (typeof item.titleKey === 'object') {
+                return this.$t(item.titleKey.i18n);
             } else {
-                return item.title;
+                return item.titleKey;
             }
         }
     }

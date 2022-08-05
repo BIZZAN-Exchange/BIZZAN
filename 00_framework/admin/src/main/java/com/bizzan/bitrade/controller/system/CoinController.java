@@ -1,18 +1,16 @@
 package com.bizzan.bitrade.controller.system;
 
-import static org.springframework.util.Assert.notNull;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
+import com.alibaba.fastjson.JSONObject;
+import com.bizzan.bitrade.annotation.AccessLog;
+import com.bizzan.bitrade.constant.*;
+import com.bizzan.bitrade.controller.common.BaseAdminController;
+import com.bizzan.bitrade.dto.CoinDTO;
+import com.bizzan.bitrade.entity.*;
+import com.bizzan.bitrade.es.ESUtils;
+import com.bizzan.bitrade.service.*;
+import com.bizzan.bitrade.util.*;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -26,53 +24,28 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import com.alibaba.fastjson.JSONObject;
-import com.bizzan.bitrade.annotation.AccessLog;
-import com.bizzan.bitrade.constant.AdminModule;
-import com.bizzan.bitrade.constant.BooleanEnum;
-import com.bizzan.bitrade.constant.PageModel;
-import com.bizzan.bitrade.constant.SysConstant;
-import com.bizzan.bitrade.constant.TransactionType;
-import com.bizzan.bitrade.controller.common.BaseAdminController;
-import com.bizzan.bitrade.dto.CoinDTO;
-import com.bizzan.bitrade.entity.Admin;
-import com.bizzan.bitrade.entity.Coin;
-import com.bizzan.bitrade.entity.HotTransferRecord;
-import com.bizzan.bitrade.entity.Member;
-import com.bizzan.bitrade.entity.MemberTransaction;
-import com.bizzan.bitrade.entity.MemberWallet;
-import com.bizzan.bitrade.entity.QHotTransferRecord;
-import com.bizzan.bitrade.es.ESUtils;
-import com.bizzan.bitrade.service.CoinService;
-import com.bizzan.bitrade.service.HotTransferRecordService;
-import com.bizzan.bitrade.service.LocaleMessageSourceService;
-import com.bizzan.bitrade.service.MemberService;
-import com.bizzan.bitrade.service.MemberTransactionService;
-import com.bizzan.bitrade.service.MemberWalletService;
-import com.bizzan.bitrade.util.*;
-import com.querydsl.core.types.dsl.BooleanExpression;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
-import lombok.extern.slf4j.Slf4j;
+import static org.springframework.util.Assert.notNull;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin E-Mali:390330302@qq.com
  * @description 后台货币web
- * @date 2019/12/29 15:01
+ * @date 2021/12/29 15:01
  */
 @RestController
 @RequestMapping("/system/coin")
@@ -123,15 +96,27 @@ public class CoinController extends BaseAdminController {
         if (result != null) {
             return result;
         }
-        if("decp".equalsIgnoreCase(coin.getName().trim()) || "dcep".equalsIgnoreCase(coin.getName().trim())){
-            return error(messageSource.getMessage("COIN_NAME_EXIST"));
-        }
 
         Coin one = coinService.findOne(coin.getName());
         if (one != null) {
             return error(messageSource.getMessage("COIN_NAME_EXIST"));
         }
+        coin.setWithdrawThreshold(BigDecimal.ZERO);
+        coin.setCanAutoWithdraw(BooleanEnum.IS_FALSE);
+        coin.setMinWithdrawAmount(BigDecimal.ZERO);
+        coin.setMaxWithdrawAmount(BigDecimal.ZERO);
+        coin.setMinTxFee(0.00);
+        coin.setMaxTxFee(0.00);
+        coin.setMinRechargeAmount(BigDecimal.ZERO);
+        coin.setCanWithdraw(BooleanEnum.IS_FALSE);
+        coin.setEnableRpc(BooleanEnum.IS_FALSE);
+        coin.setCanRecharge(BooleanEnum.IS_FALSE);
+        coin.setDepositAddress("0");
+        coin.setAccountType(0);
         coinService.save(coin);
+
+        jdbcUtils.synchronization2MemberRegisterWallet(null, coin.getName());
+
         return success();
     }
 
@@ -166,18 +151,16 @@ public class CoinController extends BaseAdminController {
             BindingResult bindingResult) {
 
         Assert.notNull(admin, messageSource.getMessage("DATA_EXPIRED_LOGIN_AGAIN"));
-//        MessageResult checkCode = checkCode(code, SysConstant.ADMIN_COIN_REVISE_PHONE_PREFIX + admin.getMobilePhone());
-//        if (checkCode.getCode() != 0) {
-//            return checkCode;
-//        }
+        // MessageResult checkCode = checkCode(code, SysConstant.ADMIN_COIN_REVISE_PHONE_PREFIX + admin.getMobilePhone());
+        // if (checkCode.getCode() != 0) {
+        //     return checkCode;
+        // }
+
         notNull(coin.getName(), "validate coin.name!");
-        if("decp".equalsIgnoreCase(coin.getName().trim()) || "dcep".equalsIgnoreCase(coin.getName().trim())){
-            return error(messageSource.getMessage("COIN_NAME_EXIST"));
+        MessageResult result = BindingResultUtil.validate(bindingResult);
+        if (result != null) {
+            return result;
         }
-//        MessageResult result = BindingResultUtil.validate(bindingResult);
-//        if (result != null) {
-//            return result;
-//        }
         Coin one = coinService.findOne(coin.getName());
         notNull(one, "validate coin.name!");
         coinService.save(coin);

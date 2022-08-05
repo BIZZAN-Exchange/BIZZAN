@@ -20,6 +20,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 
+import com.bizzan.bitrade.core.DB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -56,13 +57,12 @@ import com.bizzan.bitrade.util.DateUtil;
 import com.bizzan.bitrade.util.MessageResult;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
-import  com.bizzan.bitrade.core.DB;
-import  com.bizzan.bitrade.core.DataException;
+import com.bizzan.bitrade.core.DataException;
 
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年12月07日
  */
 @Service
@@ -252,7 +252,7 @@ public class AdvertiseService extends BaseService {
         return excellents;
     }
 
-    public SpecialPage<ScanAdvertise> paginationAdvertise(int pageNo, int pageSize, OtcCoin otcCoin, AdvertiseType advertiseType, double marketPrice, int isCertified) throws SQLException, DataException {
+    public SpecialPage<ScanAdvertise> paginationAdvertise(int pageNo, int pageSize,String country, OtcCoin otcCoin, AdvertiseType advertiseType, double marketPrice, int isCertified) throws SQLException, DataException {
         SpecialPage<ScanAdvertise> specialPage = new SpecialPage<>();
         String sql = "SELECT\n" +
                 "\ta.*, (\n" +
@@ -272,6 +272,7 @@ public class AdvertiseService extends BaseService {
                 "JOIN member b ON a.member_id = b.id\n" +
                 (isCertified == 1 ? "AND b.member_level = 2\n" : " ") +
                 "AND a.coin_id = ?\n" +
+                "AND a.country = ?\n" +
                 "AND a.advertise_type = ?\n" +
                 "AND a.`status` = 0\n" +
                 "ORDER BY\n" +
@@ -279,7 +280,7 @@ public class AdvertiseService extends BaseService {
                 "\ta.id\n" +
                 "LIMIT ?,\n" +
                 " ?";
-        List<Map<String, String>> list = DB.query(sql, marketPrice, otcCoin.getId(), advertiseType.ordinal(), (pageNo - 1) * pageSize, pageSize);
+        List<Map<String, String>> list = DB.query(sql, marketPrice, otcCoin.getId(),country, advertiseType.ordinal(), (pageNo - 1) * pageSize, pageSize);
         if (list.size() > 0) {
             String sql1 = "SELECT\n" +
                     "\tCOUNT(a.id) total\n" +
@@ -378,7 +379,7 @@ public class AdvertiseService extends BaseService {
         return page1;
     }
 
-    public MemberAdvertiseInfo getMemberAdvertise(Member member, HashMap<String, BigDecimal> map) {
+    public MemberAdvertiseInfo getMemberAdvertise(Member member, HashMap<String,HashMap<String,BigDecimal>> map) {
         List<Advertise> buy = advertiseDao.findAllByMemberIdAndStatusAndAdvertiseType(member.getId(), AdvertiseControlStatus.PUT_ON_SHELVES, AdvertiseType.BUY);
         List<Advertise> sell = advertiseDao.findAllByMemberIdAndStatusAndAdvertiseType(member.getId(), AdvertiseControlStatus.PUT_ON_SHELVES, AdvertiseType.SELL);
         return MemberAdvertiseInfo.builder()
@@ -390,7 +391,7 @@ public class AdvertiseService extends BaseService {
                 .username(member.getUsername())
                 .avatar(member.getAvatar())
                 .buy(buy.stream().map(advertise -> {
-                    BigDecimal markerPrice = map.get(advertise.getCoin().getUnit());
+                    BigDecimal markerPrice = map.get(advertise.getCountry().getLocalCurrency()).get(advertise.getCoin().getUnit());
                     Member member1 = advertise.getMember();
                     return ScanAdvertise.builder()
                             .advertiseId(advertise.getId())
@@ -411,7 +412,7 @@ public class AdvertiseService extends BaseService {
                             .build();
                 }).collect(Collectors.toList()))
                 .sell(sell.stream().map(advertise -> {
-                    BigDecimal markerPrice = map.get(advertise.getCoin().getUnit());
+                    BigDecimal markerPrice = map.get(advertise.getCountry().getLocalCurrency()).get(advertise.getCoin().getUnit());
                     Member member1 = advertise.getMember();
                     return ScanAdvertise.builder()
                             .advertiseId(advertise.getId())

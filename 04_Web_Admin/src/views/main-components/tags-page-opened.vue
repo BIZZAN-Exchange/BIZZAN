@@ -7,12 +7,11 @@
         <div class="close-all-tag-con">
             <Dropdown transfer @on-click="handleTagsOption">
                 <Button size="small" type="primary">
-                    标签选项
-                    <Icon type="arrow-down-b"></Icon>
+                    {{ $t('labeloptions.labeloptions') }} <Icon type="arrow-down-b"></Icon>
                 </Button>
                 <DropdownMenu slot="list">
-                    <DropdownItem name="clearAll">关闭所有</DropdownItem>
-                    <DropdownItem name="clearOthers">关闭其他</DropdownItem>
+                    <DropdownItem name="clearAll">{{ $t('labeloptions.closeall') }}</DropdownItem>
+                    <DropdownItem name="clearOthers">{{ $t('labeloptions.closeother') }}</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
         </div>
@@ -28,7 +27,7 @@
                     @click.native="linkTo(item)"
                     :closable="item.name==='home_index'?false:true"
                     :color="item.children?(item.children[0].name===currentPageName?'blue':'default'):(item.name===currentPageName?'blue':'default')"
-                >{{ itemTitle(item) }}</Tag>
+                >{{ $t(`app.${itemTitle(item)}`) }}</Tag>
             </transition-group>
         </div>
     </div>
@@ -68,10 +67,10 @@ export default {
     },
     methods: {
         itemTitle (item) {
-            if (typeof item.title === 'object') {
-                return this.$t(item.title.i18n);
+            if (typeof item.titleKey === 'object') {
+                return this.$t(item.titleKey.i18n);
             } else {
-                return item.title;
+                return item.titleKey;
             }
         },
         closePage (event, name) {

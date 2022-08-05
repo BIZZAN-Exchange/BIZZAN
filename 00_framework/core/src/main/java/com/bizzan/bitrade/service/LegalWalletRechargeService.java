@@ -1,12 +1,5 @@
 package com.bizzan.bitrade.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-
 import com.bizzan.bitrade.constant.LegalWalletState;
 import com.bizzan.bitrade.dao.LegalWalletRechargeDao;
 import com.bizzan.bitrade.entity.LegalWalletRecharge;
@@ -15,8 +8,13 @@ import com.bizzan.bitrade.entity.QLegalWalletRecharge;
 import com.bizzan.bitrade.service.Base.TopBaseService;
 import com.bizzan.bitrade.util.BigDecimalUtils;
 import com.querydsl.core.types.Predicate;
-
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service

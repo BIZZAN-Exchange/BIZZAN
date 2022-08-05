@@ -1,9 +1,7 @@
 package com.bizzan.bitrade.entity;
 
-import lombok.Data;
-import org.hibernate.validator.constraints.NotBlank;
-
 import com.bizzan.bitrade.constant.CommonStatus;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -11,7 +9,7 @@ import java.util.Date;
 
 /**
  * 商家认证缴纳押金的币种和数量
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2019/5/5
  */
 @Entity

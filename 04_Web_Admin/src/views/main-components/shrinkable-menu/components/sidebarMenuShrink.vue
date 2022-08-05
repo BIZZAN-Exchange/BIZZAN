@@ -9,7 +9,7 @@
 					<DropdownMenu style="width: 200px;" slot="list">
 						<template v-for="(child, i) in item.children">
 							<DropdownItem :name="child.name" :key="i">
-								<Icon :type="child.icon"></Icon><span style="padding-left:10px;">{{ itemTitle(child) }}</span>
+								<Icon :type="child.icon"></Icon><span style="padding-left:10px;">{{ $t(`app.${itemTitle(item)}`) }}</span>
 							</DropdownItem>
 						</template>
 					</DropdownMenu>
@@ -20,7 +20,7 @@
 					</Button>
 					<DropdownMenu style="width: 200px;" slot="list">
 						<DropdownItem :name="item.children[0].name" :key="'d' + index">
-							<Icon :type="item.icon"></Icon><span style="padding-left:10px;">{{ itemTitle(item.children[0]) }}</span>
+							<Icon :type="item.icon"></Icon><span style="padding-left:10px;">{{ $t(`app.${itemTitle(children[0])}`)}}</span>
 						</DropdownItem>
 					</DropdownMenu>
 				</Dropdown>
@@ -53,7 +53,7 @@ export default {
       if (typeof item.title === "object") {
         return this.$t(item.title.i18n);
       } else {
-        return item.title;
+        return item.titleKey;
       }
     }
   }

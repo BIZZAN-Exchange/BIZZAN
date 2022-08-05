@@ -28,7 +28,7 @@ public class Base64Coder {
             StringBuilder buf = new StringBuilder(bufLen);
 
             int l;
-            for(int ip = 0; ip < iLen; ip += l) {
+            for (int ip = 0; ip < iLen; ip += l) {
                 l = Math.min(iLen - ip, blockLen);
                 buf.append(encode(in, iOff + ip, l));
                 buf.append(lineSeparator);
@@ -53,7 +53,7 @@ public class Base64Coder {
         int ip = iOff;
         int iEnd = iOff + iLen;
 
-        for(int op = 0; ip < iEnd; ++op) {
+        for (int op = 0; ip < iEnd; ++op) {
             int i0 = in[ip++] & 255;
             int i1 = ip < iEnd ? in[ip++] & 255 : 0;
             int i2 = ip < iEnd ? in[ip++] & 255 : 0;
@@ -79,7 +79,7 @@ public class Base64Coder {
         char[] buf = new char[s.length()];
         int p = 0;
 
-        for(int ip = 0; ip < s.length(); ++ip) {
+        for (int ip = 0; ip < s.length(); ++ip) {
             char c = s.charAt(ip);
             if (c != ' ' && c != '\r' && c != '\n' && c != '\t') {
                 buf[p++] = c;
@@ -101,7 +101,7 @@ public class Base64Coder {
         if (iLen % 4 != 0) {
             throw new IllegalArgumentException("Length of Base64 encoded input string is not a multiple of 4.");
         } else {
-            while(iLen > 0 && in[iOff + iLen - 1] == '=') {
+            while (iLen > 0 && in[iOff + iLen - 1] == '=') {
                 --iLen;
             }
 
@@ -111,7 +111,7 @@ public class Base64Coder {
             int iEnd = iOff + iLen;
             int op = 0;
 
-            while(ip < iEnd) {
+            while (ip < iEnd) {
                 int i0 = in[ip++];
                 int i1 = in[ip++];
                 int i2 = ip < iEnd ? in[ip++] : 65;
@@ -125,13 +125,13 @@ public class Base64Coder {
                         int o0 = b0 << 2 | b1 >>> 4;
                         int o1 = (b1 & 15) << 4 | b2 >>> 2;
                         int o2 = (b2 & 3) << 6 | b3;
-                        out[op++] = (byte)o0;
+                        out[op++] = (byte) o0;
                         if (op < oLen) {
-                            out[op++] = (byte)o1;
+                            out[op++] = (byte) o1;
                         }
 
                         if (op < oLen) {
-                            out[op++] = (byte)o2;
+                            out[op++] = (byte) o2;
                         }
                         continue;
                     }
@@ -153,25 +153,25 @@ public class Base64Coder {
         int i = 0;
 
         char c;
-        for(c = 'A'; c <= 'Z'; map1[i++] = c++) {
+        for (c = 'A'; c <= 'Z'; map1[i++] = c++) {
         }
 
-        for(c = 'a'; c <= 'z'; map1[i++] = c++) {
+        for (c = 'a'; c <= 'z'; map1[i++] = c++) {
         }
 
-        for(c = '0'; c <= '9'; map1[i++] = c++) {
+        for (c = '0'; c <= '9'; map1[i++] = c++) {
         }
 
         map1[i++] = '+';
         map1[i++] = '/';
         map2 = new byte[128];
 
-        for(i = 0; i < map2.length; ++i) {
+        for (i = 0; i < map2.length; ++i) {
             map2[i] = -1;
         }
 
-        for(i = 0; i < 64; ++i) {
-            map2[map1[i]] = (byte)i;
+        for (i = 0; i < 64; ++i) {
+            map2[map1[i]] = (byte) i;
         }
 
     }

@@ -1,11 +1,8 @@
 package com.bizzan.bitrade.service;
 
-import com.bizzan.bitrade.constant.BooleanEnum;
-import com.bizzan.bitrade.constant.PageModel;
 import com.bizzan.bitrade.constant.TransactionType;
 import com.bizzan.bitrade.constant.WithdrawStatus;
 import com.bizzan.bitrade.dao.WithdrawCodeRecordDao;
-import com.bizzan.bitrade.dao.WithdrawRecordDao;
 import com.bizzan.bitrade.entity.*;
 import com.bizzan.bitrade.es.ESUtils;
 import com.bizzan.bitrade.pagination.Criteria;
@@ -13,17 +10,16 @@ import com.bizzan.bitrade.pagination.PageListMapResult;
 import com.bizzan.bitrade.pagination.PageResult;
 import com.bizzan.bitrade.pagination.Restrictions;
 import com.bizzan.bitrade.service.Base.BaseService;
-import com.bizzan.bitrade.vo.WithdrawRecordVO;
-import com.querydsl.core.types.*;
-import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.EntityPath;
+import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQuery;
-
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -34,14 +30,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.bizzan.bitrade.constant.BooleanEnum.IS_FALSE;
-import static com.bizzan.bitrade.constant.WithdrawStatus.*;
 import static com.bizzan.bitrade.entity.QWithdrawCodeRecord.withdrawCodeRecord;
-import static org.springframework.util.Assert.isTrue;
-import static org.springframework.util.Assert.notNull;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年01月29日
  */
 @Service

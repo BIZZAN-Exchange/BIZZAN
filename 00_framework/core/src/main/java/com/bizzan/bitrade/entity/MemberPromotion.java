@@ -1,18 +1,15 @@
 package com.bizzan.bitrade.entity;
 
-import lombok.Data;
-
-import java.util.Date;
-
-import javax.persistence.*;
-
-import org.hibernate.annotations.CreationTimestamp;
-
 import com.bizzan.bitrade.constant.PromotionLevel;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+
+import javax.persistence.*;
+import java.util.Date;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年03月08日
  */
 @Entity

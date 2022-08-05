@@ -1,12 +1,12 @@
 package com.bizzan.bitrade.dao;
 
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
 import com.bizzan.bitrade.constant.CertifiedBusinessStatus;
 import com.bizzan.bitrade.dao.base.BaseDao;
 import com.bizzan.bitrade.entity.Member;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -82,4 +82,18 @@ public interface MemberDao extends BaseDao<Member> {
 
     @Query(value = "select * from member where id in (:ids) order by id desc",nativeQuery = true)
     List<Member> findAllByIds(@Param("ids") List<Long> ids);
+
+    List<Member> findByInviterId(Long userId);
+
+    @Transactional(rollbackFor = Exception.class)
+    @Modifying
+    @Query(value = "UPDATE member SET promotion_code=:promotionCode WHERE id=:id",nativeQuery = true)
+    void updatePromotionCode(@Param("id")Long id, @Param("promotionCode")String promotionCode);
+
+    @Transactional(rollbackFor = Exception.class)
+    @Modifying
+    @Query(value = "UPDATE member SET inviter_id=:inviterId WHERE id=:id",nativeQuery = true)
+    void updateInviterId(@Param("id")Long id, @Param("inviterId")Long inviterId);
+
+    List<Member> findAllByIdIn(List<Long> memberIds);
 }

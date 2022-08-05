@@ -3,7 +3,8 @@ package com.bizzan.bc.wallet.util;
 import java.math.BigDecimal;
 
 public class EthConvert {
-    private EthConvert() { }
+    private EthConvert() {
+    }
 
     public static BigDecimal fromWei(String number, Unit unit) {
         return fromWei(new BigDecimal(number), unit);
@@ -35,8 +36,8 @@ public class EthConvert {
         METHER("mether", 24),
         GETHER("gether", 27);
 
-        private String name;
-        private BigDecimal weiFactor;
+        private final String name;
+        private final BigDecimal weiFactor;
 
         Unit(String name, int factor) {
             this.name = name;

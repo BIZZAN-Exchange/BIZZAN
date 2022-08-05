@@ -3,11 +3,9 @@
   <div>
     <Card>
       <p slot="title">
-        提币明细
-        <Button type="primary" size="small" @click="refreshPageManual">
+        {{ $t('withdrawaldetails.withdrawaldetails') }} <Button type="primary" size="small" @click="refreshPageManual">
           <Icon type="refresh"></Icon>
-          刷新
-        </Button>
+          {{ $t('perpetualcontractcurrencystandardmanagement.refresh') }} </Button>
       </p>
 
        <Row>
@@ -37,55 +35,55 @@ export default {
     return {
       columns_first: [
           {
-            title: '会员ID',
+            title: this.$t('auditdetails.memberid'),
             key: 'id',
           },
           {
-            title: '用户名',
+            title: this.$t('memberinvitationlist.username'),
             key: 'username',
           },
           {
-            title: '邮箱',
+            title: this.$t('memberinvitationlist.mailbox'),
             key: 'email',
           },
           {
-            title: '手机号',
+            title: this.$t('memberinvitationlist.cellphonenumber'),
             key: 'mobilePhone',
           },
            {
-            title: '真实姓名',
+            title: this.$t('businessinformation.realname'),
             key: 'realName',
           },
            {
-            title: '币种名称',
+            title: this.$t('collectionconfigurationmanagement.currencyname1'),
             key: 'username',
           },
           {
-            title: '钱包地址',
+            title: this.$t('withdrawaldetails.walletaddress'),
             key: 'username',
           },
           {
-            title: '提币个数',
+            title: this.$t('withdrawaldetails.numberofcurrencywithdrawals'),
             key: 'username',
           },
           {
-            title: '实际到账个数',
+            title: this.$t('withdrawaldetails.actualnumberofaccountsreceived'),
             key: 'username',
           },
           {
-            title: '手续费',
+            title: this.$t('transactiondetailsinlegalcurrency.handlingcharges'),
             key: 'username',
           },
           {
-            title: '提币申请时间',
+            title: this.$t('withdrawaldetails.currencywithdrawalapplicationtime'),
             key: 'username',
           },
            {
-            title: '审核通过时间',
+            title: this.$t('withdrawaldetails.approvalpassedtime'),
             key: 'username',
           },
            {
-            title: '审核人',
+            title: this.$t('withdrawaldetails.reviewedby'),
             key: 'username',
           }
       ],

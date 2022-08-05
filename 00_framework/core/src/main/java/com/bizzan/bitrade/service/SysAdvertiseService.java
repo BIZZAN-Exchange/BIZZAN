@@ -10,19 +10,18 @@ import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQuery;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.bizzan.bitrade.entity.QSysAdvertise.sysAdvertise;
-
 import java.util.List;
 
+import static com.bizzan.bitrade.entity.QSysAdvertise.sysAdvertise;
+
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @description 系统广告service
  * @date 2019/1/6 16:45
  */

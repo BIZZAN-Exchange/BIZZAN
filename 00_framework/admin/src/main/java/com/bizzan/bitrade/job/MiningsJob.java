@@ -1,28 +1,18 @@
 package com.bizzan.bitrade.job;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
+import com.bizzan.bitrade.constant.TransactionType;
+import com.bizzan.bitrade.entity.*;
+import com.bizzan.bitrade.service.*;
+import com.bizzan.bitrade.util.DateUtil;
+import com.bizzan.bitrade.vendor.provider.SMSProvider;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.bizzan.bitrade.constant.TransactionType;
-import com.bizzan.bitrade.entity.Member;
-import com.bizzan.bitrade.entity.MemberTransaction;
-import com.bizzan.bitrade.entity.MemberWallet;
-import com.bizzan.bitrade.entity.MiningOrder;
-import com.bizzan.bitrade.entity.MiningOrderDetail;
-import com.bizzan.bitrade.service.MemberService;
-import com.bizzan.bitrade.service.MemberTransactionService;
-import com.bizzan.bitrade.service.MemberWalletService;
-import com.bizzan.bitrade.service.MiningOrderDetailService;
-import com.bizzan.bitrade.service.MiningOrderService;
-import com.bizzan.bitrade.util.DateUtil;
-import com.bizzan.bitrade.vendor.provider.SMSProvider;
-
-import lombok.extern.slf4j.Slf4j;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 @Component
 @Slf4j

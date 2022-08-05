@@ -2,16 +2,15 @@
 	<div>
 		<Card>
 			<p slot="title">
-				币种管理
-				<Button type="primary" size="small" @click="refreshPageManual">
-					<Icon type="refresh"></Icon> 刷新
+				{{ $t('app.currencyManagement') }}	<Button type="primary" size="small" @click="refreshPageManual">
+					<Icon type="refresh"></Icon> {{ $t('perpetualcontractcurrencystandardmanagement.refresh') }}
 				</Button>
 			</p>
 
 			<Row class="functionWrapper">
 				<div class="btnsWrapper clearfix">
-					<Button type="error" @click="delCoin">删除</Button>
-					<Button type="info" @click="addCoin">添加</Button>
+					<Button type="error" @click="delCoin">{{ $t('secondcontractcompensationsetting.delete') }}</Button>
+					<Button type="info" @click="addCoin">{{ $t('announcementmanagement.addto') }}</Button>
 				</div>
 			</Row>
 
@@ -37,36 +36,36 @@
 						:width="450"
 						@on-ok="saveEditPass"
 						@on-cancel="cancelEdit"
-						title="编辑币种">
+						:title="$t('currencymanagement1.editcurrency')">
 				<Form :model="coinInformation" 
 							:rules="ruleValidate" 
 							:label-width="100" 
 							label-position="right">
-					<FormItem label="币种编号：" prop="id" v-show="false">
+					<FormItem :label="$t('currencymanagement1.currencynumber')" prop="id" v-show="false">
 						<Input v-model="coinInformation.id" ></Input>
 					</FormItem>
-					<FormItem label="币种名称：" prop="nameCn">
+					<FormItem :label="$t('currencywithdrawalauditmanagement.currencyname')" prop="nameCn">
 						<Input v-model="coinInformation.nameCn"></Input>
 					</FormItem>
-					<FormItem label="英文名称：" prop="name">
+					<FormItem :label="$t('currencymanagement.englishname')" prop="name">
 						<Input v-model="coinInformation.name"></Input>
 					</FormItem>
-					<FormItem label="货币单位：" prop="unit">
+					<FormItem :label="$t('currencymanagement1.currencyunit')" prop="unit">
 						<Input v-model="coinInformation.unit"></Input>
 					</FormItem>
-					<FormItem label="交易手续费率（%）：" prop="jyRate">
+					<FormItem :label="$t('currencymanagement1.note8')" prop="jyRate">
 						<Input v-model="coinInformation.jyRate"></Input>
 					</FormItem>
-					<FormItem label="卖出广告最低发布数量：" prop="sellMinAmount">
+					<FormItem :label="$t('currencymanagement1.note7')" prop="sellMinAmount">
 						<Input v-model="coinInformation.sellMinAmount"></Input>
 					</FormItem>
-					<FormItem label="买入广告最低发布数量：" prop="buyMinAmount">
+					<FormItem :label="$t('currencymanagement1.note2') + ':'" prop="buyMinAmount">
 						<Input v-model="coinInformation.buyMinAmount"></Input>
 					</FormItem>
-					<FormItem label="状态：" prop="status">
+					<FormItem :label="$t('currencywithdrawalauditmanagement.status')" prop="status">
 						<i-switch v-model="switchStatus" size="large">
-						  <span slot="open">正常</span>
-							<span slot="close">失效</span>
+						  <span slot="open">{{ $t('querymarginstrategy.normal') }}</span>
+							<span slot="close">{{ $t('currencymanagement1.invalid') }}</span>
 						</i-switch>
 					</FormItem>
 				</Form>
@@ -101,25 +100,25 @@ export default {
       },
       ruleValidate: {
         nameCn: [
-          { required: true, message: '币种名称不能为空', trigger: 'blur' }
+          { required: true, message: this.$t('currencymanagement1.currencynamecannotbeempty'), trigger: 'blur' }
         ],
         name: [
-          { required: true, message: '英文名称不能为空',trigger: 'blur' }
+          { required: true, message: this.$t('currencymanagement1.englishnamecannotbeempty'),trigger: 'blur' }
         ],
         unit: [
-          { required: true, message: '货币单位不能为空',trigger: 'blur'}
+          { required: true, message: this.$t('currencymanagement1.currencyunitcannotbeempty'),trigger: 'blur'}
         ],
         jyRate: [
-          { required: true, message: '交易手续费率不能为空',trigger: 'blur'}
+          { required: true, message: this.$t('currencymanagement1.note6'),trigger: 'blur'}
         ],
         sellMinAmount: [
-          { required: true, message: '卖出广告最低发布数量不能为空',trigger: 'blur' }
+          { required: true, message: this.$t('currencymanagement1.note10'),trigger: 'blur' }
         ],
         buyMinAmount: [
-          { required: true,message: '买入广告最低发布数量不能为空',trigger: 'blur'}
+          { required: true,message: this.$t('currencymanagement1.note5'),trigger: 'blur'}
         ],
         status: [
-          { required: true, message: '状态不能为空', trigger: 'blur' }
+          { required: true, message: this.$t('currencymanagement1.statuscannotbeempty'), trigger: 'blur' }
         ]
       },
       columnsList: [
@@ -128,23 +127,23 @@ export default {
           width: 60,
         },
         {
-          title: "币种编号",
+          title: this.$t('currencymanagement1.currencynumber1'),
           key: "id"
         },
         {
-          title: "币种名称",
+          title: this.$t('collectionconfigurationmanagement.currencyname1'),
           key: "nameCn"
         },
         {
-          title: "英文名称",
+          title: this.$t('currencymanagement.englishname1'),
           key: "name"
         },
         {
-          title: "货币单位",
+          title: this.$t('currencymanagement1.currencyunit1'),
           key: "unit"
         },
         {
-          title: "交易手续费率",
+          title: this.$t('currencymanagement1.transactionhandlingrate'),
           key: "jyRate",
           render(h, params) {
             const row = params.row;
@@ -152,25 +151,25 @@ export default {
           }
         },
         {
-          title: "卖出广告最低发布数量",
+          title: this.$t('currencymanagement1.note17'),
           width: 180,
           key: "sellMinAmount"
         },
         {
-          title: "买入广告最低发布数量",
+          title: this.$t('currencymanagement1.note2'),
           width: 180,
           key: "buyMinAmount"
         },
         {
-          title: "状态",
+          title: this.$t('managementofoptioncontractsineachperiod.status'),
           key: "status",
           render(h, params) {
             const row = params.row;
-            return h("span", {}, !row.status ? "正常" : "失效");
+            return h("span", {}, !row.status ? this.$t('querymarginstrategy.normal') : this.$t('currencymanagement1.invalid'));
           }
         },
         {
-          title: "操作",
+          title: this.$t('perpetualcontractcurrencystandardmanagement.operation'),
           align: "center",
           key: "handle",
           render: (h, obj) => {
@@ -193,7 +192,7 @@ export default {
                     }
                   }
                 },
-                "修改"
+                this.$t('perpetualcontractcurrencystandardmanagement.modify')
               )
             ]);
           }
@@ -214,11 +213,11 @@ export default {
 				ids.push(item.id);
 			})
 			if(!ids.length) {
-				this.$Message.warning('请选择需要删除的项！')
+				this.$Message.warning(this.$t('currencymanagement1.note4'))
 			}else{
 				this.$Modal.confirm({
-						title: '删除币种',
-						content: `<p>是否删除选中的${this.selectArr.length}项</p>`,
+						title: this.$t('currencymanagement1.deletecurrency'),
+						content: this.$t('currencymanagement1.note3', [this.selectArr.length]),
 						onOk: () => {
 							delOtcCoin({ids: ids})
 							.then(res => {
@@ -230,7 +229,7 @@ export default {
 							.catch(err => console.log(err))
 						},
 						onCancel: () => {
-							this.$Message.info('已取消！');
+							this.$Message.info(this.$t('secondcontractcompensationsetting.cancelled'));
 						}
 				});
 			}

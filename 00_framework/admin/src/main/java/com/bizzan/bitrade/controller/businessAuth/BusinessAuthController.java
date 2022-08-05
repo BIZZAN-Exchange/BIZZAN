@@ -1,34 +1,11 @@
 package com.bizzan.bitrade.controller.businessAuth;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
-
 import com.bizzan.bitrade.constant.CertifiedBusinessStatus;
 import com.bizzan.bitrade.constant.CommonStatus;
 import com.bizzan.bitrade.constant.PageModel;
 import com.bizzan.bitrade.constant.SysConstant;
 import com.bizzan.bitrade.controller.common.BaseAdminController;
-import com.bizzan.bitrade.entity.Admin;
-import com.bizzan.bitrade.entity.BusinessAuthApply;
-import com.bizzan.bitrade.entity.BusinessAuthDeposit;
-import com.bizzan.bitrade.entity.Coin;
-import com.bizzan.bitrade.entity.QBusinessAuthApply;
-import com.bizzan.bitrade.entity.QBusinessAuthDeposit;
+import com.bizzan.bitrade.entity.*;
 import com.bizzan.bitrade.service.BusinessAuthApplyService;
 import com.bizzan.bitrade.service.BusinessAuthDepositService;
 import com.bizzan.bitrade.service.CoinService;
@@ -36,13 +13,19 @@ import com.bizzan.bitrade.util.MessageResult;
 import com.bizzan.bitrade.util.PredicateUtils;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
-
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * 商家认证可用保证金类型
  *
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2019/5/5
  */
 @RestController

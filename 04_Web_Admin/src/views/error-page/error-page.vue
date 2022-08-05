@@ -9,8 +9,7 @@
             <Card>
                 <p slot="title">
                     <Icon :size="14" type="ios-navigate-outline"></Icon>
-                    404-页面不存在
-                </p>
+                    {{ $t('pagedoesnotexist.pagedoesnotexist') }} </p>
                 <Row>
                     <Col span="10">
                         <Card dis-hover>
@@ -24,7 +23,7 @@
                     </Col>
                     <Col span="14" class="padding-left-10">
                         <Row type="flex" align="middle" class="error-page-intro-con">
-                            <p>当访问的页面不存在时会跳转到404页面，您可以在浏览器地址栏中修改url为一个不存在的路径，体验一下效果</p>
+                            <p>{{ $t('pagedoesnotexist.note3') }}</p>
                         </Row>
                     </Col>
                 </Row>
@@ -34,8 +33,7 @@
             <Card>
                 <p slot="title">
                     <Icon :size="14" type="android-lock"></Icon>
-                    403-权限不足
-                </p>
+                    {{ $t('pagedoesnotexist.insufficientpermissions') }} </p>
                 <Row>
                     <Col span="10">
                         <Card dis-hover>
@@ -49,7 +47,7 @@
                     </Col>
                     <Col span="14" class="padding-left-10">
                         <Row type="flex" align="middle" class="error-page-intro-con">
-                            <p>在当前登录用户不具有执行当前操作的权限时跳转到该页面，您可以在ajax请求方法中判断返回的状态码为403时跳转到该页面</p>
+                            <p>{{ $t('pagedoesnotexist.note1') }}</p>
                         </Row>
                     </Col>
                 </Row>
@@ -59,8 +57,7 @@
             <Card>
                 <p slot="title">
                     <Icon :size="14" type="social-freebsd-devil"></Icon>
-                    500-服务端错误
-                </p>
+                    {{ $t('pagedoesnotexist.servererror') }} </p>
                 <Row>
                     <Col span="10">
                         <Card dis-hover>
@@ -74,7 +71,7 @@
                     </Col>
                     <Col span="14" class="padding-left-10">
                         <Row type="flex" align="middle" class="error-page-intro-con">
-                            <p>当请求之后出现服务端错误时跳转到该页面，您可以在ajax请求方法中判断返回的状态码为500时跳转到该页面</p>
+                            <p>{{ $t('pagedoesnotexist.note2') }}</p>
                         </Row>
                     </Col>
                 </Row>

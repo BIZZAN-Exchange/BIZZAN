@@ -76,7 +76,7 @@
                     <Row class="chat-top" type="flex" justify="space-between">
                         <Col span="3" class="order-time">
                         <h5>{{statusText}}</h5>
-                        <div v-show="statusBtn==1" class="reserve-time">{{reserveTime}}</div>
+<!--                        <div v-show="statusBtn==1" class="reserve-time">{{reserveTime}}</div>-->
                         </Col>
                         <Col span="8" class="order-info">
                         <h5>
@@ -105,43 +105,40 @@
                         <span>{{$t('otc.chat.transmoney')}}(CNY)</span>
                         </Col>
                     </Row>
-                    <Row class="chat-top" type="flex" justify="space-between" v-show="statusBtn!=0">
-                        <Col span="8" class="order-info" v-if="bankInfo&&bankInfo!=null">
-                        <i class="icons bankfor"></i>
-                        <span>{{payInfo != null ? payInfo.realName : ""}} </span>
-                        <p>{{bankInfo.branch}}</p>
-                        <p>{{bankInfo.cardNo}}</p>
-                        </Col>
-                        <Col span="8" class="order-info" v-else>
-                        <i class="icons bankfor"></i>
-                        <pre></pre>
-                        <p style="color:rgb(145, 143, 143)">{{$t('otc.chat.tip1')}}</p>
-                        </Col>
-                        <Col span="8" class="order-info" v-if="alipay&&alipay!=null">
-                        <i class="icons alipay"></i>
-                        <span>{{$t('otc.chat.zfb')}}</span>
-                        <pre></pre>
-                        <p>{{alipay.aliNo}}</p>
-                        <p v-if="alipay&&alipay!=null&&alipay.qrCodeUrl!=null&&alipay.qrCodeUrl!=''"><a @click="showQRCode(1)">{{$t('otc.chat.qrcode')}}</a></p>
-                        </Col>
-                        <Col span="8" class="order-info" v-else>
-                        <i class="icons alipay"></i>
-                        <pre></pre>
-                        <p style="color:rgb(145, 143, 143)">{{$t('otc.chat.tip2')}}</p>
-                        </Col>
-                        <Col span="8" class="order-info" v-if="wechatPay&&wechatPay!=null">
-                        <i class="icons wechat"></i>
-                        <span>{{$t('otc.chat.wx')}}</span>
-                        <pre></pre>
-                        <p>{{wechatPay.wechat}}</p>
-                        <p v-if="wechatPay&&wechatPay!=null&&wechatPay.qrWeCodeUrl!=null&&wechatPay.qrWeCodeUrl!=''"><a @click="showQRCode(2)">{{$t('otc.chat.qrcode')}}</a></p>
-                        </Col>
-                        <Col span="8" class="order-info" v-else>
-                        <i class="icons wechat"></i>
-                        <pre></pre>
-                        <p style="color:rgb(145, 143, 143)">{{$t('otc.chat.tip3')}}</p>
+                    <Row class="chat-top" type="flex" style="margin-left: 15px">
+                        <Col v-for="(item,index) in payInfos" span="6" class="order-info" :key="index" >
+                          <i :class=" 'merchant-icon tips color-'+(index%6)"></i>
+                          <span>{{item.typeName}}(
+                            <span style="color:#f0a70a" @click="payDetail(item)" >{{item.field_1}}</span>
+                            ) </span>
+<!--                          <p>{{item.field_1}}</p>-->
+<!--                          <p>{{item.field_2}}</p>-->
                         </Col>
 
+<!--                        <Col span="8" class="order-info" v-if="alipay&&alipay!=null">-->
+<!--                          <i class="icons alipay"></i>-->
+<!--                          <span>{{$t('otc.chat.zfb')}}</span>-->
+<!--                          <pre></pre>-->
+<!--                          <p>{{alipay.aliNo}}</p>-->
+<!--                          <p v-if="alipay&&alipay!=null&&alipay.qrCodeUrl!=null&&alipay.qrCodeUrl!=''"><a @click="showQRCode(1)">{{$t('otc.chat.qrcode')}}</a></p>-->
+<!--                        </Col>-->
+<!--                        <Col span="8" class="order-info" v-else>-->
+<!--                          <i class="icons alipay"></i>-->
+<!--                          <pre></pre>-->
+<!--                          <p style="color:rgb(145, 143, 143)">{{$t('otc.chat.tip2')}}</p>-->
+<!--                        </Col>-->
+<!--                        <Col span="8" class="order-info" v-if="wechatPay&&wechatPay!=null">-->
+<!--                          <i class="icons wechat"></i>-->
+<!--                          <span>{{$t('otc.chat.wx')}}</span>-->
+<!--                          <pre></pre>-->
+<!--                          <p>{{wechatPay.wechat}}</p>-->
+<!--                          <p v-if="wechatPay&&wechatPay!=null&&wechatPay.qrWeCodeUrl!=null&&wechatPay.qrWeCodeUrl!=''"><a @click="showQRCode(2)">{{$t('otc.chat.qrcode')}}</a></p>-->
+<!--                        </Col>-->
+<!--                        <Col span="8" class="order-info" v-else>-->
+<!--                          <i class="icons wechat"></i>-->
+<!--                          <pre></pre>-->
+<!--                          <p style="color:rgb(145, 143, 143)">{{$t('otc.chat.tip3')}}</p>-->
+<!--                        </Col>-->
                     </Row>
                     <chatline :msg="msg"></chatline>
                 </div>
@@ -185,6 +182,22 @@
             </div>
             <div slot="footer"></div>
         </Modal>
+      <Modal style="width: 700px" v-model="bindModal" :title="$t('otc.payment_detail')">
+        <Form ref="paymentTypeRecordData" :model="paymentTypeRecordData" :label-width="120">
+          <!-- name -->
+          <FormItem :label="$t('otc.payment')">
+            <Input v-model="paymentTypeRecordData['typeName']" disabled size="large"></Input>
+          </FormItem>
+          <FormItem v-for="config in paymentTypeConfigs" :label="config.showText" :prop="config.fieldName" :key="index">
+            <Input v-if="config.type== 'input'" v-model="paymentTypeRecordData[config.fieldName]" :placeholder="config.placeholder" disabled size="large"></Input>
+            <span  v-if="config.type== 'tip'" class="tips-g" style="width: 68%; text-align: left;">{{config.placeholder}}</span>
+            <div v-if="config.type== 'image'">
+              <img v-if="paymentTypeRecordData[config.fieldName]" :alt="$t('uc.account.imgtip')" style="width: 200px;height: 200px;" :src="paymentTypeRecordData[config.fieldName]" >
+              <img v-else :alt="$t('uc.account.imgtip')" style="width: 200px;height: 200px;" src="../../assets/images/upload_placeholder.png">
+            </div>
+          </FormItem>
+        </Form>
+      </Modal>
     </div>
 </template>
 <script>
@@ -198,6 +211,9 @@ export default {
   data() {
     return {
       watching: false,
+      bindModal: false,
+      paymentTypeRecordData:{},
+      paymentTypeConfigs:[],
       stompClient: null,
       reserveTime: "60",
       reserveInteval: null,
@@ -219,6 +235,7 @@ export default {
       },
       msg: {},
       payInfo: {},
+      payInfos: [],
       bankInfo: {},
       alipay: {},
       wechatPay: {},
@@ -318,7 +335,7 @@ export default {
       //计时时间已到，重置状态
       clearInterval(this.reserveInteval);
       this.statusBtn = 5;
-      this.ok3();
+      // this.ok3();
     },
     appearOrder: function() {
       var nowTime = new Date().getTime();
@@ -330,6 +347,26 @@ export default {
       } else {
         this.modal4 = true;
       }
+    },
+    payDetail(item){
+      this.bindModal=true;
+      this.paymentTypeRecordData=item;
+
+      this.imageFieldName="";
+      this.paymentTypeConfigs=[];
+      this.$http.get(this.host + '/uc/payment/findPaymentTypeConfigById?id='+this.paymentTypeRecordData.type).then(response => {
+        var resp = response.body;
+        if (resp.code == 0) {
+          this.paymentTypeConfigs=resp.data;
+          for(let i=0;i<this.paymentTypeConfigs.length;i++){
+            if(this.paymentTypeConfigs[i].type=="image"){
+              this.imageFieldName=this.paymentTypeConfigs[i].fieldName;
+            }
+          }
+        } else {
+          this.$Message.error(resp.message);
+        }
+      })
     },
     ok1() {
       this.$http
@@ -426,14 +463,14 @@ export default {
           var resp = response.body;
           if (resp.code == 0) {
             this.msg = resp.data;
-            this.payInfo = this.msg.payInfo;
-            if (this.payInfo == null) {
-              this.bankInfo = this.alipay = this.wechatPay == null;
-            } else {
-              this.bankInfo = this.msg.payInfo.bankInfo;
-              this.alipay = this.msg.payInfo.alipay;
-              this.wechatPay = this.msg.payInfo.wechatPay;
-            }
+            this.payInfos = this.msg.payInfos;
+            // if (this.payInfo == null) {
+            //   this.bankInfo = this.alipay = this.wechatPay == null;
+            // } else {
+            //   this.bankInfo = this.msg.payInfo.bankInfo;
+            //   this.alipay = this.msg.payInfo.alipay;
+            //   this.wechatPay = this.msg.payInfo.wechatPay;
+            // }
 
             if (!this.watching) {
               this.watchOrderStutusNotice();
@@ -444,7 +481,7 @@ export default {
             this.tradeType = resp.data.type;
             if (resp.data.status == 1) {
               this.statusText = this.$t("otc.chat.result_1");
-              this.setReserveTime();
+              // this.setReserveTime();
             } else if (resp.data.status == 2) {
               this.statusText = this.$t("otc.chat.result_2");
             } else if (resp.data.status == 3) {
@@ -462,13 +499,13 @@ export default {
     strpro(str){
       let newStr = str;
       str = str.slice(1);
-      var re = /[\D\d]*/g;  
+      var re = /[\D\d]*/g;
       var str2 = str.replace(re,function(str){
             var result = '';
             for(var i=0;i<str.length;i++){
                 result += '*';
-            }              
-            return result; 
+            }
+            return result;
         });
       return newStr.slice(0,1)+str2;
     }
@@ -534,6 +571,47 @@ export default {
   font-size: 16px;
   line-height: 40px;
 }
+.merchant-icon {
+  display: inline-block;
+  margin-left: 4px;
+  background-size: 100% 100%;
+}
+
+.merchant-top .tips-word {
+  -webkit-box-flex: 2;
+  -ms-flex-positive: 2;
+  flex-grow: 2;
+  text-align: left;
+}
+
+.merchant-icon.tips {
+  width: 4px;
+  height: 15px;
+  margin-right: 10px;
+}
+
+.merchant-icon.tips.color-0 {
+  background: #f0a70a;
+}
+.merchant-icon.tips.color-1 {
+  background: #e5dc2a;
+}
+.merchant-icon.tips.color-2 {
+  background: #4fbe51;
+}
+.merchant-icon.tips.color-3 {
+  background: #d07e3b;
+}
+.merchant-icon.tips.color-4 {
+  background: #0a4bf0;
+}
+.merchant-icon.tips.color-5 {
+  background: #810af0;
+}
+.merchant-icon.tips.color-6 {
+  background: #2b9f76;
+}
+
 
 .order-info h5 {
   font-weight: 600;

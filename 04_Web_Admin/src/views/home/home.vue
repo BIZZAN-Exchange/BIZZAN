@@ -4,23 +4,23 @@
 			<Col span="7">
 			<Card>
 				<Row slot="title">
-					<Col span="8">用户类型</Col>
-					<Col span="8">累计</Col>
-					<Col span="8">昨日新增</Col>
+					<Col span="8">{{$t("cumulative.usertype")}}</Col>
+					<Col span="8">{{ $t('cumulative.cumulative') }}</Col>
+					<Col span="8">{{ $t('cumulative.newyesterday') }}</Col>
 				</Row>
 				<div class="cardBody">
 					<Row>
-						<Col span="8">注册用户</Col>
+						<Col span="8">{{ $t('cumulative.registereduser') }}</Col>
 						<Col span="8">{{ memberBoardInfo.registrationNum }}</Col>
 						<Col span="8">{{ memberBoardInfo.yesterdayRegistrationNum }}</Col>
 					</Row>
 					<Row>
-						<Col span="8">实名用户</Col>
+						<Col span="8">{{ $t('cumulative.realnameuser') }}</Col>
 						<Col span="8">{{ memberBoardInfo.applicationNum }}</Col>
 						<Col span="8">{{ memberBoardInfo.yesterdayApplicationNum }}</Col>
 					</Row>
 					<Row>
-						<Col span="8">认证商家</Col>
+						<Col span="8">{{ $t('certifiedmerchants.certifiedmerchants') }}</Col>
 						<Col span="8">{{ memberBoardInfo.bussinessNum }}</Col>
 						<Col span="8">{{ memberBoardInfo.yesterdayBussinessNum }}</Col>
 					</Row>
@@ -34,14 +34,14 @@
 			</Col>
 			<Col span="8">
 			<Card>
-				<span slot="title">OTC交易</span>
+				<span slot="title">{{ $t('cumulative.otctransactions') }}</span>
 				<div class="cardBody">
-					<p>法币交易总交易量</p>
+					<p>{{ $t('cumulative.totaltransactionvolumeoflegalcurrencytransactions') }}</p>
 					<p class="tradeTotalNum">{{ otcChart.borderInfo.amount }}</p>
-					<p>总交易额
+					<p>{{ $t('cumulative.totaltransactionvolume') }}
 						<span>{{ otcChart.borderInfo.money }}</span>
 					</p>
-					<p>总手续费
+					<p>{{ $t('cumulative.totalhandlingcharge') }}
 						<span class="fee">{{ otcChart.borderInfo.fee }}</span>
 					</p>
 					<div class="selectWrapper">
@@ -53,12 +53,12 @@
 				<div class="cardFooterWrapper">
 					<Row class="cardFooter">
 						<Col span="11" offset="1">
-						<p>昨日交易量
+						<p>{{ $t('cumulative.yesterdaystradingvolume') }}
 							<span style="display:block;">{{ otcChart.borderInfo.yesterdayAmount }}</span>
 						</p>
 						</Col>
 						<Col span="11" offset="1">
-						<p>昨日手续费
+						<p>{{ $t('cumulative.yesterdaysservicecharge') }}
 							<span style="display:block;">{{ otcChart.borderInfo.yesterdayFee }}</span>
 						</p>
 						</Col>
@@ -68,11 +68,11 @@
 			</Col>
 			<Col span="8">
 			<Card>
-				<span slot="title">币币交易</span>
+				<span slot="title">{{ $t('servicechargewithdrawaldetails.currencytransaction') }}</span>
 				<div class="cardBody">
-					<p>币币交易总交易量</p>
+					<p>{{ $t('cumulative.totaltransactionvolumeofcurrencytransaction') }}</p>
 					<p class="tradeTotalNum">{{ exchangeChart.boardInfo.amount }}</p>
-					<p style="line-height: 60px">总手续费
+					<p style="line-height: 60px">{{ $t('cumulative.totalhandlingcharge') }}
 						<span class="fee">{{ exchangeChart.boardInfo.fee }}</span>
 					</p>
 					<div class="selectWrapper">
@@ -84,12 +84,12 @@
 				<div class="cardFooterWrapper">
 					<Row class="cardFooter" justify="space-around">
 						<Col span="11">
-						<p>昨日交易量
+						<p>{{ $t('cumulative.yesterdaystradingvolume') }}
 							<span style="display:block;">{{ exchangeChart.boardInfo.yesterdayAmount }}</span>
 						</p>
 						</Col>
 						<Col span="11">
-						<p>昨日手续费
+						<p>{{ $t('cumulative.yesterdaysservicecharge') }}
 							<span style="display:block;">{{ exchangeChart.boardInfo.yesterdayFee }}</span>
 						</p>
 						</Col>
@@ -101,8 +101,8 @@
 
 		<Row class="register mainChart">
 			<Card>
-				<h3>注册、认证对比图
-					<span> （查询日期不超过30天）</span>
+				<h3>{{ $t('cumulative.comparisonchartofregistrationandcertification') }}
+					<span> {{ $t('cumulative.note2') }}</span>
 				</h3>
 				<Row class="chartFunction">
 					<Col span="3" offset="15">
@@ -132,15 +132,15 @@
 				</Row>
 
 				<Row class="dataEmpty" v-show="!registerChart.chartData.length">
-					<p>此时间区间内无数据！</p>
+					<p>{{ $t('cumulative.note3') }}</p>
 				</Row>
 			</Card>
 		</Row>
 
 		<Row class="otcVolume mainChart">
 			<Card>
-				<h3>法币成交量趋势图
-					<span> （查询日期不超过30天）</span>
+				<h3>{{ $t('cumulative.trendchartoflegalcurrencytradingvolume') }}
+					<span> {{ $t('cumulative.note2') }}</span>
 				</h3>
 				<Row class="chartFunction">
 					<Col span="3" offset="15">
@@ -170,17 +170,17 @@
 				</Row>
 
 				<Row class="dataEmpty" v-show="!otcChart.chartData.length">
-					<p>此时间区间内无数据！</p>
+					<p>{{ $t('cumulative.note3') }}</p>
 				</Row>
 			</Card>
 		</Row>
 
 		<Row class="exchangeVolume mainChart">
 			<Card>
-				<h3>币币成交量统计图</h3>
+				<h3>{{ $t('cumulative.statisticalchartofcurrencytradingvolume') }}</h3>
 				<Row class="tradeArea">
 					<p>
-						<span class="title">交易区</span>
+						<span class="title">{{ $t('cumulative.tradingarea') }}</span>
 						<RadioGroup v-model="exchangeChart.tradeArea.active" @on-change="switchTradeCoin" size="large">
 							<Radio v-for="(item, index) in exchangeChart.tradeArea.coin" :label="index" :key="item">
 								<span>{{ item }}</span>
@@ -192,17 +192,17 @@
 					<div ref="exchangeNumChart"></div>
 				</Row>
 				<Row class="dataEmpty" v-show="!exchangeChart.chartData.length">
-					<p>暂无数据！</p>
+					<p>{{ $t('cumulative.nodatatemporarily') }}</p>
 				</Row>
 			</Card>
 		</Row>
 
 		<Row class="exchangeVolume mainChart">
 			<Card>
-				<h3>币币交易额统计图</h3>
+				<h3>{{ $t('cumulative.statisticalchartofmonetarytransactionvolume') }}</h3>
 				<Row class="tradeArea">
 					<p>
-						<span class="title">交易区</span>
+						<span class="title">{{ $t('cumulative.tradingarea') }}</span>
 						<RadioGroup v-model="exchangeChart.tradeArea.active" @on-change="switchTradeCoin" size="large">
 							<Radio v-for="(item, index) in exchangeChart.tradeArea.coin" :label="index" :key="item">
 								<span>{{ item }}</span>
@@ -214,7 +214,7 @@
 					<div ref="exchangeMoneyChart"></div>
 				</Row>
 				<Row class="dataEmpty" v-show="!exchangeChart.chartData.length">
-					<p>暂无数据！</p>
+					<p>{{ $t('cumulative.nodatatemporarily') }}</p>
 				</Row>
 			</Card>
 		</Row>
@@ -249,7 +249,7 @@ export default {
         type: "register",
         initTime: [],
         chartData: [],
-        timeRange: { active: 0, time: ["三天", "一周", "一月"] },
+        timeRange: { active: 0, time: [this.$t('cumulative.threedays'), this.$t('cumulative.oneweek'), this.$t('cumulative.january')] },
         searchDate: {
           startDate: dtime(Date.now() - 24 * 60 * 60000 * 3).format(
             "YYYY-MM-DD"
@@ -262,7 +262,7 @@ export default {
         type: "otc",
         initTime: [],
         chartData: [],
-        timeRange: { active: 0, time: ["三天", "一周", "一月"] },
+        timeRange: { active: 0, time: [this.$t('cumulative.threedays'), this.$t('cumulative.oneweek'), this.$t('cumulative.january')] },
         allCoin: [],
         board: {
           startDate: "",
@@ -378,7 +378,7 @@ export default {
         obj.initTime = [];
         obj.initTime.push(obj.searchDate.startDate);
         obj.initTime.push(obj.searchDate.endDate);
-        this.$Message.warning("只能查询30天内趋势变化！");
+        this.$Message.warning(this.$t('cumulative.note4'));
         return true;
       }
     },
@@ -411,27 +411,27 @@ export default {
       dv.transform({
         type: "rename",
         map: {
-          coinSymbol: "币种",
-          amount: "交易量",
-          date: "时间",
-          money: "交易额"
+          coinSymbol: this.$t('transactiondetailsinlegalcurrency.currency'),
+          amount: this.$t('cumulative.transactionvolume'),
+          date: this.$t('advertisingmanagement.time'),
+          money: this.$t('cumulative.transactionvolume')
         }
       });
       chart.source(dv.rows);
       chart
         .interval()
-        .position(`时间*${obj.type}`)
-        .color("币种")
+        .position($this.t('cumulative.time') + `*${obj.type}`)
+        .color(this.$t('transactiondetailsinlegalcurrency.currency'))
         .adjust("dodge");
 
       let legendArr = [];
-      chart.filter("币种", val => {
+      chart.filter(this.$t('transactiondetailsinlegalcurrency.currency'), val => {
         if (legendArr.indexOf(val) < 0) legendArr.push(val);
         if (legendArr.length > 1)
           return val === legendArr[0] || val === legendArr[1];
         else return val;
       });
-      chart.legend("币种", {
+      chart.legend(this.$t('transactiondetailsinlegalcurrency.currency'), {
         // position: 'right'
       });
 
@@ -443,11 +443,11 @@ export default {
           if (!res.code) {
             this.exchangeManualChart(res.data, {
               ref: this.$refs.exchangeNumChart,
-              type: "交易量"
+              type: this.$t('cumulative.transactionvolume')
             });
             this.exchangeManualChart(res.data, {
               ref: this.$refs.exchangeMoneyChart,
-              type: "交易额"
+              type: this.$t('cumulative.transactionvolume')
             });
           } else this.$Message.error(res.message);
         })
@@ -461,9 +461,9 @@ export default {
             dv.transform({
               type: "rename",
               map: {
-                unit: "币种",
-                amount: "交易量",
-                date: "时间"
+                unit: this.$t('transactiondetailsinlegalcurrency.currency'),
+                amount: this.$t('cumulative.transactionvolume'),
+                date: this.$t('advertisingmanagement.time')
               }
             });
             this.otcChart.chartData = dv.rows;
@@ -479,18 +479,18 @@ export default {
             dv.transform({
               type: "rename",
               map: {
-                registrationNum: "注册会员",
-                applicationNum: "实名会员",
-                bussinessNum: "认证会员",
-                date: "时间"
+                registrationNum: this.$t('cumulative.registeredmember'),
+                applicationNum: this.$t('cumulative.realnamemember'),
+                bussinessNum: this.$t('cumulative.certifiedmember'),
+                date: this.$t('advertisingmanagement.time')
               }
             });
             dv.transform({
               type: "fold",
-              fields: ["注册会员", "实名会员", "认证会员"],
-              key: "类型",
-              value: "人数",
-              retains: ["时间"]
+              fields: [this.$t('cumulative.registeredmember'), this.$t('cumulative.realnamemember'), this.$t('cumulative.certifiedmember')],
+              key: this.$t('entrustedmanagement.type'),
+              value: this.$t('cumulative.numberofpeople'),
+              retains: [this.$t('advertisingmanagement.time')]
             });
             this.registerChart.chartData = dv.rows;
           } else this.$Message.error(res.message);

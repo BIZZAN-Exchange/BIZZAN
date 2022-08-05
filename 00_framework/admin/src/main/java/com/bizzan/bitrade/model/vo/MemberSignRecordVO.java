@@ -1,16 +1,15 @@
 package com.bizzan.bitrade.model.vo;
 
+import com.bizzan.bitrade.entity.Member;
+import com.bizzan.bitrade.entity.MemberSignRecord;
 import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.bizzan.bitrade.entity.Member;
-import com.bizzan.bitrade.entity.MemberSignRecord;
-
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @Title: ${file_name}
  * @Description:
  * @date 2019/5/714:22

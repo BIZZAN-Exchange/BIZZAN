@@ -2,16 +2,15 @@
  	<div>
     <Card>
       <p slot="title">
-        广告管理
-        <Button type="primary" size="small" @click="refreshPageManual">
-          <Icon type="refresh"></Icon>刷新
+        {{ $t('advertisingmanagement.advertisingmanagement') }} <Button type="primary" size="small" @click="refreshPageManual">
+          <Icon type="refresh"></Icon>{{ $t('perpetualcontractcurrencystandardmanagement.refresh') }}
         </Button>
       </p>
 
       <Row class="manageRow clearfix">
         <div class="manageWrapper">
-          <Button type="error" @click="delAd">删除</Button>
-          <Button type="info" @click="addAd">添加</Button>
+          <Button type="error" @click="delAd">{{ $t('secondcontractcompensationsetting.delete') }}</Button>
+          <Button type="info" @click="addAd">{{ $t('advertisingmanagement.addto') }}</Button>
         </div>
       </Row>
 
@@ -34,37 +33,37 @@
     <!-- 是否删除 -->
      <Modal
         v-model="ifDelete"
-        title="删除"
+        :title="$t('secondcontractcompensationsetting.delete')"
         @on-ok="confirmDel"
         @on-cancel="cancelDel">
-        <p>是否删除已选择的{{ delArr.length }}项</p>
+        <p>{{$t('advertisingmanagement.note2',[delarr.length])}}</p>
     </Modal>
 
 		<!-- 添加广告 -->
 		<Modal
 			v-model="addModal"
-			title="添加广告"
+			:title="$t('advertisingmanagement.addads')"
 			width="430">
 
 			<p slot="header" style="color:#5cadff;text-align:center">
 				<Icon type="information-circled"></Icon>
-				<span style="padding-left: 5px;" v-if="addAdStyle" >添加广告</span>
-				<span style="padding-left: 5px;" v-if="!addAdStyle" >查看广告</span>
+				<span style="padding-left: 5px;" v-if="addAdStyle" >{{ $t('advertisingmanagement.addads') }}</span>
+				<span style="padding-left: 5px;" v-if="!addAdStyle" >{{ $t('advertisingmanagement.viewadvertisements') }}</span>
 			</p>
 			<div class="addAdWrapper">
-        <div v-if="!addAdStyle"><i>*</i> 创建时间：
+        <div v-if="!addAdStyle"><i>{{ $t('common.mul') }}</i> {{ $t('advertisingmanagement.createdon') }}
           <Input v-model="adCreateTime" disabled/>
         </div>
 
-        <p v-if="!addAdStyle"><i>*</i> 广告编号：
+        <p v-if="!addAdStyle"><i>*</i> {{ $t('advertisingmanagement.adno') }}
           <Input v-model="adSerialNumber" disabled></Input>
         </p>
 
-        <p><i>*</i> 广告排序：
+        <p><i>*</i> {{ $t('advertisingmanagement.advertisementsorting') }}
           <InputNumber :max="100" :min="1" v-model="sort"></InputNumber>
         </p>
 
-				<p><i>*</i> 广告名称：
+				<p><i>*</i> {{ $t('advertisingmanagement.advertisementname') }}
           <Input @on-blur="listenValName" v-model="adName"></Input>
           <span v-if="adNameIcon">
             <Icon style="color: green" type="checkmark-round" v-if="!!adName"></Icon>
@@ -72,18 +71,18 @@
           </span>
         </p>
 
-        <div><i>*</i> 广告状态：
+        <div><i>*</i> {{ $t('advertisingmanagement.advertisingstatus') }}
           <RadioGroup v-model="adStatus">
             <Radio label="0">
-              <span>上线</span>
+              <span>{{ $t('advertisingmanagement.goonline') }}</span>
             </Radio>
             <Radio label="1">
-              <span>下线</span>
+              <span>{{ $t('advertisingmanagement.offline') }}</span>
             </Radio>
           </RadioGroup>
 				</div>
 
-				<div> <i>*</i> 广告位置：
+				<div> <i>*</i> {{ $t('advertisingmanagement.advertisinglocation') }}
 					<Select v-model="adPosModel" style="width:200px">
 						<Option v-for=" item in adPosition" :value="item.status" :key="item.status">
 							{{ item.posName }}
@@ -91,57 +90,57 @@
 					</Select>
 				</div>
 
-        <div><i>*</i> 广告语言：
+        <div><i>*</i> {{ $t('advertisingmanagement.advertisinglanguage') }}
           <RadioGroup v-model="adLang">
             <Radio label="zh_CN">
-              <span>中文</span>
+              <span>{{ $t('announcementmanagement.chinese') }}</span>
             </Radio>
             <Radio label="en_US">
               <span>English</span>
             </Radio>
 			<Radio label="ja_JP">
-			  <span>日语</span>
+			  <span>{{ $t('announcementmanagement.japanese') }}</span>
 			</Radio>
 			<Radio label="ko_KR">
-			  <span>韩语</span>
+			  <span>{{ $t('announcementmanagement.korean') }}</span>
 			</Radio>
 			<Radio label="de_DE">
-			  <span>德语</span>
+			  <span>{{ $t('announcementmanagement.german') }}</span>
 			</Radio>
 			<Radio label="fr_FR">
-			  <span>法语</span>
+			  <span>{{ $t('announcementmanagement.french') }}</span>
 			</Radio>
 			<Radio label="it_IT">
-			  <span>意大利</span>
+			  <span>{{ $t('announcementmanagement.italy') }}</span>
 			</Radio>
 			<Radio label="es_ES">
-			  <span>西班牙</span>
+			  <span>{{ $t('announcementmanagement.spain') }}</span>
 			</Radio>
 			<Radio label="zh_HK">
-			  <span>繁体</span>
+			  <span>{{ $t('advertisingmanagement.traditionalchinesecharacter') }}</span>
 			</Radio>
           </RadioGroup>
         </div>
 
-				<div><i>*</i> 开始时间：
-					<DatePicker v-model="adStartTime" type="date" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择时间" style="width: 200px"></DatePicker>
+				<div><i>*</i> {{ $t('advertisingmanagement.starttime') }}
+					<DatePicker v-model="adStartTime" type="date" format="yyyy-MM-dd HH:mm:ss" :placeholder="$t('advertisingmanagement.pleaseselectatime')" style="width: 200px"></DatePicker>
         </div>
-				<div><i>*</i> 结束时间：
-					<DatePicker v-model="adEndTime" type="date" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择时间" style="width: 200px"></DatePicker>
+				<div><i>*</i> {{ $t('advertisingmanagement.endtime') }}
+					<DatePicker v-model="adEndTime" type="date" format="yyyy-MM-dd HH:mm:ss" :placeholder="$t('advertisingmanagement.pleaseselectatime')" style="width: 200px"></DatePicker>
 					</div>
 
-        <div><i>*</i> 广告图片：
+        <div><i>*</i> {{ $t('advertisingmanagement.advertisingpictures1') }}
           <!-- <Upload :action="basicUrl+'admin/common/upload/local/image'" -->
           <Upload :action="basicUrl+'admin/common/upload/oss/image'"
                   :on-success = 'uploadSuccessed'
                   :on-error = "uploadFailed"
                   :on-progress = "uploading"
                   :show-upload-list = "false">
-            <Button type="ghost" icon="ios-cloud-upload-outline">添加图片</Button>
+            <Button type="ghost" icon="ios-cloud-upload-outline">{{ $t('advertisingmanagement.addpicture') }}</Button>
           </Upload>
 				</div>
 
-				<p><i>*</i> 图片地址：
+				<p><i>*</i> {{ $t('advertisingmanagement.pictureaddress') }}
           <Input @on-blur="listenValUrl" v-model="picUrl" disabled></Input>
           <span v-if="picUrlIcon">
             <Icon style="color: green" type="checkmark-round" v-if="!!picUrl"></Icon>
@@ -149,7 +148,7 @@
           </span>
         </p>
 
-        <p><i>*</i> 跳转地址：
+        <p><i>*</i> {{ $t('advertisingmanagement.jumpaddress') }}
           <Input @on-blur="bannerUrlFn" v-model="linkUrl"></Input>
           <span v-if="listenBannerUrl">
             <Icon style="color: green" type="checkmark-round" v-if="!!bannerUrlIcon"></Icon>
@@ -157,15 +156,15 @@
           </span>
         </p>
 
-				<p><i>*</i> 广告备注： <Input v-model="adRemark" type="textarea" :rows="4" placeholder="添加广告备注..."></Input></p>
+				<p><i>*</i> {{ $t('advertisingmanagement.advertisingremarks') }} <Input v-model="adRemark" type="textarea" :rows="4" :placeholder="$t('advertisingmanagement.addadnotes')"></Input></p>
 		  	</div>
 
         <div slot="footer" style="color:#5cadff;text-align:right">
           <div v-if="addAdStyle">
-            <Button type="text" @click="cancelAddAd" >取消</Button>
-            <Button type="info" @click="confrimAddAd(true)" >确认</Button>
+            <Button type="text" @click="cancelAddAd" >{{ $t('currencywithdrawalauditmanagement.cancel') }}</Button>
+            <Button type="info" @click="confrimAddAd(true)" >{{ $t('advertisingmanagement.confirm') }}</Button>
           </div>
-          <Button type="info" @click="confrimAddAd(false)" v-if="!addAdStyle">更新</Button>
+          <Button type="info" @click="confrimAddAd(false)" v-if="!addAdStyle">{{ $t('advertisingmanagement.toupdate') }}</Button>
         </div>
 
         <div class="circleWrapper" v-show="ifShowPercentCircle">
@@ -207,15 +206,15 @@ export default {
       adStatus: 0,
       adLang:"zh_CN",
       adStatusArr: [
-				{status: 0, statusName: '上线'},
-				{status: 1, statusName: '下线'}
+				{status: 0, statusName: this.$t('advertisingmanagement.goonline')},
+				{status: 1, statusName: this.$t('advertisingmanagement.offline')}
 			],
 			adEndTime: '',
 			addModal: false,
 			adPosition: [
-				{status: 0, posName: 'APP轮播'},
-				{status: 1, posName: 'PC轮播'},
-				{status: 2, posName: 'PC分类'}
+				{status: 0, posName: this.$t('advertisingmanagement.approtation')},
+				{status: 1, posName: this.$t('advertisingmanagement.pcrotation')},
+				{status: 2, posName: this.$t('advertisingmanagement.pcclassification')}
       ],
       showMrakContain: false,
       showMrak: false,
@@ -232,53 +231,53 @@ export default {
 						width: 60
 					},
 					{
-						title: '广告名称',
+						title: this.$t('advertisingmanagement.adname'),
 						key: 'name'
 					},
 					{
-						title: '广告位置',
+						title: this.$t('advertisingmanagement.adlocation'),
 						width: 90,
 						render: (h, params) => {
 							let sysAdLoc = params.row.sysAdvertiseLocation;
 							let sysAdLocName = String;
 
-							if(sysAdLoc === 0) sysAdLocName = 'APP轮播';
-							else if(sysAdLoc === 1) sysAdLocName = 'pc 轮播';
-							else if(sysAdLoc === 2) sysAdLocName = 'pc 分类';
+							if(sysAdLoc === 0) sysAdLocName = this.$t('advertisingmanagement.approtation');
+							else if(sysAdLoc === 1) sysAdLocName = this.$t('advertisingmanagement.pcrotation');
+							else if(sysAdLoc === 2) sysAdLocName = this.$t('advertisingmanagement.pcclassification');
 
 							return h('span', {
 							},sysAdLocName);
 						}
 					},
           {
-            title: '语言',
+            title: this.$t('announcementmanagement.language'),
             key: 'lang',
             render:(h, obj) => {
               let lang = obj.row.lang;
-              var langText = "中文";
+              var langText = this.$t('announcementmanagement.chinese');
 			  if(lang == "en_US"){
 			  	langText = "English";
 			  }
 			  if(lang == "ja_JP"){
-			  	langText = "日语";
+			  	langText = this.$t('announcementmanagement.japanese');
 			  }
 			  if(lang == "ko_KR"){
-			  	langText = "韩语";
+			  	langText = this.$t('announcementmanagement.korean');
 			  }
 			  if(lang == "de_DE"){
-			  	langText = "德语";
+			  	langText = this.$t('announcementmanagement.german');
 			  }
 			  if(lang == "fr_FR"){
-			  	langText = "法语";
+			  	langText = this.$t('announcementmanagement.french');
 			  }
 			  if(lang == "it_IT"){
-			  	langText = "意大利";
+			  	langText = this.$t('announcementmanagement.italy');
 			  }
 			  if(lang == "es_ES"){
-			  	langText = "西班牙";
+			  	langText = this.$t('announcementmanagement.spain');
 			  }
 			  if(lang == "zh_HK"){
-			  	langText = "中文繁体";
+			  	langText = this.$t('announcementmanagement.traditionalchinese');
 			  }
 			  
               return h('span', {
@@ -286,7 +285,7 @@ export default {
             }
           },
 					{
-						title: '广告图片',
+						title: this.$t('advertisingmanagement.advertisingpictures'),
 						key: 'url',
             render:(h, obj) => {
               let url = obj.row.url;
@@ -297,7 +296,7 @@ export default {
             }
           },
           {
-						title: '跳转链接',
+						title: this.$t('advertisingmanagement.jumplink'),
 						key: 'linkUrl',
             render:(h, obj) => {
               let link = obj.row.linkUrl;
@@ -307,13 +306,13 @@ export default {
                 return  h('a',{
                   attrs: {href: link, target:"_blank"},
                   style: {}
-                },"跳转链接");
+                },this.$t('advertisingmanagement.jumplink'));
               }
 
             }
 					},
 					{
-						title: '时间',
+						title: this.$t('advertisingmanagement.time'),
 						width: 220,
 						render: (h, obj) => {
 							let startTime = obj.row.startTime;
@@ -329,14 +328,14 @@ export default {
 						}
 					},
 					{
-						title: '上线/下线',
+						title: this.$t('advertisingmanagement.onlineoffline'),
 						width: 90,
 						render: (h, obj) => {
 							let status=obj.row.status;
 							let statuStr = String;
 
-							if(status === 0) statuStr = '上线';
-							else if(status === 1) statuStr = '下线';
+							if(status === 0) statuStr = this.$t('advertisingmanagement.goonline');
+							else if(status === 1) statuStr = this.$t('advertisingmanagement.offline');
 
 							return h('span', {
 							}, statuStr);
@@ -344,7 +343,7 @@ export default {
 						}
 					},
 					{
-						title: '操作',
+						title: this.$t('perpetualcontractcurrencystandardmanagement.operation'),
 						width:180,
 						render: (h, obj) => {
               return h ('div',[
@@ -379,7 +378,7 @@ export default {
                       })
                     }
                   }
-								},'查看 / 编辑'),
+								},this.$t('announcementmanagement.viewedit')),
               ])
             }
 					}
@@ -403,16 +402,16 @@ export default {
       .then(res => {
         if (!res.code) {
           this.delArr = [];
-          this.$Message.success('广告删除成功!');
+          this.$Message.success(this.$t('advertisingmanagement.advertisementdeletedsuccessfully'));
           this.refreshTab();
         }else {
-          this.$Message.error('广告删除失败!');
+          this.$Message.error(this.$t('advertisingmanagement.advertisementdeletionfailed'));
         }
       })
 
     },
     cancelDel () {
-      this.$Message.success('已取消!');
+      this.$Message.success(this.$t('advertisingmanagement.cancelled'));
     },
     uploading(event, file, fileList) {
       this.ifShowPercentCircle = true;
@@ -421,11 +420,11 @@ export default {
     uploadSuccessed(response, file, fileList) {
       this.picUrl = response.data;
       this.ifShowPercentCircle = false;
-      this.$Message.success('上传成功');
+      this.$Message.success(this.$t('advertisingmanagement.uploadsuccessful'));
     },
     uploadFailed(error, file, fileList) {
       this.ifShowPercentCircle = false;
-      this.$Message.error('上传失败');
+      this.$Message.error(this.$t('advertisingmanagement.uploadfailed'));
     },
     // changeAdStatus() {
     //   // alert(this.adStatus);
@@ -467,7 +466,7 @@ export default {
     },
     delAd() {
       if(!this.delArr.length) {
-        this.$Message.warning('请选择需要删除的广告!');
+        this.$Message.warning(this.$t('advertisingmanagement.note2'));
       }else this.ifDelete = true;
     },
     // 添加广告
@@ -476,7 +475,7 @@ export default {
       let judgeETime = String(this.adEndTime).trim().length===0;
       let judgeEmpty = !this.adName || judgeSTime || judgeETime ||!this.picUrl;
       if(judgeEmpty) {
-        this.$Message.warning('请完善信息！');
+        this.$Message.warning(this.$t('systeminformationmaintenance.pleaseimprovetheinformation'));
       } else {
         let adObj = {
           name: this.adName,
@@ -512,14 +511,14 @@ export default {
         if (pass) {
           fn(adObj).then( res => {
             if (!res.code) {
-              this.$Message.success('操作成功!');
+              this.$Message.success(this.$t('advertisingmanagement.operationsucceeded'));
             }else {
               this.$Message.error(res.message);
             }
             this.refreshTab();
           })
         }else {
-          this.$Message.error('请完善信息！');
+          this.$Message.error(this.$t('systeminformationmaintenance.pleaseimprovetheinformation'));
         }
       }
 

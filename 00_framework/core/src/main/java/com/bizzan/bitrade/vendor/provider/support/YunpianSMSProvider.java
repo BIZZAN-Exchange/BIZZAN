@@ -3,10 +3,7 @@ package com.bizzan.bitrade.vendor.provider.support;
 import com.bizzan.bitrade.util.HttpSend;
 import com.bizzan.bitrade.util.MessageResult;
 import com.bizzan.bitrade.vendor.provider.SMSProvider;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 import org.dom4j.DocumentException;
@@ -14,7 +11,6 @@ import org.dom4j.DocumentException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**

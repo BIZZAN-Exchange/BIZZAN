@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @Description:
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date: create in 16:47 2019/7/2
  * @Modified:
  */

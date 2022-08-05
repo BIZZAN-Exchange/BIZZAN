@@ -1,21 +1,5 @@
 package com.bizzan.bitrade.consumer;
 
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Component;
-
 import com.alibaba.fastjson.JSON;
 import com.bizzan.bitrade.constant.NettyCommand;
 import com.bizzan.bitrade.entity.ExchangeOrder;
@@ -26,8 +10,21 @@ import com.bizzan.bitrade.job.ExchangePushJob;
 import com.bizzan.bitrade.processor.CoinProcessor;
 import com.bizzan.bitrade.processor.CoinProcessorFactory;
 import com.bizzan.bitrade.service.ExchangeOrderService;
-
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 @Component
 @Slf4j
@@ -70,6 +67,7 @@ public class ExchangeTradeConsumer {
 				List<ExchangeOrder> orders = JSON.parseArray(record.value(), ExchangeOrder.class);
 				for (ExchangeOrder order : orders) {
 					String symbol = order.getSymbol();
+					log.info("订单完成：{}", order);
 					// 委托成交完成处理
 					exchangeOrderService.tradeCompleted(order.getOrderId(), order.getTradedAmount(),
 							order.getTurnover());

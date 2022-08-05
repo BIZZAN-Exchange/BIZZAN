@@ -2,6 +2,7 @@ package com.bizzan.bitrade.constant;
 
 public class NettyCommand {
     public static final int COMMANDS_VERSION = 1;
+    public static final short EXCHANGE_HEART_BEAT = 20000;// 指令：心跳包
     public static final short SUBSCRIBE_SYMBOL_THUMB = 20001;
     public static final short UNSUBSCRIBE_SYMBOL_THUMB = 20002;
     public static final short PUSH_SYMBOL_THUMB = 20003;
@@ -28,6 +29,7 @@ public class NettyCommand {
     public static final short PUSH_GROUP_CHAT = 20039;
 
     // 合约相关
+    public static final short CONTRACT_HEART_BEAT = 30000; // 指令：心跳包
     public static final short CONTRACT_SUBSCRIBE_SYMBOL_THUMB = 30001; // 指令：订阅行情
     public static final short CONTRACT_UNSUBSCRIBE_SYMBOL_THUMB = 30002; // 指令：取消订阅行情
     public static final short CONTRACT_PUSH_SYMBOL_THUMB = 30003; // 指令：推送币种行情

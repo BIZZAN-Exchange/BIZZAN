@@ -1,12 +1,11 @@
 package com.bizzan.bitrade;
+
+import com.bizzan.bitrade.service.ExchangeOrderService;
+import com.bizzan.bitrade.service.MarketService;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import com.bizzan.bitrade.MarketApplication;
-import com.bizzan.bitrade.service.ExchangeOrderService;
-import com.bizzan.bitrade.service.MarketService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = MarketApplication.class)

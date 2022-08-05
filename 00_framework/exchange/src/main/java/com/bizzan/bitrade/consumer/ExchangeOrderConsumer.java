@@ -4,8 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.bizzan.bitrade.Trader.CoinTrader;
 import com.bizzan.bitrade.Trader.CoinTraderFactory;
 import com.bizzan.bitrade.entity.ExchangeOrder;
-import com.bizzan.bitrade.service.ExchangeCoinService;
-
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;

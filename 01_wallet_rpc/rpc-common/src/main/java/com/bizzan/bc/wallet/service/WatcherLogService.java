@@ -15,30 +15,29 @@ public class WatcherLogService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public void update(String coinName,Long height){
+    public void update(String coinName, Long height) {
         WatcherLog watcherLog = findOne(coinName);
-        if(watcherLog != null){
+        if (watcherLog != null) {
             Query query = new Query();
             Criteria criteria = Criteria.where("coinName").is(coinName);
             query.addCriteria(criteria);
-            Update update =  new Update();
-            update.set("lastSyncHeight",height);
-            update.set("lastSyncTime",new Date());
+            Update update = new Update();
+            update.set("lastSyncHeight", height);
+            update.set("lastSyncTime", new Date());
             mongoTemplate.updateFirst(query, update, "watcher_log");
-        }
-        else{
+        } else {
             watcherLog = new WatcherLog();
             watcherLog.setCoinName(coinName);
             watcherLog.setLastSyncHeight(height);
             watcherLog.setLastSyncTime(new Date());
-            mongoTemplate.insert(watcherLog,"watcher_log");
+            mongoTemplate.insert(watcherLog, "watcher_log");
         }
     }
 
-    public WatcherLog findOne(String coinName){
+    public WatcherLog findOne(String coinName) {
         Query query = new Query();
         Criteria criteria = Criteria.where("coinName").is(coinName);
         query.addCriteria(criteria);
-        return mongoTemplate.findOne(query, WatcherLog.class,"watcher_log");
+        return mongoTemplate.findOne(query, WatcherLog.class, "watcher_log");
     }
 }

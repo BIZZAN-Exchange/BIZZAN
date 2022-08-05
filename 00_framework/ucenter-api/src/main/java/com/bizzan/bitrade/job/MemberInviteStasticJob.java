@@ -1,21 +1,22 @@
 package com.bizzan.bitrade.job;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
+import com.alibaba.fastjson.JSONObject;
+import com.bizzan.bitrade.constant.SysConstant;
+import com.bizzan.bitrade.constant.TransactionType;
+import com.bizzan.bitrade.entity.Member;
+import com.bizzan.bitrade.entity.MemberInviteStastic;
+import com.bizzan.bitrade.entity.MemberInviteStasticRank;
+import com.bizzan.bitrade.entity.MemberTransaction;
+import com.bizzan.bitrade.service.MemberInviteStasticService;
+import com.bizzan.bitrade.service.MemberPromotionService;
+import com.bizzan.bitrade.service.MemberService;
+import com.bizzan.bitrade.service.MemberTransactionService;
+import com.bizzan.bitrade.system.CoinExchangeFactory;
+import com.bizzan.bitrade.vo.MemberPromotionStasticVO;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -29,25 +30,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.client.RestTemplate;
 
-import com.alibaba.fastjson.JSONObject;
-import com.bizzan.bitrade.constant.SysConstant;
-import com.bizzan.bitrade.constant.TransactionType;
-import com.bizzan.bitrade.entity.Coin;
-import com.bizzan.bitrade.entity.Member;
-import com.bizzan.bitrade.entity.MemberInviteStastic;
-import com.bizzan.bitrade.entity.MemberInviteStasticRank;
-import com.bizzan.bitrade.entity.MemberTransaction;
-import com.bizzan.bitrade.service.MemberInviteStasticService;
-import com.bizzan.bitrade.service.MemberPromotionService;
-import com.bizzan.bitrade.service.MemberService;
-import com.bizzan.bitrade.service.MemberTransactionService;
-import com.bizzan.bitrade.system.CoinExchangeFactory;
-import com.bizzan.bitrade.vo.MemberPromotionStasticVO;
-
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
-import lombok.extern.slf4j.Slf4j;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Component
 @Slf4j

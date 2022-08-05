@@ -2,24 +2,22 @@
 	<div>
     <Card>
       <p slot="title">
-        认证商家
-        <Button type="primary" size="small" @click="refreshPageManual">
+        {{ $t('certifiedmerchants.certifiedmerchants') }} <Button type="primary" size="small" @click="refreshPageManual">
           <Icon type="refresh"></Icon>
-          刷新
-        </Button>
+          {{ $t('perpetualcontractcurrencystandardmanagement.refresh') }} </Button>
       </p>
       <Row class="functionWrapper">
         <div class="searchWrapper clearfix">
           <div class="poptip">
             <Poptip trigger="hover" content="请输入手机号、真实姓名或会员名称搜索" placement="bottom-start">
-              <Input placeholder="请输入手机号、真实姓名或会员名称搜索" 
+              <Input :placeholder="$t('backstageadvertising.note1')" 
                     v-model="filterSearch.account"/> 
               </Input>      
             </Poptip>
           </div>
 
 					<div class="poptip">
-						<span>会员状态：</span>
+						<span>{{ $t('certifiedmerchants.memberstatus') }}</span>
 						<Select v-model="filterSearch.status">
 							<Option v-for="item in checkStatus" 
 										:value="item.value" 
@@ -29,7 +27,7 @@
 					</div>
 					
 					<div class="btns">
-            <Button type="info" size="small" @click="searchByFilter">搜索</Button>
+            <Button type="info" size="small" @click="searchByFilter">{{ $t('positionmanagementcontractassetmanagement.search') }}</Button>
           </div>
         </div>
       </Row>
@@ -55,10 +53,10 @@
 
 			<Modal
         v-model="ifPass"
-        title="商家审核是否通过"
+        :title="$t('certifiedmerchants.whetherthemerchanthaspassedthereview')"
         @on-ok="confirmPass"
         @on-cancel="$Message.success('已取消');">
-        <p>是否审核通过所选择的项</p>
+        <p>{{ $t('certifiedmerchants.note1') }}</p>
       </Modal>
 
 
@@ -99,28 +97,28 @@ export default {
       loading:true,
       columns_first: [
         {
-          title: '会员昵称',
+          title: this.$t('currencywithdrawalapproval.membernickname'),
 					key: 'username',
 					render: (h, ctx) => {
 						return h('span',{},ctx.row.member.username)
 					}
         },
 				{
-					title: '邮箱',
+					title: this.$t('memberinvitationlist.mailbox'),
 					key: 'email',
 					render: (h, ctx) => {
 						return h('span',{},ctx.row.member.email)
 					}
 				},
         {
-          title: '真实姓名',
+          title: this.$t('businessinformation.realname'),
 					key: 'realName',
 					render: (h, ctx) => {
 						return h('span',{},ctx.row.member.realName)
 					}
         },
         {
-          title: '手机号',
+          title: this.$t('memberinvitationlist.cellphonenumber'),
 					key: 'mobilePhone',
 					render: (h, ctx) => {
 						return h('span',{},ctx.row.member.mobilePhone)
@@ -129,15 +127,15 @@ export default {
        
        
         {
-          title: '会员等级',
+          title: this.$t('certifiedmerchants.memberlevel'),
           key: 'memberLevel',
           width:160,
           render: (h, obj) => {
             let memberLevel = obj.row.memberLevel;
             let memberLevelTxt = null;
-            if (!memberLevel) memberLevelTxt = '普通会员'
-            else if (memberLevel===1) memberLevelTxt = '实名'
-            else if (memberLevel===2) memberLevelTxt = '认证'
+            if (!memberLevel) memberLevelTxt = this.$t('certifiedmerchants.ordinarymember')
+            else if (memberLevel===1) memberLevelTxt = this.$t('c2cordermanagement.realname')
+            else if (memberLevel===2) memberLevelTxt = this.$t('certifiedmerchants.certification')
 
             return h('span',{
             }, memberLevelTxt)
@@ -145,7 +143,7 @@ export default {
           }
         },
         {
-          title: '审核时间',
+          title: this.$t('currencywithdrawalauditmanagement.audittime'),
 					key: 'member.certifiedBusinessCheckTime',
 					width: 105,
 					sortable: 'custom',
@@ -155,7 +153,7 @@ export default {
 					}
 				},
 				{
-					title: '申请时间',
+					title: this.$t('currencywithdrawalapproval.applicationtime'),
 					key: 'member.certifiedBusinessApplyTime',
 					width: 105,
 					sortable: 'custom',
@@ -165,26 +163,26 @@ export default {
 					}
 				},
 				{
-          title: '广告状态',
+          title: this.$t('backstageadvertising.advertisingstatus'),
 					key: 'publishAdvertise',
 					render: (h, obj) => {
             let adStatus = obj.row.member.publishAdvertise;
-						let text = !adStatus ? '禁止发布' : '允许发布';
+						let text = !adStatus ? this.$t('certifiedmerchants.prohibitpublishing') : this.$t('certifiedmerchants.allowpublishing');
 						return h('span', {}, text)
           }
 					
         },
         {
-          title: '审核状态',
+          title: this.$t('businessinformation.auditstatus'),
           // key: 'status',
           render: (h, obj) => {
             let  userStatus = obj.row.certifiedBusinessStatus;
             let statusTxt = null;
-            if (userStatus === 1)  statusTxt = '审核中'
-            else if (userStatus === 2)  statusTxt = '已认证'
-            else if (userStatus === 0)  statusTxt = '未认证'
-            else if (userStatus === 3)  statusTxt = '未通过'
-            else if (userStatus === 5)  statusTxt = '申请退保中'
+            if (userStatus === 1)  statusTxt = this.$t('currencywithdrawalapproval.underreview')
+            else if (userStatus === 2)  statusTxt = this.$t('certifiedmerchants.certified')
+            else if (userStatus === 0)  statusTxt = this.$t('businessinformation.notcertified')
+            else if (userStatus === 3)  statusTxt = this.$t('certifiedmerchants.failed')
+            else if (userStatus === 5)  statusTxt = this.$t('certifiedmerchants.applyingforsurrender')
 
             return h('span', {
             },statusTxt);
@@ -195,14 +193,14 @@ export default {
         //   key: ''
         // },
         {
-          title: '操作',
+          title: this.$t('perpetualcontractcurrencystandardmanagement.operation'),
           key: 'action',
           width: 180,
           align: 'center',
           render: (h, obj) => {
 						let advStatus = obj.row.member.publishAdvertise;
 						let btnType = !advStatus ? 'info' : 'error';
-						let btnText = !advStatus ? '允许发布' : '禁止发布';
+						let btnText = !advStatus ? this.$t('certifiedmerchants.allowpublishing') : this.$t('certifiedmerchants.prohibitpublishing');
             let userStatus = obj.row.certifiedBusinessStatus;
             let statusTxt = null;
             let type = 'text';
@@ -226,7 +224,7 @@ export default {
 											this.$router.push({path: '/otc/businessaudit/businessdetail', query: {id: obj.row.id}});
 										}
 									}
-								}, '查看'),
+								}, this.$t('transactiondetailsinlegalcurrency.view')),
 								h('Button', {
 									props: {
 										type: btnType,
@@ -248,7 +246,7 @@ export default {
 								}, btnText)
 							])
 						} else {
-							statusTxt = '待审核';
+							statusTxt = this.$t('currencywithdrawalapproval.pendingreview');
               type = 'info';
 							isDisabled = false;
 							return h('div', {}, [
@@ -373,7 +371,7 @@ export default {
 		.then( res => {
 			if (!res.code) {
 			this.checkStatus = res.data;
-			this.checkStatus.push({ value: '', name: '全部' },);
+			this.checkStatus.push({ value: '', name: this.$t('transactiondetailsinlegalcurrency.all') },);
 			}else this.$Message.error(res.message);
 		})
     this.judgeRouteStatus(this.$route.query);

@@ -1,13 +1,12 @@
 package com.bizzan.bitrade.dao;
 
-import java.util.List;
-
+import com.bizzan.bitrade.dao.base.BaseDao;
+import com.bizzan.bitrade.entity.MemberInviteStasticRank;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.bizzan.bitrade.dao.base.BaseDao;
-import com.bizzan.bitrade.entity.MemberInviteStasticRank;
+import java.util.List;
 
 @Repository
 public interface MemberInviteStasticRankDao extends  BaseDao<MemberInviteStasticRank> {

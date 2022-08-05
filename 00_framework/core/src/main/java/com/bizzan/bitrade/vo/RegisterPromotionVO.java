@@ -1,13 +1,8 @@
 package com.bizzan.bitrade.vo;
 
-import com.bizzan.bitrade.constant.PromotionLevel;
-import com.bizzan.bitrade.entity.Member;
-import com.bizzan.bitrade.entity.MemberPromotion;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.Data;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;

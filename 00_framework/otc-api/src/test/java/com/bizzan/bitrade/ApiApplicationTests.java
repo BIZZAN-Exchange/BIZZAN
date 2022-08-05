@@ -1,15 +1,14 @@
 package com.bizzan.bitrade;
 
+import com.bizzan.bitrade.dao.AdvertiseDao;
+import com.bizzan.bitrade.event.MemberEvent;
+import com.bizzan.bitrade.service.AdvertiseService;
+import com.bizzan.bitrade.service.OtcCoinService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import com.bizzan.bitrade.dao.AdvertiseDao;
-import com.bizzan.bitrade.event.MemberEvent;
-import com.bizzan.bitrade.service.AdvertiseService;
-import com.bizzan.bitrade.service.OtcCoinService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

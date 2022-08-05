@@ -40,15 +40,15 @@ class MapWrapper {
     }
 
     public static boolean mapBool(Map m, String key) {
-        return (Boolean)m.get(key);
+        return (Boolean) m.get(key);
     }
 
     public static float mapFloat(Map m, String key) {
-        return ((Number)m.get(key)).floatValue();
+        return ((Number) m.get(key)).floatValue();
     }
 
     public static double mapDouble(Map m, String key) {
-        return ((Number)m.get(key)).doubleValue();
+        return ((Number) m.get(key)).doubleValue();
     }
 
     public static BigDecimal mapBigDecimal(Map m, String key) {
@@ -56,11 +56,11 @@ class MapWrapper {
     }
 
     public static int mapInt(Map m, String key) {
-        return ((Number)m.get(key)).intValue();
+        return ((Number) m.get(key)).intValue();
     }
 
     public static long mapLong(Map m, String key) {
-        return ((Number)m.get(key)).longValue();
+        return ((Number) m.get(key)).longValue();
     }
 
     public static String mapStr(Map m, String key) {

@@ -8,7 +8,6 @@ import com.bizzan.bitrade.entity.QLegalWalletWithdraw;
 import com.bizzan.bitrade.service.Base.TopBaseService;
 import com.bizzan.bitrade.util.BigDecimalUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

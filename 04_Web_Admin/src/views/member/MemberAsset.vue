@@ -2,77 +2,75 @@
  	<div>
     <Card>
       <p slot="title">
-        余额管理
-        <Button type="primary" size="small" @click="refreshPageManual">
+        {{ $t('app.balanceManagement') }} <Button type="primary" size="small" @click="refreshPageManual">
           <Icon type="refresh"></Icon>
-          刷新
-        </Button>
+          {{ $t('common.refresh') }} </Button>
       </p>
 
 			<Row class="functionWrapper">
         <div class="searchWrapper clearfix">
           
           <div class="poptip">
-            <Poptip trigger="hover" content="请输入用户名、邮箱、手机或姓名搜索" placement="bottom-start">
-              <Input placeholder="请输入用户名、邮箱、手机或姓名搜索" 
+            <Poptip trigger="hover" :content="$t('balancemanagement.note1')" placement="bottom-start">
+              <Input :placeholder="$t('balancemanagement.note1')" 
                     v-model="filterSearch.account"/> 
               </Input>      
             </Poptip>
           </div>
 
 					<div class="poptip">
-            <Poptip trigger="hover" content="请输入钱包地址搜索" placement="bottom-start">
-              <Input placeholder="请输入钱包地址搜索" 
+            <Poptip trigger="hover" :content="$t('balancemanagement.note2')" placement="bottom-start">
+              <Input :placeholder="$t('balancemanagement.note2')" 
                     v-model="filterSearch.walletAddress"/> 
               </Input>      
             </Poptip>
           </div>
 
 					<div class="poptip">
-            <Poptip trigger="hover" content="请输入币种搜索" placement="bottom-start">
-              <Input placeholder="请输入币种搜索" 
+            <Poptip trigger="hover" :content="$t('backstageappeal.pleaseentercurrencysearch')" placement="bottom-start">
+              <Input :placeholder="$t('backstageappeal.pleaseentercurrencysearch')" 
                     v-model="filterSearch.unit"/> 
               </Input>      
             </Poptip>
           </div>
 					<br>
 					<div class="poptip range">
-            <Poptip trigger="hover" content="请输入可用币最低数搜索" placement="bottom-start">
-              <Input placeholder="可用币最低数搜索" 
+            <Poptip trigger="hover" :content="$t('balancemanagement.note3')" placement="bottom-start">
+              <Input :placeholder="$t('balancemanagement.note4')" 
                     v-model="filterSearch.minBalance"/> 
               </Input>      
             </Poptip>
 						~
-						<Poptip trigger="hover" content="请输入可用币最高数搜索" placement="bottom-start">
-              <Input placeholder="可用币最高数搜索" 
+						<Poptip trigger="hover" :content="$t('balancemanagement.note15')" placement="bottom-start">
+              <Input :placeholder="$t('balancemanagement.note5')" 
                     v-model="filterSearch.maxBalance"/> 
               </Input>      
             </Poptip>
           </div>
 
 						<div class="poptip range">
-            <Poptip trigger="hover" content="请输入冻结币最低数搜索" placement="bottom-start">
-              <Input placeholder="冻结币最低数搜索" 
+            <Poptip trigger="hover" :content="$t('balancemanagement.note6')" placement="bottom-start">
+              <Input :placeholder="$t('balancemanagement.note7')" 
                     v-model="filterSearch.minFrozenBalance"/> 
               </Input>      
             </Poptip>
 						~
-						<Poptip trigger="hover" content="请输入冻结币最高数搜索" placement="bottom-start">
-              <Input placeholder="冻结币最高数搜索" 
+						<Poptip trigger="hover" :content="$t('balancemanagement.note8')" placement="bottom-start">
+              <Input :placeholder="$t('balancemanagement.note9')" 
                     v-model="filterSearch.maxFrozenBalance"/> 
               </Input>      
             </Poptip>
           </div>
 
 						<div class="poptip range">
-            <Poptip trigger="hover" content="请输入总币最低数搜索" placement="bottom-start">
-              <Input placeholder="总币最低数搜索" 
+            <Poptip trigger="hover" :content="$t('balancemanagement.note10')" placement="bottom-start">
+              <Input :placeholder="$t('balancemanagement.note11')" 
                     v-model="filterSearch.minAllBalance"/> 
               </Input>      
             </Poptip>
 						~
-						<Poptip trigger="hover" content="请输入总币最高数搜索" placement="bottom-start">
-              <Input placeholder="总币最高数搜索" 
+						<Poptip trigger="hover" :content="$t('balancemanagement.note12')" placement="bottom-start">
+              <Input :placeholder="$t('balancemanagement.note13')" 
                     v-model="filterSearch.maxAllBalance"/> 
               </Input>      
             </Poptip>
@@ -80,7 +78,8 @@
 
 
           <div class="btns">
-            <Button type="info" size="small" @click="searchByFilter">搜索</Button>
+            <Button type="info" size="small" @click="searchByFilter">{{ $t('common.search') }}</Button>
+            <Button type="success" size="small" @click="exportExcel">{{ $t('membermanagement.export') }}</Button>
           </div>
 
         </div>
@@ -110,7 +109,7 @@
 
 <script>
 
-import { memberAsset } from '@/service/getData'
+import {memberAsset, memberAssetOut} from '@/service/getData'
 
   export default {
     data () {
@@ -133,63 +132,85 @@ import { memberAsset } from '@/service/getData'
 					minFrozenBalance: '',
 					maxFrozenBalance: '',
 					minAllBalance: '',
-					maxAllBalance: ''
+        maxAllBalance: '',
+        isOut: 0
 				},
         pageNum: null,
         userpage: [],
         ifLoading: true,
         columns_first: [
           {
-            title: '会员ID',
+            title: this.$t('essentialinformation.memberid'),
             key: 'memberId',
           },
           {
-            title: '用户名',
+            title: this.$t('usermanagement.username'),
             key: 'username',
           },
           {
-            title: '邮箱',
+            title: this.$t('memberinvitationlist.mailbox'),
             key: 'email',
           },
           {
-            title: '手机号',
+            title: this.$t('memberinvitationlist.cellphonenumber'),
             key: 'mobilePhone',
           },
            {
-            title: '真实姓名',
+            title: this.$t('businessinformation.realname'),
             key: 'realName',
           },
            {
-            title: '币种名称',
+            title: this.$t('collectionconfigurationmanagement.currencyname1'),
             key: 'unit',
           },
           {
-            title: '钱包地址',
+            title: this.$t('chargingdetails.walletaddress'),
             key: 'address',
           },
          {
-            title: '可用币数',
+            title: this.$t('balancemanagement.numberofcoinsavailable'),
             key: 'balance',
           },
           {
-            title: '冻结币数',
+            title: this.$t('balancemanagement.frozencoins'),
             key: 'frozenBalance',
           },
           {
-            title: '总币个数',
+            title: this.$t('balancemanagement.totalcoins'),
             key: 'allBalance',
           },
         ]
       }
     },
     methods: {
+    exportExcel() {
+      this.filterSearch.isOut = 1
+      memberAssetOut(this.filterSearch)
+          .then(res => {
+            // 文件下载
+            console.log(res)
+            let blob = new Blob([res], {type: 'application/vnd.ms-excel'})
+            let objectUrl = URL.createObjectURL(blob)
+            // window.location.href = objectUrl
+            const fileName = this.$t('balancemanagement.memberbalancemanagement')// 导出文件名
+            const elink = document.createElement('a') // 创建a标签
+            elink.download = fileName // a标签添加属性
+            elink.style.display = 'none'
+            elink.href = objectUrl
+            document.body.appendChild(elink)
+            elink.click() // 执行下载
+            URL.revokeObjectURL(elink.href) // 释放URL 对象
+            document.body.removeChild(elink) // 释放标签
+            this.$Message.success(this.$t('currentdelegation.exportsuccessful'))
+          })
+    },
 			searchByFilter() {
 				let bol = Number(this.filterSearch.minBalance) > Number(this.filterSearch.maxBalance) ||
 				Number(this.filterSearch.minFrozenBalance) > Number(this.filterSearch.maxFrozenBalance) ||
         Number(this.filterSearch.minAllBalance) > Number(this.filterSearch.maxAllBalance);
         
 				if(bol) {
-					this.$Message.warning('最低币数不能大于最高币数');
+					this.$Message.warning(this.$t('balancemanagement.note14'));
 				}else{
 					this.$store.commit('switchLoading', true);
 					this.currentPageIdx = 1;
@@ -210,7 +231,7 @@ import { memberAsset } from '@/service/getData'
       changePage(pageIndex) {
         this.ifLoading = true;
 				this.currentPageIdx = pageIndex;
-	
+      this.filterSearch.isOut = 0
 				let	obj = Object.assign(this.filterSearch, { pageNo: pageIndex, pageSize: 10 });
         this.refreshPage(obj);
       },
@@ -222,6 +243,7 @@ import { memberAsset } from '@/service/getData'
         this.refreshPage({ pageNo: 1, pageSize: 10 });
       },
       refreshPage(obj = {}) {
+      obj.isOut = 0
         memberAsset(obj)
       .then( res => {
         if (!res.code) {
@@ -229,7 +251,7 @@ import { memberAsset } from '@/service/getData'
           this.userpage = res.data.content;
           this.ifLoading = false;
 					this.$store.commit('switchLoading', false);
-        }else this.$Message.error('获取数据出错！')
+        }else this.$Message.error(this.$t('permissionlist.errorgettingdata'))
        })
       }
 

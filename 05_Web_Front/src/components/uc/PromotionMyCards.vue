@@ -7,7 +7,10 @@
             <div style="width: 100%;height: 50px;">
               <div class="header-btn" @click="exchangeCard">{{$t('uc.promotion.exchangewithcode')}}</div>
             </div>
-            <Table :no-data-text="$t('common.nodata')" :columns="tableColumnsCard" :data="tableCardList" :loading="loading" :disabled-hover="true"></Table>
+            <div class="xs_table" v-if="xsWidth">
+              <Table :no-data-text="$t('common.nodata')" :columns="tableColumnsCard" :data="tableCardList" :loading="loading" :disabled-hover="true" style="width: 300%;"></Table>
+            </div>
+            <Table v-else :no-data-text="$t('common.nodata')" :columns="tableColumnsCard" :data="tableCardList" :loading="loading" :disabled-hover="true"></Table>
           </div>
         </div>
       </div>
@@ -47,6 +50,7 @@ export default {
   components: {},
   data() {
     return {
+      xsWidth:window.innerWidth < 767,
       loginmsg: this.$t("common.logintip"),
       loading: true,
       tableCardList: [],
@@ -355,4 +359,19 @@ export default {
     cursor: pointer;
   }
 }
+.xs_table {
+        width: 100%;
+        overflow-x: scroll;
+
+        &::-webkit-scrollbar {
+          height: 2px;
+        }
+
+        
+
+        &::-webkit-scrollbar-track-piece {
+          background: transparent;
+        }
+
+      }
 </style>

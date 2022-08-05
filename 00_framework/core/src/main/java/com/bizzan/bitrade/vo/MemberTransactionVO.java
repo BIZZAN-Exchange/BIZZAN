@@ -1,7 +1,6 @@
 package com.bizzan.bitrade.vo;
 
 import com.bizzan.bitrade.entity.MemberTransaction;
-
 import lombok.Data;
 
 @Data

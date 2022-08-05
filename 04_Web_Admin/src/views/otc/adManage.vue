@@ -2,15 +2,14 @@
 	<div>
 		<Card>
 				<p slot="title">
-					后台广告
-					<Button type="primary" size="small" @click="refreshPageManual">
-						<Icon type="refresh"></Icon> 刷新
+					{{ $t('backstageadvertising.backstageadvertising') }}	<Button type="primary" size="small" @click="refreshPageManual">
+						<Icon type="refresh"></Icon> {{ $t('perpetualcontractcurrencystandardmanagement.refresh') }}
 					</Button>
 				</p>
 			
 				<Row class="functionWrapper">
 					<div class="btnsWrapper">
-						<Button type="error" @click="batchDel">批量删除</Button>
+						<Button type="error" @click="batchDel">{{ $t('backstageadvertising.batchdelete') }}</Button>
 					</div>
 
 					<div class="searchWrapper clearfix">
@@ -18,7 +17,7 @@
 							<Poptip trigger="hover" 
 											content="请输入手机号、真实姓名或会员名称搜索" 
 											placement="bottom-start">
-								<Input placeholder="请输入手机号、真实姓名或会员名称搜索" 
+								<Input :placeholder="$t('backstageadvertising.note1')" 
 											v-model="filterSearch.account"/> 
 								</Input>      
 							</Poptip>
@@ -28,14 +27,14 @@
 								<Poptip trigger="hover" 
 											content="请输入支付方式搜索" 
 											placement="bottom-start">
-								<Input placeholder="请输入支付方式搜索" 
+								<Input :placeholder="$t('backstageadvertising.pleaseenterthepaymentmethodtosearch')" 
 											v-model="filterSearch.payModel"/> 
 								</Input>      
 							</Poptip>
 						</div>
 
 						<div class="poptip">
-							<span>类型：</span>
+							<span>{{ $t('transactiondetailsinlegalcurrency.type') }}</span>
 							<Select v-model="filterSearch.advertiseType">
 								<Option v-for="item in advertiseTypeArr" 
 											:value="item.status" 
@@ -44,7 +43,7 @@
 						</div>
 
 						<div class="poptip">
-							<span>状态：</span>
+							<span>{{ $t('currencywithdrawalauditmanagement.status') }}</span>
 							<Select v-model="filterSearch.status">
 								<Option v-for="item in advertiseStatusArr" 
 											:value="item.status" 
@@ -53,7 +52,7 @@
 						</div>
 					
 						<div class="btns">
-							<Button type="info" size="small" @click="searchByFilter">搜索</Button>
+							<Button type="info" size="small" @click="searchByFilter">{{ $t('positionmanagementcontractassetmanagement.search') }}</Button>
 						</div>
 					</div>
 
@@ -92,14 +91,14 @@ export default {
         payModel: ""
       },
       advertiseTypeArr: [
-        { status: 0, text: "买入" },
-        { status: 1, text: "卖出" },
-        { status: "", text: "全部" }
+        { status: 0, text: this.$t('transactiondetailsinlegalcurrency.buy') },
+        { status: 1, text: this.$t('transactiondetailsinlegalcurrency.sell') },
+        { status: "", text: this.$t('transactiondetailsinlegalcurrency.all') }
 			],
 			advertiseStatusArr: [
-        { status: 0, text: "上架" },
-        { status: 1, text: "下架" },
-        { status: "", text: "全部" }
+        { status: 0, text: this.$t('backstageadvertising.ontheshelf') },
+        { status: 1, text: this.$t('backstageadvertising.offtheshelf') },
+        { status: "", text: this.$t('transactiondetailsinlegalcurrency.all') }
       ],
       ifloading: false,
       columnsList: [
@@ -108,64 +107,64 @@ export default {
           width: 60
         },
         {
-          title: "广告编号",
+          title: this.$t('backstageadvertising.adno'),
           width: 108,
           key: "id"
         },
         {
-          title: "创建时间",
+          title: this.$t('secondcontractcompensationsetting.creationtime'),
           key: "createTime"
         },
         {
-          title: "创建人",
+          title: this.$t('transactiondetailsinlegalcurrency.createdby'),
           render: (h, obj) => {
             let member = obj.row.member;
             return `${member.username}(${member.realName})`;
           }
         },
         {
-          title: "币种",
+          title: this.$t('transactiondetailsinlegalcurrency.currency'),
           render: (h, obj) => {
             return obj.row.coin.unit;
           }
         },
         {
-          title: "广告数量",
+          title: this.$t('backstageadvertising.numberofadvertisements'),
           key: "number"
         },
         {
-          title: "广告金额",
+          title: this.$t('backstageadvertising.advertisingamount'),
           key: "price"
         },
         {
-          title: "广告限额",
+          title: this.$t('backstageadvertising.advertisingquota'),
           align: "center",
           render: (h, obj) => {
             return `${obj.row.minLimit}-${obj.row.maxLimit}`;
           }
         },
         {
-          title: "类型",
+          title: this.$t('entrustedmanagement.type'),
           key: "advertiseType",
           render(h, params) {
             const row = params.row;
-            return h("span", {}, row.advertiseType === 0 ? "买入" : "卖出");
+            return h("span", {}, row.advertiseType === 0 ? this.$t('transactiondetailsinlegalcurrency.buy') : this.$t('transactiondetailsinlegalcurrency.sell'));
           }
         },
         {
-          title: "支付方式",
+          title: this.$t('transactiondetailsinlegalcurrency.paymentmethod'),
           key: "payMode"
         },
         {
-          title: "广告状态",
+          title: this.$t('backstageadvertising.advertisingstatus'),
           key: "status",
           render(h, params) {
             const row = params.row;
-            return h("span", {}, !row.status ? "上架" : "下架");
+            return h("span", {}, !row.status ? this.$t('backstageadvertising.ontheshelf') : this.$t('backstageadvertising.offtheshelf'));
           }
         },
         {
-          title: "操作",
+          title: this.$t('perpetualcontractcurrencystandardmanagement.operation'),
           align: "center",
           width: 150,
           key: "handle",
@@ -189,7 +188,7 @@ export default {
                     }
                   }
                 },
-                "下架"
+                this.$t('backstageadvertising.offtheshelf')
 							),
 							h('Button', {
 								props: {
@@ -201,7 +200,7 @@ export default {
 										this.$router.push({name: 'otc:adManage:advertisedetail', query: {advID : obj.row.id}})
 									}
 								}
-							}, '详情')
+							}, this.$t('backstageadvertising.details'))
               // h(
               //   "Button",
               //   {

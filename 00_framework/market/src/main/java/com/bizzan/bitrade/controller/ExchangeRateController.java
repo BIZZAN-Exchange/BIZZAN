@@ -9,6 +9,7 @@ import com.bizzan.bitrade.component.CoinExchangeRate;
 import com.bizzan.bitrade.util.MessageResult;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/exchange-rate")
@@ -23,7 +24,7 @@ public class ExchangeRateController {
         mr.setData(latestPrice.toString());
         return mr;
     }
-    
+
     @RequestMapping("usdtcny")
     public MessageResult getUsdtExchangeRate(){
         MessageResult mr = new MessageResult(0,"success");
@@ -37,6 +38,13 @@ public class ExchangeRateController {
         MessageResult mr = new MessageResult(0,"success");
         BigDecimal latestPrice = coinExchangeRate.getCnyRate(coin);
         mr.setData(latestPrice.toString());
+        return mr;
+    }
+    @RequestMapping("all/{coin}")
+    public MessageResult getAllExchangeRate(@PathVariable String coin){
+        MessageResult mr = new MessageResult(0,"success");
+        Map<String,BigDecimal> ratesMap = coinExchangeRate.getAllRate(coin);
+        mr.setData(ratesMap);
         return mr;
     }
 

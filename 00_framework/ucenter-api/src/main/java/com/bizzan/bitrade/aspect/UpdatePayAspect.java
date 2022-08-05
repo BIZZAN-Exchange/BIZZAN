@@ -1,5 +1,11 @@
 package com.bizzan.bitrade.aspect;
 
+import com.bizzan.bitrade.entity.Advertise;
+import com.bizzan.bitrade.entity.Order;
+import com.bizzan.bitrade.entity.transform.AuthMember;
+import com.bizzan.bitrade.service.AdvertiseService;
+import com.bizzan.bitrade.service.LocaleMessageSourceService;
+import com.bizzan.bitrade.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -11,23 +17,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.bizzan.bitrade.entity.Advertise;
-import com.bizzan.bitrade.entity.Order;
-import com.bizzan.bitrade.entity.transform.AuthMember;
-import com.bizzan.bitrade.service.AdvertiseService;
-import com.bizzan.bitrade.service.LocaleMessageSourceService;
-import com.bizzan.bitrade.service.OrderService;
-
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
-
-import java.util.List;
 
 /**
  * 修改支付信息前必须下架所有的广告，并且没有正在进行中的订单
  *
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年03月28日
  */
 @Aspect

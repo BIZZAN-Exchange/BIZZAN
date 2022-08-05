@@ -1,5 +1,10 @@
 package com.bizzan.bitrade.service;
 
+import com.bizzan.bitrade.dao.TransferRecordDao;
+import com.bizzan.bitrade.entity.TransferRecord;
+import com.bizzan.bitrade.pagination.Criteria;
+import com.bizzan.bitrade.pagination.Restrictions;
+import com.bizzan.bitrade.service.Base.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -7,14 +12,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bizzan.bitrade.dao.TransferRecordDao;
-import com.bizzan.bitrade.entity.TransferRecord;
-import com.bizzan.bitrade.pagination.Criteria;
-import com.bizzan.bitrade.pagination.Restrictions;
-import com.bizzan.bitrade.service.Base.BaseService;
-
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年02月27日
  */
 @Service

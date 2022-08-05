@@ -2,26 +2,25 @@
   <div>
     <Card>
       <p slot="title">
-        系统日志
+    {{ $t('thesystemlog.thesystemlog') }}
         <Button type="primary" size="small" @click="refreshPageManual">
           <Icon type="refresh"></Icon>
-          刷新
-        </Button>
+          {{ $t('common.refresh') }} </Button>
       </p>
 
 			<Row class="functionWrapper">
         <div class="searchWrapper clearfix">
 					
 					<div class="poptip">
-						<Poptip trigger="hover" content="请输入用户名搜索" placement="bottom-start">
-							<Input placeholder="请输入用户名搜索" 
+						<Poptip trigger="hover" :content="$t('thesystemlog.adminnameplaceholder')" placement="bottom-start">
+							<Input :placeholder="$t('thesystemlog.adminnameplaceholder')" 
 										v-model="filterSearch.adminName"/> 
 							</Input>      
 						</Poptip>
 					</div>
 
 					<div class="poptip">
-						<Select v-model="filterSearch.module" placeholder="请选择...">
+						<Select v-model="filterSearch.module" :placeholder="$t('thesystemlog.filtersearchplaceholder')">
 							<Option v-for="item in moduleArr" :value="item.status" :key="item.status">{{item.text}}</Option>
 						</Select>
 					</div>
@@ -29,7 +28,7 @@
 
 					
 					<div class="btns">
-						<Button type="info" size="small" @click="searchByFilter">搜索</Button>
+						<Button type="info" size="small" @click="searchByFilter">{{ $t('common.search') }}</Button>
 					</div>
 				</div>
 			</Row>		
@@ -84,31 +83,31 @@ export default {
       totalNum: null,
       columns_first: [
         {
-					title: 'IP地址',
+					title: this.$t('thesystemlog.accessIp'),
 					key: 'accessIp'
         },
         {
-          title: "请求方法",
+          title: this.$t('thesystemlog.accessMethod'),
           key: "accessMethod"
         },
          {
-          title: "创建时间",
+          title: this.$t('thesystemlog.accessTime'),
           key: "accessTime"
         },
         {
-					title: "操作人",
+					title: this.$t('thesystemlog.adminName'),
 					key: 'adminName'
         },
         {
-          title: "操作",
+          title: this.$t('thesystemlog.operation'),
           key: "operation"
         },
         {
-          title: "操作路径",
+          title: this.$t('thesystemlog.uri'),
           key: "uri"
 				},
 				{
-          title: "操作模块",
+          title: this.$t('thesystemlog.module'),
           key: "module"
 				}
       ],

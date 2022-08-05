@@ -8,14 +8,15 @@ This source code is limited to exchange and study, where it involves legal issue
 ## Questions and suggestions
 - Using Issuse, we will follow up and answer in time.
 - Join the exchange group: Blockchain exchange technology knowledge exchange group [QQ group: 735446452][QQ:390330302]
+- Telegram:https://t.me/bizzanhevin
 - E-mail: xunibidev@gmail.com
 
 # Donate:
 #### Your donation is our biggest motivation for open source
-- BTC/USDT(比特币/USDT)：1Dwwqhw9pV9iSSQwuJc8nAygda7XfahaoW
-- ETH/USDT(以太坊/USDT)：0x4f1ea0f10aa99f608f31f70b4d3119f6928693ed
-- LTC(莱特币)：LXr4TMtDhCSpdAo98vg2sbvX3UXDVPQvMa
-
+- BTC/USDT(BTC/USDT)：1FCLDUqPaRCbVAf28NMQPuRTqBpkRF3ktX
+- ETH/USDT(ETH/USDT)：0xdbD24251916D6172A2c1c127035B193e9232F1a5
+- TRX/USDT(TRX/USDT)：TJe9eieckNGZDfXfgRp43vXd31BMKybEYr
+- BNB/USDT（BNB/USDT）：0xdbD24251916D6172A2c1c127035B193e9232F1a5
 #### BIZZAN is a free and open source digital currency trading system, which is developed using the most popular Java framework and related technologies.
 
 # Vision

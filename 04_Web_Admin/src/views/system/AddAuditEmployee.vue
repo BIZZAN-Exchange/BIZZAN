@@ -2,8 +2,7 @@
     <div>
       <Card>
         <p slot="title">
-          编辑用户
-        </p>
+          {{ $t('modifyuser.modifyuser') }} </p>
 
         <Row class="mainEmployeeContent">
           <Form ref="formCustom" 
@@ -12,55 +11,55 @@
           :label-width="90"
           label-position="right">
 
-            <FormItem label="用户名：" prop="username">
+            <FormItem :label="$t('auditdetails.username')" prop="username">
               <Input type="text" v-model="formWrapperObj.username"></Input>
             </FormItem>
 
-            <FormItem label="密码：" prop="password" class="resetRequired" :class="{ 'resetFromErr': uerpsCheck}">
+            <FormItem :label="$t('collectionconfigurationmanagement.password')" prop="password" class="resetRequired" :class="{ 'resetFromErr': uerpsCheck}">
               <Input type="password" v-model="formWrapperObj.password"></Input>
-              <div  v-if="uerpsCheck" class="ivu-form-item-error-tip">两次密码输入不一致！</div>
+              <div  v-if="uerpsCheck" class="ivu-form-item-error-tip">{{ $t('modifyuser.thetwopasswordsareinconsistent') }}</div>
             </FormItem>
 
-            <FormItem v-if="!employeeID" label="确认密码：" prop="passwdCheck" class="resetRequired" :class="{ 'resetFromErr': uerpsCheck}">
+            <FormItem v-if="!employeeID" :label="$t('modifyuser.confirmpassword')" prop="passwdCheck" class="resetRequired" :class="{ 'resetFromErr': uerpsCheck}">
               <Input type="password" v-model="formWrapperObj.passwdCheck"></Input>
-              <div  v-if="uerpsCheck" class="ivu-form-item-error-tip">两次密码输入不一致！</div>
+              <div  v-if="uerpsCheck" class="ivu-form-item-error-tip">{{ $t('modifyuser.thetwopasswordsareinconsistent') }}</div>
             </FormItem>
 
-            <FormItem label="真实姓名：" prop="realName">
+            <FormItem :label="$t('auditdetails.realname')" prop="realName">
               <Input type="text" v-model="formWrapperObj.realName"></Input>
             </FormItem>
 
-             <FormItem label="联系电话：" prop="mobilePhone">
+             <FormItem :label="$t('modifyuser.contactnumber')" prop="mobilePhone">
               <Input type="text" v-model="formWrapperObj.mobilePhone"></Input>
               <!-- <div  v-show="true" class="ivu-form-item-error-tip">请输入正确的手机号！</div> -->
             </FormItem>
 
-            <FormItem label="角色：" prop="role">
+            <FormItem :label="$t('modifyuser.role')" prop="role">
               <Select v-model="formWrapperObj.roleId" >
                 <Option v-for="role in roleArr" :key="role.id" :value="role.id">{{ role.role }}</Option>
               </Select>
-							<router-link to="/system/rolemanage">添加角色</router-link>
+							<router-link to="/system/rolemanage">{{ $t('rolemanagement.addrole') }}</router-link>
             </FormItem>
 
-            <FormItem label="部门：" prop="depart">
+            <FormItem :label="$t('personalinformation.department')" prop="depart">
               <Select v-model="formWrapperObj.departmentId">
                 <Option v-for="depart in departArr" :key="depart.id" :value="depart.id">{{ depart.name }}</Option>
               </Select>
-							<router-link to="/system/departmanage">添加部门</router-link>
+							<router-link to="/system/departmanage">{{ $t('departmentmanagement.adddepartment') }}</router-link>
             </FormItem>
 
             <Row class="dashLine">
               <Button type="text" @click=" swtichMore = !swtichMore ">
-                <span v-if="!swtichMore">更多 <Icon type="chevron-down"></Icon></span>
-                <span v-else>收起 <Icon type="chevron-up"></Icon></span>
+                <span v-if="!swtichMore">{{ $t('membermanagement.more') }} <Icon type="chevron-down"></Icon></span>
+                <span v-else>{{ $t('modifyuser.putaway') }} <Icon type="chevron-up"></Icon></span>
               </Button>
             </Row>  
 
             <Row v-show="swtichMore">
-              <FormItem label="用户状态：">
+              <FormItem :label="$t('modifyuser.userstatus')">
                 <RadioGroup v-model="formWrapperObj.enable">
-                  <Radio label="0">正常</Radio>
-                  <Radio label="1">禁用</Radio>
+                  <Radio label="0">{{ $t('querymarginstrategy.normal') }}</Radio>
+                  <Radio label="1">{{ $t('currencyextensionmanagement.disable') }}</Radio>
                 </RadioGroup>
               </FormItem>
 
@@ -68,17 +67,17 @@
                 <Input type="text" v-model="formWrapperObj.qq"></Input>
               </FormItem>
 
-              <FormItem label="邮箱：" prop="email">
+              <FormItem :label="$t('currencywithdrawalauditmanagement.email')" prop="email">
                 <Input type="text" v-model="formWrapperObj.email" ></Input>
               </FormItem>
 
-              <FormItem label="头像：" prop="avatar">
+              <FormItem :label="$t('modifyuser.headportrait')" prop="avatar">
                 <Input type="text" v-model="formWrapperObj.avatar"></Input>
               </FormItem>
             </Row>
 
             <FormItem>
-              <Button type="success" long @click="confrimSub">确 认</Button>
+              <Button type="success" long @click="confrimSub">{{ $t('modifyuser.confirm') }}</Button>
             </FormItem>
           </Form>
         </Row>
@@ -123,25 +122,25 @@ export default {
       },
       ruleFrom: {
         username: [
-          { required: true, message: '用户名不能为空！', trigger: 'blur' }
+          { required: true, message: this.$t('modifyuser.usernamecannotbeempty'), trigger: 'blur' }
           // { required: true, validator: validatePass, trigger: 'change' }
           // { required: true, message: 'The name cannot be empty', trigger: 'change' }
           //  { type: 'email', message: 'Incorrect email format', trigger: 'change' }
         ],
         role: [
-          { required: true, message: '请选择角色！', trigger: 'blur' }
+          { required: true, message: this.$t('modifyuser.pleaseselectarole'), trigger: 'blur' }
         ],
         depart: [
-          { required: true, message: '请选择所在部门！', trigger: 'blur' }
+          { required: true, message: this.$t('modifyuser.pleaseselectyourdepartment'), trigger: 'blur' }
         ],
         realName: [
-          { required: true, message: '请填写正确的格式！', trigger: 'blur' }
+          { required: true, message: this.$t('modifyuser.pleasefillinthecorrectformat'), trigger: 'blur' }
         ],
         mobilePhone: [
-          { required: true, message: '请填写正确的手机号！', trigger: 'blur' }
+          { required: true, message: this.$t('modifyuser.pleasefillinthecorrectmobilenumber'), trigger: 'blur' }
         ],
         email: [
-          { type: 'email', message: '请填写正确的邮箱地址！', trigger: 'blur' }
+          { type: 'email', message: this.$t('modifyuser.pleasefillinthecorrectemailaddress'), trigger: 'blur' }
         ]
       }
     }
@@ -159,11 +158,11 @@ export default {
 
       for ( let x in checkSubObj ) {
         if( !checkSubObj[x] ) {
-          this.$Message.warning('请完善信息！');
+          this.$Message.warning(this.$t('systeminformationmaintenance.pleaseimprovetheinformation'));
           return;
         }else if (!this.employeeID) {
           if(this.formWrapperObj.password!==this.formWrapperObj.passwdCheck){
-            this.$Message.warning('两次密码输入不一致！');
+            this.$Message.warning(this.$t('modifyuser.thetwopasswordsareinconsistent'));
             return;
           }
         }

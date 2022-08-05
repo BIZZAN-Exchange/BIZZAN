@@ -1,15 +1,14 @@
 package com.bizzan.bitrade.config;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.kafka.core.KafkaTemplate;
-
 import com.bizzan.bitrade.Trader.CoinTrader;
 import com.bizzan.bitrade.Trader.CoinTraderFactory;
 import com.bizzan.bitrade.entity.ExchangeCoin;
 import com.bizzan.bitrade.service.ExchangeCoinService;
 import com.bizzan.bitrade.service.ExchangeOrderService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.core.KafkaTemplate;
 
 import java.util.List;
 

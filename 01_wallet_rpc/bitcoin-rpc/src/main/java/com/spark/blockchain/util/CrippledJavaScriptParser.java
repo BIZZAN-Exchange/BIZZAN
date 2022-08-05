@@ -8,14 +8,10 @@ package com.spark.blockchain.util;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 public class CrippledJavaScriptParser {
-    private static CrippledJavaScriptParser.Keyword[] keywords;
+    private static final CrippledJavaScriptParser.Keyword[] keywords;
 
     public CrippledJavaScriptParser() {
     }
@@ -35,11 +31,11 @@ public class CrippledJavaScriptParser {
     private static Object parseJSString(StringParser jsString, char delim) {
         StringBuilder b = new StringBuilder();
 
-        while(!jsString.isEmpty()) {
+        while (!jsString.isEmpty()) {
             char sc = jsString.poll();
             if (sc == '\\') {
                 char cc = jsString.poll();
-                switch(cc) {
+                switch (cc) {
                     case 'b':
                         b.append('\b');
                         break;
@@ -74,7 +70,7 @@ public class CrippledJavaScriptParser {
                         break;
                     case 'u':
                         try {
-                            char ec = (char)Integer.parseInt(jsString.peek(4), 16);
+                            char ec = (char) Integer.parseInt(jsString.peek(4), 16);
                             b.append(ec);
                             jsString.forward(4);
                         } catch (NumberFormatException var6) {
@@ -100,7 +96,7 @@ public class CrippledJavaScriptParser {
             jsArray.forward(1);
             return rv;
         } else {
-            while(!jsArray.isEmpty()) {
+            while (!jsArray.isEmpty()) {
                 rv.add(parseJSExpr(jsArray));
                 jsArray.trim();
                 if (!jsArray.isEmpty()) {
@@ -126,7 +122,7 @@ public class CrippledJavaScriptParser {
         b.append(jsId.poll());
 
         char ch;
-        while(isId(ch = jsId.peek())) {
+        while (isId(ch = jsId.peek())) {
             b.append(ch);
             jsId.forward(1);
         }
@@ -143,7 +139,7 @@ public class CrippledJavaScriptParser {
         } else {
             Object key;
             Object value;
-            for(; !jsHash.isEmpty(); rv.put(key, value)) {
+            for (; !jsHash.isEmpty(); rv.put(key, value)) {
                 if (isIdStart(jsHash.peek())) {
                     key = parseId(jsHash);
                 } else {
@@ -197,7 +193,7 @@ public class CrippledJavaScriptParser {
                     CrippledJavaScriptParser.Keyword[] var7 = keywords;
                     int var9 = var7.length;
 
-                    for(int var10 = 0; var10 < var9; ++var10) {
+                    for (int var10 = 0; var10 < var9; ++var10) {
                         CrippledJavaScriptParser.Keyword keyword = var7[var10];
                         int keywordlen = keyword.keywordFromSecond.length();
                         if (start == keyword.firstChar && jsExpr.peek(keywordlen).equals(keyword.keywordFromSecond)) {
@@ -218,7 +214,7 @@ public class CrippledJavaScriptParser {
 
                     if (start == 'n' && jsExpr.peek("ew Date(".length()).equals("ew Date(")) {
                         jsExpr.forward("ew Date(".length());
-                        Number date = (Number)parseJSExpr(jsExpr);
+                        Number date = (Number) parseJSExpr(jsExpr);
                         jsExpr.trim();
                         if (jsExpr.poll() != ')') {
                             throw new RuntimeException("Invalid date");
@@ -238,9 +234,10 @@ public class CrippledJavaScriptParser {
                     boolean exp = false;
                     boolean dot = false;
 
-                    while(true) {
+                    while (true) {
                         char sc;
-                        label139: {
+                        label139:
+                        {
                             if (!jsExpr.isEmpty()) {
                                 sc = jsExpr.peek();
                                 if (isDigit(sc)) {
@@ -249,7 +246,7 @@ public class CrippledJavaScriptParser {
 
                                 if (sc == 'E' || sc == 'e') {
                                     if (exp) {
-                                        throw new NumberFormatException(b.toString() + jsExpr.toString());
+                                        throw new NumberFormatException(b.toString() + jsExpr);
                                     }
 
                                     exp = true;
@@ -262,7 +259,7 @@ public class CrippledJavaScriptParser {
                                         break label139;
                                     }
 
-                                    throw new NumberFormatException(b.toString() + jsExpr.toString());
+                                    throw new NumberFormatException(b.toString() + jsExpr);
                                 }
 
                                 if ((sc == '-' || sc == '+') && (psc == 'E' || psc == 'e')) {
@@ -294,7 +291,7 @@ public class CrippledJavaScriptParser {
             LinkedHashMap rv = new LinkedHashMap();
 
             String l;
-            while((l = r.readLine()) != null) {
+            while ((l = r.readLine()) != null) {
                 l = l.trim();
                 if (!l.isEmpty() && l.startsWith("var")) {
                     l = l.substring(3).trim();
@@ -318,7 +315,7 @@ public class CrippledJavaScriptParser {
     }
 
     static {
-        keywords = new CrippledJavaScriptParser.Keyword[]{new CrippledJavaScriptParser.Keyword("null", (Object)null), new CrippledJavaScriptParser.Keyword("true", Boolean.TRUE), new CrippledJavaScriptParser.Keyword("false", Boolean.FALSE)};
+        keywords = new CrippledJavaScriptParser.Keyword[]{new CrippledJavaScriptParser.Keyword("null", null), new CrippledJavaScriptParser.Keyword("true", Boolean.TRUE), new CrippledJavaScriptParser.Keyword("false", Boolean.FALSE)};
     }
 
     private static class Keyword {

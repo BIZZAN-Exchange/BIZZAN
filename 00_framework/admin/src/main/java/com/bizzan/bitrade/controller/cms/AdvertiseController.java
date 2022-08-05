@@ -14,7 +14,6 @@ import com.bizzan.bitrade.service.SysAdvertiseService;
 import com.bizzan.bitrade.util.*;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
-
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -36,7 +35,7 @@ import static com.bizzan.bitrade.entity.QSysAdvertise.sysAdvertise;
 import static org.springframework.util.Assert.notNull;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @description 系统广告
  * @date 2019/1/6 15:03
  */

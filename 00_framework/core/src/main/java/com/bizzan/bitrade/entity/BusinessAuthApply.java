@@ -1,22 +1,18 @@
 package com.bizzan.bitrade.entity;
 
 import com.alibaba.fastjson.JSONObject;
-import com.bizzan.bitrade.constant.BooleanEnum;
 import com.bizzan.bitrade.constant.CertifiedBusinessStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.Data;
 import lombok.ToString;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Map;
 
 /**
  * 商家认证申请信息
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2019/5/5
  */
 @Entity

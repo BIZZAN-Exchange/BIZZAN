@@ -3,15 +3,14 @@
       <Row>
           <Card>
                 <p slot="title">
-                活动管理
-                    <Button type="primary" size="small" @click="refreshPageManual">
-                        <Icon type="refresh"></Icon>刷新
+                {{ $t('activitymanagement.activitymanagement') }} <Button type="primary" size="small" @click="refreshPageManual">
+                        <Icon type="refresh"></Icon>{{ $t('activitymanagement.refresh') }}
                     </Button>
                 </p>
 
                 <Row class="functionWrapper">
                     <div class="btnsWrapper clearfix">
-                        <Button type="primary" @click="newActivity">新建活动</Button>
+                        <Button type="primary" @click="newActivity">{{ $t('activitymanagement.newactivity') }}</Button>
                     </div>
                 </Row>
                 <Row>
@@ -31,15 +30,15 @@
                     </Page>
                 </div>
                 <div style="font-size:12px;">
-                  <p>注意：此页面新建活动仅仅是为了将所有活动聚合以供展示，实际活动的业务与此处无关</p>
-                  <p>活动发起先行条件：</p>
-                  <p>   【抢购】与【分摊】需要在【币币设置】中新建交易对时对活动进行设置</p>
-                  <p>   【持仓瓜分】与【认购】需要在【活动管理】中新建新的活动</p>
+                  <p>{{ $t('activitymanagement.note1') }}</p>
+                  <p>{{ $t('activitymanagement.prerequisitesforactivityinitiation') }}</p>
+                  <p>   {{ $t('activitymanagement.note2') }}</p>
+                  <p>   {{ $t('activitymanagement.note3') }}</p>
                   <br>
-                  <p>1、抢购：所有用户【抢购】指定数量的币，首次上线交易对可指定该类别，需要在【币币设置】中添加新交易对时确定活动内容</p>
-                  <p>2、分摊：所有用户【平分】指定数量的币，首次上线交易对可指定该类别，需要在【币币设置】中添加新交易对时确定活动内容</p>
-                  <p>3、持仓瓜分：任意时段可发起的活动，活动前，快照用户持仓量，根据用户持仓量瓜分指定数量的币</p>
-                  <p>4、认购：一般做首发类型的活动，属于IEO认购类型，所有用户抢购指定数量的币</p>
+                  <p>{{ $t('activitymanagement.note4') }}</p>
+                  <p>{{ $t('activitymanagement.note5') }}</p>
+                  <p>{{ $t('activitymanagement.note6') }}</p>
+                  <p>{{ $t('activitymanagement.note7') }}</p>
                 </div>
           </Card>
 
@@ -47,16 +46,16 @@
       <Modal
             class="auditModel"
             v-model="showProgressModel"
-            title="请输入进度"
+            :title="$t('activitymanagement.pleaseentertheprogress')"
             width="550"
             @on-cancle="progress = ''"
             @on-ok="submitProgress">
-            <Input v-model="progress" type="text" placeholder="请输入进度数值"></Input>
+            <Input v-model="progress" type="text" :placeholder="$t('activitymanagement.pleaseentertheprogressvalue')"></Input>
      </Modal>
      <Modal
             class="auditModel"
             v-model="showDetailModel"
-            title="参与详情"
+            :title="$t('activitymanagement.participationdetails')"
             width="750"
             @on-cancle=""
             @on-ok="">
@@ -113,32 +112,32 @@
         orderList: [],
         columnsDetail: [
           {
-            title: '用户ID',
+            title: this.$t('activitymanagement.userid'),
             key:"memberId",
             width: 120
           },
           {
-            title: '认购数量',
+            title: this.$t('activitymanagement.subscriptionquantity'),
             key:"amount"
           },
           {
-            title: '持仓量',
+            title: this.$t('activitymanagement.openinterest'),
             key:"freezeAmount"
           },
           {
-            title: '成交额/冻结资产',
+            title: this.$t('activitymanagement.turnoverfrozenassets'),
             key:"turnover",
             width: 140
           },
           {
-            title: '状态',
+            title: this.$t('activitymanagement.status'),
             render: (h ,obj) => {
               let state =  obj.row.state;
-              let txt = "临时";
+              let txt = this.$t('activitymanagement.temporary');
               let color = "#000";
-              if(state == 1) {txt = "未成交";color = "#FF0000";}
-              if(state == 2) {txt = "已成交";color = "#19be6b";}
-              if(state == 3) {txt = "已撤销";color = "#EEE";}
+              if(state == 1) {txt = this.$t('activitymanagement.nodeal');color = "#FF0000";}
+              if(state == 2) {txt = this.$t('activitymanagement.closed');color = "#19be6b";}
+              if(state == 3) {txt = this.$t('activitymanagement.revoked');color = "#EEE";}
 
               return h('span',{
                 style:{
@@ -148,26 +147,26 @@
             }
           },
           {
-              title: "操作",
+              title: this.$t('activitymanagement.operation'),
               key: "xx",
               fixed: 'right',
               width: 150,
               render: (h, obj) => {
-                let showProgress = "("+obj.row.progress+")";
+                let showProgress = this.$t('key')+obj.row.progress+this.$t('key-0');
                 let disabled = true;
                 if(obj.row.state == 1){
                   disabled = false;
                 }
-                let btnText = "派发活动币";
+                let btnText = this.$t('activitymanagement.distributeactivitycurrency');
                 if(this.type == 5) {
-                  btnText = "部署矿机";
+                  btnText = this.$t('activitymanagement.deployminer');
                 }
                 if(this.type == 6) {
-                  btnText = "同意锁仓";
+                  btnText = this.$t('activitymanagement.agreetolockup');
                 }
                 return h("div", [
                   h(
-                    "Button",
+                    this.$t('button'),
                     {
                       props: {type: "success",size: "small",disabled: disabled},
                       style: {marginRight: "5px"},
@@ -196,27 +195,27 @@
         list: [],
         columns: [
           {
-            title: '标题',
+            title: this.$t('activitymanagement.title'),
             key:"title",
             width: 300
           },
           {
-            title: '小图',
+            title: this.$t('activitymanagement.thumbnail'),
             width:70,
             render:(h, obj) => {
               let smallImageUrl = obj.row.smallImageUrl;
               return  h('img',{
                 attrs: {src: smallImageUrl},
-                style: {height: "45px", padding:"5px 0px"}
+                style: {height: "45px", padding:this.$t('5px-0px')}
               },"");
             }
           },
           {
-            title: '显示',
+            title: this.$t('activitymanagement.display'),
             width: 60,
             render: (h ,obj) => {
               let status =  obj.row.status;
-              let txt = status == 1 ? "显示":"隐藏";
+              let txt = status == 1 ? this.$t('activitymanagement.display'):this.$t('activitymanagement.hide');
               let color = status == 1 ? "#19be6b":"#FF0000";
               return h('span',{
                 style:{
@@ -226,15 +225,15 @@
             }
           },
           {
-            title: '状态',
+            title: this.$t('activitymanagement.status'),
             width: 75,
             render: (h ,obj) => {
               let step =  obj.row.step;
-              let txt = "筹备中";
+              let txt = this.$t('activitymanagement.inpreparation');
               let color = "#2db7f5";
-              if(step == 1) {txt = "进行中";color="#19be6b";}
-              if(step == 2) {txt = "派发中";color="#F90";}
-              if(step == 3) {txt = "已结束";color="#AFAFAF";}
+              if(step == 1) {txt = this.$t('activitymanagement.inprogress');color="#19be6b";}
+              if(step == 2) {txt = this.$t('activitymanagement.sending');color="#F90";}
+              if(step == 3) {txt = this.$t('activitymanagement.ended');color="#AFAFAF";}
 
               return h('span',{
                 style:{
@@ -244,28 +243,28 @@
             }
           },
           {
-            title: '一级邀请',
+            title: this.$t('activitymanagement.firstlevelinvitation'),
             key:"leveloneCount",
             width: 60
           },
           {
-            title: '类型',
+            title: this.$t('activitymanagement.type'),
             width: 115,
             render: (h ,obj) => {
               let type =  obj.row.type;
-              let txt = "未知活动";
-              if(type == 1) txt = "首次上线(抢购)";
-              if(type == 2) txt = "首次上线(平分)";
-              if(type == 3) txt = "持仓瓜分";
-              if(type == 4) txt = "自由认购";
-              if(type == 5) txt = "矿机认购";
-              if(type == 6) txt = "锁仓活动";
+              let txt = this.$t('activitymanagement.unknownactivity');
+              if(type == 1) txt = this.$t('activitymanagement.firsttimeonlinerushpurchase');
+              if(type == 2) txt = this.$t('activitymanagement.firsttimeonlinesplitequally');
+              if(type == 3) txt = this.$t('activitymanagement.positionsharing');
+              if(type == 4) txt = this.$t('activitymanagement.freesubscription');
+              if(type == 5) txt = this.$t('activitymanagement.miningmachinesubscription');
+              if(type == 6) txt = this.$t('activitymanagement.lockupactivity');
               return h('span',{
               },txt)
             }
           },
           {
-            title: '量/价',
+            title: this.$t('activitymanagement.quantityprice'),
             width: 160,
             render: (h ,obj) => {
               return h('span',{
@@ -273,31 +272,31 @@
             }
           },
           {
-            title: '开始时间',
+            title: this.$t('activitymanagement.starttime'),
             key:"startTime",
             width: 140,
             render: (h ,obj) => {
               let sTime = obj.row.startTime.substr(0, 10) + " " + obj.row.startTime.substr(11, 8);
-              let curTime = new Date().Format("yyyy-MM-dd HH:mm:ss");
-              let text = "即将开始";
+              let curTime = new Date().Format(this.$t('yyyy-mm-dd-hh-mm-ss'));
+              let text = this.$t('activitymanagement.abouttostart');
               if(sTime < curTime) {
-                text = "已开始";
+                text = this.$t('activitymanagement.started');
               }
               return h('span',{
               },sTime + text);
             }
           },
           {
-            title: '结束时间',
+            title: this.$t('activitymanagement.endtime'),
             key:"endTime",
             width: 140,
             render: (h ,obj) => {
               let eTime = obj.row.endTime.substr(0, 10) + " " + obj.row.endTime.substr(11, 8);
-              let curTime = new Date().Format("yyyy-MM-dd HH:mm:ss");
+              let curTime = new Date().Format(this.$t('yyyy-mm-dd-hh-mm-ss-0'));
               let color = "#19be6b";
-              let text = "未结束";
+              let text = this.$t('activitymanagement.notfinished');
               if(eTime < curTime) {
-                text = "已结束";
+                text = this.$t('activitymanagement.ended');
                 color = "#000";
               }
               return h('span',{
@@ -308,7 +307,7 @@
             }
           },
           {
-            title: '公告链接',
+            title: this.$t('activitymanagement.announcementlink'),
             width: 90,
             render: (h ,obj) => {
 
@@ -317,11 +316,11 @@
                     href: obj.row.noticeLink,
                     target: "_blank"
                 }
-              },"查看公告");
+              },this.$t('activitymanagement.viewannouncements'));
             }
           },
           {
-            title: '活动链接',
+            title: this.$t('activitymanagement.activelinks'),
             width: 90,
             render: (h ,obj) => {
 
@@ -330,28 +329,28 @@
                     href: obj.row.activityLink,
                     target: "_blank"
                 }
-              },"活动页面");
+              },this.$t('activitymanagement.activepage'));
             }
           },
           {
-            title: '创建时间',
+            title: this.$t('activitymanagement.creationtime'),
             key:"createTime",
             width: 140
           },
           {
-              title: "操作",
+              title: this.$t('activitymanagement.operation'),
               key: "xx",
               fixed: 'right',
               width: 220,
               render: (h, obj) => {
-                let showProgress = "("+obj.row.progress+")";
+                let showProgress = this.$t('key-1')+obj.row.progress+this.$t('key-2');
                 let disabled = true;
                 if(obj.row.type == 3 || obj.row.type == 4 || obj.row.type == 5 || obj.row.type == 6){
                   disabled = false;
                 }
                 return h("div", [
                   h(
-                    "Button",
+                    this.$t('button-0'),
                     {
                       props: {type: "info",size: "small"},
                       style: {marginRight: "5px"},
@@ -363,10 +362,10 @@
                         }
                       }
                     },
-                    "修改"
+                    this.$t('activitymanagement.modify')
                   ),
                   h(
-                    "Button",
+                    this.$t('button-1'),
                     {
                       props: {type: "error",size: "small"},
                       style: {marginRight: "5px"},
@@ -378,10 +377,10 @@
                         }
                       }
                     },
-                    "进度"+showProgress
+                    this.$t('activitymanagement.progress')+showProgress
                   ),
                   h(
-                    "Button",
+                    this.$t('button-2'),
                     {
                       props: {type: "success",size: "small",disabled: disabled},
                       style: {marginRight: "5px"},
@@ -394,7 +393,7 @@
                         }
                       }
                     },
-                    "参与详情"
+                    this.$t('activitymanagement.participationdetails')
                   )
                 ]);
               }
@@ -416,7 +415,7 @@
         modifyActivityProgress(param).then( res => {
           if(!res.code) {
                 this.showProgressModel = false;
-                this.$Message.success("修改成功");
+                this.$Message.success(this.$t('activitymanagement.modifiedsuccessfully'));
                 this.refreshPage(1);
           }else{
                 this.$Message.error(res.message)

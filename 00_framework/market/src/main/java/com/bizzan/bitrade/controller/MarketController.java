@@ -9,9 +9,11 @@ import com.bizzan.bitrade.constant.SysConstant;
 import com.bizzan.bitrade.entity.*;
 import com.bizzan.bitrade.processor.CoinProcessor;
 import com.bizzan.bitrade.processor.CoinProcessorFactory;
-import com.bizzan.bitrade.service.*;
+import com.bizzan.bitrade.service.CoinService;
+import com.bizzan.bitrade.service.ExchangeCoinService;
+import com.bizzan.bitrade.service.ExchangeTradeService;
+import com.bizzan.bitrade.service.MarketService;
 import com.bizzan.bitrade.util.MessageResult;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -73,8 +75,23 @@ public class MarketController {
         result.put("recommend",recommendThumbs);
         List<CoinThumb> allThumbs = findSymbolThumb();
         Collections.sort(allThumbs, (o1, o2) -> o2.getChg().compareTo(o1.getChg()));
-        int limit = allThumbs.size() > 5 ? 5 : allThumbs.size();
-        result.put("changeRank",allThumbs.subList(0,limit));
+        int limit = allThumbs.size() > 10 ? 10 : allThumbs.size();
+        List<CoinThumb> rankThumbs = new ArrayList<>();
+        for(int i = 0; i < limit; i++) {
+            if(allThumbs.get(i).getChange().compareTo(BigDecimal.ZERO) > 0) {
+                rankThumbs.add(allThumbs.get(i));
+            }
+        }
+        result.put("changeRank", rankThumbs); // 涨幅榜
+        Collections.sort(allThumbs, (o1, o2) -> 0 - o2.getChg().compareTo(o1.getChg()));
+        int downLimit = allThumbs.size() > 10 ? 10 : allThumbs.size();
+        List<CoinThumb> rankDownThumbs = new ArrayList<>();
+        for(int i = 0; i < downLimit; i++) {
+            if(allThumbs.get(i).getChange().compareTo(BigDecimal.ZERO) < 0) {
+                rankDownThumbs.add(allThumbs.get(i));
+            }
+        }
+        result.put("changeRankDown", rankDownThumbs); // 跌幅榜
         return result;
     }
     
@@ -168,7 +185,7 @@ public class MarketController {
             CoinThumb thumb = processor.getThumb();
             JSONObject json = (JSONObject) JSON.toJSON(thumb);
             json.put("zone",coin.getZone());
-            List<KLine> lines = marketService.findAllKLine(thumb.getSymbol(),firstTimeOfToday,nowTime,"1hour");
+            List<KLine> lines = marketService.findAllKLine(thumb.getSymbol(),firstTimeOfToday,nowTime,"15min");
             JSONArray trend = new JSONArray();
             for(KLine line:lines){
                 trend.add(line.getClosePrice());
@@ -218,18 +235,18 @@ public class MarketController {
         KLine temKline = null;
         for(KLine item:list){
         	// 此段处理是过滤币种开头出现0开盘/收盘的K线
-        	if(!startFlag && item.getOpenPrice().compareTo(BigDecimal.ZERO) == 0) {
-        		continue;
-        	}else {
-        		startFlag = true;
-        	}
+        	// if(!startFlag && item.getOpenPrice().compareTo(BigDecimal.ZERO) == 0) {
+        	// 	continue;
+        	// }else {
+        	// 	startFlag = true;
+        	// }
         	// 中间段如果出现为0的现象，需要处理一下
-        	if(item.getOpenPrice().compareTo(BigDecimal.ZERO) == 0) {
-        		item.setOpenPrice(temKline.getClosePrice());
-        		item.setClosePrice(temKline.getClosePrice());
-        		item.setHighestPrice(temKline.getClosePrice());
-        		item.setLowestPrice(temKline.getClosePrice());
-        	}
+        	// if(item.getOpenPrice().compareTo(BigDecimal.ZERO) == 0) {
+        	// 	item.setOpenPrice(temKline.getClosePrice());
+        	// 	item.setClosePrice(temKline.getClosePrice());
+        	// 	item.setHighestPrice(temKline.getClosePrice());
+        	// 	item.setLowestPrice(temKline.getClosePrice());
+        	// }
             JSONArray group = new JSONArray();
             group.add(0,item.getTime());
             group.add(1,item.getOpenPrice());

@@ -1,16 +1,15 @@
 package com.bizzan.bitrade.controller.exchange;
 
+import com.bizzan.bitrade.constant.PageModel;
+import com.bizzan.bitrade.controller.common.BaseAdminController;
+import com.bizzan.bitrade.service.OrderDetailAggregationService;
+import com.bizzan.bitrade.util.MessageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.bizzan.bitrade.constant.PageModel;
-import com.bizzan.bitrade.controller.common.BaseAdminController;
-import com.bizzan.bitrade.service.OrderDetailAggregationService;
-import com.bizzan.bitrade.util.MessageResult;
 
 @Controller
 @RequestMapping("/exchange/exchange-order-detail")

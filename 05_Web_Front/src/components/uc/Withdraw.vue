@@ -2,97 +2,94 @@
   <div class="nav-rights withdraw">
     <div class="nav-right">
       <div class="rightarea">
-        <section class="trade-groups merchant-tops">
+        <section class="trade-groups merchant-tops" style="margin-top: 10px;">
           <!-- <i class="merchant-icon tips"></i>
           <span class="tips-word">{{$t('uc.finance.withdraw.pickup')}}</span> -->
-          <router-link to="/uc/withdraw/address">{{$t('uc.finance.withdraw.addressmanager')}}</router-link>
-          <router-link to="/uc/withdraw/code" style="margin-right:10px;">{{$t('uc.finance.withdraw.withdrawbycode')}}</router-link>
+          <!--<router-link to="/uc/withdraw/address">{{$t('uc.finance.withdraw.addressmanager')}}</router-link>-->
+          <router-link to="/uc/withdraw/code">
+            {{ $t('uc.finance.withdraw.withdrawbycode') }}
+          </router-link>
         </section>
         <section>
           <div class="table-inner action-box">
             <!-- <i class="angle" style="right: 27px;"></i> -->
             <div class="action-inner">
-              <div class="inner-left">
-                <p class="describe">{{$t('uc.finance.withdraw.symbol')}}</p>
-                <Select v-model="coinType" style="width:100px;margin-top: 14px;" @on-change="getAddrList" :placeholder="$t('common.pleaseselect')">
-                  <Option v-for="item in coinList" :value="item.unit" :key="item.unit">{{ item.unit }}</Option>
-                </Select>
-              </div>
               <div class="inner-box">
-                <div class="form-group form-address">
-                  <label for="controlAddress" class="controlAddress describe">{{$t('uc.finance.withdraw.address')}}</label>
+                <div class="form-group inner-left">
+                  <p class="describe input-title">{{ $t('uc.finance.withdraw.symbol') }}</p>
+                  <Select v-model="coinType" style="margin-top: 14px;" @on-change="changeCoin">
+                    <Option v-for="item in coinList" :value="item.name" :key="item.name">{{ item.name }}</Option>
+                  </Select>
+                </div>
+                <div class="form-group form-network">
+                  <label class="input-title">{{ $t('uc.finance.withdraw.network') }}</label>
                   <div class="control-input-group">
-                    <Select ref="address" v-model="withdrawAdress" filterable clearable @on-query-change="onAddressChange"  :placeholder="$t('common.pleaseselect')" :noMatch="$t('common.nomatch')">
-                      <Option v-for="item in currentCoin.addresses" :value="item.address" :key="item.address">{{ item.remark +'('+ item.address+')' }}</Option>
+                    <Select ref="network" v-model="withdrawFrom.protocol" :placeholder="$t('common.pleaseselect')" @on-change="changeCoinext">
+                      <Option v-for="item in comCoinextList()" :value="item.protocol" :key="item.protocol">{{ item.protocolname }}</Option>
                     </Select>
+                  </div>
+
+                  <div class="balance-fee">
+                    <p class="balance-tips bf-tips">
+                      <span class="title">{{ $t('uc.finance.withdraw.avabalance') }}：</span>
+                      {{ balance|toFloor }}
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group form-address">
+                  <label for="controlAddress"
+                         class="controlAddress describe input-title">{{ $t('uc.finance.withdraw.address') }}</label>
+                  <div class="control-input-group">
+                    <input class="input-address" v-model="withdrawFrom.address" :placeholder="$t('common.inputpleaseselect')"/>
                   </div>
                 </div>
               </div>
             </div>
             <div class="form-group-container">
               <div class="form-group form-amount">
-                <label class="label-amount"> {{$t('uc.finance.withdraw.num')}}
-                  <p class="label-fr">
-                    <span>【{{$t('uc.finance.withdraw.avabalance')}}】：
-                      <span class="label-pointer" id="valueAvailable">{{currentCoin.balance|toFloor}}</span>
-                    </span>
-                    <span v-if="currentCoin.enableAutoWithdraw == 0">【{{$t('common.tip')}}】：{{$t('uc.finance.withdraw.msg1')}} {{currentCoin.threshold}} {{$t('uc.finance.withdraw.msg2')}}</span>
-                    <span>
-                      <a href="javascript:;" id="levelUp" style="display: none;">{{$t('uc.finance.withdraw.increase')}}</a>
-                    </span>
+                <label class="label-amount input-title"> {{ $t('uc.finance.withdraw.num') }}</label>
+                <div class="input-group" style="position: relative;">
+                  <Input v-model="withdrawFrom.money" @on-keyup="moneyChange" :placeholder="$t('uc.finance.withdraw.numtip1')" size="large"></Input>
+                  <span class="input-group-addon addon-tag uppercase firstt">{{ coinType }}</span>
+                </div>
+                <div class="balance-fee">
+                  <p class="balance-tips bf-tips">
+                    <span class="title">{{ $t('uc.finance.withdraw.arriamount') }}：</span>
+                    {{ comMoney < 0 ? '--' : comMoney + ' ' + coinType }}
                   </p>
-                </label>
-                <div class="input-group">
-                  <Poptip trigger="focus" :content="$t('uc.finance.withdraw.tip1')+currentCoin.withdrawScale+$t('uc.finance.withdraw.tip11')+currentCoin.minAmount+' ,'+$t('uc.finance.withdraw.tip2')+currentCoin.maxAmount" style="width: 100%;">
-                    <InputNumber @on-change="computerAmount" v-model="withdrawAmount" :placeholder="$t('uc.finance.withdraw.numtip1')" size="large" :min="currentCoin.minAmount" :max="currentCoin.maxAmount"></InputNumber>
-                    <span class="input-group-addon addon-tag uppercase firstt">{{currentCoin.unit}}</span>
-                  </Poptip>
-                </div>
-              </div>
-            </div>
-            <div class="form-group-container form-group-container2">
-              <div class="form-group form-fee">
-                <label class="label-amount"> {{$t('uc.finance.withdraw.fee')}}({{currentCoin.unit}})
-                  <!--<p class="label-fr">-->
-                  <!--<span>{{$t('uc.finance.withdraw.range')}}：{{currentCoin.minTxFee}} - {{currentCoin.maxTxFee}}</span>-->
-                  <!--</p>-->
-                </label>
-                <div class="input-group" style="margin-top:30px;">
-                  <Slider style="float: left;width: 100%;" v-if="currentCoin.maxTxFee > currentCoin.minTxFee" v-model="withdrawFee" show-input :step="(currentCoin.maxTxFee - currentCoin.minTxFee)/10" :max="currentCoin.maxTxFee" :min="currentCoin.minTxFee"></Slider>
-                  <!--<Poptip v-else trigger="focus" :content="$t('uc.finance.withdraw.tip1')+currentCoin.minTxFee+$t('uc.finance.withdraw.tip1')+currentCoin.maxTxFee" style="width: 100%;">-->
-                  <InputNumber readonly v-model="withdrawFee" :min="currentCoin.minTxFee" :max="currentCoin.maxTxFee" size="large"></InputNumber>
-                  <span class="input-group-addon addon-tag uppercase">{{currentCoin.unit}}</span>
-                  <!--</Poptip>-->
-                </div>
-              </div>
-              <div class="form-group">
-                <label>{{$t('uc.finance.withdraw.arriamount')}}</label>
-                <div class="input-group" style="margin-top:14px;position:relative;">
-                  <InputNumber readonly v-model="withdrawOutAmount" :placeholder="$t('uc.finance.withdraw.arriamount')" size="large"></InputNumber>
-                  <!-- <input id="withdrawOutAmount" class="form-control form-out-amount" disabled="" maxlength="20" type="text" value="0"> -->
-                  <span class="input-group-addon addon-tag uppercase">{{currentCoin.unit}}</span>
+                  <p class="fee-tips bf-tips">
+                    <span class="title">{{ $t('uc.finance.withdraw.fee') }}：</span>
+                    {{comFee < 0 ? '--' : comFee + ' ' + coinType}}
+                  </p>
                 </div>
               </div>
             </div>
             <div class="action-foot">
-              <Button id="withdrawSubmit" long size="large" type="primary" style="height:40px;" @click="apply">{{$t('uc.finance.withdraw.pickup')}}</Button>
+              <Button id="withdrawSubmit" v-if="coinextItem.iswithdraw !== 0" long size="large" type="primary" style="height:40px;" :loading="withdrawLoading" @click="applyShow">
+                {{ $t('uc.finance.withdraw.pickup') }}
+              </Button>
+
+              <Button v-else class="withdraw-disable" long size="large" style="height:40px;" :loading="withdrawLoading" disabled>
+                {{ $t('uc.finance.withdraw.withdrawDisable') }}
+              </Button>
+
             </div>
             <div class="action-content pt10">
-              <div class="action-body">
-                <p class="acb-p1">{{$t('common.tip')}}</p>
-                <p class="acb-p2">• {{$t('uc.finance.withdraw.msg3')}}：{{currentCoin.minAmount}} {{coinType}}。<br>• {{$t('uc.finance.withdraw.msg5')}}<br>• {{$t('uc.finance.withdraw.msg6')}} </p>
+              <div class="action-body" style="text-align: left;">
+                <p class="acb-p1">{{ $t('common.tip') }}</p>
+                <p class="acb-p2">• {{ $t('uc.finance.withdraw.msg3') }}：{{coinextItem.minwithdraw ? coinextItem.minwithdraw : '--' + ' ' + coinType}}。<br>•
+                  {{ $t('uc.finance.withdraw.msg5') }}<br>• {{ $t('uc.finance.withdraw.msg6') }} </p>
               </div>
             </div>
             <div class="action-content">
               <div class="action-body">
-                <p class="acb-p1">{{$t('uc.finance.withdraw.record')}}</p>
+                <div style="text-align: left" class="acb-p1">{{ $t('uc.finance.withdraw.record') }}</div>
                 <div class="order-table">
-                  <p class="acb-p2" style="margin-bottom:10px;">• {{$t('uc.finance.withdraw.click')}}
-                    <i class="ivu-icon ivu-icon-funnel"></i>{{$t('uc.finance.withdraw.filtrate')}}</p>
-                  <Table :no-data-text="$t('common.nodata')" :columns="tableColumnsWithdraw" :data="tableWithdraw" :loading="loading"></Table>
+                  <Table :no-data-text="$t('common.nodata')" :columns="tableColumnsWithdraw" :data="tableWithdraw"
+                         :loading="loading"></Table>
                   <div id="pages">
                     <div style="float: right;">
-                      <Page class="pages_a" :total="transaction.total" :current="transaction.page + 1" @on-change="changePage"></Page>
+                      <Page class="pages_a" :total="tableWithdrawTotal" :current="pageNo" @on-change="changePage"></Page>
                     </div>
                   </div>
                 </div>
@@ -100,375 +97,404 @@
             </div>
           </div>
         </section>
+
+<!--        <Modal-->
+<!--            :title="$t('uc.safe.fundpwd')"-->
+<!--            v-model="withdrawFromVisible"-->
+<!--            :mask-closable="false"-->
+<!--        >-->
+
+<!--          <Form ref="formInline" :model="withdrawFrom" inline>-->
+<!--            <FormItem prop="user"></FormItem>-->
+<!--            <FormItem :label="$t('uc.safe.fundpwd')" prop="payPwd">-->
+<!--              <Input name="a" v-model="withdrawFrom.payPwd" :placeholder="$t('common.inputpleaseselect')"/>-->
+<!--            </FormItem>-->
+<!--            <FormItem :label="$t('uc.safe.fundpwd')" prop="payPwd">-->
+<!--              <Input name="a" v-model="withdrawFrom.payPwd" type="password" :placeholder="$t('common.inputpleaseselect')"/>-->
+<!--            </FormItem>-->
+<!--          </Form>-->
+<!--          <div slot="footer">-->
+<!--            <Button @click="withdrawFromVisible = false">{{$t('common.close')}}</Button>-->
+<!--            <Button type="primary" @click="apply" :loading="withdrawLoading">{{$t('common.ok')}}</Button>-->
+<!--          </div>-->
+<!--        </Modal>-->
+
+
+        <Modal
+            :title="$t('uc.finance.withdraw.safevalidate')"
+            v-model="withdrawFromVisible"
+            :mask-closable="false"
+        >
+          <Form ref="withdrawFrom" :label-width="95">
+            <!-- payPwd -->
+            <FormItem :label="$t('uc.safe.fundpwd')" prop="payPwd">
+              <Input v-model="withdrawFrom.payPwd" size="large" type="password" :placeholder="$t('common.inputpleaseselect')" ></Input>
+            </FormItem>
+            <FormItem v-if="withdrawFrom.codeType==3" :label="$t('uc.forget.googleAuth')" prop="payPwd">
+              <Input v-model="withdrawFrom.code" size="large" :placeholder="$t('common.inputpleaseselect')" ></Input>
+            </FormItem>
+            <!-- 邮箱验证码 -->
+            <FormItem v-if="withdrawFrom.codeType==1" :label="$t('uc.safe.emailcode')" prop="vailCode3">
+              <Input v-model="withdrawFrom.code" size="large">
+                <!-- <Button slot="append">点击获取</Button> -->
+                <div class="timebox" slot="append">
+                  <Button @click="send(3)" style="padding: 8px 15px 8px;border-bottom-left-radius: unset;border-top-left-radius: unset;" :disabled="sendMsgDisabled3">
+                    <span v-if="sendMsgDisabled3">{{time3+$t('uc.safe.second')}}</span>
+                    <span v-if="!sendMsgDisabled3">{{$t('uc.safe.clickget')}}</span>
+                  </Button>
+                </div>
+              </Input>
+            </FormItem>
+
+            <!-- 手机验证码 -->
+            <FormItem v-if="withdrawFrom.codeType==2" :label="$t('uc.safe.phonecode')" prop="vailCode2">
+              <Input v-model="withdrawFrom.code" size="large">
+                <!-- <Button slot="append">点击获取</Button> -->
+                <div class="timebox" slot="append">
+                  <Button @click="send(2)" :disabled="sendMsgDisabled2">
+                    <span v-if="sendMsgDisabled2">{{time2+$t('uc.safe.second')}}</span>
+                    <span v-if="!sendMsgDisabled2">{{$t('uc.safe.clickget')}}</span>
+                  </Button>
+                </div>
+              </Input>
+            </FormItem>
+
+          </Form>
+          <div slot="footer">
+            <Button @click="withdrawFromVisible = false">{{$t('common.close')}}</Button>
+            <Button type="primary" @click="apply" :loading="withdrawLoading">{{$t('common.ok')}}</Button>
+          </div>
+        </Modal>
+
+
       </div>
     </div>
-    <Modal v-model="modal" width="450">
-      <!-- <P style="color:red;font-weight: bold;">
-        {{$t('uc.finance.withdraw.fundpwdtip')}}<br/>
-        <Input type="password" v-model="fundpwd" :placeholder="$t('otc.chat.msg7')"></Input>
-      </p> -->
-      <p slot="header">
-        {{$t("swap.tip")}}
-      </p>
-      <Form class="withdraw-form-inline" ref="formInline" :model="formInline" inline>
-        <!-- <FormItem>
-          <Input type="text" v-model="user.mobilePhone" disabled></Input>
-        </FormItem> -->
-        <FormItem prop="code">
-          <Input type="text" v-model="formInline.code" :placeholder="$t('uc.regist.smscode')">
-          </Input>
-          <input id="sendCode" @click="sendCode();" type="Button" :value="sendcodeValue" :disabled="codeIsSending">
-          </input>
-        </FormItem>
-        <FormItem>
-          <Input type="password" v-model="formInline.fundpwd" :placeholder="$t('otc.chat.msg7')"></Input>
-        </FormItem>
-      </Form>
-      <div slot="footer">
-        <span style="margin-right:50px" @click="cancel">{{$t("common.close")}}</span>
-        <span style="background:#f0ac19;color:#fff;width:80px;border-radius:30px;display:inline-block;text-align:center;height:30px;line-height: 30px;" @click="ok">{{$t("common.ok")}}</span>
-      </div>
-    </Modal>
   </div>
 </template>
 <script>
+import { parseTime } from "../../assets/js/util"
+import {accSub} from "../../assets/js/decimal";
 export default {
   data() {
     return {
       user: {},
-      codeIsSending: false,
-      sendcodeValue: this.$t("uc.regist.sendcode"),
-      countdown: 60,
-      formInline: {
-        code: "",
-        fundpwd: ""
-      },
       modal: false,
-      fundpwd: "",
       currentCoin: {},
       transaction: {
         page: 0,
         pageSize: 10,
         total: 0
       },
-      loading: true,
-      withdrawAdress: "",
-      inputAddress: "", //用户输入的地址
-      withdrawAmount: 0,
-      withdrawFee: 0,
-      withdrawOutAmount: 0,
+      balance: 0,
       coinType: "",
       coinList: [],
+      coinextList: [],
+      coinextItem: {},
+      oldMoney: 0,
+      withdrawLoading: false,
+      withdrawFrom: {
+        protocol: "",
+        money: 0,
+        address: "",
+        payPwd: "",
+        code: "",
+        codeType: 1,
+      },
+      withdrawFromRules: {
+
+      },
+      withdrawFromVisible: false,
+      loading: true,
+      pageNo: 1,
+      pageSize: 10,
       tableWithdraw: [],
-      allTableWithdraw: []
+      tableWithdrawTotal: 0,
+
+      time2: 60, // 发送验证码倒计时
+      time3: 60, // 发送验证码倒计时
+      sendMsgDisabled2: false,
+      sendMsgDisabled3: false,
     };
   },
-  watch: {
-    currentCoin: function() {
-      this.withdrawFee =
-        this.currentCoin.minTxFee +
-        (this.currentCoin.maxTxFee - this.currentCoin.minTxFee) / 2;
-    }
-  },
   methods: {
-    cancel() {
-      this.modal = false;
-      this.formInline.code = "";
-      this.formInline.fundpwd = "";
+    moneyChange() {
+      var re1 = new RegExp(
+          "([0-9]+.[0-9]{6})[0-9]*",
+          ""
+      );
+      this.withdrawFrom.money = this.withdrawFrom.money.replace(re1, "$1")
     },
-    sendCode() {
-      this.$http.post(this.host + "/uc/mobile/withdraw/code").then(response => {
+    changeCoin() {
+      this.withdrawFrom.protocol = ""
+      this.balance = 0
+      this.coinextItem = {}
+      this.getBalance()
+    },
+    changeCoinext() {
+      this.coinextItem = {}
+      for (let item of this.coinextList) {
+        if (item.coinname === this.coinType && item.protocol === this.withdrawFrom.protocol) {
+          this.coinextItem = item
+          this.withdrawFrom.money = item.minwithdraw
+          this.oldMoney = item.minwithdraw
+        }
+      }
+    },
+    getCoinList() {
+      //获取
+      this.$http.get(this.host + "/uc/coin/list").then(response => {
         var resp = response.body;
         if (resp.code == 0) {
-          this.settime();
-          this.$Notice.success({
-            title: this.$t("common.tip"),
-            desc: resp.message
-          });
+          this.coinList = resp.data.coinList
+          // 如果没有值，则默认第一个
+          if (!this.coinType && this.coinList.length > 0) {
+            this.coinType = this.coinList[0].name
+            this.getBalance()
+          }
+          this.coinextList = resp.data.coinextList
         } else {
-          this.$Notice.error({
-            title: this.$t("common.tip"),
-            desc: resp.message
-          });
+          this.$Message.error(resp.message);
         }
       });
     },
-    settime() {
-      this.sendcodeValue = this.countdown;
-      this.codeIsSending = true;
-      let timercode = setInterval(() => {
-        this.countdown--;
-        this.sendcodeValue = this.countdown;
-        if (this.countdown <= 0) {
-          clearInterval(timercode);
-          this.sendcodeValue = this.$t("uc.regist.sendcode");
-          this.countdown = 60;
-          this.codeIsSending = false;
+    getBalance() {
+      //获取
+      this.$http.get(this.host + "/uc/coin/balance?coinName=" + this.coinType).then(response => {
+        var resp = response.body;
+        if (resp.code == 0) {
+          this.balance = resp.data
+        } else {
+          this.$Message.error(resp.message);
         }
-      }, 1000);
+      });
     },
     changePage(index) {
-      this.transaction.page = index - 1;
+      this.pageNo = index;
       this.getList();
     },
-    onAddressChange(data) {
-      this.inputAddress = data;
-    },
-    clearValues() {
-      if (this.$refs.address) {
-        this.$refs.address.setQuery(" ");
-      }
-      this.withdrawAdress = "";
-      this.inputAddress = "";
-      this.withdrawAmount = 0;
-      // this.withdrawFee= 0;
-      this.withdrawOutAmount = 0;
-    },
-    getCurrentCoinRecharge() {
-      if (this.coinType != "") {
-        var temp = [];
-        for (var i = 0; i < this.allTableWithdraw.length; i++) {
-          //   if (this.allTableWithdraw[i].symbol == this.coinType) {
-          if (this.allTableWithdraw[i].coin.unit == this.coinType) {
-            temp.push(this.allTableWithdraw[i]);
-          }
-        }
-        this.tableWithdraw = temp;
-      } else {
-        this.tableWithdraw = this.allTableWithdraw;
-      }
-    },
-    ok() {
-      if (this.formInline.code == "") {
-        this.modal = true;
-        this.$Message.error("请填写短信验证码");
-        return;
-      }
-      if (this.formInline.fundpwd == "") {
-        this.modal = true;
-        this.$Message.error(this.$t("otc.chat.msg7tip"));
-        return;
-      }
+    getList() {
+      // 获取列表
       let params = {};
-      for (let i = 0; i < this.currentCoin.addresses; i++) {
-        if(this.currentCoin.addresses[i].address == this.withdrawAdress){
-          params["remark"] = this.currentCoin.addresses[i].remark;
-        }
+      params["page"] = this.pageNo - 1;
+      params["pageSize"] = this.pageSize;
+      this.$http
+          .post(this.host + "/uc/withdraw/list", params)
+          .then(response => {
+            var resp = response.body;
+            if (resp.code == 0) {
+              this.tableWithdraw = resp.data.content || [];
+              this.tableWithdrawTotal = resp.data.totalElements;
+            } else {
+              this.$Message.error(resp.message);
+            }
+            this.loading = false
+          });
+    },
+    applyShow() {
+      if (!this.coinType || !this.withdrawFrom.protocol) {
+        this.$Message.error(this.$t('uc.finance.withdraw.symboltip'));
+        return false
+      }
+      if (!this.withdrawFrom.address) {
+        this.$Message.error(this.$t('uc.finance.withdraw.addresstip'));
+        return false
+      }
+      if (this.withdrawFrom.money <= 0) {
+        this.$Message.error(this.$t('uc.finance.withdraw.amounttip'));
+        return false
+      }
+      if (this.withdrawFrom.money > this.coinextItem.maxwithdraw) {
+        this.$Message.error(this.$t('uc.finance.withdraw.moneymaxttip') + this.coinextItem.maxwithdraw);
+        return false
+      }
+      if (this.withdrawFrom.money < this.coinextItem.minwithdraw) {
+        this.$Message.error(this.$t('uc.finance.withdraw.moneyminttip') + this.coinextItem.minwithdraw);
+        return false
+      }
+      if (this.comMoney <= 0) {
+        this.$Message.error(this.$t('uc.finance.withdraw.moneyttip'));
+        return false
+      }
+      this.withdrawFromVisible = true
+    },
+
+    send(index) {
+      let me = this;
+      if (index == 2) {
+        //获取手机code
+        this.$http
+            .post(this.host + "/uc/mobile/withdraw/code")
+            .then(response => {
+              var resp = response.body;
+              if (resp.code == 0) {
+                me.sendMsgDisabled2 = true;
+                let interval = window.setInterval(function() {
+                  if (me.time2-- <= 0) {
+                    me.time2 = 60;
+                    me.sendMsgDisabled2 = false;
+                    window.clearInterval(interval);
+                  }
+                }, 1000);
+              } else {
+                this.$Message.error(resp.message);
+              }
+            });
+      } else if (index == 3) {
+        //获取邮件验证
+        this.$http
+            .post(this.host + "/uc/email/withdraw/code")
+            .then(response => {
+              var resp = response.body;
+              if (resp.code == 0) {
+                me.sendMsgDisabled3 = true;
+                let interval = window.setInterval(function() {
+                  if (me.time3-- <= 0) {
+                    me.time3 = 60;
+                    me.sendMsgDisabled3 = false;
+                    window.clearInterval(interval);
+                  }
+                }, 1000);
+              } else {
+                this.$Message.error(resp.message);
+              }
+            });
+      }
+    },
+
+    apply() {
+      if (this.withdrawLoading) {
+        return false
+      }
+      if (!this.coinType || !this.withdrawFrom.protocol) {
+        this.$Message.error(this.$t('uc.finance.withdraw.symboltip'));
+        return false
+      }
+      if (!this.withdrawFrom.address) {
+        this.$Message.error(this.$t('uc.finance.withdraw.addresstip'));
+        return false
+      }
+      if (this.withdrawFrom.money <= 0) {
+        this.$Message.error(this.$t('uc.finance.withdraw.amounttip'));
+        return false
+      }
+      if (!this.withdrawFrom.code) {
+        this.$Message.error(this.$t("uc.safe.codetip"));
+        return false
       }
 
-      params["unit"] = this.currentCoin.unit;
-      params["address"] = this.withdrawAdress;
-      params["amount"] = this.withdrawAmount;
-      params["fee"] = this.withdrawFee;
-      params["jyPassword"] = this.formInline.fundpwd;
-      params["code"] = this.formInline.code;
-      this.$http
-        .post(this.host + "/uc/withdraw/apply/code", params)
-        .then(response => {
-          this.fundpwd = "";
-          var resp = response.body;
-          if (resp.code == 0) {
-            this.modal = false;
-            this.formInline.code = "";
-            this.formInline.fundpwd = "";
-            this.transaction.page = 0;
-            this.getList();
-            this.clearValues();
-            this.$Message.success(resp.message);
-          } else {
-            this.$Message.error(resp.message);
-          }
-        });
-    },
-    getAddrList() {
-      // 初始化页面上的值
-      this.clearValues();
-      //获取地址
-      this.$http
-        .post(this.host + "/uc/withdraw/support/coin/info")
-        .then(response => {
-          var resp = response.body;
-          if (resp.code == 0 && resp.data.length > 0) {
-            this.coinList = resp.data;
-            if (this.coinType) {
-              for (let i = 0; i < resp.data.length; i++) {
-                if (this.coinType == resp.data[i].unit) {
-                  this.currentCoin = resp.data[i];
-                  break;
-                }
-              }
-            } else {
-              this.currentCoin = this.coinList[0];
-              this.coinType = this.currentCoin.unit;
-            }
-          } else {
-            this.$Message.error(resp.message);
-          }
-        });
-    },
-    getList() {
-      this.loading = true;
-      //获取tableWithdraw
-      let params = {};
-      params["page"] = this.transaction.page;
-      params["pageSize"] = this.transaction.pageSize;
-      this.$http
-        .post(this.host + "/uc/withdraw/record", params)
-        .then(response => {
-          var resp = response.body;
-          if (resp.code == 0) {
-            this.tableWithdraw = resp.data.content;
-            this.transaction.total = resp.data.totalElements;
-            this.transaction.page = resp.data.number;
-          } else {
-            this.$Message.error(resp.message);
-          }
-          this.loading = false;
-        });
-    },
-    accSub(arg1, arg2) {
-      var r1, r2, m, n;
-      try {
-        r1 = arg1.toString().split(".")[1].length;
-      } catch (e) {
-        r1 = 0;
+      //获取
+      let data = {
+        coinName: this.coinType,
+        coinprotocol: this.withdrawFrom.protocol,
+        address: this.withdrawFrom.address,
+        money: this.withdrawFrom.money,
+        payPwd: this.withdrawFrom.payPwd,
+        code: this.withdrawFrom.code,
+        codeType: this.withdrawFrom.codeType
       }
-      try {
-        r2 = arg2.toString().split(".")[1].length;
-      } catch (e) {
-        r2 = 0;
-      }
-      m = Math.pow(10, Math.max(r1, r2));
-      //last modify by deeka
-      //动态控制精度长度
-      n = r1 >= r2 ? r1 : r2;
-      return ((arg1 * m - arg2 * m) / m).toFixed(n);
-    },
-    round(v, e) {
-      var t = 1;
-      for (; e > 0; t *= 10, e--);
-      for (; e < 0; t /= 10, e++);
-      return Math.round(v * t) / t;
-    },
-    computerAmount() {
-      this.withdrawOutAmount = this.round(
-        this.accSub(this.withdrawAmount, this.withdrawFee),
-        this.currentCoin.withdrawScale
-      );
-    },
-    computerAmount2() {
-      this.withdrawAmount =
-        (this.withdrawAmount + "").replace(/([0-9]+\.[0-9]{6})[0-9]*/, "$1") -
-        0;
-      this.withdrawOutAmount = this.round(
-        this.accSub(this.withdrawAmount, this.withdrawFee),
-        this.currentCoin.withdrawScale
-      );
-    },
-    valid() {
-      this.withdrawAdress = this.withdrawAdress || this.inputAddress;
-      if (this.coinType == "") {
-        this.$Message.error(this.$t("uc.finance.withdraw.symboltip"));
-        return false;
-      } else if (this.withdrawAdress == "") {
-        this.$Message.error(this.$t("uc.finance.withdraw.addresstip"));
-        return false;
-      } else if (
-        this.withdrawAmount == "" ||
-        this.withdrawAmount == 0 ||
-        this.withdrawAmount - 0 < this.currentCoin.minAmount
-      ) {
-        this.$Message.error(
-          this.$t("uc.finance.withdraw.numtip2") + this.currentCoin.minAmount
-        );
-        return false;
-      } else if (this.withdrawAmount - 0 < this.withdrawFee) {
-        this.$Message.error(this.$t("uc.finance.withdraw.numtip3"));
-        return false;
-      } else if (
-        this.withdrawFee == "" ||
-        this.withdrawFee == 0 ||
-        this.withdrawFee - 0 > this.currentCoin.maxTxFee ||
-        this.withdrawFee - 0 < this.currentCoin.minTxFee
-      ) {
-        this.$Message.error(
-          this.$t("uc.finance.withdraw.feetip1") +
-            this.currentCoin.minTxFee +
-            " , " +
-            this.$t("uc.finance.withdraw.feetip2") +
-            this.currentCoin.maxTxFee
-        );
-        return false;
-      } else {
-        return true;
-      }
-    },
-    apply() {
-      if (this.valid()) {
-        this.modal = true;
-        let timercode = setInterval(() => {
-          if (this.countdown <= 0) {
-            clearInterval(timercode);
-            this.sendcodeValue = this.$t("uc.regist.sendcode");
-            this.codeIsSending = false;
-          }
-        }, 1000);
-      }
+      this.withdrawLoading = true
+      this.$http.post(this.host + "/uc/withdraw/create", data).then(response => {
+        var resp = response.body;
+        this.withdrawLoading = false
+        if (resp.code == 0) {
+          this.$Message.success(this.$t('uc.finance.withdraw.shenqing'));
+          this.withdrawFrom.money = this.oldMoney
+          this.withdrawFrom.address = ""
+          this.withdrawFrom.payPwd = ""
+          this.withdrawFromVisible = false
+          this.getBalance()
+          this.getList()
+        } else {
+          this.$Message.error(resp.message);
+        }
+      });
     },
     getMember() {
       //获取个人安全信息
       let self = this;
       this.$http.post(this.host + "/uc/approve/security/setting").then(response => {
-          var resp = response.body;
-          if (resp.code == 0) {
-            this.user = resp.data;
-            if (resp.data.realName == null || resp.data.realName == "") {
-              this.$Notice.error({
-                title: this.$t("common.tip"),
-                desc: this.$t("otc.publishad.submittip1")
-              });
-              // 判断是否实名认证，未认证跳转到实名认证页面；
-              //this.$Message.success(this.$t("otc.publishad.submittip1"));
-              self.$router.push("/uc/safe");
-            } else if (resp.data.phoneVerified == 0) {
-              this.$Notice.error({
-                title: this.$t("common.tip"),
-                desc: this.$t("otc.publishad.submittip2")
-              });
-              // 判断是否是手机号0，1，未认证跳转到实名认证页面；
-              //this.$Message.success(this.$t("otc.publishad.submittip2"));
-              self.$router.push("/uc/safe");
-            } else if (resp.data.fundsVerified == 0) {
-              this.$Notice.error({
-                title: this.$t("common.tip"),
-                desc: this.$t("otc.publishad.submittip3")
-              });
-              // 判断是否设置交易密码，未认证跳转到实名认证页面；
-              //this.$Message.success(this.$t("otc.publishad.submittip3"));
-              self.$router.push("/uc/safe");
-            }
-          } else {
-            this.$Message.error(resp.message);
+        var resp = response.body;
+        if (resp.code == 0) {
+          this.user = resp.data;
+          if (resp.data.realName == null || resp.data.realName == "") {
+            this.$Notice.error({
+              title: this.$t("common.tip"),
+              desc: this.$t("otc.publishad.submittip1")
+            });
+            // 判断是否实名认证，未认证跳转到实名认证页面；
+            //this.$Message.success(this.$t("otc.publishad.submittip1"));
+            self.$router.push("/uc/safe");
           }
-        });
-    }
+          // else if (resp.data.phoneVerified == 0) {
+          //   this.$Notice.error({
+          //     title: this.$t("common.tip"),
+          //     desc: this.$t("otc.publishad.submittip2")
+          //   });
+          //   // 判断是否是手机号0，1，未认证跳转到实名认证页面；
+          //   //this.$Message.success(this.$t("otc.publishad.submittip2"));
+          //   self.$router.push("/uc/safe");
+          // }
+          else if (resp.data.fundsVerified == 0) {
+            this.$Notice.error({
+              title: this.$t("common.tip"),
+              desc: this.$t("otc.publishad.submittip3")
+            });
+            // 判断是否设置交易密码，未认证跳转到实名认证页面；
+            //this.$Message.success(this.$t("otc.publishad.submittip3"));
+            self.$router.push("/uc/safe");
+          }
+          if(resp.data.emailVerified==1){
+            this.withdrawFrom.codeType=1;
+          }
+          if(resp.data.phoneVerified==1){
+            this.withdrawFrom.codeType=2;
+          }
+          if(resp.data.googleStatus==1){
+            this.withdrawFrom.codeType=3;
+          }
+
+        } else {
+          this.$Message.error(resp.message);
+        }
+      });
+    },
+    _accMul(arg1, arg2) { //乘法
+      if(arg1 == 0 || !arg1) return "0";
+      if(arg2 == 0 || !arg2) return "0";
+      var m = 0,
+          s1 = arg1.toString(),
+          s2 = arg2.toString();
+      try {
+        m += s1.split(".")[1].length
+      } catch(e) {
+        // console.log(e);
+      }
+      try {
+        m += s2.split(".")[1].length
+      } catch(e) {
+        // console.log(e);
+      }
+      return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m)
+    },
   },
   created() {
     this.getMember();
     this.$http.options.emulateJSON = false;
     this.coinType = this.$route.query.name || "";
-    this.getAddrList();
-    this.getList(0, 10, 1);
-    console.log(this.$store.getters.member);
+    if (this.coinType) {
+      this.getBalance()
+    }
+    this.getCoinList()
+    this.getList()
   },
   computed: {
-    member: function() {
+    member: function () {
       console.log(this.$store.getters.member);
       return this.$store.getters.member;
     },
     tableColumnsWithdraw() {
       let columns = [],
-        filters = [];
+          filters = [];
       if (this.coinList.length > 0) {
         this.coinList.forEach(v => {
           filters.push({
@@ -480,27 +506,47 @@ export default {
       columns.push({
         title: this.$t("uc.finance.withdraw.time"),
         width: 180,
-        key: "createTime"
-      });
-      columns.push({
-        title: this.$t("uc.finance.withdraw.symbol"),
-        key: "symbol",
-        filters,
-        filterMultiple: false,
-        filterMethod(value, row) {
-          return row.coin.unit === value;
-        },
-        render: function(h, params) {
-          return h("span", params.row.coin.unit);
+        key: "addtime",
+        render: function (h, params) {
+          return h("span", parseTime(params.row.addtime));
         }
       });
       columns.push({
+        title: this.$t("uc.finance.withdraw.symbol"),
+        key: "coinname"
+      });
+      columns.push({
+        title: this.$t("uc.finance.withdraw.protocol"),
+        key: "protocolname"
+      });
+      columns.push({
         title: this.$t("uc.finance.withdraw.address"),
-        key: "address"
+        key: "address",
+        render: (h, params) => {
+          return h('div', [
+            h('Tooltip', {
+              props: { placement: 'top' }
+            }, [
+              h('span', {
+                style: {
+                  display: 'inline-block',
+                  width: params.column._width*0.9+'px',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                },
+              }, params.row.address),
+              h('span', {
+                slot: 'content',
+                style: { whiteSpace: 'normal', wordBreak: 'break-all' }
+              },params.row.address)
+            ])
+          ])
+        }
       });
       columns.push({
         title: this.$t("uc.finance.withdraw.num"),
-        key: "totalAmount"
+        key: "money"
       });
       columns.push({
         title: this.$t("uc.finance.withdraw.fee"),
@@ -508,26 +554,54 @@ export default {
       });
       columns.push({
         title: this.$t("uc.finance.withdraw.txid"),
-        key: "transactionNumber"
+        key: "hash"
       });
       columns.push({
         title: this.$t("uc.finance.withdraw.status"),
         key: "status",
         render: (h, params) => {
           let text = "";
-          if (params.row.status == 0) {
+          if (params.row.status == -1) {
+            text = this.$t("uc.finance.withdraw.status_3");
+          } else if (params.row.status == 0) {
             text = this.$t("uc.finance.withdraw.status_1");
           } else if (params.row.status == 1) {
             text = this.$t("uc.finance.withdraw.status_2");
           } else if (params.row.status == 2) {
-            text = this.$t("uc.finance.withdraw.status_3");
-          } else if (params.row.status == 3) {
             text = this.$t("uc.finance.withdraw.status_4");
+          } else if (params.row.status == 3) {
+            text = this.$t("uc.finance.withdraw.status_3");
           }
           return h("div", [h("p", text)]);
         }
       });
       return columns;
+    },
+    comCoinextList() {
+      return () => {
+        let list = []
+        for (let item of this.coinextList) {
+          if (item.coinname == this.coinType) {
+            list.push(item)
+          }
+        }
+        return list
+      }
+    },
+    comFee() {
+      let item = this.coinextItem
+      let withdrawfee = item.withdrawfee || 0
+      let minwithdrawfee = item.minwithdrawfee || 0
+      let fee = this._accMul(withdrawfee, this.withdrawFrom.money)
+      if (fee < minwithdrawfee) {
+        fee = minwithdrawfee
+      }
+      return fee
+    },
+    comMoney() {
+      let fee = this.comFee
+      let money = accSub(this.withdrawFrom.money, fee)
+      return money
     }
   }
 };
@@ -535,6 +609,7 @@ export default {
 <style lang="scss">
 .withdraw-form-inline {
   padding: 20px 40px 0 40px;
+
   .ivu-input {
     height: 40px;
     line-height: 40px;
@@ -543,12 +618,6 @@ export default {
 </style>
 
 <style scoped lang="scss">
-.ivu-slider-wrap{
-	top: 75px !important;
-	z-index: 999 !important;
-	width: 100% !important;
-}
-
 #sendCode {
   position: absolute;
   border: none;
@@ -563,21 +632,25 @@ export default {
   line-height: 20px;
   border-left: 1px solid #dddee1;
 }
+
 .nav-rights {
   .nav-right {
     height: auto;
     overflow: hidden;
     padding: 0 15px;
+
     .rightarea {
-      padding-left: 15px;
+      //padding-left: 15px;
+
       .trade-groups.merchant-tops {
         font-size: 14px;
         height: 50px;
-        padding: 0 15px;
+        //padding: 0 15px;
         color: #fff;
         overflow: hidden;
         display: block;
         margin-right: 0;
+
         a {
           display: inline-block;
           color: #f0a70a;
@@ -587,19 +660,23 @@ export default {
           line-height: 40px;
           text-align: center;
           float: right;
-          &:hover{
+
+          &:hover {
             background: #f0a70a;
             color: #000;
           }
         }
       }
+
       .action-box {
-        padding: 10px 20px 20px;
+        //padding: 10px 20px 20px;
+
         .form-group-container {
           .form-group.form-amount {
             .input-group .ivu-poptip {
               .ivu-poptip-rel {
                 display: block;
+
                 .ivu-input-number {
                   width: 100%;
                 }
@@ -611,9 +688,19 @@ export default {
     }
   }
 }
+
 .ivu-slider-button-wrap {
   top: -6px;
 }
+
+.withdraw-disable {
+  color: #c0c4cc;
+}
+.withdraw-disable:hover{
+  color: #c0c4cc;
+  background-color: #27313e !important;
+}
+
 #withdrawAddressList {
   position: absolute;
   height: 0;
@@ -675,7 +762,8 @@ p.describe {
 }
 
 .action-content.pt10 {
-  padding-top: 10px;
+  padding-top: 0px;
+  padding-bottom: 50px;
 }
 
 .action-content {
@@ -694,8 +782,13 @@ p.describe {
 }
 
 .action-foot {
-  text-align: center;
-  padding: 40px 170px 0;
+  display: flex;
+  padding-top: 25px;
+}
+
+// 提币按钮
+.action-foot button {
+  width: 160px !important;
 }
 
 .hb-night .btn.btn-primary,
@@ -706,17 +799,23 @@ p.describe {
 
 .action-inner {
   width: 100%;
-  display: table;
 }
 
+// 选择币种
+.action-inner .inner-left {
+  width: 447px;
+  text-align: left;
+}
+
+// 提币地址
 .action-inner .inner-box {
-  display: table-cell;
-  width: 80%;
+  width: 447px;
+  text-align: left;
 }
 
 .form-group {
   position: relative;
-  margin-bottom: 20px;
+  margin-bottom: 17px;
   font-size: 16px;
 }
 
@@ -739,11 +838,17 @@ p.describe {
 
 .form-group-container {
   display: table;
-  width: 100%;
+  width: 447px;
+  text-align: left;
 }
 
 .form-group-container .form-amount {
   width: 100%;
+}
+
+.form-group-container .form-amount .label-amount {
+  margin-bottom: 13px;
+  display: inline-block;
 }
 
 .form-group-container .form-group {
@@ -863,10 +968,91 @@ table.table .table-inner.action-box {
   background-color: #f0a70a;
   border-color: #f0a70a;
 }
+
 #pages {
   margin: 10px;
   overflow: hidden;
 }
+
+// 顶部输入框标题
+.input-title {
+  color: #999999;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+
+// 转账网络
+.form-network {
+  width: 447px;
+  text-align: left;
+}
+
+.form-network .input-title {
+  display: inline-block;
+  margin-bottom: 17px;
+}
+
+// 顶部输入输入框样式重新更改
+/deep/ .ivu-select-single .ivu-select-selection {
+  height: 40px;
+}
+
+/deep/ .ivu-select-single .ivu-select-selection .ivu-select-input,
+/deep/ .ivu-select-single .ivu-select-selection .ivu-select-selected-value {
+  height: 40px;
+  line-height: 40px;
+}
+
+// 输入数量
+/deep/ .ivu-input-number-input-wrap,
+/deep/ .ivu-input-number {
+  height: auto;
+}
+
+/deep/ .ivu-input-number-large input,
+/deep/ .ivu-select-single .ivu-select-selection .ivu-select-placeholder {
+  height: 40px;
+  line-height: 40px;
+}
+
+.form-address .input-address {
+  width: 447px;
+  height: 40px;
+  outline: none;
+  border: 0px;
+  background-color: transparent;
+  border: 1px solid #27313e;
+  border-radius: 4px;
+  font-size: 13px;
+  padding: 0px 10px;
+  color: #C5C8CE;
+}
+
+.form-address .input-address::placeholder {
+  color: #C5C8CE;
+}
+
+.balance-fee {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+}
+
+.balance-fee .bf-tips {
+  max-width: 50%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-size: 13px;
+}
+
+.balance-fee .bf-tips .title {
+  color: #999999;
+  font-size: 13px;
+}
+
 </style>
 <style lang="scss">
 .nav-rights {
@@ -881,15 +1067,18 @@ table.table .table-inner.action-box {
             }
           }
         }
+
         .form-group-container {
           .form-group {
             .input-group {
               .ivu-poptip-rel {
                 display: block;
+
                 .ivu-input-number {
                   width: 100%;
                 }
               }
+
               .ivu-input-number {
                 width: 100%;
               }
@@ -898,6 +1087,7 @@ table.table .table-inner.action-box {
         }
       }
     }
+
     .table-inner.action-box {
       .action-content .action-body {
         /*分页*/

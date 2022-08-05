@@ -40,6 +40,7 @@ export default {
         coinInfo: '/market/coin-info',
         indexData: "/market/index_info"
     },
+
     exchange: { //币币交易委托提交与查询接口
         orderAdd: '/exchange/order/add', //提交订单接口
         current: '/exchange/order/current', //当前委托接口

@@ -1,11 +1,5 @@
 package com.bizzan.bitrade.controller.finance;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.bizzan.bitrade.annotation.AccessLog;
 import com.bizzan.bitrade.constant.AdminModule;
 import com.bizzan.bitrade.constant.PageModel;
@@ -13,6 +7,11 @@ import com.bizzan.bitrade.controller.BaseController;
 import com.bizzan.bitrade.model.screen.ExchangeTradeScreen;
 import com.bizzan.bitrade.service.ExchangeOrderService;
 import com.bizzan.bitrade.util.MessageResult;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 

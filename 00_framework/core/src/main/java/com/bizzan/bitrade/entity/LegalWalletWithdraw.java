@@ -3,7 +3,6 @@ package com.bizzan.bitrade.entity;
 import com.bizzan.bitrade.constant.PayMode;
 import com.bizzan.bitrade.constant.WithdrawStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 

@@ -14,7 +14,7 @@ abstract class ListMapWrapper<X> extends AbstractList<X> {
     protected abstract X wrap(Map var1);
 
     public X get(int index) {
-        return this.wrap((Map)this.list.get(index));
+        return this.wrap(this.list.get(index));
     }
 
     public int size() {

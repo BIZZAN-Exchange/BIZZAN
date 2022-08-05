@@ -3,15 +3,14 @@
       <Row>
           <Card>
                 <p slot="title">
-                红包管理
-                    <Button type="primary" size="small" @click="refreshPageManual">
-                        <Icon type="refresh"></Icon>刷新
+                {{ $t('redpacketmanagement.redpacketmanagement') }} <Button type="primary" size="small" @click="refreshPageManual">
+                        <Icon type="refresh"></Icon>{{ $t('perpetualcontractcurrencystandardmanagement.refresh') }}
                     </Button>
                 </p>
 
                 <Row class="functionWrapper">
                     <div class="btnsWrapper clearfix">
-                        <Button type="primary" @click="newRedEnvelope">新建红包</Button>
+                        <Button type="primary" @click="newRedEnvelope">{{ $t('redpacketmanagement.newredenvelope') }}</Button>
                     </div>
                 </Row>
                 <Row>
@@ -36,7 +35,7 @@
       <Modal
             class="auditModel"
             v-model="showDetailModel"
-            title="领取详情"
+            :title="$t('redpacketmanagement.claimdetails')"
             width="500"
             @on-cancle=""
             @on-ok="">
@@ -59,7 +58,7 @@
             </div>
      </Modal>
      <div class="circleWrapper" v-show="uploading">
-      <p>图片上传中...</p>
+      <p>{{ $t('redpacketmanagement.pictureuploading') }}</p>
      </div>
   </div>
 </template>
@@ -111,34 +110,34 @@
             width: 50
           },
           {
-            title: '红包编号',
+            title: this.$t('redpacketmanagement.redpacketno'),
             key:"envelopeNo",
             width: 135
           },
           {
-            title: '币种',
+            title: this.$t('transactiondetailsinlegalcurrency.currency'),
             width: 60,
             key:"unit"
           },
           {
-            title: '红包名',
+            title: this.$t('redpacketmanagement.redpacketname'),
             width: 200,
             key:"name"
           },
           {
-            title: '发起人ID',
+            title: this.$t('redpacketmanagement.initiatorid'),
             key:"memberId",
             width: 85
           },
           {
-            title: '红包类型',
+            title: this.$t('redpacketmanagement.redpackettype'),
             width: 60,
             render: (h ,obj) => {
               let type =  obj.row.type;
-              let txt = "随机";
+              let txt = this.$t('addeditredenvelopes.random');
               let color = "#000";
-              if(type == 0) {txt = "随机";color = "#FF0000";}
-              if(type == 1) {txt = "定额";color = "#19be6b";}
+              if(type == 0) {txt = this.$t('addeditredenvelopes.random');color = "#FF0000";}
+              if(type == 1) {txt = this.$t('addeditredenvelopes.quota');color = "#19be6b";}
 
               return h('span',{
                 style:{
@@ -148,39 +147,39 @@
             }
           },
           {
-            title: '红包总额',
+            title: this.$t('redpacketmanagement.totalamountofredenvelopes'),
             width: 60,
             key:"totalAmount"
           },
           {
-            title: '红包数量',
+            title: this.$t('redpacketmanagement.numberofredenvelopes'),
             width: 60,
             key:"count"
           },
           {
-            title: '最大随机额',
+            title: this.$t('redpacketmanagement.maximumrandomamount'),
             width: 95,
             key:"maxRand"
           },
           {
-            title: '已领取',
+            title: this.$t('redpacketmanagement.collected'),
             width: 75,
             key:"receiveCount"
           },
           {
-            title: '领取总额',
+            title: this.$t('redpacketmanagement.claimtotal'),
             width: 120,
             key:"receiveAmount"
           },
           {
-            title: '邀请拆分',
+            title: this.$t('redpacketmanagement.invitationsplit'),
             width: 60,
             render: (h ,obj) => {
               let invite =  obj.row.invite;
-              let txt = "否";
+              let txt = this.$t('perpetualcontractcurrencystandardmanagement.no');
               let color = "#000";
-              if(invite == 0) {txt = "否";color = "#FF0000";}
-              if(invite == 1) {txt = "是";color = "#19be6b";}
+              if(invite == 0) {txt = this.$t('perpetualcontractcurrencystandardmanagement.no');color = "#FF0000";}
+              if(invite == 1) {txt = this.$t('perpetualcontractcurrencystandardmanagement.yes');color = "#19be6b";}
 
               return h('span',{
                 style:{
@@ -190,14 +189,14 @@
             }
           },
           {
-            title: '平台红包',
+            title: this.$t('redpacketmanagement.platformredenvelope'),
             width: 60,
             render: (h ,obj) => {
               let plateform =  obj.row.plateform;
-              let txt = "否";
+              let txt = this.$t('perpetualcontractcurrencystandardmanagement.no');
               let color = "#000";
-              if(plateform == 0) {txt = "否";color = "#FF0000";}
-              if(plateform == 1) {txt = "是";color = "#19be6b";}
+              if(plateform == 0) {txt = this.$t('perpetualcontractcurrencystandardmanagement.no');color = "#FF0000";}
+              if(plateform == 1) {txt = this.$t('perpetualcontractcurrencystandardmanagement.yes');color = "#19be6b";}
 
               return h('span',{
                 style:{
@@ -207,14 +206,14 @@
             }
           },
           {
-            title: '状态',
+            title: this.$t('managementofoptioncontractsineachperiod.status'),
             width: 80,
             render: (h ,obj) => {
               let state =  obj.row.state;
-              let txt = "领取中";
+              let txt = this.$t('redpacketmanagement.receiving');
               let color = "#000";
-              if(state == 1) {txt = "已领完";color = "#19be6b";}
-              if(state == 2) {txt = "过期";color = "#FF0000";}
+              if(state == 1) {txt = this.$t('yi-ling-wan');color = "#19be6b";}
+              if(state == 2) {txt = this.$t('redpacketmanagement.expired');color = "#FF0000";}
 
               return h('span',{
                 style:{
@@ -224,7 +223,7 @@
             }
           },
           {
-              title: "操作",
+              title: this.$t('perpetualcontractcurrencystandardmanagement.operation'),
               key: "xx",
               fixed: 'right',
               width: 150,
@@ -248,7 +247,7 @@
                         }
                       }
                     },
-                    "修改"
+                    this.$t('perpetualcontractcurrencystandardmanagement.modify')
                   ),
                   h(
                     "Button",
@@ -264,7 +263,7 @@
                         }
                       }
                     },
-                    "领取详情"
+                    this.$t('redpacketmanagement.claimdetails')
                   ),
                 ]);
               }
@@ -273,28 +272,28 @@
         list: [],
         columnsDetail: [
           {
-            title: '用户ID',
+            title: this.$t('positionmanagement.userid'),
             width: 100,
             key:"memberId"
           },
           {
-            title: '领取用户',
+            title: this.$t('redpacketmanagement.receivinguser'),
             width: 120,
             key:"userIdentify"
           },
           {
-            title: '领取数额',
+            title: this.$t('redpacketmanagement.claimamount'),
             width: 120,
             key:"amount"
           },
           {
-            title: '是否机器人',
+            title: this.$t('redpacketmanagement.robotornot'),
             render: (h ,obj) => {
               let cate =  obj.row.cate;
-              let txt = "否";
+              let txt = this.$t('perpetualcontractcurrencystandardmanagement.no');
               let color = "#000";
-              if(cate == 0) {txt = "否";color = "#FF0000";}
-              if(cate == 1) {txt = "是";color = "#19be6b";}
+              if(cate == 0) {txt = this.$t('perpetualcontractcurrencystandardmanagement.no');color = "#FF0000";}
+              if(cate == 1) {txt = this.$t('perpetualcontractcurrencystandardmanagement.yes');color = "#19be6b";}
 
               return h('span',{
                 style:{

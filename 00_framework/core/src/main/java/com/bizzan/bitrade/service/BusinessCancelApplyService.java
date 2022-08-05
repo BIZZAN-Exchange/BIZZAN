@@ -1,15 +1,13 @@
 package com.bizzan.bitrade.service;
 
-import org.apache.commons.collections.map.HashedMap;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.bizzan.bitrade.constant.CertifiedBusinessStatus;
 import com.bizzan.bitrade.dao.*;
 import com.bizzan.bitrade.entity.BusinessCancelApply;
 import com.bizzan.bitrade.entity.Member;
 import com.bizzan.bitrade.service.Base.TopBaseService;
-import com.bizzan.bitrade.vo.BusinessStatisticsVO;
+import org.apache.commons.collections.map.HashedMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;

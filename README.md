@@ -10,15 +10,17 @@ BIZZAN 开源数字货币交易系统
 ### 提问和建议
 - 使用Issuse，我们会及时跟进解答。
 - 加入交流群：区块链交易所技术知识交流群【QQ群:735446452】【QQ:390330302】
+- Telegram:https://t.me/bizzanhevin
 - E-mail:xunibidev@gmail.com
 
 # 关于Q类的问题，请看往下看 服务部署准备
 
 # 捐赠：
 #### 您的捐赠是我们开源最大的动力
-- BTC/USDT(比特币/USDT)：1Dwwqhw9pV9iSSQwuJc8nAygda7XfahaoW
-- ETH/USDT(以太坊/USDT)：0x4f1ea0f10aa99f608f31f70b4d3119f6928693ed
-- LTC(莱特币)：LXr4TMtDhCSpdAo98vg2sbvX3UXDVPQvMa
+- BTC/USDT(比特币/USDT)：1FCLDUqPaRCbVAf28NMQPuRTqBpkRF3ktX
+- ETH/USDT(以太坊/USDT)：0xdbD24251916D6172A2c1c127035B193e9232F1a5
+- TRX/USDT(波场/USDT)：TJe9eieckNGZDfXfgRp43vXd31BMKybEYr
+- BNB/USDT（币安币/USDT）：0xdbD24251916D6172A2c1c127035B193e9232F1a5
 
 #### BIZZAN是一个免费的、开源的数字货币交易系统，她使用目前最流行的Java框架和相关技术开发而成。
 
@@ -69,6 +71,7 @@ BIZZAN 开源数字货币交易系统
 ### 加入我们
     为方便大家交流和学习，请各位小伙伴加入QQ交流群：
 	*区块链交易所技术知识交流群【QQ群：735446452】【QQ:390330302】
+    Telegram:https://t.me/bizzanhevin
 ### 开源许可协议
     Apache
 
@@ -76,19 +79,19 @@ BIZZAN 开源数字货币交易系统
 
 # 整体架构
 
-#### ![Topology-Image](/Topology-Image/143836_eac248e5_2182501.png)
+#### ![Topology-Image](https://github.com/xunibidev/CoinExchange/blob/master/Topology-Image/143836_eac248e5_2182501.png)
 
 # 逻辑架构
 
-#### ![Topology-Image](/Topology-Image/143856_66257325_2182501.png)
+#### ![Topology-Image](https://github.com/xunibidev/CoinExchange/blob/master/Topology-Image/143856_66257325_2182501.png)
 
 # 部署架构
 
-#### ![Topology-Image](/Topology-Image/141710_07923003_2182501.png)
+#### ![Topology-Image](https://github.com/xunibidev/CoinExchange/blob/master/Topology-Image/141710_07923003_2182501.png)
 
 # 依赖关系
 
-#### ![Topology-Image](/Topology-Image/194510_89803a9d_2182501.png)
+#### ![Topology-Image](https://github.com/xunibidev/CoinExchange/blob/master/Topology-Image/194510_89803a9d_2182501.png)
 
 ##  模块介绍
 
@@ -253,10 +256,10 @@ water.proof.app.**
     ```
 
 ## 商业版演示图
-#### ![Topology-Image](/Topology-Image/01.png)
-#### ![Topology-Image](/Topology-Image/02.png)
-#### ![Topology-Image](/Topology-Image/03.png)
-#### ![Topology-Image](/Topology-Image/04.png)
-#### ![Topology-Image](/Topology-Image/05.png)
-#### ![Topology-Image](/Topology-Image/06.png)
-#### ![Topology-Image](/Topology-Image/07.png)
+#### ![Topology-Image](https://github.com/xunibidev/CoinExchange/blob/master/Topology-Image/01.png)
+#### ![Topology-Image](https://github.com/xunibidev/CoinExchange/blob/master/Topology-Image/02.png)
+#### ![Topology-Image](https://github.com/xunibidev/CoinExchange/blob/master/Topology-Image/03.png)
+#### ![Topology-Image](https://github.com/xunibidev/CoinExchange/blob/master/Topology-Image/04.png)
+#### ![Topology-Image](https://github.com/xunibidev/CoinExchange/blob/master/Topology-Image/05.png)
+#### ![Topology-Image](https://github.com/xunibidev/CoinExchange/blob/master/Topology-Image/06.png)
+#### ![Topology-Image](https://github.com/xunibidev/CoinExchange/blob/master/Topology-Image/07.png)

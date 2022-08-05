@@ -1,6 +1,7 @@
 package com.bizzan.bc.wallet.entity;
 
 import lombok.Data;
+
 import java.util.Date;
 
 @Data

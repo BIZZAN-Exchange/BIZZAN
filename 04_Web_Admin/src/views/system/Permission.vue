@@ -2,19 +2,17 @@
   <div>
       <Card>
         <p slot="title">
-        权限列表
-          <Button type="primary" size="small" @click="refreshPageManual">
+        {{ $t('permissionlist.permissionlist') }} <Button type="primary" size="small" @click="refreshPageManual">
             <Icon type="refresh"></Icon>
-            刷新
-          </Button>
+            {{ $t('perpetualcontractcurrencystandardmanagement.refresh') }} </Button>
         </p>
 
         <Row class="functionWrapper">
           <div class="btnsWrapper clearfix">
             <!-- <Button type="error" @click="delPermission">删除权限</Button> -->
-            <Button type="error">删除权限</Button>
+            <Button type="error">{{ $t('permissionlist.deletepermissions') }}</Button>
             
-            <Button type="primary" @click="addPermission">添加权限</Button>
+            <Button type="primary" @click="addPermission">{{ $t('permissionlist.addpermission') }}</Button>
           </div>
         </Row>
 
@@ -40,34 +38,34 @@
        <Modal
        	class="auditPermissionModal"
         v-model="ifAudit"
-        title="编辑权限"
+        :title="$t('permissionlist.editpermissions')"
         @on-ok="confirmAudit">
         <ul>
           <li>
-            <span><i>*</i>权限标题：</span>
+            <span><i>*</i>{{ $t('permissionlist.permissiontitle') }}</span>
             <p>
               <Input v-model="title" ></Input>  
             </p>
           </li>
 
           <li>
-            <span><i>*</i>权限名称：</span>
+            <span><i>*</i>{{ $t('permissionlist.permissionname') }}</span>
             <p>
               <Input v-model="name" ></Input>
             </p>
           </li>
          
           <li>
-            <span><i>*</i>权限目录：</span>
+            <span><i>*</i>{{ $t('permissionlist.permissiondirectory') }}</span>
             <p> 
               <Select v-model="parentID">
-                <Option value="0" style="color: #ec0909" label="作为一级目录">将其作为一级目录</Option>
+                <Option value="0" style="color: #ec0909" :label="$t('permissionlist.asaprimarydirectory')">{{ $t('permissionlist.makeitaprimarydirectory') }}</Option>
                 <Option v-for="item in selectArr" :value="item.id" :key="item.id">{{ item.title }}</Option>
               </Select>
             </p>
           </li>
            <li>
-            <span>权限描述：</span>
+            <span>{{ $t('permissionlist.permissiondescription') }}</span>
             <p>
               <Input type="textarea" v-model="descript" ></Input>
             </p>
@@ -78,7 +76,7 @@
        <Modal
        class="auditPermissionModal"
         v-model="ifDelete"
-        title="删除权限"
+        title="$t('permissionlist.deletepermissions')"
         @on-ok="confirmDel">
         <p>是否删除选中的{{ deleteArr.length }}项</p>
        </Modal>
@@ -101,29 +99,29 @@ import { permissionManage, addAuditPermission, delPermission } from '@/service/g
           width: 60
         },
         {
-          title: '序号',
+          title: this.$t('permissionlist.serialnumber'),
           key: 'id',
           width: 80
         },
         {
-          title: '父级ID',
+          title: this.$t('permissionlist.parentid'),
           key: 'parentId'
         },
         {
-          title: '权限标题',
+          title: this.$t('permissionlist.permissiontitle1'),
           key: 'title'
         },
         {
-          title: '权限名称',
+          title: this.$t('permissionlist.permissionname1'),
           key: 'name'
         },
         {
-          title: '权限描述',
+          title: this.$t('permissionlist.permissiondescription1'),
           key: 'description'
         },
        
         {
-          title: '操作',
+          title: this.$t('permissionlist.operation'),
           key: 'action',
           width: 150,
           align: 'center',
@@ -147,7 +145,7 @@ import { permissionManage, addAuditPermission, delPermission } from '@/service/g
                   this.addPermissionBtn();
                 }
               }
-            }, '修改');
+            }, this.$t('perpetualcontractcurrencystandardmanagement.modify'));
           }
         }
       ],
@@ -171,7 +169,7 @@ import { permissionManage, addAuditPermission, delPermission } from '@/service/g
     methods: {
       delPermission() {
         if(!this.deleteArr.length) {
-          this.$Message.warning('尚未选取！');
+          this.$Message.warning(this.$t('permissionlist.notselected'));
         }else{
           this.ifDelete = true;
         }
@@ -190,8 +188,8 @@ import { permissionManage, addAuditPermission, delPermission } from '@/service/g
         .then( res => {
           if(!res.code) {
             this.refreshPage({ pageNo: 1, pageSize: 10 });
-            this.$Message.success('删除成功！');
-          }else this.$Message.error('删除失败！');
+            this.$Message.success(this.$t('currencysetting.deletionsucceeded'));
+          }else this.$Message.error(this.$t('currencysetting.deletionfailed'));
         } )
       },
       cancelDel () {
@@ -199,7 +197,7 @@ import { permissionManage, addAuditPermission, delPermission } from '@/service/g
       },
       confirmAudit() {
        if(!this.title || !this.name || !this.parentID) {
-         this.$Message.warning('请完善信息！');
+         this.$Message.warning(this.$t('systeminformationmaintenance.pleaseimprovetheinformation'));
        } else {
          let obj = {
            name: this.name,
@@ -212,7 +210,7 @@ import { permissionManage, addAuditPermission, delPermission } from '@/service/g
          addAuditPermission(obj)
          .then( res => {
            if(!res.code) {
-             this.$Message.success('操作成功！');
+             this.$Message.success(this.$t('perpetualcontractcurrencystandardmanagement.operationsucceeded'));
              this.refreshPage({ pageNo: 1, pageSize: 10 });
              this.name = this.parentID = this.title = this.descript = null;
            }else  this.$Message.error(res.message);
@@ -231,7 +229,7 @@ import { permissionManage, addAuditPermission, delPermission } from '@/service/g
         }
         this.ifAudit = true;
 
-        permissionManage({ parentId: 0 })
+        permissionManage({ parentId: 0, pageSize: 300 })
         .then(res => {
           console.log(res);
           this.selectArr = res.data.content;
@@ -252,7 +250,7 @@ import { permissionManage, addAuditPermission, delPermission } from '@/service/g
           if(!res.code) {
             this.totalNum = res.data.totalElements;
             this.userpage = res.data.content;
-          }else this.$Message.error('获取数据出错！')
+          }else this.$Message.error(this.$t('permissionlist.errorgettingdata'))
           this.ifLoading = false;
         })
 

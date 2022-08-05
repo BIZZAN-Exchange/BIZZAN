@@ -10,14 +10,14 @@
 										@click="switchType(index, totalVolume)" 
 										v-for="(trade, index) in totalVolume.tardeType.type"
 										:key="index">{{ trade.type }}</span>
-							<span class="detail" @click="skipRouter(totalVolume)">明细</span>
+							<span class="detail" @click="skipRouter(totalVolume)">{{ $t('currentdelegation.details') }}</span>
 						</p>
 					</div>
 					<div class="body">
 						<Row>
-							<Col span="7" offset="1">币种</Col>
-							<Col span="7" offset="1">成交量</Col>
-							<Col span="7" offset="1">交易额</Col>
+							<Col span="7" offset="1">{{ $t('transactiondetailsinlegalcurrency.currency') }}</Col>
+							<Col span="7" offset="1">{{ $t('currentdelegation.tradingvolume') }}</Col>
+							<Col span="7" offset="1">{{ $t('cumulative.transactionvolume') }}</Col>
 						</Row>
 						<Row v-if="!!totalVolume.tabelArr.length">  
 							<Row class="info"  v-for="tabelInfo in totalVolume.tabelArr" :key="tabelInfo.unit">
@@ -27,7 +27,7 @@
 							</Row>
 						</Row>
 						<Row class="noData" v-if="!totalVolume.tabelArr.length">
-							<p>暂无数据！</p>
+							<p>{{ $t('cumulative.nodatatemporarily') }}</p>
 						</Row>	
 					</div>
 					<div class="footer">
@@ -49,13 +49,13 @@
 										@click="switchType(index, totalFee)" 
 										v-for="(trade, index) in totalFee.tardeType.type"
 										:key="index">{{ trade.type }}</span>
-							<span class="detail" @click="skipRouter(totalFee)">明细</span>
+							<span class="detail" @click="skipRouter(totalFee)">{{ $t('currentdelegation.details') }}</span>
 						</p>
 					</div>
 					<div class="body">
 						<Row>
-							<Col span="12">币种</Col>
-							<Col span="12">手续费</Col>
+							<Col span="12">{{ $t('transactiondetailsinlegalcurrency.currency') }}</Col>
+							<Col span="12">{{ $t('transactiondetailsinlegalcurrency.handlingcharges') }}</Col>
 						</Row>
 						<Row v-if="!!totalFee.tabelArr.length">  
 							<Row class="info"  v-for="tabelInfo in totalFee.tabelArr" :key="tabelInfo.unit">
@@ -64,7 +64,7 @@
 							</Row>
 						</Row>
 						<Row class="noData" v-if="!totalFee.tabelArr.length">
-							<p>暂无数据！</p>
+							<p>{{ $t('cumulative.nodatatemporarily') }}</p>
 						</Row>	
 					</div>
 					<div class="footer">
@@ -88,13 +88,13 @@
 										@click="switchType(index, totalCoin)" 
 										v-for="(trade, index) in totalCoin.tardeType.type"
 										:key="index">{{ trade.type }}</span>
-							<span class="detail" @click="skipRouter(totalCoin)">明细</span>
+							<span class="detail" @click="skipRouter(totalCoin)">{{ $t('currentdelegation.details') }}</span>
 						</p>
 					</div>
 					<div class="body">
 						<Row>
-							<Col span="12">币种</Col>
-							<Col span="12">总充币数</Col>
+							<Col span="12">{{ $t('transactiondetailsinlegalcurrency.currency') }}</Col>
+							<Col span="12">{{ $t('detailed.totalcoinscharged') }}</Col>
 						</Row>
 						<Row v-if="!!totalCoin.tabelArr.length">  
 							<Row class="info"  v-for="tabelInfo in totalCoin.tabelArr" :key="tabelInfo.unit">
@@ -103,7 +103,7 @@
 							</Row>
 						</Row>
 						<Row class="noData" v-if="!totalCoin.tabelArr.length">
-							<p>暂无数据！</p>
+							<p>{{ $t('cumulative.nodatatemporarily') }}</p>
 						</Row>	
 					</div>
 					<div class="footer">
@@ -135,10 +135,10 @@ export default {
 					startDate: dtime(Date.now()-24*60*60000).format('YYYY-MM-DD')
 				},
 				tabelArr: [],
-				timeRange: { active: 0, time: ['昨天', '三天', '一周'] },
+				timeRange: { active: 0, time: [this.$t('detailed.yesterday'), this.$t('cumulative.threedays'), this.$t('cumulative.oneweek')] },
 				tardeType: { active: 0, type: [
-					{ status: ['OTC_NUM', 'OTC_MONEY'], type: '法币交易', router: '/finance/otcdetail' },
-					{ status: ['EXCHANGE_BASE', 'EXCHANGE_COIN'], type: '币币交易', router: '/' }
+					{ status: ['OTC_NUM', 'OTC_MONEY'], type: this.$t('detailed.transactionsinlegalcurrency'), router: '/finance/otcdetail' },
+					{ status: ['EXCHANGE_BASE', 'EXCHANGE_COIN'], type: this.$t('servicechargewithdrawaldetails.currencytransaction'), router: '/' }
 				]}
 			},
 			totalFee: {
@@ -148,11 +148,11 @@ export default {
 					startDate: dtime(Date.now()-24*60*60000).format('YYYY-MM-DD')
 				},
 				tabelArr: [],
-				timeRange: { active: 0, time: ['昨天', '三天', '一周'] },
+				timeRange: { active: 0, time: [this.$t('detailed.yesterday'), this.$t('cumulative.threedays'), this.$t('cumulative.oneweek')] },
 				tardeType: { active: 0, type: [
-					{ status: 0, type: '法币交易', router: '/finance/otcdetail'}, 
-					{ status: 2, type: '币币交易', router: '/'}, 
-					{ status: 6, type: '提币', router: '/finance/withdrawdetail'}
+					{ status: 0, type: this.$t('detailed.transactionsinlegalcurrency'), router: '/finance/otcdetail'}, 
+					{ status: 2, type: this.$t('servicechargewithdrawaldetails.currencytransaction'), router: '/'}, 
+					{ status: 6, type: this.$t('detailed.withdrawal'), router: '/finance/withdrawdetail'}
 				]}
 			},
 			totalCoin: {
@@ -162,10 +162,10 @@ export default {
 					startDate: dtime(Date.now()-24*60*60000).format('YYYY-MM-DD')
 				},
 				tabelArr: [],
-				timeRange: { active: 0, time: ['昨天', '三天', '一周'] },
+				timeRange: { active: 0, time: [this.$t('detailed.yesterday'), this.$t('cumulative.threedays'), this.$t('cumulative.oneweek')] },
 				tardeType: { active: 0, type: [
-					{ status: 5, type: '充币', router: '/finance/changecoindetail' }, 
-					{ status: 6, type: '提币', router: '/finance/withdrawdetail' }
+					{ status: 5, type: this.$t('detailed.recharging'), router: '/finance/changecoindetail' }, 
+					{ status: 6, type: this.$t('detailed.withdrawal'), router: '/finance/withdrawdetail' }
 				]}
 			},
 		}

@@ -2,28 +2,26 @@
     <div >
       <Card>
         <p slot="title">
-        部门管理
-          <Button type="primary" size="small" @click="refreshPageManual">
+        {{ $t('departmentmanagement.departmentmanagement') }} <Button type="primary" size="small" @click="refreshPageManual">
             <Icon type="refresh"></Icon>
-            刷新
-          </Button>
+            {{ $t('perpetualcontractcurrencystandardmanagement.refresh') }} </Button>
         </p>
 
         <Row class="functionWrapper">
           <div class="btnsWrapper clearfix">
-            <Button type="primary" @click="addDepartBtn">添加部门</Button>
+            <Button type="primary" @click="addDepartBtn">{{ $t('departmentmanagement.adddepartment') }}</Button>
           </div>
         </Row>
 
         <Modal
           class="addDepartModal"
           v-model="showAddDepart"
-          title="添加部门"
+          :title="$t('departmentmanagement.adddepartment')"
           @on-ok="addDepart">
 
-          <p><span>部门名称 <i>*</i>：</span><Input v-model="departName"></Input></p>
-          <p><span>领导ID：</span><Input v-model="leaderID"></Input></p>
-          <p><span>部门描述：</span><Input type="textarea" v-model="departDscrp"> </Input></p>
+          <p><span>{{ $t('departmentmanagement.departmentname') }} <i>*</i>：</span><Input v-model="departName"></Input></p>
+          <p><span>{{ $t('departmentmanagement.leaderid') }}</span><Input v-model="leaderID"></Input></p>
+          <p><span>{{ $t('departmentmanagement.departmentdescription') }}</span><Input type="textarea" v-model="departDscrp"> </Input></p>
 
         </Modal>
 
@@ -40,24 +38,24 @@
         <Modal
           class="addDepartModal departDetailModal"
           v-model="showDepartDetail"
-          title="部门详情"
+          :title="$t('departmentmanagement.departmentdetails')"
           @on-ok="updateDepart"
-          @on-cancel="$Message.info('已取消！')">
+          @on-cancel="$Message.info(this.$t('departmentmanagement.cancel'))">
 
-          <p><span><em>领</em>导ID：</span><Input v-model="departmentDetail.leaderId"></Input></p>
-          <p><span><em>部</em>门：</span><Input v-model="departmentDetail.name"></Input></p>
-          <p><span>更新时间：</span><Input disabled v-model="departmentDetail.updateTime"></Input></p>
-          <p><span>创建时间：</span><Input disabled v-model="departmentDetail.createTime"></Input></p>
-          <p><span><em>备</em>注：</span><Input type="textarea" v-model="departmentDetail.remark"></Input></p>
+          <p><span><em>{{ $t('departmentmanagement.collar') }}</em>{{ $t('departmentmanagement.guideid') }}</span><Input v-model="departmentDetail.leaderId"></Input></p>
+          <p><span><em>{{ $t('departmentmanagement.department') }}</em>{{ $t('departmentmanagement.door') }}</span><Input v-model="departmentDetail.name"></Input></p>
+          <p><span>{{ $t('departmentmanagement.updatetime') }}</span><Input disabled v-model="departmentDetail.updateTime"></Input></p>
+          <p><span>{{ $t('advertisingmanagement.createdon') }}</span><Input disabled v-model="departmentDetail.createTime"></Input></p>
+          <p><span><em>{{ $t('departmentmanagement.prepare') }}</em>{{ $t('departmentmanagement.note') }}</span><Input type="textarea" v-model="departmentDetail.remark"></Input></p>
 
         </Modal>
 
         <Modal
         v-model="ifDelete"
-        title="删除部门"
+        :title="$t('departmentmanagement.deletedepartment')"
         @on-ok="confirmDel"
-        @on-cancel="$Message.info('已取消！')">
-        <p>是否删除所选的项?</p>
+        @on-cancel="$Message.info(this.$t('departmentmanagement.cancel'))">
+        <p>{{ $t('departmentmanagement.deletetheselecteditem') }}</p>
        </Modal>
 
        <Row class="pageWrapper" >
@@ -102,24 +100,24 @@ export default {
         //   align: 'center'
         // },
         {
-          title: '部门ID',
+          title: this.$t('departmentmanagement.departmentid'),
           key: 'id',
           width: 80
         },
         {
-          title: '部门',
+          title: this.$t('departmentmanagement.department'),
           key: 'name'
         },
         {
-          title: '创建时间',
+          title: this.$t('secondcontractcompensationsetting.creationtime'),
           key: 'createTime'
         },
         {
-          title: '备注',
+          title: this.$t('systeminformationmaintenance.remarks'),
           key: 'remark'
         },
          {
-          title: '操作',
+          title: this.$t('perpetualcontractcurrencystandardmanagement.operation'),
           render: (h, obj) => {
             return ('div', [
               h('Button',{
@@ -143,12 +141,12 @@ export default {
                          console.log(res.data);
                          this.departmentDetail = res.data;
                          
-                       }else this.$Message.error('数据获取出错！')
+                       }else this.$Message.error(this.$t('departmentmanagement.dataacquisitionerror'))
                      })
    
                    }
                  }
-               },'查看 / 编辑'),
+               },this.$t('usermanagement.viewedit')),
                 h('Button',{
                   props: {
                     type: 'error',
@@ -160,7 +158,7 @@ export default {
                       this.delDepartID = obj.row.id;
                     }
                   }
-                }, '删除')
+                }, this.$t('secondcontractcompensationsetting.delete'))
 
             ])
           
@@ -189,7 +187,7 @@ export default {
     },
     updateDepart() {
       if(this.departmentDetail.name === '' || !this.departmentDetail.name) {
-        this.$Message.warning('部门名称不能为空！');
+        this.$Message.warning(this.$t('departmentmanagement.departmentnamecannotbeempty'));
       }else{
 
         addAuditDepart(this.departmentDetail)
@@ -204,7 +202,7 @@ export default {
     },
     addDepart() {
       if(this.departName === '' || !this.departName) {
-        this.$Message.warning('部门名称不能为空！');
+        this.$Message.warning(this.$t('departmentmanagement.departmentnamecannotbeempty'));
       }else{
 
         let updateObj = {

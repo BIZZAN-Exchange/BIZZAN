@@ -1,17 +1,8 @@
 package com.bizzan.bitrade.vo;
 
-import com.bizzan.bitrade.constant.AdvertiseType;
-import com.bizzan.bitrade.constant.AppealStatus;
-import com.bizzan.bitrade.constant.BooleanEnum;
-import com.bizzan.bitrade.constant.OrderStatus;
-import com.bizzan.bitrade.entity.Appeal;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.Data;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;

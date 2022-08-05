@@ -1,18 +1,14 @@
 package com.bizzan.bitrade.job;
 
-import static com.bizzan.bitrade.constant.SysConstant.EMAIL_BIND_CODE_PREFIX;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
+import com.bizzan.bitrade.service.WithdrawRecordService;
+import com.bizzan.bitrade.util.MessageResult;
+import com.bizzan.bitrade.vendor.provider.SMSProvider;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -20,18 +16,15 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
-import com.bizzan.bitrade.service.WithdrawRecordService;
-import com.bizzan.bitrade.util.MessageResult;
-import com.bizzan.bitrade.vendor.provider.SMSProvider;
-
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
-import lombok.extern.slf4j.Slf4j;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 检查用户提现申请
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  *
  */
 @Component

@@ -1,13 +1,12 @@
 package com.bizzan.bitrade.config;
 
+import com.bizzan.bitrade.system.GeetestLib;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bizzan.bitrade.system.GeetestLib;
-
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年02月23日
  */
 @Configuration

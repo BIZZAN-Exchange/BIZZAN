@@ -1,12 +1,10 @@
 package com.bizzan.bitrade.util;
 
-import com.alibaba.fastjson.JSONObject;
 import com.bizzan.bitrade.config.JDBCConfig;
 import com.bizzan.bitrade.dto.MemberBonusDTO;
 import com.bizzan.bitrade.entity.Member;
 import com.bizzan.bitrade.entity.MemberWallet;
 import com.bizzan.bitrade.es.ESUtils;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,7 +15,7 @@ import java.util.List;
 
 /**
  * @Description:
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date: create in 13:10 2019/7/2
  * @Modified:
  */
@@ -232,7 +230,7 @@ public class JDBCUtils {
         Statement state = null;
         ResultSet rs = null;
         String sql = " INSERT INTO member_wallet( address, balance, frozen_balance, is_lock, member_id, version, coin_id, to_released )" +
-                " VALUES ( \"\", 0, 0, 0, ?, 0, ?, 0) ";
+                " VALUES ( \"\", 0, 0, 0, ?, 0, ?, 0) ON DUPLICATE KEY UPDATE version=version";
 
         try {
 
@@ -308,7 +306,7 @@ public class JDBCUtils {
         Statement state = null;
         ResultSet rs = null;
         String sql = "INSERT INTO `member_contract_wallet` (`coin_balance`, `coin_buy_leverage`, `coin_buy_position`, `coin_buy_price`, `coin_buy_principal_amount`, `coin_frozen_balance`, `coin_frozen_buy_position`, `coin_frozen_sell_position`, `coin_pattern`, `coin_sell_leverage`, `coin_sell_position`, `coin_sell_price`, `coin_sell_principal_amount`, `coin_share_number`, `member_id`, `usdt_balance`, `usdt_buy_leverage`, `usdt_buy_position`, `usdt_buy_price`, `usdt_buy_principal_amount`, `usdt_frozen_balance`, `usdt_frozen_buy_position`, `usdt_frozen_sell_position`, `usdt_pattern`, `usdt_sell_leverage`, `usdt_sell_position`, `usdt_sell_price`, `usdt_sell_principal_amount`, `usdt_share_number`, `contract_id`) VALUES" +
-                " (0, 10, 0, 0, 0, 0, 0, 0, 1, 10, 0, 0, 0, 0, ?, 0, 10, 0, 0, 0, 0, 0, 0, 1, 10, 0, 0, 0, 0, ?)";
+                " (0, 10, 0, 0, 0, 0, 0, 0, 1, 10, 0, 0, 0, 0, ?, 0, 10, 0, 0, 0, 0, 0, 0, 1, 10, 0, 0, 0, 0, ?) ON DUPLICATE KEY UPDATE coin_buy_leverage=coin_buy_leverage";
 
         try {
 

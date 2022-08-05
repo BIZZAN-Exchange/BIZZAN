@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin E-Mali:390330302@qq.com
  * @Title: ${file_name}
  * @Description:
- * @date 2019/4/289:45
+ * @date 2021/4/289:45
  */
 @Data
 @AllArgsConstructor

@@ -2,10 +2,8 @@ package com.bizzan.bitrade.entity;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import cn.afterturn.easypoi.excel.annotation.ExcelEntity;
-
 import com.bizzan.bitrade.constant.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -20,7 +18,7 @@ import java.util.Date;
 /**
  * 广告实体类
  *
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年12月07日
  */
 @Entity
@@ -105,7 +103,7 @@ public class Advertise implements Serializable {
     /**
      * 付款期限，单位分钟
      */
-    @DecimalMin(value = "1", message = "{Advertise.timeLimit.min}")
+//    @DecimalMin(value = "1", message = "{Advertise.timeLimit.min}")
     private Integer timeLimit;
 
     /**

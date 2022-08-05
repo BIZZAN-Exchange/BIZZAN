@@ -109,11 +109,11 @@
                             </div>
                         </div>
                         <!-- 2 -->
-                        <div class="account-item" >
+                        <div class="account-item">
                             <div class="account-item-in">
                                 <Icon type="ios-mail" size="20" color="#00b5f6;"/>
                                 <span class="card-number">{{$t('uc.safe.email')}}</span>
-                                <p v-if="user.emailVerified==1" class="bankInfo" style="color:#fff;font-size: 13px;">
+                                <p v-if="user.emailVerified==1" class="bankInfo" style="color: grey;font-size: 13px;">
                                     {{user.email}}
                                 </p>
                                 <p v-else class="bankInfo" style="color: #828ea1;font-size: 13px;">
@@ -173,7 +173,15 @@
                                     <Form ref="formValidate3" :model="formValidate3" :rules="ruleValidate" :label-width="110">
                                         <!-- 手机 -->
                                         <FormItem :label="$t('uc.safe.phone')" prop="mobile">
-                                            <Input v-model="formValidate3.mobile" size="large"></Input>
+                                            <Input v-model="formValidate3.mobile" size="large">
+                                              <Select v-model="country" slot="prepend" style="width: 80px;border:1px solid #27313e;">
+                                                  <Option v-for="(area,index) in areas" :key="index"  :value="area.zhName" :label="'+' + area.areaCode">
+                                                    <span style="text-align:right;display:inline-block;width:30px;">+{{area.areaCode}}</span>
+                                                    <span style="text-align:left;display:inline-block;margin-left:10px;color:#ccc;width:80px;" v-if="lang=='简体中文'">{{area.zhName}}</span>
+                                                    <span style="text-align:left;display:inline-block;margin-left:10px;color:#ccc;width:80px;" v-else>{{area.enName}}</span>
+                                                  </Option>
+                                              </Select>
+                                            </Input>
                                         </FormItem>
                                         <!-- 登录密码 -->
                                         <FormItem :label="$t('uc.safe.loginpwd')" prop="password">
@@ -209,8 +217,7 @@
                                     {{$t('uc.safe.logintip')}}
                                 </p>
 
-                                <a class="btn" v-if="user.phoneVerified==0" @click="noPhone">{{$t('uc.safe.edit')}}</a>
-                                <a class="btn" v-else @click="showItem(4)">{{$t('uc.safe.edit')}}</a>
+                                <a class="btn" @click="showItem(4)">{{$t('uc.safe.edit')}}</a>
                             </div>
                             <div class="account-detail" v-show="choseItem==4">
                                 <div class="detail-list">
@@ -228,11 +235,11 @@
                                             <Input v-model="formValidate4.newPwConfirm" size="large" type="password"></Input>
                                         </FormItem>
                                         <!-- 手机验证码 -->
-                                        <FormItem :label="$t('uc.safe.phonecode')" prop="vailCode3">
+                                        <FormItem :label="$t('uc.safe.emailcode')" prop="vailCode3">
                                             <Input v-model="formValidate4.vailCode3" size="large">
                                             <!-- <Button slot="append">点击获取</Button> -->
                                             <div class="timebox" slot="append">
-                                                <Button @click="send(3)" :disabled="sendMsgDisabled3">
+                                                <Button @click="send(3)" style="padding: 8px 15px 8px;border-bottom-left-radius: unset;border-top-left-radius: unset;" :disabled="sendMsgDisabled3">
                                                     <span v-if="sendMsgDisabled3">{{time3+$t('uc.safe.second')}}</span>
                                                     <span v-if="!sendMsgDisabled3">{{$t('uc.safe.clickget')}}</span>
                                                 </Button>
@@ -256,8 +263,7 @@
                                 <p class="bankInfo" style="color: #828ea1;font-size: 13px;">
                                     {{$t('uc.safe.fundtip')}}
                                 </p>
-                                <a class="btn" v-if="user.phoneVerified==0" @click="noPhone">{{$t('uc.safe.set')}}</a>
-                                <a class="btn" v-else-if="user.fundsVerified==0" @click="showItem(5)">{{$t('uc.safe.set')}}</a>
+                                <a class="btn" v-if="user.fundsVerified==0" @click="showItem(5)">{{$t('uc.safe.set')}}</a>
                                 <a class="btn" v-else @click="showItemFundpwd()">{{$t('uc.safe.edit')}}</a>
                             </div>
                             <div class="account-detail" v-show="choseItem==5">
@@ -296,16 +302,16 @@
                                             <Input v-model="formValidate5.newMPwConfirm" size="large" type="password"></Input>
                                         </FormItem>
                                         <!-- 邮箱验证码 -->
-                                        <FormItem :label="$t('uc.safe.phonecode')" prop="vailCode5">
-                                        <Input v-model="formValidate5.vailCode5" size="large">
-                                        <div class="timebox" slot="append">
-                                        <Button @click="send(5)" :disabled="sendMsgDisabled5">
-                                        <span v-if="sendMsgDisabled5">{{time5+$t('uc.safe.second')}}</span>
-                                        <span v-if="!sendMsgDisabled5">{{$t('uc.safe.clickget')}}</span>
-                                        </Button>
-                                        </div>
-                                        </Input>
-                                        </FormItem>
+                                        <!--<FormItem :label="$t('uc.safe.phonecode')" prop="vailCode5">-->
+                                        <!--<Input v-model="formValidate5.vailCode5" size="large">-->
+                                        <!--<div class="timebox" slot="append">-->
+                                        <!--<Button @click="send(5)" :disabled="sendMsgDisabled5">-->
+                                        <!--<span v-if="sendMsgDisabled5">{{time5+$t('uc.safe.second')}}</span>-->
+                                        <!--<span v-if="!sendMsgDisabled5">{{$t('uc.safe.clickget')}}</span>-->
+                                        <!--</Button>-->
+                                        <!--</div>-->
+                                        <!--</Input>-->
+                                        <!--</FormItem>-->
                                         <p style="text-align:right;">
                                             <a @click="handleReset('formValidate8');fGetBackFundpwd=!fGetBackFundpwd" style="color:#f0ac19;">忘记密码?</a>
                                         </p>
@@ -328,10 +334,10 @@
                                             <Input v-model="formValidate8.newMPwConfirm8" size="large" type="password"></Input>
                                         </FormItem>
                                         <!-- 邮箱验证码 -->
-                                        <FormItem :label="$t('uc.safe.phonecode')" prop="vailCode5">
+                                        <FormItem :label="$t('uc.safe.emailcode')" prop="vailCode5">
                                             <Input v-model="formValidate8.vailCode5" size="large">
                                             <div class="timebox" slot="append">
-                                                <Button @click="send(5)" :disabled="sendMsgDisabled5">
+                                                <Button @click="send(5)" style="padding: 8px 15px 8px;border-bottom-left-radius: unset;border-top-left-radius: unset;" :disabled="sendMsgDisabled5">
                                                     <span v-if="sendMsgDisabled5">{{time5+$t('uc.safe.second')}}</span>
                                                     <span v-if="!sendMsgDisabled5">{{$t('uc.safe.clickget')}}</span>
                                                 </Button>
@@ -348,7 +354,62 @@
                             </div>
                         </div>
 
-                        <!--  -->
+                        <!-- 6 -->
+                      <div class="account-item">
+                        <div class="account-item-in">
+                          <Icon type="logo-google" color="#00b5f6" size="20"/>
+                          <span class="card-number">{{$t('uc.forget.googleAuth')}}</span>
+                          <p v-if="user.googleStatus==null || user.googleStatus==0" class="bankInfo" style="color: #828ea1;font-size: 13px;">
+                            {{$t('uc.forget.pleaseGoogleAuth')}}
+                          </p>
+                          <p v-else class="bankInfo" style="color: #828ea1;font-size: 13px;">
+                            {{$t('uc.forget.bindGoogleAuth')}}
+                          </p>
+                          <a v-if="user.googleStatus==1" class="btn" @click="showItem(7)">{{$t('uc.forget.jcbind')}}</a>
+                          <a v-else class="btn" @click="showItem(7)">{{$t('uc.safe.bind')}}</a>
+                        </div>
+                        <div class="account-detail" v-show="choseItem==7">
+                          <div class="detail-list" v-show="user.googleStatus==null || user.googleStatus==0">
+                            <Form ref="formValidate9" :model="formValidate9" :rules="ruleValidate" :label-width="110">
+                              <FormItem :label="$t('uc.forget.bangding')">
+                                <div class="qr-code" style="background:#FFF;padding: 10px 10px;height:160px;width: 160px">
+                                  <qriously :value="link" :size="140" foreground="#000" />
+                                </div>
+                              </FormItem>
+                              <!-- GA验证码 -->
+                              <FormItem :label="$t('uc.forget.smscode')" prop="codes">
+                                <Input v-model="formValidate9.codes" size="large">
+                                </Input>
+                              </FormItem>
+                              <!-- Button -->
+                              <FormItem>
+                                <Button type="warning" @click="handleSubmit('formValidate9')">{{$t('uc.safe.save')}}</Button>
+                                <Button @click="handleReset('formValidate9')" style="margin-left: 8px">{{$t('uc.safe.reset')}}</Button>
+                              </FormItem>
+                            </Form>
+                          </div>
+                          <div class="detail-list" v-show="user.googleStatus==1">
+                            <Form ref="formValidate10" :model="formValidate10" :rules="ruleValidate" :label-width="110">
+                              <!-- 登录密码 -->
+                              <FormItem :label="$t('uc.safe.loginpwd')" prop="password">
+                                <Input v-model="formValidate10.password" size="large" type="password"></Input>
+                              </FormItem>
+                              <!-- GA验证码 -->
+                              <FormItem :label="$t('uc.forget.smscode')" prop="codes">
+                                <Input v-model="formValidate10.codes" size="large">
+                                </Input>
+                              </FormItem>
+                              <!-- Button -->
+                              <FormItem>
+                                <Button type="warning" @click="handleSubmit('formValidate10')">{{$t('uc.forget.jcbind')}}</Button>
+                                <Button @click="handleReset('formValidate10')" style="margin-left: 8px">{{$t('uc.safe.reset')}}</Button>
+                              </FormItem>
+                            </Form>
+                          </div>
+                        </div>
+
+                      </div>
+
                     </div>
                 </section>
             </div>
@@ -357,6 +418,10 @@
     </div>
 </template>
 <script>
+import Vue from "vue";
+import VueQriously from "vue-qriously";
+
+Vue.use(VueQriously);
 export default {
   components: {},
   data() {
@@ -441,6 +506,9 @@ export default {
       }
     };
     return {
+      country: "中国",
+      areas: [],
+      link: "",
       fGetBackFundpwd: false,
       imgPreview: "",
       imgNext: "",
@@ -493,6 +561,14 @@ export default {
         newMPwConfirm8: "",
         vailCode5: ""
       },
+      formValidate9: {
+        secret: "",
+        codes: "",
+      },
+      formValidate10: {
+        codes: "",
+        password: "",
+      },
       ruleValidate: {
         mail: [
           {
@@ -513,6 +589,13 @@ export default {
           {
             required: true,
             message: this.$t("uc.safe.telnotip"),
+            trigger: "blur"
+          }
+        ],
+        codes: [
+          {
+            required: true,
+            message: this.$t("uc.safe.codetip"),
             trigger: "blur"
           }
         ],
@@ -782,6 +865,7 @@ export default {
         param["phone"] = this.formValidate3.mobile;
         param["code"] = this.formValidate3.vailCode2;
         param["password"] = this.formValidate3.password;
+        param["country"] = this.country;
         this.$http
           .post(this.host + "/uc/approve/bind/phone", param)
           .then(response => {
@@ -801,6 +885,7 @@ export default {
         param["oldPassword"] = this.formValidate4.oldPw;
         param["newPassword"] = this.formValidate4.newPw;
         param["code"] = this.formValidate4.vailCode3;
+        param["verify"] = 0;
         this.$http
           .post(this.host + "/uc/approve/update/password", param)
           .then(response => {
@@ -813,10 +898,11 @@ export default {
               localStorage.removeItem("TOKEN");
               this.$store.state.showLogout = true;
               this.$store.state.showLogin = false;
+              this.$store.commit("setMember", null);
               let self = this;
               setTimeout(() => {
                 self.$router.push("/login");
-              }, 2000);
+              }, 1000);
             } else {
               this.$Message.error(resp.message);
             }
@@ -879,6 +965,47 @@ export default {
             }
           });
       }
+      //绑定GA
+      if (name == "formValidate9") {
+        let param = {};
+        param["secret"] = this.formValidate9.secret;
+        param["codes"] = this.formValidate9.codes;
+        this.$http
+            .post(this.host + "/uc/google/googleAuth", param)
+            .then(response => {
+              var resp = response.body;
+              if (resp.code == 0) {
+                this.$Message.success(this.$t("uc.safe.save_success"));
+                this.fGetBackFundpwd = false;
+                this.handleReset("formValidate9");
+                this.getMember();
+                this.choseItem = 0;
+              } else {
+                this.$Message.error(resp.message);
+              }
+            });
+      }
+
+      //解除绑定GA
+      if (name == "formValidate10") {
+        let param = {};
+        param["password"] = this.formValidate10.password;
+        param["codes"] = this.formValidate10.codes;
+        this.$http
+            .post(this.host + "/uc/google/jcgoogle", param)
+            .then(response => {
+              var resp = response.body;
+              if (resp.code == 0) {
+                this.$Message.success(this.$t("uc.safe.save_success"));
+                this.fGetBackFundpwd = false;
+                this.handleReset("formValidate9");
+                this.getMember();
+                this.choseItem = 0;
+              } else {
+                this.$Message.error(resp.message);
+              }
+            });
+      }
     },
     handleSubmit(name) {
       this.$refs[name].validate(valid => {
@@ -894,6 +1021,10 @@ export default {
     },
     showItem(index) {
       this.choseItem = index;
+      if(this.user.googleStatus==null || this.user.googleStatus==0){
+        this.sendGoogle();
+      }
+
     },
     send(index) {
       let me = this;
@@ -927,7 +1058,8 @@ export default {
           //获取手机code
           this.$http
             .post(this.host + "/uc/mobile/bind/code", {
-              phone: this.formValidate3.mobile
+              phone: this.formValidate3.mobile,
+              country: this.country
             })
             .then(response => {
               var resp = response.body;
@@ -950,7 +1082,7 @@ export default {
       } else if (index == 3) {
         //登录密码获取手机code
         this.$http
-          .post(this.host + "/uc/mobile/update/password/code")
+          .post(this.host + "/uc/email/update/password/code")
           .then(response => {
             var resp = response.body;
             if (resp.code == 0) {
@@ -969,7 +1101,7 @@ export default {
       } else if (index == 5) {
         //资金密码获取手机code
         this.$http
-          .post(this.host + "/uc/mobile/transaction/code")
+          .post(this.host + "/uc/email/transaction/code")
           .then(response => {
             var resp = response.body;
             if (resp.code == 0) {
@@ -987,6 +1119,22 @@ export default {
           });
       }
     },
+    sendGoogle() {
+      //获取个人安全信息
+      var self = this;
+      this.$http
+          .get(this.host + "/uc/google/sendgoogle")
+          .then(response => {
+            var resp = response.body;
+            if (resp.code == 0) {
+              this.link = resp.data.link;
+              this.formValidate9.secret = resp.data.secret;
+            } else {
+              this.$Message.error(this.loginmsg);
+              // this.$Message.error(this.$t('common.logintip'));
+            }
+          });
+    },
     getMember() {
       //获取个人安全信息
       var self = this;
@@ -1002,6 +1150,18 @@ export default {
             // this.$Message.error(this.$t('common.logintip'));
           }
         });
+    },
+    getAreas() {
+      var params = {
+        isReg: 1
+      };
+      this.$http.post(this.host + this.api.common.area, params).then(response => {
+        var resp = response.body;
+        this.areas = resp.data;
+        if(resp.data.length > 0){
+          this.country = this.areas[0].zhName;
+        }
+      });
     }
   },
   computed: {
@@ -1018,6 +1178,7 @@ export default {
     level == 0 && (this.memberlevel = "普通会员");
     level == 1 && (this.memberlevel = "超级群主");
     level == 2 && (this.memberlevel = "超级合伙人");
+    this.getAreas();
   }
 };
 </script>

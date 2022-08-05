@@ -8,7 +8,6 @@ import com.bizzan.bitrade.pagination.PageResult;
 import com.bizzan.bitrade.service.*;
 import com.bizzan.bitrade.util.*;
 import com.querydsl.core.types.Predicate;
-
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,7 +36,7 @@ import static org.springframework.util.Assert.*;
 /**
  * 用户中心认证
  *
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年01月09日
  */
 @RestController
@@ -247,15 +245,15 @@ public class ApproveController {
         hasText(newPassword, msService.getMessage("MISSING_NEW_PASSWORD"));
         isTrue(newPassword.length() >= 6 && newPassword.length() <= 20, msService.getMessage("PASSWORD_LENGTH_ILLEGAL"));
         ValueOperations valueOperations = redisTemplate.opsForValue();
-        Object cache = valueOperations.get(SysConstant.PHONE_UPDATE_PASSWORD_PREFIX + user.getMobilePhone());
+        Member member = memberService.findOne(user.getId());
+        Object cache = valueOperations.get(SysConstant.EMAIL_UP_PWD_CODE_PREFIX + member.getEmail());
         notNull(cache, msService.getMessage("NO_GET_VERIFICATION_CODE"));
         hasText(code, msService.getMessage("MISSING_VERIFICATION_CODE"));
         if (!code.equals(cache.toString())) {
             return MessageResult.error(msService.getMessage("VERIFICATION_CODE_INCORRECT"));
         } else {
-            valueOperations.getOperations().delete(SysConstant.PHONE_UPDATE_PASSWORD_PREFIX + user.getMobilePhone());
+            valueOperations.getOperations().delete(SysConstant.EMAIL_UP_PWD_CODE_PREFIX + member.getEmail());
         }
-        Member member = memberService.findOne(user.getId());
         request.removeAttribute(SysConstant.SESSION_MEMBER);
         isTrue(Md5.md5Digest(oldPassword + member.getSalt()).toLowerCase().equals(member.getPassword()), msService.getMessage("PASSWORD_ERROR"));
         member.setPassword(Md5.md5Digest(newPassword + member.getSalt()).toLowerCase());
@@ -313,10 +311,10 @@ public class ApproveController {
         hasText(idCardBack, msService.getMessage("MISSING_ID_CARD_BACK"));
         hasText(handHeldIdCard, msService.getMessage("MISSING_ID_CARD_HAND"));
         Member member = memberService.findOne(user.getId());
-        if ("China".equals(member.getCountry().getEnName())) {
-            isTrue(ValidateUtil.isChineseName(realName), msService.getMessage("REAL_NAME_ILLEGAL"));
-            isTrue(IdcardValidator.isValidate18Idcard(idCard), msService.getMessage("ID_CARD_ILLEGAL"));
-        }
+//        if ("China".equals(member.getCountry().getEnName())) {
+//            isTrue(ValidateUtil.isChineseName(realName), msService.getMessage("REAL_NAME_ILLEGAL"));
+//            isTrue(IdcardValidator.isValidate18Idcard(idCard), msService.getMessage("ID_CARD_ILLEGAL"));
+//        }
         isTrue(member.getRealNameStatus() == RealNameStatus.NOT_CERTIFIED, msService.getMessage("REPEAT_REAL_NAME_REQUEST"));
         int count = memberApplicationService.queryByIdCard(idCard);
         if(count>0){

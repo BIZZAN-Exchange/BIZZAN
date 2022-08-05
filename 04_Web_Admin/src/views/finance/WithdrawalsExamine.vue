@@ -2,70 +2,68 @@
 	<div>
 		<Card>
 			<p slot="title">
-				提币审核
-				<Button type="primary" size="small" @click="refreshPageManual">
+				{{ $t('currencywithdrawalapproval.currencywithdrawalapproval') }}	<Button type="primary" size="small" @click="refreshPageManual">
 					<Icon type="refresh"></Icon>
-					刷新
-				</Button>
+					{{ $t('perpetualcontractcurrencystandardmanagement.refresh') }}	</Button>
 			</p>
 			<Row class="functionWrapper">
 				<div class="btnsWrapper clearfix ">
-					<Button type="error" @click="ifPassAll(true)">一键审核不通过</Button>
-					<Button type="success" @click="ifPassCoin = true">一键放币</Button>
+					<Button type="error" @click="ifPassAll(true)">{{ $t('currencywithdrawalapproval.oneclickreviewfailed') }}</Button>
+					<Button type="success" @click="ifPassCoin = true">{{ $t('currencywithdrawalapproval.oneclickcoinrelease') }}</Button>
 				</div>
 
 				<div class="searchWrapper clearfix">
 					<div class="poptip">
-						<Poptip trigger="hover" content="请输入昵称/真名搜索" placement="bottom-start">
-							<Input placeholder="请输入昵称/真名 搜索" v-model="filterSearch.account" />
+						<Poptip trigger="hover" :content="$t('currencywithdrawalapproval.pleaseenteryournicknamerealnametosearch')" placement="bottom-start">
+							<Input :placeholder="$t('currencywithdrawalapproval.pleaseenteryournicknamerealnametosearch')" v-model="filterSearch.account" />
 							</Input>
 						</Poptip>
 					</div>
 
 					<div class="poptip">
-						<Poptip trigger="hover" content="请输入会员ID搜索" placement="bottom-start">
-							<Input placeholder="请输入会员ID搜索" v-model="filterSearch.memberId" />
+						<Poptip trigger="hover" :content="$t('currencywithdrawalapproval.pleaseenterthememberidtosearch')" placement="bottom-start">
+							<Input :placeholder="$t('currencywithdrawalapproval.pleaseenterthememberidtosearch')" v-model="filterSearch.memberId" />
 							</Input>
 						</Poptip>
 					</div>
 
 					<div class="poptip">
-						<Poptip trigger="hover" content="请输入提现地址搜索" placement="bottom-start">
-							<Input placeholder="请输入提现地址搜索" v-model="filterSearch.address" />
+						<Poptip trigger="hover" :content="$t('currencywithdrawalapproval.pleaseenterthewithdrawaladdresstosearch')" placement="bottom-start">
+							<Input :placeholder="$t('currencywithdrawalapproval.pleaseenterthewithdrawaladdresstosearch')" v-model="filterSearch.address" />
 							</Input>
 						</Poptip>
 					</div>
 
 					<div class="poptip">
-						<Poptip trigger="hover" content="请输入币种单位搜索" placement="bottom-start">
-							<Input placeholder="请输入币种单位搜索" v-model="filterSearch.unit" />
+						<Poptip trigger="hover" :content="$t('currencywithdrawalapproval.pleaseentercurrencyunitsearch')" placement="bottom-start">
+							<Input :placeholder="$t('currencywithdrawalapproval.pleaseentercurrencyunitsearch')" v-model="filterSearch.unit" />
 							</Input>
 						</Poptip>
 					</div>
 
 					<div class="poptip">
-						<Poptip trigger="hover" content="请输入单号搜索" placement="bottom-start">
-							<Input placeholder="请输入单号搜索" v-model="filterSearch.orderSn" />
+						<Poptip trigger="hover" :content="$t('currencywithdrawalapproval.pleaseentertheordernumbertosearch')" placement="bottom-start">
+							<Input :placeholder="$t('currencywithdrawalapproval.pleaseentertheordernumbertosearch')" v-model="filterSearch.orderSn" />
 							</Input>
 						</Poptip>
 					</div>
 					<br>
 					<div class="poptip">
-						<span>提现方式：</span>
+						<span>{{ $t('currencywithdrawalapproval.withdrawalmethod') }}</span>
 						<Select v-model="filterSearch.isAuto">
 							<Option v-for="item in orderAutoArr" :value="item.status" :key="item.status">{{ item.text }}</Option>
 						</Select>
 					</div>
 
 					<div class="poptip">
-						<span>状态：</span>
+						<span>{{ $t('currencywithdrawalauditmanagement.status') }}</span>
 						<Select v-model="filterSearch.status">
 							<Option v-for="item in orderStatusArr" :value="item.status" :key="item.status">{{ item.text }}</Option>
 						</Select>
 					</div>
 
 					<div class="btns">
-						<Button type="info" size="small" @click="searchByFilter">搜索</Button>
+						<Button type="info" size="small" @click="searchByFilter">{{ $t('positionmanagementcontractassetmanagement.search') }}</Button>
 					</div>
 
 				</div>
@@ -80,17 +78,17 @@
 				</Page>
 			</Row>
 
-			<Modal width="400" title="一键放币" v-model="ifPassCoin" @on-ok="confrimPass">
+			<Modal width="400" title="$t('currencywithdrawalapproval.oneclickcoinrelease')" v-model="ifPassCoin" @on-ok="confrimPass">
 				<Row>
-					<p>提示：您正在进行一键放币操作，该功能需要输入登录密码</p>
+					<p>{{ $t('currencywithdrawalapproval.note1') }}</p>
 				</Row>
 				<br>
 				<Form v-model="passAllCoin">
 					<FormItem>
-						<Input type="password" placeholder="请输入登录密码..." v-model="passAllCoin.password"></Input>
+						<Input type="password" :placeholder="$t('currencywithdrawalapproval.pleaseenteryourloginpassword')" v-model="passAllCoin.password"></Input>
 					</FormItem>
 					<FormItem>
-						<Input placeholder="请输入流水..." type="textarea" v-model="passAllCoin.transactionNum"></Input>
+						<Input :placeholder="$t('currencywithdrawalapproval.pleaseenterflow')" type="textarea" v-model="passAllCoin.transactionNum"></Input>
 					</FormItem>
 				</Form>
 			</Modal>
@@ -130,16 +128,16 @@ export default {
       ifLoading: true,
       pageNum: null,
       orderAutoArr: [
-        { status: 0, text: "人工审核提现" },
-        { status: 1, text: "自动提现" },
-        { status: "", text: "全部" }
+        { status: 0, text: this.$t('currencywithdrawalapproval.manualreviewwithdrawal') },
+        { status: 1, text: this.$t('currencywithdrawalapproval.automaticwithdrawal') },
+        { status: "", text: this.$t('transactiondetailsinlegalcurrency.all') }
       ],
       orderStatusArr: [
-        { status: 0, text: "审核中" },
-        { status: 1, text: "等待放币" },
-        { status: 2, text: "失败" },
-        { status: 3, text: "成功" },
-        { status: "", text: "全部" }
+        { status: 0, text: this.$t('currencywithdrawalapproval.underreview') },
+        { status: 1, text: this.$t('currencywithdrawalapproval.waitingforcashrelease') },
+        { status: 2, text: this.$t('currencywithdrawalauditmanagement.fail') },
+        { status: 3, text: this.$t('currencywithdrawalapproval.success') },
+        { status: "", text: this.$t('transactiondetailsinlegalcurrency.all') }
       ],
       userpage: [],
       userpageCopy: [],
@@ -151,7 +149,7 @@ export default {
           align: "center"
         },
         {
-          title: "提现币种",
+          title: this.$t('currencywithdrawalauditmanagement.withdrawalcurrency'),
           key: "coin",
           width: 100,
           render: (h, obj) => {
@@ -160,58 +158,58 @@ export default {
           }
         },
         {
-          title: "提现地址",
+          title: this.$t('currencywithdrawalapproval.withdrawaladdress'),
           key: "address",
           width: 180
         },
         {
-          title: "备注/Memo",
+          title: this.$t('currencywithdrawalapproval.remarksmemo'),
           key: "remark",
           width: 100
         },
         {
-          title: "申请时间",
+          title: this.$t('currencywithdrawalapproval.applicationtime'),
           key: "createTime",
           width: 140
         },
         {
-          title: "提现数量",
+          title: this.$t('currencywithdrawalauditmanagement.withdrawalquantity'),
           key: "totalAmount",
           width: 100
         },
         {
-          title: "实际到账",
+          title: this.$t('currencywithdrawalapproval.actualarrival'),
           key: "arrivedAmount",
           width: 100
         },
         {
-          title: "状态",
+          title: this.$t('managementofoptioncontractsineachperiod.status'),
           key: "status",
           width: 100,
           render: (h, obj) => {
             let status = obj.row.status * 1;
             let statusInner = String;
 
-            if (status === 0) statusInner = "待审核";
-            else if (status === 1) statusInner = "等待放币";
-            else if (status === 2) statusInner = "失败";
-            else if (status === 3) statusInner = "成功";
+            if (status === 0) statusInner = this.$t('currencywithdrawalapproval.pendingreview');
+            else if (status === 1) statusInner = this.$t('currencywithdrawalapproval.waitingforcashrelease');
+            else if (status === 2) statusInner = this.$t('currencywithdrawalauditmanagement.fail');
+            else if (status === 3) statusInner = this.$t('currencywithdrawalapproval.success');
 
             return h("span", {}, statusInner);
           }
         },
         {
-          title: "提现方式",
+          title: this.$t('currencywithdrawalapproval.withdrawalmethod1'),
           width: 110,
           render: (h, obj) => {
             const isAuto =
-              obj.row.isAuto * 1 === 0 ? "人工审核提现" : "自动提现";
+              obj.row.isAuto * 1 === 0 ? this.$t('currencywithdrawalapproval.manualreviewwithdrawal') : this.$t('currencywithdrawalapproval.automaticwithdrawal');
 
             return h("span", {}, isAuto);
           }
         },
         {
-          title: "手续费",
+          title: this.$t('transactiondetailsinlegalcurrency.handlingcharges'),
           key: "fee",
           width: 100,
           render: (h, obj) => {
@@ -227,17 +225,17 @@ export default {
           width: 180
         },
         {
-          title: "会员昵称",
+          title: this.$t('currencywithdrawalapproval.membernickname'),
           key: "memberUsername",
           width: 100
         },
         {
-          title: "会员ID",
+          title: this.$t('realnamemanagement.memberid'),
           key: "memberId",
           width: 100
         },
         {
-          title: "操作",
+          title: this.$t('perpetualcontractcurrencystandardmanagement.operation'),
           fixed: 'right',
           width: 100,
           key: "action",
@@ -247,10 +245,10 @@ export default {
             let btnType = "info";
 
             if (status === 0) {
-              statusInner = "审核";
+              statusInner = this.$t('currencywithdrawalauditmanagement.audit');
               btnType = "info";
             } else {
-              statusInner = "查看";
+              statusInner = this.$t('transactiondetailsinlegalcurrency.view');
               btnType = "success";
             }
 
@@ -296,7 +294,7 @@ export default {
 
     ifPassAll(bol) {
       if (!this.selectedNumArr.length) {
-        this.$Message.warning("尚未选取项目");
+        this.$Message.warning(this.$t('currencywithdrawalapproval.noitemshavebeenselected'));
       } else {
         let fn = "";
         let obj = { ids: this.selectedNumArr };
@@ -326,7 +324,7 @@ export default {
     searchByFilter() {
       let reg = /\D/;
       if (reg.test(this.filterSearch.memberId)) {
-        this.$Message.warning("请输入正确的会员id");
+        this.$Message.warning(this.$t('currencywithdrawalapproval.pleaseenterthecorrectmemberid'));
         return;
       }
       this.resetTableContain(1);

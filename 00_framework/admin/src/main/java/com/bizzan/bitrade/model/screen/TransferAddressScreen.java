@@ -1,8 +1,6 @@
 package com.bizzan.bitrade.model.screen;
 
-import com.bizzan.bitrade.constant.BooleanEnum;
 import com.bizzan.bitrade.constant.CommonStatus;
-
 import lombok.Data;
 
 @Data

@@ -1,5 +1,11 @@
 package com.bizzan.bitrade.controller.system;
 
+import com.bizzan.bitrade.controller.common.BaseAdminController;
+import com.bizzan.bitrade.dto.MemberBonusDTO;
+import com.bizzan.bitrade.entity.Member;
+import com.bizzan.bitrade.service.MemberBonusService;
+import com.bizzan.bitrade.service.MemberService;
+import com.bizzan.bitrade.util.MessageResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -9,13 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.bizzan.bitrade.controller.common.BaseAdminController;
-import com.bizzan.bitrade.dto.MemberBonusDTO;
-import com.bizzan.bitrade.entity.Member;
-import com.bizzan.bitrade.service.MemberBonusService;
-import com.bizzan.bitrade.service.MemberService;
-import com.bizzan.bitrade.util.MessageResult;
 
 
 /**

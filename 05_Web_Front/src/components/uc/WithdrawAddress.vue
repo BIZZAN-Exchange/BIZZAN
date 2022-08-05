@@ -20,7 +20,7 @@
                   <Input v-model="withdrawAddr" style="width: 90%;margin-top:10px;" size="large"></Input>
                 </div>
               </div>
-              <div class="mt25">
+              <div class="mt25" v-if="!xsShow">
                 <p class="describe">{{$t('uc.finance.withdraw.remark')}} / Memo</p>
                 <div class="title">
                   <Input v-model="remark" style="width:100%;margin-top:10px;" size="large"></Input>
@@ -32,9 +32,13 @@
             </div>
             <div class="action-content">
               <div class="action-body">
+                
                 <p class="acb-p1 describe">{{$t('uc.finance.withdraw.addresslist')}}</p>
                 <div class="order-table">
-                  <Table :columns="tableColumnsRecharge" :no-data-text="$t('common.nodata')" :data="dataRecharge" :disabled-hover="true"></Table>
+                  <div class="xs_table" v-if="xsShow">
+                    <Table :columns="tableColumnsRecharge" :no-data-text="$t('common.nodata')" :data="dataRecharge" :disabled-hover="true" style="width: 180%;"></Table>
+                  </div>
+                  <Table v-else :columns="tableColumnsRecharge" :no-data-text="$t('common.nodata')" :data="dataRecharge" :disabled-hover="true"></Table>
                   <div style="margin: 10px;overflow: hidden">
                     <div style="float: right;">
                       <Page :total="dataCount" :current="1" @on-change="changePage" :loading="loading" class="recharge_btn"></Page>
@@ -103,6 +107,8 @@ export default {
   data() {
     var that = this;
     return {
+      xsShow: false,//手机显示
+      activeWidth: window.innerWidth,
       interval: function() {},
       disbtn: false,
       dataCount: 10,
@@ -127,7 +133,8 @@ export default {
         },
         {
           title: this.$t("uc.finance.withdraw.address"),
-          key: "address"
+          key: "address",
+          // width:'200%'
         },
         {
           title: this.$t("uc.finance.withdraw.remark"),
@@ -211,6 +218,20 @@ export default {
     this.coinType = this.$route.query.name;
     this.getCoin();
   },
+  watch: {
+      activeWidth: {
+
+        handler(val, oldVal) {
+          if (val <= 416) {
+            this.xsShow = true;
+          } else {
+            this.xsShow = false;
+          }
+        },
+        deep: true,//true 深度监听
+        immediate: true,
+      }
+    },
   methods: {
     refresh() {
       (this.coinType = null), (this.withdrawAddr = null), (this.remark = null);
@@ -503,6 +524,21 @@ p.describe {
     }
   }
 }
+.xs_table {
+        width: 100%;
+        overflow-x: scroll;
+
+        &::-webkit-scrollbar {
+          height: 2px;
+        }
+
+        
+
+        &::-webkit-scrollbar-track-piece {
+          background: transparent;
+        }
+
+      }
 </style>
 
 

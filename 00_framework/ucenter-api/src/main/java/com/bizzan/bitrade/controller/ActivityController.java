@@ -1,14 +1,13 @@
 package com.bizzan.bitrade.controller;
 
-import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
-import static org.springframework.util.Assert.hasText;
-
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.List;
-
+import com.bizzan.bitrade.constant.BooleanEnum;
+import com.bizzan.bitrade.constant.MemberLevelEnum;
+import com.bizzan.bitrade.constant.SysConstant;
+import com.bizzan.bitrade.entity.*;
+import com.bizzan.bitrade.entity.transform.AuthMember;
+import com.bizzan.bitrade.service.*;
+import com.bizzan.bitrade.util.DateUtil;
+import com.bizzan.bitrade.util.MessageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -20,25 +19,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import com.bizzan.bitrade.constant.BooleanEnum;
-import com.bizzan.bitrade.constant.MemberLevelEnum;
-import com.bizzan.bitrade.constant.SysConstant;
-import com.bizzan.bitrade.controller.BaseController;
-import com.bizzan.bitrade.entity.Activity;
-import com.bizzan.bitrade.entity.ActivityOrder;
-import com.bizzan.bitrade.entity.Coin;
-import com.bizzan.bitrade.entity.ExchangeOrderDirection;
-import com.bizzan.bitrade.entity.Member;
-import com.bizzan.bitrade.entity.MemberWallet;
-import com.bizzan.bitrade.entity.transform.AuthMember;
-import com.bizzan.bitrade.service.ActivityOrderService;
-import com.bizzan.bitrade.service.ActivityService;
-import com.bizzan.bitrade.service.CoinService;
-import com.bizzan.bitrade.service.LocaleMessageSourceService;
-import com.bizzan.bitrade.service.MemberService;
-import com.bizzan.bitrade.service.MemberWalletService;
-import com.bizzan.bitrade.util.DateUtil;
-import com.bizzan.bitrade.util.MessageResult;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
+
+import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
+import static org.springframework.util.Assert.hasText;
 
 @RestController
 @RequestMapping("activity")

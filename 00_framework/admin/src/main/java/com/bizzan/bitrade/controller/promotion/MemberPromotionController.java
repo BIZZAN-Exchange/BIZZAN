@@ -20,7 +20,6 @@ import com.bizzan.bitrade.util.PredicateUtils;
 import com.bizzan.bitrade.vo.PromotionMemberVO;
 import com.bizzan.bitrade.vo.RegisterPromotionVO;
 import com.querydsl.core.types.dsl.BooleanExpression;
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +38,7 @@ import java.util.stream.Collectors;
 
 /**
  * 邀请注册奖励配置
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  *
  */
 @RestController

@@ -1,9 +1,9 @@
 package com.bizzan.bitrade.annotation;
 
 
-import java.lang.annotation.*;
-
 import com.bizzan.bitrade.constant.AdminModule;
+
+import java.lang.annotation.*;
 
 @Target({ElementType.METHOD})
 @Documented

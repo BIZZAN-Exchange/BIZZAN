@@ -1,9 +1,7 @@
 package com.bizzan.bitrade.service;
 
 import com.bizzan.bitrade.dao.LockedOrderDao;
-import com.bizzan.bitrade.dao.MiningOrderDao;
 import com.bizzan.bitrade.entity.LockedOrder;
-import com.bizzan.bitrade.entity.MiningOrder;
 import com.bizzan.bitrade.pagination.Criteria;
 import com.bizzan.bitrade.pagination.Restrictions;
 import com.bizzan.bitrade.service.Base.BaseService;

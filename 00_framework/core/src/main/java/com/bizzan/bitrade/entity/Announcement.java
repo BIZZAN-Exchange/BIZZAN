@@ -1,10 +1,8 @@
 package com.bizzan.bitrade.entity;
 
-import com.bizzan.bitrade.constant.AnnouncementClassification;
-import com.bizzan.bitrade.constant.SysHelpClassification;
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import cn.afterturn.easypoi.excel.annotation.Excel;
+import com.bizzan.bitrade.constant.AnnouncementClassification;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -13,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @description 公告
  * @date 2019/3/5 14:59
  */

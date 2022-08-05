@@ -1,19 +1,18 @@
 package com.bizzan.bitrade;
+
+import com.bizzan.bitrade.dao.OrderDetailAggregationRepository;
+import com.bizzan.bitrade.entity.OrderDetailAggregation;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.bizzan.bitrade.MarketApplication;
-import com.bizzan.bitrade.dao.OrderDetailAggregationRepository;
-import com.bizzan.bitrade.entity.OrderDetailAggregation;
-
 import java.math.BigDecimal;
 import java.util.Calendar;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年03月22日
  */
 @RunWith(SpringRunner.class)

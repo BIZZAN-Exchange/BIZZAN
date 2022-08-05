@@ -407,14 +407,14 @@ public class OrderController {
 //            return MessageResult.error(500, msService.getMessage("WALLET_LOCKED"));
 //        }
 
-        // 如果有最低卖价限制，出价不能低于此价,且禁止市场价格卖
+        // 如果有最低卖价限制，出价不能低于此价,【(且禁止市场价格卖)去掉】
         if (direction == ExchangeOrderDirection.SELL && exchangeCoin.getMinSellPrice().compareTo(BigDecimal.ZERO) > 0
-                && ((price.compareTo(exchangeCoin.getMinSellPrice()) < 0) || type == ExchangeOrderType.MARKET_PRICE)) {
+                && ((price.compareTo(exchangeCoin.getMinSellPrice()) < 0) && type == ExchangeOrderType.LIMIT_PRICE)) {
             return MessageResult.error(500, msService.getMessage("EXORBITANT_PRICES"));
         }
-        // 如果有最高买价限制，出价不能高于此价，且禁止市场价格买
+        // 如果有最高买价限制，出价不能高于此价，【(且禁止市场价格买)去掉】
         if(direction == ExchangeOrderDirection.BUY && exchangeCoin.getMaxBuyPrice().compareTo(BigDecimal.ZERO) > 0
-        		&& ((price.compareTo(exchangeCoin.getMaxBuyPrice()) > 0) || type == ExchangeOrderType.MARKET_PRICE)) {
+        		&& ((price.compareTo(exchangeCoin.getMaxBuyPrice()) > 0) && type == ExchangeOrderType.LIMIT_PRICE)) {
         	return MessageResult.error(500, msService.getMessage("NO_PRICE_CEILING"));
         }
         //查看是否启用市价买卖

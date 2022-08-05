@@ -1,7 +1,13 @@
 package com.bizzan.bitrade.controller;
 
-import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
-
+import com.bizzan.bitrade.constant.BooleanEnum;
+import com.bizzan.bitrade.constant.CommonStatus;
+import com.bizzan.bitrade.entity.*;
+import com.bizzan.bitrade.entity.transform.AuthMember;
+import com.bizzan.bitrade.service.MemberService;
+import com.bizzan.bitrade.service.MemberWalletService;
+import com.bizzan.bitrade.service.SignService;
+import com.bizzan.bitrade.util.MessageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.Assert;
@@ -10,22 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import com.bizzan.bitrade.constant.BooleanEnum;
-import com.bizzan.bitrade.constant.CommonStatus;
-import com.bizzan.bitrade.controller.BaseController;
-import com.bizzan.bitrade.entity.Coin;
-import com.bizzan.bitrade.entity.LoginInfo;
-import com.bizzan.bitrade.entity.Member;
-import com.bizzan.bitrade.entity.MemberWallet;
-import com.bizzan.bitrade.entity.Sign;
-import com.bizzan.bitrade.entity.transform.AuthMember;
-import com.bizzan.bitrade.service.MemberService;
-import com.bizzan.bitrade.service.MemberWalletService;
-import com.bizzan.bitrade.service.SignService;
-import com.bizzan.bitrade.util.MessageResult;
+import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @Description:
  * @date 2019/5/49:30
  */

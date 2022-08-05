@@ -133,14 +133,13 @@ public class FeigeSMSProvider implements SMSProvider {
         CloseableHttpClient client = null;
         CloseableHttpResponse response = null;
         List<BasicNameValuePair> formparams = new ArrayList<>();
-        formparams.add(new BasicNameValuePair("Account",username));
-        formparams.add(new BasicNameValuePair("Pwd",password));
-        formparams.add(new BasicNameValuePair("Content",content));
-        formparams.add(new BasicNameValuePair("Mobile",phone));
-        formparams.add(new BasicNameValuePair("SignId","50328"));
-        formparams.add(new BasicNameValuePair("TemplateId","55715"));
+        formparams.add(new BasicNameValuePair("apikey",username));
+        formparams.add(new BasicNameValuePair("secret",password));
+        formparams.add(new BasicNameValuePair("content",content));
+        formparams.add(new BasicNameValuePair("mobile",phone));
+        formparams.add(new BasicNameValuePair("template_id","100049"));
 
-        HttpPost httpPost = new HttpPost("http://api.feige.ee/SmsService/Inter");
+        HttpPost httpPost = new HttpPost("https://api.4321.sh/inter/send");
         httpPost.setEntity(new UrlEncodedFormEntity(formparams,"UTF-8"));
         client = HttpClients.createDefault();
         response = client.execute(httpPost);
@@ -148,8 +147,8 @@ public class FeigeSMSProvider implements SMSProvider {
         String result = EntityUtils.toString(entity);
         JSONObject jsonObject = JSONObject.parseObject(result);
         log.info("phone:{},code:{}",phone,jsonObject);
-        Integer code = jsonObject.getInteger("Code");
-        String message = jsonObject.getString("Message");
+        Integer code = jsonObject.getInteger("code");
+        String message = jsonObject.getString("msg");
         MessageResult messageResult = MessageResult.success();
         if (code != 0) {
             messageResult.setCode(500);

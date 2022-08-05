@@ -1,13 +1,12 @@
 package com.bizzan.bitrade.dao;
 
-import java.util.List;
-
-import org.springframework.stereotype.Repository;
-
 import com.bizzan.bitrade.dao.base.BaseDao;
 import com.bizzan.bitrade.entity.Coin;
 import com.bizzan.bitrade.entity.CtcOrder;
 import com.bizzan.bitrade.entity.Member;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface CtcOrderDao  extends  BaseDao<CtcOrder>{

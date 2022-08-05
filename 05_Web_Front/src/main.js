@@ -19,17 +19,38 @@ var moment = require('moment');
 var momentTimezone = require('moment-timezone');
 
 import ViewUI from 'view-design';
-import locale from 'view-design/dist/locale/zh-CN';
-Vue.use(iView);
+import enUS from 'view-design/dist/locale/en-US';
+import zhCN from 'view-design/dist/locale/zh-CN';
+
+
+import  en from './assets/lang/en.js';
+import  cn from './assets/lang/cn.js';
+
+
+
+import { Swipe, SwipeItem } from 'vant'
+import 'vant/lib/swipe/style'
+import 'vant/lib/swipe-item/style'
+Vue.use(iView).use(Swipe).use(SwipeItem)
 Vue.use(VueClipboard);
 Vue.use(VueRouter);
 Vue.use(vueResource);
 Vue.use(VueI18n);
-Vue.use(ViewUI, { locale });
 
-Vue.prototype.rootHost = "https://www.bizzan.pro"; //BIZZAN
-Vue.prototype.host = "https://api.bizzan.pro"; //BIZZAN
-//Vue.prototype.host = "http://127.0.0.1"; //BIZZAN
+const i18n = new VueI18n({
+	locale: 'zh_CN',
+	messages: {
+		'zh_CN': Object.assign( zhCN, cn),
+		'en_US': Object.assign( enUS, en),
+
+	},
+	silentTranslationWarn: true
+});
+
+Vue.use(ViewUI, { i18n: (key, value) => i18n.t(key, value) });
+
+Vue.prototype.rootHost = "http://www.bizzan.biz"; //BIZZAN
+Vue.prototype.host = "http://api.bizzan.biz"; //BIZZAN
 
 Vue.prototype.api = Api;
 Vue.http.options.credentials = true;
@@ -60,15 +81,7 @@ router.afterEach((to,from,next) => {
     iView.LoadingBar.finish();
 });
 
-const i18n = new VueI18n({
-    locale: 'zh_CN',
-    messages: {
-        'zh_CN': require('./assets/lang/cn.js'),
-        'en_US': require('./assets/lang/en.js'),
-		'zh_HK': require('./assets/lang/hk.js'),
-    },
-    silentTranslationWarn: true
-});
+
 
 Vue.http.interceptors.push((request, next) => {
     //登录成功后将后台返回的TOKEN在本地存下来,每次请求从sessionStorage中拿到存储的TOKEN值
@@ -79,7 +92,7 @@ Vue.http.interceptors.push((request, next) => {
         lang = lang.substr(0,lang.length-1);
     }
 	request.headers.set('lang', lang);
-	
+
     next((response) => {
         //登录极验证时需获取后台返回的TOKEN值
         var xAuthToken = response.headers.get('x-auth-token');
@@ -144,27 +157,6 @@ Vue.prototype.getTimezone4K = function(){
 		if(curlang=="en_US"){
 			return "America/Los_Angeles";
 		}
-		if(curlang=="ja_JP"){
-			return "Asia/Tokyo";
-		}
-		if(curlang=="ko_KR"){
-			return "Asia/Seoul";
-		}
-		if(curlang=="de_DE"){
-			return "Europe/Berlin";
-		}
-		if(curlang=="fr_FR"){
-			return "Europe/Paris";
-		}
-		if(curlang=="it_IT"){
-			return "Europe/Rome";
-		}
-		if(curlang=="es_ES"){
-			return "Europe/Madrid";
-		}
-		if(curlang=="zh_HK"){
-			return "Asia/Hong_Kong";
-		}
 		if(curlang=="zh_CN"){
 			return "Asia/Shanghai";
 		}
@@ -174,27 +166,6 @@ Vue.prototype.getLang4K = function(){
 		var curlang = this.$store.getters.lang;
 		if(curlang=="en_US"){
 			return "en";
-		}
-		if(curlang=="ja_JP"){
-			return "ja";
-		}
-		if(curlang=="ko_KR"){
-			return "ko";
-		}
-		if(curlang=="de_DE"){
-			return "de_DE";
-		}
-		if(curlang=="fr_FR"){
-			return "fr";
-		}
-		if(curlang=="it_IT"){
-			return "it";
-		}
-		if(curlang=="es_ES"){
-			return "es";
-		}
-		if(curlang=="zh_HK"){
-			return "zh_TW";
 		}
 		if(curlang=="zh_CN"){
 			return "zh";

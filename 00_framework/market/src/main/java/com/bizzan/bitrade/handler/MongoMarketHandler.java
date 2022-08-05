@@ -1,13 +1,11 @@
 package com.bizzan.bitrade.handler;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.stereotype.Component;
-
 import com.bizzan.bitrade.entity.CoinThumb;
 import com.bizzan.bitrade.entity.ExchangeTrade;
 import com.bizzan.bitrade.entity.KLine;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.stereotype.Component;
 
 @Component
 public class MongoMarketHandler implements MarketHandler {

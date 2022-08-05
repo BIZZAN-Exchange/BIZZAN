@@ -9,9 +9,10 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年01月20日
  */
 @Builder
@@ -26,6 +27,7 @@ public class OrderDetail {
     private BigDecimal amount;
     private BigDecimal commission;
     private PayInfo payInfo;
+    private List<PaymentTypeRecord> payInfos;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
     private Date payTime;
@@ -34,4 +36,5 @@ public class OrderDetail {
     private long myId;
     private long hisId;
     private String memberMobile;
+    private String currency;
 }

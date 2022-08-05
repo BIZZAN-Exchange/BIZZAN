@@ -5,29 +5,23 @@ import com.bizzan.bitrade.constant.PageModel;
 import com.bizzan.bitrade.constant.PromotionLevel;
 import com.bizzan.bitrade.constant.PromotionRewardType;
 import com.bizzan.bitrade.dao.MemberPromotionDao;
-import com.bizzan.bitrade.dao.RewardPromotionSettingDao;
-import com.bizzan.bitrade.entity.Member;
 import com.bizzan.bitrade.entity.MemberPromotion;
 import com.bizzan.bitrade.entity.RewardPromotionSetting;
 import com.bizzan.bitrade.service.Base.BaseService;
 import com.bizzan.bitrade.vo.MemberPromotionStasticVO;
 import com.bizzan.bitrade.vo.RegisterPromotionVO;
-
-import org.hibernate.SQLQuery;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年03月08日
  */
 @Service

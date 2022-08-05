@@ -3,7 +3,7 @@ package com.bizzan.bitrade.constant;
 /**
  * 系统常量
  *
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年12月18日
  */
 public class SysConstant {
@@ -18,7 +18,10 @@ public class SysConstant {
      * 验证码
      */
     public static final String PHONE_WITHDRAW_MONEY_CODE_PREFIX = "PHONE_WITHDRAW_MONEY_CODE_PREFIX_";
-    
+    public static final String EMAIL_WITHDRAW_MONEY_CODE_PREFIX = "EMAIL_WITHDRAW_MONEY_CODE_";
+
+    public static final String EMAIL_UP_PWD_CODE_PREFIX = "EMAIL_UP_PWD_CODE_";
+    public static final String EMAIL_TRANSACTION_CODE_PREFIX = "EMAIL_TRANSACTION_CODE_";
     public static final String PHONE_CTC_TRADE_CODE_PREFIX = "PHONE_CTC_TRADE_CODE_PREFIX_";
     
     public static final String PHONE_REG_CODE_PREFIX = "PHONE_REG_CODE_";

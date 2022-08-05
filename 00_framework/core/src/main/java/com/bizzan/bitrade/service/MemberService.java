@@ -12,11 +12,11 @@ import com.bizzan.bitrade.pagination.PageResult;
 import com.bizzan.bitrade.pagination.Restrictions;
 import com.bizzan.bitrade.service.Base.BaseService;
 import com.bizzan.bitrade.util.BigDecimalUtils;
+import com.bizzan.bitrade.util.GoogleAuthenticatorUtil;
 import com.bizzan.bitrade.util.Md5;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,10 +26,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.bizzan.bitrade.constant.TransactionType.ACTIVITY_AWARD;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.bizzan.bitrade.constant.TransactionType.ACTIVITY_AWARD;
 
 @Service
 public class MemberService extends BaseService {
@@ -44,6 +46,17 @@ public class MemberService extends BaseService {
     private MemberTransactionDao transactionDao;
     @Autowired
     private LocaleMessageSourceService messageSourceService;
+
+    public Map<Long, Member> mapByMemberIds(List<Long> memberIds) {
+
+        Map<Long, Member> map = new HashMap<>();
+        List<Member> allByIdIn = memberDao.findAllByIdIn(memberIds);
+        allByIdIn.forEach(v -> {
+            map.put(v.getId(), v);
+        });
+
+        return map;
+    }
 
     /**
      * 条件查询对象 pageNo pageSize 同时传时分页
@@ -97,8 +110,29 @@ public class MemberService extends BaseService {
         return member;
     }
 
+    public Member loginWithCode(String username, String password,Long code) throws Exception {
+        Member member = memberDao.findMemberByMobilePhoneOrEmail(username, username);
+        if (member == null) {
+            throw new AuthenticationException("账号或密码错误");
+        } else if (!Md5.md5Digest(password + member.getSalt()).toLowerCase().equals(member.getPassword())) {
+            throw new AuthenticationException("账号或密码错误");
+        } else if (member.getStatus().equals(CommonStatus.ILLEGAL)) {
+            throw new AuthenticationException("该帐号处于未激活/禁用状态，请联系客服");
+        }else if(member.getGoogleState()!=null && member.getGoogleState().intValue()==1){
+            //需要验证
+            long t = System.currentTimeMillis();
+            GoogleAuthenticatorUtil ga = new GoogleAuthenticatorUtil();
+            //  ga.setWindowSize(0); // should give 5 * 30 seconds of grace...
+            boolean r = ga.check_code(member.getGoogleKey(), code, t);
+            System.out.println("rrrr="+r);
+            if(!r){
+                throw new AuthenticationException("Google验证码错误");
+            }
+        }
+        return member;
+    }
     /**
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
      * @description
      * @date 2019/12/25 18:42
      */
@@ -107,7 +141,7 @@ public class MemberService extends BaseService {
     }
 
     /**
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
      * @description 查询所有会员
      * @date 2019/12/25 18:43
      */
@@ -130,7 +164,7 @@ public class MemberService extends BaseService {
     }
 
     /**
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
      * @description 分页
      * @date 2019/1/12 15:35
      */
@@ -246,5 +280,13 @@ public class MemberService extends BaseService {
             ids.add(Long.parseLong(id));
         }
         return memberDao.findAllByIds(ids);
+    }
+
+    public List<Member> findByInviterId(Long userId) {
+        return memberDao.findByInviterId(userId);
+    }
+
+    public void updatePromotionCode(Long id, String promotionCode) {
+        memberDao.updatePromotionCode(id,promotionCode);
     }
 }

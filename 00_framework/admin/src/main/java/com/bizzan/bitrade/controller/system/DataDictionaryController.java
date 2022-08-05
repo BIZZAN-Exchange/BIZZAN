@@ -1,5 +1,13 @@
 package com.bizzan.bitrade.controller.system;
 
+import com.bizzan.bitrade.constant.PageModel;
+import com.bizzan.bitrade.controller.common.BaseAdminController;
+import com.bizzan.bitrade.entity.DataDictionary;
+import com.bizzan.bitrade.model.create.DataDictionaryCreate;
+import com.bizzan.bitrade.model.update.DataDictionaryUpdate;
+import com.bizzan.bitrade.service.DataDictionaryService;
+import com.bizzan.bitrade.util.BindingResultUtil;
+import com.bizzan.bitrade.util.MessageResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,19 +17,10 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import com.bizzan.bitrade.constant.PageModel;
-import com.bizzan.bitrade.controller.common.BaseAdminController;
-import com.bizzan.bitrade.entity.DataDictionary;
-import com.bizzan.bitrade.model.create.DataDictionaryCreate;
-import com.bizzan.bitrade.model.update.DataDictionaryUpdate;
-import com.bizzan.bitrade.service.DataDictionaryService;
-import com.bizzan.bitrade.util.BindingResultUtil;
-import com.bizzan.bitrade.util.MessageResult;
-
 import javax.validation.Valid;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @Title: ${file_name}
  * @Description:
  * @date 2019/4/1214:21

@@ -66,6 +66,12 @@ public class ExchangeCoin {
      */
     @Column(columnDefinition = "int(11) default 0 comment '机器人类型'")
     private int robotType;
+
+    /**
+     * 假数据状态（0：关闭，1：启动）
+     */
+    @Column(columnDefinition = "int(11) default 0 comment '假数据状态（0：关闭，1：启动）'")
+    private int fakeDataStatus;
     
     /**
      * 标签位，用于推荐，排序等,默认为0，1表示推荐，

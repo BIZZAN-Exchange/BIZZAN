@@ -1,6 +1,5 @@
 package com.bizzan.bitrade.service.Base;
 
-import com.bizzan.bitrade.dao.base.BaseDao;
 import com.bizzan.bitrade.pagination.PageListMapResult;
 import com.bizzan.bitrade.pagination.PageResult;
 import com.bizzan.bitrade.pagination.QueryDslContext;
@@ -12,7 +11,6 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.EntityPathBase;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @description
  * @date 2019/1/18 10:29
  */

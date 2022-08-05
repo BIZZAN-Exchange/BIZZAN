@@ -2,17 +2,15 @@
   <div>
     <Card>
       <p slot="title">
-        公告管理
-        <Button type="primary" size="small" @click="refreshPageManual">
+        {{ $t('announcementmanagement.announcementmanagement') }} <Button type="primary" size="small" @click="refreshPageManual">
           <Icon type="refresh"></Icon>
-          刷新
-        </Button>
+          {{ $t('perpetualcontractcurrencystandardmanagement.refresh') }} </Button>
       </p>
 
       <Row class="manageRow clearfix">
         <div class="manageWrapper">
-          <Button type="error" @click="delOneAnnounce">删除</Button>
-          <Button type="info" @click="addOneAnnounce">添加</Button>
+          <Button type="error" @click="delOneAnnounce">{{ $t('secondcontractcompensationsetting.delete') }}</Button>
+          <Button type="info" @click="addOneAnnounce">{{ $t('announcementmanagement.addto') }}</Button>
         </div>
       </Row>
 
@@ -37,10 +35,10 @@
        <!-- 是否删除 -->
       <Modal
         v-model="ifDelete"
-        title="删除"
+        title="$t('secondcontractcompensationsetting.delete')"
         @on-ok="confirmDel"
         @on-cancel="cancelDel">
-        <p>是否删除已选择的{{ selectedArr.length }}项</p>
+        <p>{{ $t('shi-fou-shan-chu-yi-xuan-ze-de-selectedarrlength-xiang', [selectedArr.length]) }}</p>
       </Modal>
 
 
@@ -71,14 +69,14 @@ import { setStore, removeStore } from '@/config/storage';
         manageTitle: null,
         manageClass: null,
         manageClassArr: [
-          { status: 0,  klassName: '常见分类' }
+          { status: 0,  klassName: this.$t('announcementmanagement.commoncategories') }
         ],
         imgUrl: null,
         createTime: null,
         ifSHow: null,
         ifShowArr: [
-          { status: 0,  klassName: '显示' },
-          { status: 1,  klassName: '不显示' },
+          { status: 0,  klassName: this.$t('perpetualcontractcurrencystandardmanagement.display') },
+          { status: 1,  klassName: this.$t('announcementmanagement.dontshow') },
         ],
         columns_first: [
           {
@@ -86,77 +84,77 @@ import { setStore, removeStore } from '@/config/storage';
             width: 60
           },
           {
-           	title: '编号',
+           	title: this.$t('announcementmanagement.no'),
             key: 'id',
             width: 80
           },
           {
-           	title: '标题',
+           	title: this.$t('announcementmanagement.title'),
 						key: 'title',
             width: 400
           },
           {
-            title: '语言',
+            title: this.$t('announcementmanagement.language'),
             key: 'lang',
             render:(h, obj) => {
               let lang = obj.row.lang;
-              var langText = "中文";
+              var langText = this.$t('announcementmanagement.chinese');
 				if(lang == "en_US"){
 					langText = "English";
 				}
 				if(lang == "ja_JP"){
-					langText = "日语";
+					langText = this.$t('announcementmanagement.japanese');
 				}
 				if(lang == "ko_KR"){
-					langText = "韩语";
+					langText = this.$t('announcementmanagement.korean');
 				}
 				if(lang == "de_DE"){
-					langText = "德语";
+					langText = this.$t('announcementmanagement.german');
 				}
 				if(lang == "fr_FR"){
-					langText = "法语";
+					langText = this.$t('announcementmanagement.french');
 				}
 				if(lang == "it_IT"){
-					langText = "意大利";
+					langText = this.$t('announcementmanagement.italy');
 				}
 				if(lang == "es_ES"){
-					langText = "西班牙";
+					langText = this.$t('announcementmanagement.spain');
 				}
 				if(lang == "zh_HK"){
-					langText = "中文繁体";
+					langText = this.$t('announcementmanagement.traditionalchinese');
 				}
               return h('span', {
               },langText);
             }
           },
           {
-           	title: '发布时间',
+           	title: this.$t('announcementmanagement.releasetime'),
 						key: 'createTime',
             width: 140
           },
            {
-           	title: '显示',
+           	title: this.$t('perpetualcontractcurrencystandardmanagement.display'),
             render: (h, obj) => {
               let text = null;
-              if (obj.row.isShow) text = '是';
-              else text = '否';
+              if (obj.row.isShow) text = this.$t('perpetualcontractcurrencystandardmanagement.yes');
+              else text = this.$t('perpetualcontractcurrencystandardmanagement.no');
               return h ( 'span', {
               }, text)
             }
           },
            {
-           	title: '置顶',
+           	title: this.$t('announcementmanagement.top'),
             render: (h, obj) => {
               let text = null;
-              if (obj.row.isTop==0) text = '是';
-              else text = '否';
+              if (obj.row.isTop==0) text = this.$t('perpetualcontractcurrencystandardmanagement.yes');
+              else text = this.$t('perpetualcontractcurrencystandardmanagement.no');
               return h ( 'span', {
               }, text)
             }
           },
 
            {
-           	title: '操作',
+           	title: this.$t('perpetualcontractcurrencystandardmanagement.operation'),
             // key: 'serialNumber',
             width:250,
             	render: (h, obj) => {
@@ -179,7 +177,7 @@ import { setStore, removeStore } from '@/config/storage';
 
                         }
                       }
-										},'查看 / 编辑'),
+										},this.$t('usermanagement.viewedit')),
 
 										h('Button', {
                       props: {
@@ -198,7 +196,7 @@ import { setStore, removeStore } from '@/config/storage';
 													.catch(err => console.log(err))
                         }
                       }
-                    },'置顶'),
+                    },this.$t('announcementmanagement.top')),
                     h('Button', {
                       props: {
                         type: 'error',
@@ -219,7 +217,7 @@ import { setStore, removeStore } from '@/config/storage';
 													.catch(err => console.log(err))
                         }
                       }
-										},'取消置顶')
+										},this.$t('announcementmanagement.canceltopping'))
                   ])
               }
           },
@@ -242,20 +240,20 @@ import { setStore, removeStore } from '@/config/storage';
         .then( res => {
           if(!res.code) {
             this.refreshPage({ pageNo: 1, pageSize: 10 });
-            this.$Message.success('删除成功!');
+            this.$Message.success(this.$t('secondcontractcompensationsetting.deletesuccessfully'));
           }else{
-            this.$Message.error('删除失败!');
+            this.$Message.error(this.$t('secondcontractcompensationsetting.deletionfailed'));
           }
         })
       },
       cancelDel () {
-        this.$Message.success('已取消！');
+        this.$Message.success(this.$t('secondcontractcompensationsetting.cancelled'));
       },
       delOneAnnounce() {
         if(!!this.selectedArr.length) {
           this.ifDelete = true;
         }else{
-          this.$Message.warning('请选择需要删除的内容！');
+          this.$Message.warning(this.$t('secondcontractcompensationsetting.note3'));
         }
       },
       updateManage() {
@@ -273,10 +271,10 @@ import { setStore, removeStore } from '@/config/storage';
         .then(res => {
           if (!res.code) {
             this.manageModal = false;
-            this.$Message.success('更新成功!');
+            this.$Message.success(this.$t('announcementmanagement.updatesucceeded'));
             this.refreshPage();
           }else{
-             this.$Message.error('出现异常!');
+             this.$Message.error(this.$t('announcementmanagement.exceptionoccurred'));
           }
         })
       },

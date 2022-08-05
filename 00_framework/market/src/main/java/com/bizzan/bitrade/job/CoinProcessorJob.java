@@ -1,15 +1,5 @@
 package com.bizzan.bitrade.job;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
-
 import com.alibaba.fastjson.JSON;
 import com.bizzan.bitrade.component.CoinExchangeRate;
 import com.bizzan.bitrade.entity.ExchangeCoin;
@@ -21,8 +11,15 @@ import com.bizzan.bitrade.processor.CoinProcessorFactory;
 import com.bizzan.bitrade.processor.DefaultCoinProcessor;
 import com.bizzan.bitrade.service.ExchangeCoinService;
 import com.bizzan.bitrade.service.MarketService;
-
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 自动同步Exchange撮合交易中心中的交易对

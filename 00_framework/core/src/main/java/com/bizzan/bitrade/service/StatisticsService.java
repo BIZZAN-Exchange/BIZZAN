@@ -1,27 +1,22 @@
 package com.bizzan.bitrade.service;
 
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.bizzan.bitrade.constant.OrderStatus;
 import com.bizzan.bitrade.dao.MemberDao;
 import com.bizzan.bitrade.dao.OrderDao;
-import com.bizzan.bitrade.entity.QMember;
-import com.bizzan.bitrade.entity.Statistics;
 import com.bizzan.bitrade.service.Base.BaseService;
 import com.bizzan.bitrade.util.DateUtil;
 import com.bizzan.bitrade.util.EnumHelperUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @description 统计service
  * @date 2019/1/8 16:21
  */
@@ -36,7 +31,7 @@ public class StatisticsService extends BaseService {
     private OrderDao orderDao;
     /**
      * @param sql 需要包含startTime endTime 两个占位符
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
      * @description 获取统计数据
      * @date 2019/1/9 15:25
      */

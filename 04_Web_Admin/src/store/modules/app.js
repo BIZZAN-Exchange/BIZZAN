@@ -20,13 +20,15 @@ const app = {
         pageOpenedList: [{
             title: '首页',
             path: '',
-            name: 'home_index'
+            name: 'home_index',
+            titleKey:'index'
         }],
         currentPageName: '',
         currentPath: [{
             title: '首页',
             path: '',
-            name: 'home_index'
+            name: 'home_index',
+            titleKey:'index'
         }], // 面包屑数组
         menuList: [],
         datas: [],

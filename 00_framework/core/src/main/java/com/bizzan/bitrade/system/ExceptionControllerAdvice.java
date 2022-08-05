@@ -1,6 +1,9 @@
 package com.bizzan.bitrade.system;
 
+import com.bizzan.bitrade.exception.GeeTestException;
+import com.bizzan.bitrade.exception.InformationExpiredException;
 import com.bizzan.bitrade.service.LocaleMessageSourceService;
+import com.bizzan.bitrade.util.MessageResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
@@ -10,12 +13,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bizzan.bitrade.exception.GeeTestException;
-import com.bizzan.bitrade.exception.InformationExpiredException;
-import com.bizzan.bitrade.util.MessageResult;
-
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年12月23日
  */
 @ControllerAdvice
@@ -126,7 +125,7 @@ public class ExceptionControllerAdvice {
     /**
      * @param
      * @return
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
      * @description 错误请求方式异常  HttpRequestMethodNotSupportedException
      * @date 2019/2/28 17:32
      */

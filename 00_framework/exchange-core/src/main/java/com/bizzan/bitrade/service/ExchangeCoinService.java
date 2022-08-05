@@ -63,7 +63,8 @@ public class ExchangeCoinService {
         Specification<ExchangeCoin> spec = (root, criteriaQuery, criteriaBuilder) -> {
             Path<String> enable = root.get("enable");
             Path<Integer> flagPath = root.get("flag");
-            criteriaQuery.where(criteriaBuilder.equal(enable, 1), criteriaBuilder.equal(flagPath, flag));
+            Path<Integer> visiblePath = root.get("visible");
+            criteriaQuery.where(criteriaBuilder.equal(enable, 1), criteriaBuilder.equal(flagPath, flag), criteriaBuilder.equal(visiblePath, 1));
             return null;
         };
         Sort.Order order = new Sort.Order(Sort.Direction.ASC, "sort");

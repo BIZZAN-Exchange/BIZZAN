@@ -1,7 +1,13 @@
 package com.bizzan.bitrade.service;
 
-import java.util.List;
-
+import com.bizzan.bitrade.dao.MemberInviteStasticDao;
+import com.bizzan.bitrade.dao.MemberInviteStasticRankDao;
+import com.bizzan.bitrade.entity.MemberInviteStastic;
+import com.bizzan.bitrade.entity.MemberInviteStasticRank;
+import com.bizzan.bitrade.pagination.Criteria;
+import com.bizzan.bitrade.pagination.Restrictions;
+import com.bizzan.bitrade.service.Base.BaseService;
+import com.bizzan.bitrade.vo.MemberInviteStasticVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,18 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.bizzan.bitrade.dao.ActivityDao;
-import com.bizzan.bitrade.dao.MemberInviteStasticDao;
-import com.bizzan.bitrade.dao.MemberInviteStasticRankDao;
-import com.bizzan.bitrade.entity.Member;
-import com.bizzan.bitrade.entity.MemberInviteStastic;
-import com.bizzan.bitrade.entity.MemberInviteStasticRank;
-import com.bizzan.bitrade.entity.MemberTransaction;
-import com.bizzan.bitrade.pagination.Criteria;
-import com.bizzan.bitrade.pagination.Restrictions;
-import com.bizzan.bitrade.service.Base.BaseService;
-import com.bizzan.bitrade.vo.InviteManagementVO;
-import com.bizzan.bitrade.vo.MemberInviteStasticVO;
+import java.util.List;
 
 @Service
 public class MemberInviteStasticService extends BaseService {

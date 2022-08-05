@@ -2,65 +2,64 @@
 <div>
   <Card>
     <p slot="title">
-      添加/编辑红包
-    </p>
+      {{ $t('addeditredenvelopes.addeditredenvelopes') }} </p>
     <div class="formWrapper">
       <Form :model="envelopeForm" :label-width="100" class='form'>
-          <FormItem label="红包类型:">
+          <FormItem :label="$t('addeditredenvelopes.redenvelopetype')">
                   <RadioGroup v-model="envelopeForm.type">
-                    <Radio label="0"><em>随机</em></Radio>
-                    <Radio label="1"><em>定额</em></Radio>
+                    <Radio label="0"><em>{{ $t('addeditredenvelopes.random') }}</em></Radio>
+                    <Radio label="1"><em>{{ $t('addeditredenvelopes.quota') }}</em></Radio>
                   </RadioGroup>
           </FormItem>
-          <FormItem label="邀请拆分:">
+          <FormItem :label="$t('addeditredenvelopes.invitationsplit')">
                   <RadioGroup v-model="envelopeForm.invite">
-                    <Radio label="0"><em>否</em></Radio>
-                    <Radio label="1"><em>是</em></Radio>
+                    <Radio label="0"><em>{{ $t('perpetualcontractcurrencystandardmanagement.no') }}</em></Radio>
+                    <Radio label="1"><em>{{ $t('perpetualcontractcurrencystandardmanagement.yes') }}</em></Radio>
                   </RadioGroup>
           </FormItem>
-          <FormItem label="平台红包:">
+          <FormItem :label="$t('addeditredenvelopes.platformredenvelope')">
                   <RadioGroup v-model="envelopeForm.plateform">
-                    <Radio label="0"><em>否</em></Radio>
-                    <Radio label="1"><em>是</em></Radio>
+                    <Radio label="0"><em>{{ $t('perpetualcontractcurrencystandardmanagement.no') }}</em></Radio>
+                    <Radio label="1"><em>{{ $t('perpetualcontractcurrencystandardmanagement.yes') }}</em></Radio>
                   </RadioGroup>
           </FormItem>
-          <FormItem label="最大可领取额度(随机有效):">
+          <FormItem :label="$t('addeditredenvelopes.note1')">
               <Input v-model="envelopeForm.maxRand"></Input>
           </FormItem>
-          <FormItem label="红包总额:">
+          <FormItem :label="$t('addeditredenvelopes.totalamountofredenvelopes')">
               <Input v-model="envelopeForm.totalAmount"></Input>
           </FormItem>
-          <FormItem label="红包数量:">
+          <FormItem :label="$t('addeditredenvelopes.numberofredenvelopes')">
               <Input v-model="envelopeForm.count"></Input>
           </FormItem>
-          <FormItem label="LOGO图:">
+          <FormItem :label="$t('addeditredenvelopes.logodiagram')">
               <Upload :action="basicUrl+'admin/common/upload/oss/image'"
                       :on-success = 'uploadLogoSuccessed'
                       :on-error = "uploadFailed"
                       :on-progress = "imguploading"
                       :show-upload-list = "false">
-                <Button type="ghost" icon="ios-cloud-upload-outline">添加图片</Button>
+                <Button type="ghost" icon="ios-cloud-upload-outline">{{ $t('advertisingmanagement.addpicture') }}</Button>
               </Upload>
           </FormItem>
-          <FormItem label="背景图:">
+          <FormItem :label="$t('addeditredenvelopes.backgroundimage')">
               <Upload :action="basicUrl+'admin/common/upload/oss/image'"
                       :on-success = 'uploadBgImageSuccessed'
                       :on-error = "uploadFailed"
                       :on-progress = "imguploading"
                       :show-upload-list = "false">
-                <Button type="ghost" icon="ios-cloud-upload-outline">添加图片</Button>
+                <Button type="ghost" icon="ios-cloud-upload-outline">{{ $t('advertisingmanagement.addpicture') }}</Button>
               </Upload>
           </FormItem>
-          <FormItem label="红包币种:">
+          <FormItem :label="$t('addeditredenvelopes.redenvelopecurrency')">
               <Input v-model="envelopeForm.unit"></Input>
           </FormItem>
-          <FormItem label="有效时间:">
+          <FormItem :label="$t('addeditredenvelopes.effectivetime')">
               <Input v-model="envelopeForm.expiredHours"></Input>
           </FormItem>
-          <FormItem label="红包名称:">
+          <FormItem :label="$t('addeditredenvelopes.redpacketname')">
               <Input v-model="envelopeForm.name"></Input>
           </FormItem>
-          <FormItem label="红包说明:">
+          <FormItem :label="$t('addeditredenvelopes.redpacketdescription')">
               <smeditor :config='config' ref="smeditor" @isUploading = "ifUploading" style="width:100%;"></smeditor>
           </FormItem>
       </Form>
@@ -72,19 +71,18 @@
     </div>
     <div class="btnWrapper">
       <Button type="success" :disabled="false" long size='large' @click="submit">
-        提交
-      </Button>
+        {{ $t('addeditredenvelopes.submit') }} </Button>
     </div>
   </Card>
 
     <Modal
           class="auditModel"
           v-model="loginPassModal"
-          title="请输入登录密码"
+          :title="$t('c2cacceptormanagement.pleaseentertheloginpassword')"
           width="350"
           @on-cancle="loginPW = ''"
           @on-ok="confirmLoginPass">
-          <Input v-model="loginPW" type="password" placeholder="请输入登录密码"></Input>
+          <Input v-model="loginPW" type="password" :placeholder="$t('c2cacceptormanagement.pleaseentertheloginpassword')"></Input>
    </Modal>
 </div>
 
@@ -138,17 +136,17 @@ import { getStore, removeStore, setStore } from '@/config/storage';
           uploadCallback: (data) => {
             this.uploading = false;
             if(!data.code){
-              this.$Message.success('上传成功!');
+              this.$Message.success(this.$t('addeditredenvelopes.uploadsuccessful'));
               return data.data;
             }else{
-              this.$Message.error('上传失败!');
+              this.$Message.error(this.$t('addeditredenvelopes.uploadfailed'));
             }
           },
           // 上传失败回调, 可选
           uploadFailed: (err) => {
             this.uploading = false;
             console.log(err)
-            this.$Message.error('上传失败!');
+            this.$Message.error(this.$t('addeditredenvelopes.uploadfailed'));
           }
         }
       }
@@ -161,17 +159,17 @@ import { getStore, removeStore, setStore } from '@/config/storage';
           envelopeModify(this.envelopeForm)
           .then( res => {
             if (!res.code) {
-              this.$Message.success('操作成功!');
+              this.$Message.success(this.$t('advertisingmanagement.operationsucceeded'));
               this.$router.push('/envelope/envelopeList');
-            } else this.$Message.error('异常错误!');
+            } else this.$Message.error(this.$t('addeditredenvelopes.abnormalerror'));
           });
         }else{
           envelopeAdd(this.envelopeForm)
           .then( res => {
             if (!res.code) {
-              this.$Message.success('操作成功!');
+              this.$Message.success(this.$t('advertisingmanagement.operationsucceeded'));
               this.$router.push('/envelope/envelopeList');
-            } else this.$Message.error('异常错误!');
+            } else this.$Message.error(this.$t('addeditredenvelopes.abnormalerror'));
           });
         }
       },
@@ -197,16 +195,16 @@ import { getStore, removeStore, setStore } from '@/config/storage';
       uploadLogoSuccessed(response, file, fileList) {
         this.envelopeForm.logoImage = response.data;
         this.ifShowPercentCircle = false;
-        this.$Message.success('上传成功');
+        this.$Message.success(this.$t('advertisingmanagement.uploadsuccessful'));
       },
       uploadBgImageSuccessed(response, file, fileList){
         this.envelopeForm.bgImage = response.data;
         this.ifShowPercentCircle = false;
-        this.$Message.success('上传成功');
+        this.$Message.success(this.$t('advertisingmanagement.uploadsuccessful'));
       },
       uploadFailed(error, file, fileList) {
           this.ifShowPercentCircle = false;
-          this.$Message.error('上传失败');
+          this.$Message.error(this.$t('advertisingmanagement.uploadfailed'));
       }
     },
     created() {

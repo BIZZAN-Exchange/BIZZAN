@@ -10,12 +10,12 @@ import org.springframework.context.annotation.Configuration;
  * 自动配置合约参数
  */
 @Configuration
-@ConditionalOnProperty(name="contract.address")
+@ConditionalOnProperty(name = "contract.address")
 public class ContractConfig {
 
     @Bean
     @ConfigurationProperties(prefix = "contract")
-    public Contract getContract(){
+    public Contract getContract() {
         return new Contract();
     }
 

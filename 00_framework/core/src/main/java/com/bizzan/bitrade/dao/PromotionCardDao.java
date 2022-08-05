@@ -1,10 +1,9 @@
 package com.bizzan.bitrade.dao;
 
-import java.util.List;
-
 import com.bizzan.bitrade.dao.base.BaseDao;
-import com.bizzan.bitrade.entity.OtcCoin;
 import com.bizzan.bitrade.entity.PromotionCard;
+
+import java.util.List;
 
 public interface PromotionCardDao extends BaseDao<PromotionCard> {
 	

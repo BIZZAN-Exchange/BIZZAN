@@ -1,19 +1,6 @@
 package com.bizzan.bitrade.controller;
 
-import com.alibaba.fastjson.JSONArray;
-import com.bizzan.bitrade.entity.KLine;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
-
 import com.bizzan.bitrade.constant.SysConstant;
-import com.bizzan.bitrade.controller.BaseController;
 import com.bizzan.bitrade.entity.LoginInfo;
 import com.bizzan.bitrade.entity.Member;
 import com.bizzan.bitrade.entity.Sign;
@@ -24,17 +11,24 @@ import com.bizzan.bitrade.service.MemberService;
 import com.bizzan.bitrade.service.SignService;
 import com.bizzan.bitrade.system.GeetestLib;
 import com.bizzan.bitrade.util.MessageResult;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Calendar;
+import java.util.HashMap;
 
 import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年01月10日
  */
 @RestController
@@ -57,67 +51,91 @@ public class LoginController extends BaseController {
     @Value("${person.promote.prefix:}")
     private String promotePrefix;
 
+//    @RequestMapping(value = "/login")
+//    @Transactional(rollbackFor = Exception.class)
+//    public MessageResult login(HttpServletRequest request, String username, String password) {
+//        Assert.hasText(username, messageSourceService.getMessage("MISSING_USERNAME"));
+//        Assert.hasText(password, messageSourceService.getMessage("MISSING_PASSWORD"));
+//        String ip = getRemoteIp(request);
+//        String challenge = request.getParameter(GeetestLib.fn_geetest_challenge);
+//        String validate = request.getParameter(GeetestLib.fn_geetest_validate);
+//        String seccode = request.getParameter(GeetestLib.fn_geetest_seccode);
+//
+//
+//        //兼容没有极验证
+//        if (challenge == null && validate == null && seccode == null) {
+//            try {
+//                LoginInfo loginInfo = getLoginInfo(username, password, ip, request);
+//                return success(loginInfo);
+//            } catch (Exception e) {
+//                return error(e.getMessage());
+//            }
+//        }
+//
+//
+//
+//
+//        //从session中获取gt-server状态
+//        int gt_server_status_code = (Integer) request.getSession().getAttribute(gtSdk.gtServerStatusSessionKey);
+//        //从session中获取userid
+//        String userid = (String) request.getSession().getAttribute("userid");
+//        //自定义参数,可选择添加
+//        HashMap<String, String> param = new HashMap<String, String>();
+//        param.put("user_id", userid); //网站用户id
+//        param.put("client_type", "web"); //web:电脑上的浏览器；h5:手机上的浏览器，包括移动应用内完全内置的web_view；native：通过原生SDK植入APP应用的方式
+//        param.put("ip_address", ip); //传输用户请求验证时所携带的IP
+//
+//        int gtResult = 0;
+//
+//        if (gt_server_status_code == 1) {
+//            //gt-server正常，向gt-server进行二次验证
+//            gtResult = gtSdk.enhencedValidateRequest(challenge, validate, seccode, param);
+//            //System.out.println(gtResult);
+//        } else {
+//            // gt-server非正常情况下，进行failback模式验证
+//            System.out.println("failback:use your own server captcha validate");
+//            gtResult = gtSdk.failbackValidateRequest(challenge, validate, seccode);
+//            // System.out.println(gtResult);
+//        }
+//        if (gtResult == 1) {
+//            // 验证成功
+//            try {
+//                LoginInfo loginInfo = getLoginInfo(username, password, ip, request);
+//                return success(loginInfo);
+//            } catch (Exception e) {
+//                return error(e.getMessage());
+//            }
+//        } else {
+//            // 验证失败
+//            return error(msService.getMessage("GEETEST_FAIL"));
+//        }
+//    }
+
+
+
     @RequestMapping(value = "/login")
     @Transactional(rollbackFor = Exception.class)
-    public MessageResult login(HttpServletRequest request, String username, String password) {
+    public MessageResult login(HttpServletRequest request, String username, String password,Long code) {
         Assert.hasText(username, messageSourceService.getMessage("MISSING_USERNAME"));
         Assert.hasText(password, messageSourceService.getMessage("MISSING_PASSWORD"));
         String ip = getRemoteIp(request);
-        String challenge = request.getParameter(GeetestLib.fn_geetest_challenge);
-        String validate = request.getParameter(GeetestLib.fn_geetest_validate);
-        String seccode = request.getParameter(GeetestLib.fn_geetest_seccode);
-
-        
-        //兼容没有极验证
-        if (challenge == null && validate == null && seccode == null) {
-            try {
-                LoginInfo loginInfo = getLoginInfo(username, password, ip, request);
-                return success(loginInfo);
-            } catch (Exception e) {
+        code = code==null ? 0L:code;
+        try {
+            LoginInfo loginInfo = getLoginInfo(username, password, ip,code, request);
+            return success(loginInfo);
+        } catch (Exception e) {
+            if("Google验证码错误".equals(e.getMessage())){
+                return error(505,e.getMessage());
+            }else {
+                memberEvent.onLoginFail(username, username, ip, e.getMessage());
                 return error(e.getMessage());
             }
-        }
-
-
-        //从session中获取gt-server状态
-        int gt_server_status_code = (Integer) request.getSession().getAttribute(gtSdk.gtServerStatusSessionKey);
-        //从session中获取userid
-        String userid = (String) request.getSession().getAttribute("userid");
-        //自定义参数,可选择添加
-        HashMap<String, String> param = new HashMap<String, String>();
-        param.put("user_id", userid); //网站用户id
-        param.put("client_type", "web"); //web:电脑上的浏览器；h5:手机上的浏览器，包括移动应用内完全内置的web_view；native：通过原生SDK植入APP应用的方式
-        param.put("ip_address", ip); //传输用户请求验证时所携带的IP
-
-        int gtResult = 0;
-
-        if (gt_server_status_code == 1) {
-            //gt-server正常，向gt-server进行二次验证
-            gtResult = gtSdk.enhencedValidateRequest(challenge, validate, seccode, param);
-            //System.out.println(gtResult);
-        } else {
-            // gt-server非正常情况下，进行failback模式验证
-            System.out.println("failback:use your own server captcha validate");
-            gtResult = gtSdk.failbackValidateRequest(challenge, validate, seccode);
-            // System.out.println(gtResult);
-        }
-        if (gtResult == 1) {
-            // 验证成功
-            try {
-                LoginInfo loginInfo = getLoginInfo(username, password, ip, request);
-                return success(loginInfo);
-            } catch (Exception e) {
-                return error(e.getMessage());
-            }
-        } else {
-            // 验证失败
-            return error(msService.getMessage("GEETEST_FAIL"));
         }
     }
 
 
-    private LoginInfo getLoginInfo(String username, String password, String ip, HttpServletRequest request) throws Exception {
-        Member member = memberService.login(username, password);
+    private LoginInfo getLoginInfo(String username, String password, String ip, Long code, HttpServletRequest request) throws Exception {
+        Member member = memberService.loginWithCode(username, password,code);
         memberEvent.onLoginSuccess(member, ip);
         request.getSession().setAttribute(SysConstant.SESSION_MEMBER, AuthMember.toAuthMember(member));
         String token = request.getHeader("access-auth-token");
@@ -130,6 +148,7 @@ public class LoginController extends BaseController {
         // 获取登录次数
         int loginCount = member.getLoginCount();
         member.setLoginCount(loginCount+1);
+        memberService.save(member);
         // 签到活动是否进行
         Sign sign = signService.fetchUnderway();
         LoginInfo loginInfo;

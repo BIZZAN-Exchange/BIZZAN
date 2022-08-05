@@ -1,23 +1,5 @@
 package com.bizzan.bitrade.core;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.*;
-import org.apache.shiro.authc.credential.CredentialsMatcher;
-import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.authz.AuthorizationException;
-import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.subject.Subject;
-import org.apache.shiro.util.ByteSource;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.stereotype.Component;
-
 import com.bizzan.bitrade.constant.CommonStatus;
 import com.bizzan.bitrade.constant.SysConstant;
 import com.bizzan.bitrade.entity.Admin;
@@ -26,16 +8,26 @@ import com.bizzan.bitrade.entity.SysRole;
 import com.bizzan.bitrade.service.AdminService;
 import com.bizzan.bitrade.service.SysPermissionService;
 import com.bizzan.bitrade.service.SysRoleService;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.Subject;
+import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年12月18日
  */
 @Slf4j
@@ -83,6 +75,7 @@ public class AdminRealm extends AuthorizingRealm {
             throw new AuthorizationException();
         }
         SimpleAuthorizationInfo simpleAuthorInfo = new SimpleAuthorizationInfo();
+       // log.info("设置缓存：{}", permissionList);
         simpleAuthorInfo.addStringPermissions(permissionList);
         return simpleAuthorInfo;
     }
@@ -118,6 +111,7 @@ public class AdminRealm extends AuthorizingRealm {
             //添加登录日志
             adminService.update(new Date(), token.getHost(), admin.getId());
             setSession(SysConstant.SESSION_ADMIN, admin);
+            clearCachedAuthorizationInfo(SecurityUtils.getSubject().getPrincipals());
             return authInfo;
         }
     }

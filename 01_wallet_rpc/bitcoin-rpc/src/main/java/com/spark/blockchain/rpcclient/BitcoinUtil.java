@@ -2,6 +2,7 @@ package com.spark.blockchain.rpcclient;
 
 import com.spark.blockchain.rpcclient.Bitcoin.BasicTxInput;
 import com.spark.blockchain.rpcclient.Bitcoin.Unspent;
+
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -14,7 +15,7 @@ public class BitcoinUtil {
     }
 
     public static double normalizeAmount(double amount) {
-        return (double)((long)(0.5D + amount / 1.0E-8D)) * 1.0E-8D;
+        return (double) ((long) (0.5D + amount / 1.0E-8D)) * 1.0E-8D;
     }
 
     public static String sendTransaction(Bitcoin bitcoin, String targetAddress, BigDecimal amount, BigDecimal txFee) throws BitcoinException {
@@ -36,8 +37,8 @@ public class BitcoinUtil {
             BitcoinRawTxBuilder builder = new BitcoinRawTxBuilder(bitcoin);
             Iterator var11 = unspents.iterator();
 
-            while(var11.hasNext()) {
-                Unspent unspent = (Unspent)var11.next();
+            while (var11.hasNext()) {
+                Unspent unspent = (Unspent) var11.next();
                 moneySpent = moneySpent.add(unspent.amount());
                 System.out.println("unspent=" + unspent.amount());
                 builder.in(new BasicTxInput(unspent.txid(), unspent.vout()));
@@ -62,7 +63,7 @@ public class BitcoinUtil {
     }
 
     public static String sendTransaction(Bitcoin bitcoin, String fromAddress, String targetAddress, BigDecimal amount, BigDecimal txFee) throws BitcoinException {
-        List<Unspent> unspents = bitcoin.listUnspent(1, 99999999, new String[]{fromAddress});
+        List<Unspent> unspents = bitcoin.listUnspent(1, 99999999, fromAddress);
         System.out.println("target=" + targetAddress + ",amount=" + amount.toPlainString() + ",fee=" + txFee.toPlainString());
         BigDecimal moneySpent = BigDecimal.ZERO;
         BigDecimal moneyChange = BigDecimal.ZERO;
@@ -73,8 +74,8 @@ public class BitcoinUtil {
             BitcoinRawTxBuilder builder = new BitcoinRawTxBuilder(bitcoin);
             Iterator var10 = unspents.iterator();
 
-            while(var10.hasNext()) {
-                Unspent unspent = (Unspent)var10.next();
+            while (var10.hasNext()) {
+                Unspent unspent = (Unspent) var10.next();
                 moneySpent = moneySpent.add(unspent.amount());
                 System.out.println("unspent=" + unspent.amount());
                 builder.in(new BasicTxInput(unspent.txid(), unspent.vout()));

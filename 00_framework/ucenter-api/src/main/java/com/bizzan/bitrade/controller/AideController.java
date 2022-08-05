@@ -1,12 +1,10 @@
 package com.bizzan.bitrade.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.bizzan.bitrade.constant.Platform;
 import com.bizzan.bitrade.constant.SysAdvertiseLocation;
 import com.bizzan.bitrade.constant.SysConstant;
 import com.bizzan.bitrade.constant.SysHelpClassification;
-import com.bizzan.bitrade.controller.BaseController;
 import com.bizzan.bitrade.entity.AppRevision;
 import com.bizzan.bitrade.entity.SysAdvertise;
 import com.bizzan.bitrade.entity.SysHelp;
@@ -16,8 +14,6 @@ import com.bizzan.bitrade.service.SysAdvertiseService;
 import com.bizzan.bitrade.service.SysHelpService;
 import com.bizzan.bitrade.service.WebsiteInformationService;
 import com.bizzan.bitrade.util.MessageResult;
-import com.netflix.discovery.converters.Auto;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,7 +26,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年02月05日
  */
 @RestController

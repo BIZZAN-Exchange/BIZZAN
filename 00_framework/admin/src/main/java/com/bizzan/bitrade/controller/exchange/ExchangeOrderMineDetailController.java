@@ -5,15 +5,16 @@ import com.bizzan.bitrade.controller.common.BaseAdminController;
 import com.bizzan.bitrade.entity.ExchangeCoin;
 import com.bizzan.bitrade.entity.Member;
 import com.bizzan.bitrade.es.ESUtils;
-import com.bizzan.bitrade.service.CoinService;
 import com.bizzan.bitrade.service.ExchangeCoinService;
 import com.bizzan.bitrade.service.MemberService;
 import com.bizzan.bitrade.util.MessageResult;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 

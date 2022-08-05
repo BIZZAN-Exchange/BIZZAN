@@ -2,16 +2,14 @@
   <div>
     <Card>
       <p slot="title">
-        查询保证金策略
-        <Button type="primary" size="small" @click="refreshPageManual">
+        {{ $t('querymarginstrategy.querymarginstrategy') }} <Button type="primary" size="small" @click="refreshPageManual">
           <Icon type="refresh"></Icon>
-          刷新
-        </Button>
+          {{ $t('querymarginstrategy.refresh') }} </Button>
       </p>
 
 			<Row class="functionWrapper">
 				<div class="btnsWrapper clearfix ">
-					<Button type="primary" @click="addNew">新增</Button>
+					<Button type="primary" @click="addNew">{{ $t('querymarginstrategy.newlyadded') }}</Button>
 				</div>
         <div class="searchWrapper clearfix">
 
@@ -36,30 +34,30 @@
 
 			<Modal 
 				v-model="authModal"
-				title="编辑保证金"
+				:title="$t('querymarginstrategy.editmargin')"
 				width="400"
 				@on-ok="confirmSub"
 				@on-cancel="cancelSub"
 			>
 				<Form :model="businessAuth" :label-width="50">
-					<FormItem label="币种：" v-if="isNew">
+					<FormItem :label="$t('querymarginstrategy.currency')" v-if="isNew">
 						<Select v-model="businessAuth.coinUnit">
 							<Option v-for=" (coin, index) in allCoinArr " :value="coin.unit" :key="index">{{ coin.unit }}</Option>
 						</Select>
 					</FormItem>
 
-					<FormItem label="状态：" v-if="!isNew">
+					<FormItem :label="$t('querymarginstrategy.status')" v-if="!isNew">
 						<RadioGroup v-model="businessAuth.status">
 							<Radio :label="0">
-								<span>正常</span>
+								<span>{{ $t('querymarginstrategy.normal') }}</span>
 							</Radio>
 							<Radio :label="1">
-								<span>禁用</span>
+								<span>{{ $t('querymarginstrategy.disable') }}</span>
 							</Radio>
 						</RadioGroup>
 					</FormItem>
 
-					<FormItem label="数量：">
+					<FormItem :label="$t('querymarginstrategy.number')">
 						<Input v-model="businessAuth.amount"></Input>
 					</FormItem>
 
@@ -101,32 +99,32 @@ export default {
       totalNum: null,
       columns_first: [
         {
-					title: '币种',
+					title: this.$t('querymarginstrategy.currency'),
 					key: 'unit',
 					render: (h, ctx) => {
 						return h('span', {}, ctx.row.coin.unit )
 					}
         },
         {
-          title: "保证金数量",
+          title: this.$t('querymarginstrategy.amountofdeposit'),
           key: "amount"
         },
          {
-          title: "创建时间",
+          title: this.$t('querymarginstrategy.creationtime'),
           key: "createTime"
         },
         {
-					title: "状态",
+					title: this.$t('querymarginstrategy.status'),
 					key: 'status',
 					render: (h, ctx) => {
-						return h('span', {}, !ctx.row.status ? '正常' : '禁用' )
+						return h('span', {}, !ctx.row.status ? this.$t('querymarginstrategy.normal') : this.$t('querymarginstrategy.disable') )
 					}
         },
         {
-          title: "操作",
+          title: this.$t('querymarginstrategy.operation'),
 					key: "operation",
 					render: (h, ctx) => {
-						return h ('Button', {
+						return h ('button', {
 							props: {
 								type: 'info',
 								size: 'small'
@@ -142,7 +140,7 @@ export default {
 									
 								}
 							}
-						}, '查看 / 编辑')
+						}, this.$t('querymarginstrategy.viewedit'))
 					}
         },
       ],

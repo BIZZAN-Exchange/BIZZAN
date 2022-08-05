@@ -2,16 +2,14 @@
   <div>
     <Card>
       <p slot="title">
-        手续费提取明细
-        <Button type="primary" size="small" @click="refreshPageManual">
+        {{ $t('servicechargewithdrawaldetails.servicechargewithdrawaldetails') }} <Button type="primary" size="small" @click="refreshPageManual">
           <Icon type="refresh"></Icon>
-          刷新
-        </Button>
+          {{ $t('perpetualcontractcurrencystandardmanagement.refresh') }} </Button>
       </p>
 
      <Row class="functionWrapper">
         <div class="searchWrapper clearfix">
-						<span>交易类型：</span>
+						<span>{{ $t('servicechargewithdrawaldetails.transactiontype') }}</span>
 						<Select v-model="tradeType" style="width: 200px">
 							<Option v-for="(item, index) in tradeTypeArr"
 										:value="index"
@@ -19,16 +17,16 @@
 						</Select>
 				</div>
         <div class="searchWrapper clearfix" style="margin-left:20px;">
-						<span>交易时间：</span>
+						<span>{{ $t('transactiondetailsinlegalcurrency.tradingtime') }}</span>
 						<DatePicker
 							type="daterange"
 							placement="bottom-end"
 							@on-change="dateRange"
-							placeholder="选择时间区间">
+							:placeholder="$t('servicechargewithdrawaldetails.selecttimeinterval')">
 						</DatePicker>
 				</div>
         <div class="searchWrapper clearfix">
-          <Button type="primary" @click="searchByFilter">搜索</Button>
+          <Button type="primary" @click="searchByFilter">{{ $t('positionmanagementcontractassetmanagement.search') }}</Button>
         </div>
       </Row>
 
@@ -54,7 +52,7 @@ import { withdrawFeeDetail  } from '@/service/getData';
     data () {
       return {
       	tradeType: -1,
-      	tradeTypeArr: ["--全部--", "币币交易", "永续合约", "期权合约"],
+      	tradeTypeArr: [this.$t('servicechargewithdrawaldetails.all'), this.$t('servicechargewithdrawaldetails.currencytransaction'), this.$t('servicechargewithdrawaldetails.perpetualcontract'), this.$t('servicechargewithdrawaldetails.optioncontract')],
 		filterSearch: {
 			pageNo: 1,
 			pageSize: 10,
@@ -68,44 +66,44 @@ import { withdrawFeeDetail  } from '@/service/getData';
         userpage: [],
         columns_first: [
           {
-            title: '业务类型',
+            title: this.$t('servicechargewithdrawaldetails.businesstype'),
             key: 'bizType',
             render(h, obj) {
             	if(obj.row.bizType=="echange") {
-            		return h("span", {}, "币币交易");
+            		return h("span", {}, this.$t('servicechargewithdrawaldetails.currencytransaction'));
             	} else if(obj.row.bizType=="swap") {
-					return h("span", {}, "永续合约");
+					return h("span", {}, this.$t('servicechargewithdrawaldetails.perpetualcontract'));
             	} else {
-            		return h("span", {}, "期权合约");
+            		return h("span", {}, this.$t('servicechargewithdrawaldetails.optioncontract'));
             	}
           	}
           },
           {
-            title: '手续费类型',
+            title: this.$t('servicechargewithdrawaldetails.handlingchargetype'),
             key: 'feeType',
             render(h, obj) {
             	if(obj.row.bizType=="echange") {
-            		return h("span", {}, obj.row.feeType=="left"? "买币手续费": "卖币手续费");
+            		return h("span", {}, obj.row.feeType=="left"? this.$t('servicechargewithdrawaldetails.handlingchargeforbuyingcurrency'): this.$t('servicechargewithdrawaldetails.handlingchargeforsellingcurrency'));
             	} else if(obj.row.bizType=="swap") {
-					return h("span", {}, obj.row.feeType=="left"? "开仓手续费": "平仓手续费");
+					return h("span", {}, obj.row.feeType=="left"? this.$t('perpetualcontractcurrencystandardmanagement.openingfee'): this.$t('perpetualcontractcurrencystandardmanagement.closingfee'));
             	} else {
-            		return h("span", {}, obj.row.feeType=="left"? "期权抽水": "期权手续费");
+            		return h("span", {}, obj.row.feeType=="left"? this.$t('servicechargewithdrawaldetails.optionpumping'): this.$t('servicechargewithdrawaldetails.optionfee'));
             	}
           	}
           },
           {
-            title: '交易对',
+            title: this.$t('managementofoptioncontractsineachperiod.transactionpair'),
             key: 'symbol'
           },
           {
-            title: '提取数量',
+            title: this.$t('servicechargewithdrawaldetails.extractedquantity'),
             key: 'feeAmount',
             render(h, obj) {
             	return h("span", {}, obj.row.feeAmount+"("+obj.row.feeCoin+")");
           	}
           },
           {
-            title: '提取时间',
+            title: this.$t('servicechargewithdrawaldetails.extractiontime'),
             key: 'createTime'
           }
         ]

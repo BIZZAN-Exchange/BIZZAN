@@ -1,14 +1,17 @@
 package com.bizzan.bitrade.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.bizzan.bitrade.constant.*;
+import com.bizzan.bitrade.constant.BooleanEnum;
+import com.bizzan.bitrade.constant.CommonStatus;
+import com.bizzan.bitrade.constant.SysConstant;
+import com.bizzan.bitrade.constant.WithdrawStatus;
 import com.bizzan.bitrade.entity.*;
 import com.bizzan.bitrade.entity.transform.AuthMember;
 import com.bizzan.bitrade.exception.InformationExpiredException;
 import com.bizzan.bitrade.service.*;
+import com.bizzan.bitrade.util.GoogleAuthenticatorUtil;
 import com.bizzan.bitrade.util.Md5;
 import com.bizzan.bitrade.util.MessageResult;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,8 +35,8 @@ import static com.bizzan.bitrade.util.MessageResult.error;
 import static org.springframework.util.Assert.*;
 
 /**
- * @author GS
- * @date 2020年01月26日
+ * @author Hevin E-Mali:390330302@qq.com
+ * @date 2021年01月26日
  */
 @RestController
 @Slf4j
@@ -55,44 +59,34 @@ public class WithdrawController {
     @Autowired
     private LocaleMessageSourceService sourceService;
     @Autowired
-    private MemberTransactionService memberTransactionService ;
+    private MemberTransactionService memberTransactionService;
+
+    @Autowired
+    private WithdrawService withdrawService;
+
+    @Autowired
+    private CoinextService coinextService;
 
     /**
      * 增加提现地址
+     *
      * @param address
      * @param unit
      * @param remark
-     * @param code
-     * @param aims
      * @param user
      * @return
      */
     @RequestMapping("address/add")
     @Transactional(rollbackFor = Exception.class)
-    public MessageResult addAddress(String address, String unit, String remark, String code, String aims, @SessionAttribute(SESSION_MEMBER) AuthMember user) {
+    public MessageResult addAddress(String address, String unit, String remark, String fundpwd, @SessionAttribute(SESSION_MEMBER) AuthMember user) throws Exception {
         hasText(address, sourceService.getMessage("MISSING_COIN_ADDRESS"));
         hasText(unit, sourceService.getMessage("MISSING_COIN_TYPE"));
-        hasText(code, sourceService.getMessage("MISSING_VERIFICATION_CODE"));
-        hasText(aims, sourceService.getMessage("MISSING_PHONE_OR_EMAIL"));
-        ValueOperations valueOperations = redisTemplate.opsForValue();
+        hasText(fundpwd, sourceService.getMessage("MISSING_JYPASSWORD"));
         Member member = memberService.findOne(user.getId());
-        if (member.getMobilePhone() != null && aims.equals(member.getMobilePhone())) {
-            Object info = valueOperations.get(SysConstant.PHONE_ADD_ADDRESS_PREFIX + member.getMobilePhone());
-            if ( info==null ||!info.toString().equals(code)) {
-                return MessageResult.error(sourceService.getMessage("VERIFICATION_CODE_INCORRECT"));
-            } else {
-                valueOperations.getOperations().delete(SysConstant.PHONE_ADD_ADDRESS_PREFIX + member.getMobilePhone());
-            }
-        } else if (member.getEmail() != null && aims.equals(member.getEmail())) {
-            Object info = valueOperations.get(SysConstant.ADD_ADDRESS_CODE_PREFIX + member.getEmail());
-            if (!info.toString().equals(code)) {
-                return MessageResult.error(sourceService.getMessage("VERIFICATION_CODE_INCORRECT"));
-            } else {
-                valueOperations.getOperations().delete(SysConstant.ADD_ADDRESS_CODE_PREFIX + member.getEmail());
-            }
-        } else {
-            return MessageResult.error(sourceService.getMessage("ADD_ADDRESS_FAILED"));
-        }
+        String mbPassword = member.getJyPassword();
+        Assert.hasText(mbPassword, sourceService.getMessage("NO_SET_JYPASSWORD"));
+        Assert.isTrue(Md5.md5Digest(fundpwd + member.getSalt()).toLowerCase().equals(mbPassword), sourceService.getMessage("ERROR_JYPASSWORD"));
+
         MessageResult result = memberAddressService.addMemberAddress(user.getId(), address, unit, remark);
         if (result.getCode() == 0) {
             result.setMessage(sourceService.getMessage("ADD_ADDRESS_SUCCESS"));
@@ -106,6 +100,7 @@ public class WithdrawController {
 
     /**
      * 删除提现地址
+     *
      * @param id
      * @param user
      * @return
@@ -124,6 +119,7 @@ public class WithdrawController {
 
     /**
      * 提现地址分页信息
+     *
      * @param user
      * @param pageNo
      * @param pageSize
@@ -141,6 +137,7 @@ public class WithdrawController {
 
     /**
      * 支持提现的地址
+     *
      * @return
      */
     @RequestMapping("support/coin")
@@ -155,6 +152,7 @@ public class WithdrawController {
 
     /**
      * 提现币种详细信息
+     *
      * @param user
      * @return
      */
@@ -185,11 +183,10 @@ public class WithdrawController {
     }
 
 
-
-
     /**
      * 申请提币(请到PC端提币或升级APP)
      * 没有验证码校验
+     *
      * @param user
      * @param unit
      * @param address
@@ -203,12 +200,13 @@ public class WithdrawController {
     @RequestMapping("apply")
     @Transactional(rollbackFor = Exception.class)
     public MessageResult withdraw(@SessionAttribute(SESSION_MEMBER) AuthMember user, String unit, String address,
-                                  BigDecimal amount, BigDecimal fee,String remark,String jyPassword) throws Exception {
+                                  BigDecimal amount, BigDecimal fee, String remark, String jyPassword) throws Exception {
         return MessageResult.success(sourceService.getMessage("WITHDRAW_TO_PC"));
     }
 
     /**
      * 申请提币（添加验证码校验）
+     *
      * @param user
      * @param unit
      * @param address
@@ -222,11 +220,11 @@ public class WithdrawController {
     @RequestMapping("apply/code")
     @Transactional(rollbackFor = Exception.class)
     public MessageResult withdrawCode(@SessionAttribute(SESSION_MEMBER) AuthMember user, String unit, String address,
-                                  BigDecimal amount, BigDecimal fee,String remark,String jyPassword,@RequestParam("code") String code) throws Exception {
+                                      BigDecimal amount, BigDecimal fee, String remark, String jyPassword) throws Exception {
         hasText(jyPassword, sourceService.getMessage("MISSING_JYPASSWORD"));
         hasText(unit, sourceService.getMessage("MISSING_COIN_TYPE"));
         Coin coin = coinService.findByUnit(unit);
-        amount.setScale(coin.getWithdrawScale(),BigDecimal.ROUND_DOWN);
+        amount.setScale(coin.getWithdrawScale(), BigDecimal.ROUND_DOWN);
         notNull(coin, sourceService.getMessage("COIN_ILLEGAL"));
 
         isTrue(coin.getStatus().equals(CommonStatus.NORMAL) && coin.getCanWithdraw().equals(BooleanEnum.IS_TRUE), sourceService.getMessage("COIN_NOT_SUPPORT"));
@@ -236,25 +234,12 @@ public class WithdrawController {
         isTrue(compare(amount, coin.getMinWithdrawAmount()), sourceService.getMessage("WITHDRAW_MIN") + coin.getMinWithdrawAmount());
         MemberWallet memberWallet = memberWalletService.findByCoinAndMemberId(coin, user.getId());
         isTrue(compare(memberWallet.getBalance(), amount), sourceService.getMessage("INSUFFICIENT_BALANCE"));
-//        isTrue(memberAddressService.findByMemberIdAndAddress(user.getId(), address).size() > 0, sourceService.getMessage("WRONG_ADDRESS"));
-        isTrue(memberWallet.getIsLock()==BooleanEnum.IS_FALSE,"钱包已锁定");
+        isTrue(memberWallet.getIsLock() == BooleanEnum.IS_FALSE, "The wallet is locked.");
         Member member = memberService.findOne(user.getId());
-        RealNameStatus realNameStatus = member.getRealNameStatus();
-        if(!"已认证".equals(realNameStatus.getCnName())){
-            return MessageResult.error(sourceService.getMessage("NO_REALNAM"));
-        }
         String mbPassword = member.getJyPassword();
         Assert.hasText(mbPassword, sourceService.getMessage("NO_SET_JYPASSWORD"));
         Assert.isTrue(Md5.md5Digest(jyPassword + member.getSalt()).toLowerCase().equals(mbPassword), sourceService.getMessage("ERROR_JYPASSWORD"));
-        ValueOperations valueOperations = redisTemplate.opsForValue();
-        String phone= member.getMobilePhone();
-        Object codeRedis =valueOperations.get(SysConstant.PHONE_WITHDRAW_MONEY_CODE_PREFIX + phone);
-        notNull(codeRedis, sourceService.getMessage("VERIFICATION_CODE_NOT_EXISTS"));
-        if (!codeRedis.toString().equals(code)) {
-            return error(sourceService.getMessage("VERIFICATION_CODE_INCORRECT"));
-        } else {
-            valueOperations.getOperations().delete(SysConstant.PHONE_WITHDRAW_MONEY_CODE_PREFIX + phone);
-        }
+
         MessageResult result = memberWalletService.freezeBalance(memberWallet, amount);
         if (result.getCode() != 0) {
             throw new InformationExpiredException("Information Expired");
@@ -289,14 +274,7 @@ public class WithdrawController {
             json.put("address", address);
             //提币记录id
             json.put("withdrawId", withdrawRecord.getId());
-
-            // 如果是USDT提现，并且地址符合ERC20地址格式，则走ERC20通道提现
-            if(coin.getUnit().equals("USDT") && address.substring(0, 2).equals("0x")) {
-                kafkaTemplate.send("withdraw", "EUSDT", json.toJSONString());
-            }else{
-                kafkaTemplate.send("withdraw", coin.getUnit(), json.toJSONString());
-            }
-
+            kafkaTemplate.send("withdraw", coin.getUnit(), json.toJSONString());
             return MessageResult.success(sourceService.getMessage("APPLY_SUCCESS"));
         } else {
             withdrawApply.setStatus(WithdrawStatus.PROCESSING);
@@ -312,6 +290,7 @@ public class WithdrawController {
 
     /**
      * 提币记录
+     *
      * @param user
      * @param page
      * @param pageSize
@@ -324,6 +303,151 @@ public class WithdrawController {
         records.map(x -> ScanWithdrawRecord.toScanWithdrawRecord(x));
         mr.setData(records);
         return mr;
+    }
+
+
+    /**
+     * 提币记录
+     */
+    @GetMapping("list")
+    public MessageResult list(@SessionAttribute(SESSION_MEMBER) AuthMember user, int page, int pageSize) {
+        MessageResult mr = new MessageResult(0, "success");
+        Page<Withdraw> records = withdrawService.findAllByMemberId((int) user.getId(), page, pageSize);
+        mr.setData(records);
+        return mr;
+    }
+
+
+    /**
+     * 提币
+     *
+     * @return
+     */
+    @PostMapping("create")
+    public MessageResult create(@SessionAttribute(SESSION_MEMBER) AuthMember user,
+                                @RequestParam(value = "coinName") String coinName,
+                                @RequestParam(value = "coinprotocol") Integer coinprotocol,
+                                @RequestParam(value = "address") String address,
+                                @RequestParam(value = "money") double money,
+                                @RequestParam(value = "code") String code,
+                                @RequestParam(value = "codeType") Integer codeType,
+                                @RequestParam(value = "payPwd") String payPwd) throws Exception {
+
+
+        Long memberid = user.getId();
+        // 查询资金密码
+        Member member = memberService.findOne(user.getId());
+        isTrue(Md5.md5Digest(payPwd + member.getSalt()).toLowerCase().equals(member.getJyPassword()), sourceService.getMessage("ERROR_JYPASSWORD"));
+        ValueOperations valueOperations = redisTemplate.opsForValue();
+        //验证验证码
+        if(codeType==1){
+            //邮箱
+            String email = member.getEmail();
+            Object redisCode =valueOperations.get(SysConstant.EMAIL_WITHDRAW_MONEY_CODE_PREFIX + email);
+            notNull(redisCode, sourceService.getMessage("VERIFICATION_CODE_NOT_EXISTS"));
+            if (!redisCode.toString().equals(code)) {
+                return error(sourceService.getMessage("VERIFICATION_CODE_INCORRECT"));
+            } else {
+                valueOperations.getOperations().delete(SysConstant.EMAIL_WITHDRAW_MONEY_CODE_PREFIX + email);
+            }
+        }else if(codeType==2){
+            //手机
+            String key = SysConstant.PHONE_WITHDRAW_MONEY_CODE_PREFIX + member.getMobilePhone();
+            Object redisCode =valueOperations.get(key);
+            notNull(redisCode, sourceService.getMessage("VERIFICATION_CODE_NOT_EXISTS"));
+            if (!redisCode.toString().equals(code)) {
+                return error(sourceService.getMessage("VERIFICATION_CODE_INCORRECT"));
+            } else {
+                valueOperations.getOperations().delete(key);
+            }
+        }else{
+            //Google
+            long t = System.currentTimeMillis();
+            GoogleAuthenticatorUtil ga = new GoogleAuthenticatorUtil();
+            //  ga.setWindowSize(0); // should give 5 * 30 seconds of grace...
+            boolean r = ga.check_code(member.getGoogleKey(), Long.valueOf(code), t);
+            if(!r){
+                return error(sourceService.getMessage("VERIFICATION_CODE_INCORRECT"));
+            }
+        }
+
+        // 查询币种配置
+        Coinext firstByCoinnameAndProtocol = coinextService.findFirstByCoinnameAndProtocol(coinName, coinprotocol);
+
+        if (firstByCoinnameAndProtocol == null) {
+            return MessageResult.error(sourceService.getMessage("COIN_ILLEGAL"));
+        }
+
+        Integer iswithdraw = firstByCoinnameAndProtocol.getIswithdraw();
+        if (iswithdraw != 1) {
+            return MessageResult.error(sourceService.getMessage("COIN_NOT_SUPPORT"));
+        }
+        Integer decimals = firstByCoinnameAndProtocol.getDecimals();
+        Integer isautowithdraw = firstByCoinnameAndProtocol.getIsautowithdraw();
+
+        // 保留两位小数
+        BigDecimal bigDecimalMoney = new BigDecimal(money).setScale(decimals, BigDecimal.ROUND_DOWN);
+
+        BigDecimal bigDecimalMinwithdraw = BigDecimal.valueOf(firstByCoinnameAndProtocol.getMinwithdraw());
+        BigDecimal bigDecimalMaxwithdraw = BigDecimal.valueOf(firstByCoinnameAndProtocol.getMaxwithdraw());
+        BigDecimal bigDecimalWithdrawfee = BigDecimal.valueOf(firstByCoinnameAndProtocol.getWithdrawfee());
+        BigDecimal bigDecimalMinwithdrawfee = BigDecimal.valueOf(firstByCoinnameAndProtocol.getMinwithdrawfee());
+
+        // 如果提现金额为0或者负数
+        if (bigDecimalMoney.compareTo(new BigDecimal(0)) <= 0) {
+            return MessageResult.error(sourceService.getMessage("WITHDRAW_MIN")+"0");
+        }
+
+        // 如果提现金额小于最低提现数量
+        if (bigDecimalMoney.compareTo(bigDecimalMinwithdraw) < 0) {
+            return MessageResult.error(sourceService.getMessage("WITHDRAW_MIN")+bigDecimalMinwithdraw.toPlainString());
+        }
+
+        // 如果提现金额大于最大金额
+        if (bigDecimalMoney.compareTo(bigDecimalMaxwithdraw) > 0) {
+            return MessageResult.error(sourceService.getMessage("WITHDRAW_MAX")+bigDecimalMaxwithdraw.toPlainString());
+        }
+
+        BigDecimal fee = bigDecimalMoney.multiply(bigDecimalWithdrawfee).setScale(decimals, BigDecimal.ROUND_DOWN);
+        // 如果手续费小于最低手续费则使用最低手续费
+        if (fee.compareTo(bigDecimalMinwithdrawfee) < 0) {
+            fee = bigDecimalMinwithdrawfee;
+        }
+
+        BigDecimal Real_Money = bigDecimalMoney.subtract(fee).setScale(decimals, BigDecimal.ROUND_DOWN);
+
+        // 如果实际到账为0或者负数
+        if (Real_Money.compareTo(new BigDecimal(0)) <= 0) {
+            return MessageResult.error(sourceService.getMessage("WITHDRAW_MIN"));
+        }
+        Coin coin = coinService.findOne(coinName);
+        MemberWallet memberWallet = memberWalletService.findByCoinAndMemberId(coin, memberid);
+        isTrue(compare(memberWallet.getBalance(), bigDecimalMoney), sourceService.getMessage("INSUFFICIENT_BALANCE"));
+
+        isTrue(memberWallet.getIsLock() == BooleanEnum.IS_FALSE, "钱包已锁定");
+
+
+        Withdraw withdraw = new Withdraw();
+        withdraw.setMemberid(memberid.intValue());
+        withdraw.setAddtime(new Date().getTime());
+        withdraw.setCoinid(0);
+        withdraw.setCoinname(coinName);
+        withdraw.setAddress(address);
+        withdraw.setMoney(bigDecimalMoney.doubleValue());
+        withdraw.setFee(fee.doubleValue());
+        withdraw.setReal_money(Real_Money.doubleValue());
+        withdraw.setProcessmold(0);
+        withdraw.setHash("");
+        withdraw.setStatus(isautowithdraw == 1 ? 1 : 0);
+        withdraw.setProcesstime(0L);
+        withdraw.setWithdrawinfo("");
+        withdraw.setRemark("");
+        withdraw.setProtocol(coinprotocol);
+        withdraw.setProtocolname(firstByCoinnameAndProtocol.getProtocolname());
+
+        withdrawService.create(withdraw);
+
+        return MessageResult.success();
     }
 
 }

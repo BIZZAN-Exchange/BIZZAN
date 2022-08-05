@@ -1,10 +1,9 @@
 package com.bizzan.bitrade.controller.authno;
 
-import static org.springframework.util.Assert.notNull;
-
-import java.math.BigDecimal;
-
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.bizzan.bitrade.controller.common.BaseAdminController;
+import com.bizzan.bitrade.entity.ExchangeCoin;
+import com.bizzan.bitrade.service.ExchangeCoinService;
+import com.bizzan.bitrade.util.MessageResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bizzan.bitrade.annotation.AccessLog;
-import com.bizzan.bitrade.constant.AdminModule;
-import com.bizzan.bitrade.controller.common.BaseAdminController;
-import com.bizzan.bitrade.entity.ExchangeCoin;
-import com.bizzan.bitrade.service.ExchangeCoinService;
-import com.bizzan.bitrade.util.MessageResult;
+import java.math.BigDecimal;
+
+import static org.springframework.util.Assert.notNull;
 
 @RestController
 @RequestMapping("noauth/exchange-coin")

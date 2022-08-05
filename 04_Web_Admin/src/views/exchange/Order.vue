@@ -3,21 +3,21 @@
     <Card>
       <div slot="title" style="min-height:30px;width: 100%;">
         <div style="display:inline-block;float:left;" class="clearfix">
-          <Button :type="btnType===0 ? 'primary' : 'ghost'" @click="localEnsure">当前委托</Button>
-          <Button :type="btnType===1 ? 'primary' : 'ghost'" @click="hisEnsure" style="margin-left: 20px;">历史委托</Button>
+          <Button :type="btnType===0 ? 'primary' : 'ghost'" @click="localEnsure">{{ $t('currentdelegation.currentdelegation') }}</Button>
+          <Button :type="btnType===1 ? 'primary' : 'ghost'" @click="hisEnsure" style="margin-left: 20px;">{{ $t('currentdelegation.historicalentrustment') }}</Button>
         </div>
         <Button type="primary" @click="refreshPageManual" style="float:right;">
-          <Icon type="refresh"></Icon>刷新
+          <Icon type="refresh"></Icon>{{ $t('perpetualcontractcurrencystandardmanagement.refresh') }}
         </Button>
       </div>
       <Row class="priceSectionWrapper clearfix" >
 
-        <div class="priceSection">价格区间：<Input v-model="filterSearch.minPrice"></Input> ~
+        <div class="priceSection">{{ $t('currentdelegation.pricerange') }}<Input v-model="filterSearch.minPrice"></Input> ~
           <Input v-model="filterSearch.maxPrice"></Input>
         </div>
 
         <div class="orderStatus">
-          <span>订单状态：</span>
+          <span>{{ $t('transactiondetailsinlegalcurrency.orderstatus') }}</span>
           <Select v-model="filterSearch.status">
             <Option v-for="item in orderStatus"
                   :value="item.status"
@@ -26,7 +26,7 @@
         </div>
 
         <div class="orderStatus">
-          <span>订单方向：</span>
+          <span>{{ $t('currentdelegation.orderdirection') }}</span>
           <Select v-model="filterSearch.orderDirection">
             <Option v-for="item in orderDirArr"
                   :value="item.status"
@@ -35,7 +35,7 @@
         </div>
 
         <div class="orderStatus">
-          <span>挂单类型：</span>
+          <span>{{ $t('currentdelegation.pendingordertype') }}</span>
           <Select v-model="filterSearch.type" style="width:80px">
             <Option v-for="item in typeArr"
                   :value="item.status"
@@ -44,7 +44,7 @@
         </div>
 
         <div class="orderStatus">
-          <span>机器人：</span>
+          <span>{{ $t('currentdelegation.robot') }}</span>
           <Select v-model="filterSearch.robotOrder" >
             <Option v-for="item in robotOrderArr"
                   :value="item.status"
@@ -54,35 +54,36 @@
       </Row>
       <Row class="functionWrapper">
         <div class="searchWrapper clearfix" style="width:100%;">
-          <Poptip trigger="hover" content="请输入 币单位 搜索" placement="bottom-start">
-            <Input placeholder="请输入 币单位 搜索"
+          <Poptip trigger="hover" :content="$t('currentdelegation.orderdirection1')" placement="bottom-start">
+            <Input :placeholder="$t('currentdelegation.orderdirection')"
                   v-model="filterSearch.coinSymbol"
                   />
             </Input>
           </Poptip>
 
-          <Poptip trigger="hover" content="请输入 订单号 搜索" placement="bottom-start">
-            <Input placeholder="请输入 订单号 搜索"
+          <Poptip trigger="hover" :content="$t('currentdelegation.pleaseentertheordernumbertosearch')" placement="bottom-start">
+            <Input :placeholder="$t('currentdelegation.pleaseentertheordernumbertosearch')"
                   v-model="filterSearch.orderId"
                   />
             </Input>
           </Poptip>
-          <Poptip trigger="hover" content="请输入 用户ID 搜索" placement="bottom-start">
-            <Input placeholder="请输入 用户ID 搜索"
+          <Poptip trigger="hover" :content="$t('currentdelegation.pleaseenteruseridtosearch')" placement="bottom-start">
+            <Input :placeholder="$t('currentdelegation.pleaseenteruseridtosearch')"
                   v-model="filterSearch.memberId"
                   />
             </Input>
           </Poptip>
 
-          <Poptip trigger="hover" content="请输入 结算单位 搜索" placement="bottom-start">
-            <Input placeholder="请输入 结算单位 搜索"
+          <Poptip trigger="hover" :content="$t('currentdelegation.pleaseentersettlementunitsearch')" placement="bottom-start">
+            <Input :placeholder="$t('currentdelegation.pleaseentersettlementunitsearch')"
                   v-model="filterSearch.baseSymbol"
                   />
             </Input>
           </Poptip>
 
           <div class="btns" style="float:right;">
-            <Button type="info" @click="searchByFilter">搜索</Button>
+            <Button type="info" size="small" @click="searchByFilter">{{ $t('positionmanagementcontractassetmanagement.search') }}</Button>
+            <Button type="success" size="small" @click="exportExcel">{{ $t('positionmanagementcontractassetmanagement.export') }}</Button>
           </div>
         </div>
       </Row>
@@ -114,6 +115,7 @@
 import dtime from 'time-formater'
 import { queryBBOrder,cancelOrder } from '@/service/getData';
 import { setStore, getStore, removeStore } from '@/config/storage';
+import {queryBBOrderOut} from "../../service/getData";
 
 export default {
   data() {
@@ -132,31 +134,32 @@ export default {
         status: '',
         pageNo: 1,
 				pageSize: 10,
-				completed: 0 //0是委托订单1是历史订单
+				completed: 0, //0是委托订单1是历史订单,
+        isOut: 0
       },
       robotOrderArr:[
-        { status: 0, text: '查看机器人' },
-        { status: 1, text: '不看机器人' },
-        { status: '', text: '全部' }
+        { status: 0, text: this.$t('currentdelegation.viewrobot') },
+        { status: 1, text: this.$t('currentdelegation.dontlookatrobots') },
+        { status: '', text: this.$t('transactiondetailsinlegalcurrency.all') }
       ],
       typeArr: [
-        { status: 0, text: '市价' },
-        { status: 1, text: '限价' },
-        { status: '', text: '全部' }
+        { status: 0, text: this.$t('detailsofcurrencyentrustment.marketprice') },
+        { status: 1, text: this.$t('detailsofcurrencyentrustment.pricelimit') },
+        { status: '', text: this.$t('transactiondetailsinlegalcurrency.all') }
       ],
       orderDirArr: [
-        { status: 0, text: '买入' },
-        { status: 1, text: '卖出' },
-        { status: '', text: '全部' }
+        { status: 0, text: this.$t('transactiondetailsinlegalcurrency.buy') },
+        { status: 1, text: this.$t('transactiondetailsinlegalcurrency.sell') },
+        { status: '', text: this.$t('transactiondetailsinlegalcurrency.all') }
       ],
       priceRange: '',
       orderStatusModel: null,
       orderStatus: [
-        { status: 0, text: '交易中' },
-        { status: 1, text: '已完成' },
-        { status: 2, text: '已取消' },
-        { status: 3, text: '超时' },
-        { status: '', text: '全部' },
+        { status: 0, text: this.$t('detailsofcurrencyentrustment.trading') },
+        { status: 1, text: this.$t('transactiondetailsinlegalcurrency.completed') },
+        { status: 2, text: this.$t('transactiondetailsinlegalcurrency.cancelled') },
+        { status: 3, text: this.$t('currentdelegation.timeout') },
+        { status: '', text: this.$t('transactiondetailsinlegalcurrency.all') },
       ],
       totalNum: null,
       current:　1,
@@ -173,51 +176,69 @@ export default {
       ifLoading: true,
       columns_first: [
         {
-          title: "订单号",
+          title: this.$t('detailsofcurrencyentrustment.orderno'),
           key: "orderId",
           width: 180
 				},
         {
-          title: "用户ID",
+          title: this.$t('positionmanagement.userid'),
           key: "memberId",
 				},
         {
-          title: "交易对",
+          title: this.$t('currencywithdrawalauditmanagement.emailmobilenumber'),
+          render: (h, params) => {
+            const row = params.row;
+            let list = [];
+            if (row.email) {
+              list.push(h("div", {}, row.email))
+            }
+            if (row.mobilePhone) {
+              list.push(h("div", {}, row.mobilePhone))
+            }
+            return list;
+          }
+        },
+        {
+          title: this.$t('businessinformation.realname'),
+          key: "realName"
+				},
+        {
+          title: this.$t('managementofoptioncontractsineachperiod.transactionpair'),
           key: "symbol"
         },
         {
-          title: "委托量",
+          title: this.$t('currentdelegation.entrustedquantity'),
           key: "amount"
         },
         {
-          title: "成交量",
+          title: this.$t('currentdelegation.tradingvolume'),
           key: "tradedAmount"
         },
         {
-          title: "挂单类型",
+          title: this.$t('currentdelegation.pendingordertype1'),
           key: "type",
           render: (h, params) => {
             const row = params.row;
 
-            const type = row.type == "MARKET_PRICE" ? "市价" : "限价";
+            const type = row.type == "MARKET_PRICE" ? this.$t('detailsofcurrencyentrustment.marketprice') : this.$t('detailsofcurrencyentrustment.pricelimit');
             return h("span", {}, type);
           }
         },
         {
-          title: "订单方向",
+          title: this.$t('currentdelegation.orderdirection1'),
           key: "direction",
           render: (h, params) => {
             const row = params.row;
-            const direction = row.direction == "BUY" ? "买入" : "卖出";
+            const direction = row.direction == "BUY" ? this.$t('transactiondetailsinlegalcurrency.buy') : this.$t('transactiondetailsinlegalcurrency.sell');
             return h("span", {}, direction);
           }
         },
         {
-          title: "挂单价格",
+          title: this.$t('detailsofcurrencyentrustment.pendingorderprice'),
           key: "price"
         },
         {
-          title: "挂单时间",
+          title: this.$t('entrustedmanagement.billingtime'),
           width: 100,
           render: (h, obj) => {
             let formatTime = dtime(obj.row.time).format('YYYY-MM-DD HH:mm:ss')
@@ -225,25 +246,25 @@ export default {
           }
         },
         {
-          title: "状态",
+          title: this.$t('managementofoptioncontractsineachperiod.status'),
           key: "status",
           render: (h, params) => {
             const row = params.row;
             var direction = '';
             if(row.status == 'TRADING'){
-                direction = '交易中';
+                direction = this.$t('detailsofcurrencyentrustment.trading');
             }
             else if(row.status == 'COMPLETED'){
-                direction = '已完成'
+                direction = this.$t('transactiondetailsinlegalcurrency.completed')
             }
             else if(row.status == 'CANCELED'){
-                direction = '已取消'
+                direction = this.$t('transactiondetailsinlegalcurrency.cancelled')
             }
             return h("span", {}, direction);
           }
         },
         {
-          title: "操作",
+          title: this.$t('perpetualcontractcurrencystandardmanagement.operation'),
           key: "age",
           width: 150,
           render: (h, obj) => {
@@ -268,7 +289,7 @@ export default {
                     }
                   }
                 },
-                "明细"));
+                this.$t('currentdelegation.details')));
             if(obj.row.status == 'TRADING'){
              actions.push( h(
                 "Button",
@@ -283,7 +304,7 @@ export default {
                     }
                   }
                 },
-                "撤销"));
+                this.$t('secondcontractordermanagement.undo')));
             }
             return h("div", actions);
           }
@@ -296,6 +317,27 @@ export default {
 		// switchEnsure() {
 
 		// },
+    exportExcel() {
+      this.filterSearch.isOut = 1
+      queryBBOrderOut(this.filterSearch)
+          .then(res => {
+            // 文件下载
+            console.log(res)
+            let blob = new Blob([res], {type: 'application/vnd.ms-excel'})
+            let objectUrl = URL.createObjectURL(blob)
+            // window.location.href = objectUrl
+            const fileName = this.$t('currentdelegation.currencyorder')// 导出文件名
+            const elink = document.createElement('a') // 创建a标签
+            elink.download = fileName // a标签添加属性
+            elink.style.display = 'none'
+            elink.href = objectUrl
+            document.body.appendChild(elink)
+            elink.click() // 执行下载
+            URL.revokeObjectURL(elink.href) // 释放URL 对象
+            document.body.removeChild(elink) // 释放标签
+            this.$Message.success(this.$t('positionmanagementcontractassetmanagement.exportsuccessful'))
+          })
+    },
 		localEnsure() {
 			this.filterSearch.pageNo = 1;
 			this.current = 1;
@@ -316,17 +358,17 @@ export default {
       this.current = 1
 			let bol = reg.test(this.memberId);
 			if(bol&&(!!this.memberId)) {
-				this.$Message.warning('请输入正确的id！')
+				this.$Message.warning(this.$t('currentdelegation.pleaseenterthecorrectid'))
 				return;
 			}
 
       if(isNaN(this.priceLow*1) ||　isNaN(this.priceHeight*1)) {
-        this.$Message.warning('请输入正确的价格！')
+        this.$Message.warning(this.$t('currentdelegation.pleaseenterthecorrectprice'))
       }else if(this.priceLow*1<0 || this.priceHeight*1<0) {
-        this.$Message.warning('价格应该大于等于零！')
+        this.$Message.warning(this.$t('currentdelegation.thepriceshouldbegreaterthanorequaltozero'))
       } else {
         if(this.priceLow*1>this.priceHeight*1) {
-          this.$Message.warning('最低价格不能高于最高价格')
+          this.$Message.warning(this.$t('currentdelegation.note2'))
         }else{
 					this.$store.commit('switchLoading', true);
           this.refreshPage(this.filterSearch);
@@ -347,10 +389,12 @@ export default {
     },
    changePage(pageIndex) {
 			this.current= pageIndex;
+      this.filterSearch.isOut = 0
 			this.filterSearch.pageNo = pageIndex;
       this.refreshPage( this.filterSearch);
     },
     refreshPage(obj) {
+      obj.isOut = 0
       this.ifLoading = true;
       queryBBOrder(obj).then(res => {
         this.userpage = res.data.content;
@@ -362,10 +406,10 @@ export default {
     cancelOrder(orderId){
 			cancelOrder({orderId:orderId}).then(res=>{
 				if(res.code == 0){
-					this.$Message.success('撤销成功');
+					this.$Message.success(this.$t('entrustedmanagement.revocationsucceeded'));
 					this.refreshPage(this.filterSearch);
 				}else{
-					this.$Message.error('撤销失败');
+					this.$Message.error(this.$t('entrustedmanagement.undofailed'));
 				}
 			})
 			.catch(err => console.log(err))

@@ -1,5 +1,6 @@
 package com.bizzan.bitrade.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.bizzan.bitrade.constant.SysConstant;
 import com.bizzan.bitrade.entity.MemberApiKey;
 import com.bizzan.bitrade.entity.transform.AuthMember;
@@ -7,7 +8,6 @@ import com.bizzan.bitrade.service.MemberApiKeyService;
 import com.bizzan.bitrade.util.GeneratorUtil;
 import com.bizzan.bitrade.util.MessageResult;
 import com.bizzan.bitrade.util.RedisUtil;
-import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
 
 /**
  * @description: OpenApiController
- * @author: Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author: Hevin QQ:390330302 E-mail:bizzanex@gmail.com QQ:390330302 E-mail:bizzanex@gmail.com
  * @create: 2020/05/07 10:33
  */
 @Slf4j

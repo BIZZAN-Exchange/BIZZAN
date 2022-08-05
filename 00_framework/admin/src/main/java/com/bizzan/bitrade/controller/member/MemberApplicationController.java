@@ -13,7 +13,6 @@ import com.bizzan.bitrade.util.PredicateUtils;
 import com.bizzan.bitrade.vendor.provider.SMSProvider;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,7 +26,7 @@ import static com.bizzan.bitrade.entity.QMemberApplication.memberApplication;
 import static org.springframework.util.Assert.notNull;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @description 实名审核单
  * @date 2019/12/26 15:05
  */

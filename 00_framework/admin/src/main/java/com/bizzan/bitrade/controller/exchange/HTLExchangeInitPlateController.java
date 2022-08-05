@@ -1,5 +1,11 @@
 package com.bizzan.bitrade.controller.exchange;
 
+import com.bizzan.bitrade.constant.SysConstant;
+import com.bizzan.bitrade.entity.ExchangeCoin;
+import com.bizzan.bitrade.entity.InitPlate;
+import com.bizzan.bitrade.service.ExchangeCoinService;
+import com.bizzan.bitrade.service.InitPlateService;
+import com.bizzan.bitrade.util.MessageResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -7,13 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.*;
-
-import com.bizzan.bitrade.constant.SysConstant;
-import com.bizzan.bitrade.entity.ExchangeCoin;
-import com.bizzan.bitrade.entity.InitPlate;
-import com.bizzan.bitrade.service.ExchangeCoinService;
-import com.bizzan.bitrade.service.InitPlateService;
-import com.bizzan.bitrade.util.MessageResult;
 
 @RestController
 @RequestMapping("HTL_plate")

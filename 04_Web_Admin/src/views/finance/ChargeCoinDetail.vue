@@ -2,27 +2,25 @@
   <div>
     <Card>
       <p slot="title">
-        充币明细
-        <Button type="primary" size="small" @click="refreshPageManual">
+        {{ $t('chargingdetails.chargingdetails') }} <Button type="primary" size="small" @click="refreshPageManual">
           <Icon type="refresh"></Icon>
-          刷新
-        </Button>
+          {{ $t('chargingdetails.refresh') }} </Button>
       </p>
 
       <Row class="functionWrapper">
 				<div class="searchWrapper clearfix">
 					<div class="poptip">
 						<Poptip trigger="hover"
-										content="请输入充币地址查询"
+										:content="$t('chargingdetails1.pleaseenterthechargingaddresstoquery')"
 										placement="bottom-start">
-							<Input placeholder="请输入充币地址查询"
+							<Input :placeholder="$t('chargingdetails1.pleaseenterthechargingaddresstoquery')"
 										v-model="filterSearch.address"/>
 							</Input>
 						</Poptip>
 					</div>
 
 					<div class="poptip">
-						<span>币种：</span>
+						<span>{{ $t('perpetualcontractcurrencystandardmanagement.currency') }}</span>
 						<Select v-model="filterSearch.unit">
 							<Option v-for="(item, index) in coinSearchArr"
 										:value="item.unit=='全部'?'': item.unit"
@@ -31,7 +29,7 @@
 					</div>
 
 					<div class="btns">
-						<Button type="info" size="small" @click="searchByFilter">搜索</Button>
+						<Button type="info" size="small" @click="searchByFilter">{{ $t('positionmanagementcontractassetmanagement.search') }}</Button>
 					</div>
 
 				</div>
@@ -74,31 +72,31 @@ import { getCoinName, memberDeposit  } from '@/service/getData';
         userpage: [],
         columns_first: [
 					{
-            title: '编号',
+            title: this.$t('announcementmanagement.no'),
             key: 'id'
           },
           {
-            title: '会员昵称',
+            title: this.$t('currencywithdrawalapproval.membernickname'),
             key: 'username'
           },
           {
-			title: '充币币种',
+			title: this.$t('chargingdetails1.chargingcurrency'),
 			key: 'unit'
           },
           {
-			title: '充币地址',
+			title: this.$t('chargingdetails1.chargingaddress'),
 			key: 'address'
           },
           {
-            title: '充币数量',
+            title: this.$t('chargingdetails1.chargingquantity'),
             key: 'amount'
           },
           {
-            title: '钱包余额',
+            title: this.$t('transferindetails.walletbalance'),
             key: 'walletBalance'
           },
           {
-            title: '到账时间',
+            title: this.$t('chargingdetails1.timeofreceipt'),
             key: 'createTime'
           },
         ]
@@ -154,7 +152,7 @@ import { getCoinName, memberDeposit  } from '@/service/getData';
 			getCoinName().then(res => {
 				if (!res.code) {
 					this.coinSearchArr = res.data;
-					this.coinSearchArr.push({ name: '全部', unit: '全部' })
+					this.coinSearchArr.push({ name: this.$t('transactiondetailsinlegalcurrency.all'), unit: this.$t('transactiondetailsinlegalcurrency.all') })
 				} else this.$Message.error(res.message);
 			})
 			.catch(err => {

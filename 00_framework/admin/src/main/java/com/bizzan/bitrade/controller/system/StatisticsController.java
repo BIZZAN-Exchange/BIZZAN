@@ -1,32 +1,26 @@
 package com.bizzan.bitrade.controller.system;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.bizzan.bitrade.annotation.AccessLog;
 import com.bizzan.bitrade.constant.AdminModule;
 import com.bizzan.bitrade.constant.OrderStatus;
 import com.bizzan.bitrade.controller.common.BaseAdminController;
-import com.bizzan.bitrade.dto.PageParam;
-import com.bizzan.bitrade.dto.Pagenation;
-import com.bizzan.bitrade.entity.OrderDetailAggregation;
-import com.bizzan.bitrade.entity.OrderTypeEnum;
 import com.bizzan.bitrade.entity.Statistics;
 import com.bizzan.bitrade.service.OrderDetailAggregationService;
 import com.bizzan.bitrade.service.StatisticsService;
 import com.bizzan.bitrade.util.DateUtil;
 import com.bizzan.bitrade.util.MessageResult;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @description
  * @date 2019/1/8 16:19
  */
@@ -40,7 +34,7 @@ public class StatisticsController extends BaseAdminController {
     private OrderDetailAggregationService orderDetailAggregationService ;
 
     /**
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
      * @description 查询新增用户 曲线
      * @date 2019/1/8 16:25
      */
@@ -60,7 +54,7 @@ public class StatisticsController extends BaseAdminController {
     }
 
     /**
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
      * @description 委托量曲线
      * @date 2019/1/9 13:52
      */
@@ -80,7 +74,7 @@ public class StatisticsController extends BaseAdminController {
     }
 
     /**
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
      * @description 交易量 订单量
      * @date 2019/1/9 14:50
      */

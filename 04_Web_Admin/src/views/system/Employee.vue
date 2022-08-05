@@ -2,17 +2,15 @@
     <div >
       <Card>
         <p slot="title">
-        用户管理
-          <Button type="primary" size="small" @click="refreshPageManual">
+        {{ $t('usermanagement.usermanagement') }} <Button type="primary" size="small" @click="refreshPageManual">
             <Icon type="refresh"></Icon>
-            刷新
-          </Button>
+            {{ $t('perpetualcontractcurrencystandardmanagement.refresh') }} </Button>
         </p>
 
         <Row class="functionWrapper">
           <div class="btnsWrapper clearfix">
-            <Button type="error" @click="ifDelete = true">删除用户</Button>
-            <Button type="primary" @click="addUserBtn">添加用户</Button>
+            <Button type="error" @click="ifDelete = true">{{ $t('usermanagement.deleteuser') }}</Button>
+            <Button type="primary" @click="addUserBtn">{{ $t('usermanagement.adduser') }}</Button>
           </div>
         </Row>
 
@@ -36,7 +34,7 @@
 
         <Modal
           v-model="ifDelete"
-          title="删除用户"
+          :title="$t('usermanagement.deleteuser')"
           @on-ok="confirmDel"
           @on-cancel="$Message.info('已取消！')">
           <p>是否删除所选的{{ delArr.length }}项?</p>
@@ -69,48 +67,48 @@ export default {
           align: "center"
         },
         {
-          title: "用户ID",
+          title: this.$t('usermanagement.userid'),
           key: "id",
           width: 80
         },
         {
-          title: "用户名",
+          title: this.$t('memberinvitationlist.username'),
           key: "username"
         },
         {
-          title: "真实姓名",
+          title: this.$t('businessinformation.realname'),
           key: "realName"
         },
         {
-          title: "所在部门",
+          title: this.$t('personalcenter.departmentName'),
           render: (h, obj) => {
             let departName = obj.row.department.name;
             return "span", {}, departName;
           }
         },
         {
-          title: "角色",
+          title: this.$t('usermanagement.role'),
           key: "roleName"
         },
         {
-          title: "手机号",
+          title: this.$t('memberinvitationlist.cellphonenumber'),
           key: "mobilePhone"
         },
         {
-          title: "邮箱",
+          title: this.$t('memberinvitationlist.mailbox'),
           key: "email"
         },
         {
-          title: "状态",
+          title: this.$t('managementofoptioncontractsineachperiod.status'),
           key: "enable",
           render: (h, obj) => {
             let enable = obj.row.enable;
             let status = "";
             let btnType = "success";
             if (!enable) {
-              status = "正常";
+              status = this.$t('querymarginstrategy.normal');
             } else {
-              status = "禁用 ";
+              status = this.$t('currencyextensionmanagement.disable');
               btnType = "error";
             }
             return h(
@@ -127,7 +125,7 @@ export default {
         },
 
         {
-          title: "操作",
+          title: this.$t('usermanagement.operation'),
           render: (h, obj) => {
             return (
               "div",
@@ -147,7 +145,7 @@ export default {
                       }
                     }
                   },
-                  "查看 / 编辑"
+                  this.$t('usermanagement.viewedit')
                 )
               ]
             );
@@ -177,8 +175,8 @@ export default {
       .then(res => {
         if (!res.code) {
           this.freshPage();
-          this.$Message.success("删除成功！");
-        } else this.$Message.error("删除失败！");
+          this.$Message.success(this.$t('currencysetting.deletionsucceeded'));
+        } else this.$Message.error(this.$t('currencysetting.deletionfailed'));
       })
       .catch( err =>{ console.log(err)})
     },

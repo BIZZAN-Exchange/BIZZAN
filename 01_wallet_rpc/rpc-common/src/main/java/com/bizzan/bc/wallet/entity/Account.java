@@ -11,6 +11,7 @@ public class Account {
     private String address;
     //私钥路径
     private String walletFile;
+    private String privateKey;
     private BigDecimal balance = BigDecimal.ZERO;
     //地址燃料余额，对Token,USDT有用
     private BigDecimal gas = BigDecimal.ZERO;

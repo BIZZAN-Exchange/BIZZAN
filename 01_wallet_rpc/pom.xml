@@ -11,14 +11,13 @@
     <modules>
         <module>rpc-common</module>
         <module>bitcoin-rpc</module>
+<!--        <module>eth-support</module>-->
         <module>bitcoin</module>
-        <module>usdt</module>
-        <module>eth</module>
-        <module>eth-support</module>
-        <module>bch</module>
-        <module>ltc</module>
-        <module>erc-eusdt</module>
-        <module>bsv</module>
+        <module>btc-usdt</module>
+<!--        <module>eth</module>-->
+<!--        <module>erc20-usdt</module>-->
+<!--        <module>trx</module>-->
+<!--        <module>trc20-usdt</module>-->
     </modules>
 
     <parent>

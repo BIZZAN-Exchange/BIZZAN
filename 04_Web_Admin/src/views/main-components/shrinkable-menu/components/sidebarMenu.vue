@@ -14,12 +14,12 @@
             <Submenu :name="item.name" :key="item.name">
                 <template slot="title">
                     <Icon :type="item.icon" :size="iconSize"></Icon>
-                    <span class="layout-text">{{ itemTitle(item) }}</span>
+                    <span class="layout-text">{{$t(`app.${itemTitle(item)}`)}}</span>
                 </template>
                 <template v-for="child in item.children">
                     <MenuItem :name="child.name" :key="child.name">
                     <Icon :type="child.icon" :size="iconSize"></Icon>
-                    <span class="layout-text">{{ itemTitle(child) }}</span>
+                    <span class="layout-text">{{ $t(`app.${itemTitle(child)}`) }}</span>
                     </MenuItem>
                 </template>
             </Submenu>
@@ -55,7 +55,7 @@ export default {
       if (typeof item.title === "object") {
         return this.$t(item.title.i18n);
       } else {
-        return item.title;
+        return item.titleKey;
       }
     }
   },

@@ -1,11 +1,10 @@
 package com.bizzan.bitrade.dao;
 
-import java.util.List;
-
-import org.springframework.stereotype.Repository;
-
 import com.bizzan.bitrade.dao.base.BaseDao;
 import com.bizzan.bitrade.entity.ActivityOrder;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 
 @Repository

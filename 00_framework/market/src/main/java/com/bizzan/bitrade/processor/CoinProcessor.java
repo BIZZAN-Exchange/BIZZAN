@@ -1,13 +1,13 @@
 package com.bizzan.bitrade.processor;
 
-import java.util.List;
-
 import com.bizzan.bitrade.component.CoinExchangeRate;
 import com.bizzan.bitrade.entity.CoinThumb;
 import com.bizzan.bitrade.entity.ExchangeTrade;
 import com.bizzan.bitrade.entity.KLine;
 import com.bizzan.bitrade.handler.MarketHandler;
 import com.bizzan.bitrade.service.MarketService;
+
+import java.util.List;
 
 public interface CoinProcessor {
 
@@ -35,6 +35,8 @@ public interface CoinProcessor {
 
     void generateKLine(int range, int field, long time);
 
+    void generateKLine1min(int range, int field, long time);
+
     KLine getKLine();
 
     void initializeThumb();
@@ -48,4 +50,6 @@ public interface CoinProcessor {
     void update24HVolume(long time);
 
     void initializeUsdRate();
+
+    void generateKLine(long time, int minute, int hour);
 }

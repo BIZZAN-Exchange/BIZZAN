@@ -146,7 +146,7 @@ public interface Bitcoin {
 
     boolean verifyMessage(String var1, String var2, String var3) throws BitcoinException;
 
-    public interface AddressValidationResult {
+    interface AddressValidationResult {
         boolean isValid();
 
         String address();
@@ -162,7 +162,7 @@ public interface Bitcoin {
         String account();
     }
 
-    public interface Unspent extends Bitcoin.TxInput, Bitcoin.TxOutput {
+    interface Unspent extends Bitcoin.TxInput, Bitcoin.TxOutput {
         String txid();
 
         int vout();
@@ -178,13 +178,13 @@ public interface Bitcoin {
         int confirmations();
     }
 
-    public interface TransactionsSinceBlock {
+    interface TransactionsSinceBlock {
         List<Bitcoin.Transaction> transactions();
 
         String lastBlock();
     }
 
-    public interface Transaction {
+    interface Transaction {
         String account();
 
         String address();
@@ -216,7 +216,7 @@ public interface Bitcoin {
         Bitcoin.RawTransaction raw();
     }
 
-    public interface ReceivedAddress {
+    interface ReceivedAddress {
         String address();
 
         String account();
@@ -226,7 +226,7 @@ public interface Bitcoin {
         int confirmations();
     }
 
-    public interface Work {
+    interface Work {
         String midstate();
 
         String data();
@@ -236,7 +236,7 @@ public interface Bitcoin {
         String target();
     }
 
-    public interface TxOutSetInfo {
+    interface TxOutSetInfo {
         int height();
 
         String bestBlock();
@@ -252,7 +252,7 @@ public interface Bitcoin {
         double totalAmount();
     }
 
-    public interface RawTransaction {
+    interface RawTransaction {
         String hex();
 
         String txId();
@@ -273,7 +273,7 @@ public interface Bitcoin {
 
         Date blocktime();
 
-        public interface Out {
+        interface Out {
             double value();
 
             int n();
@@ -284,7 +284,7 @@ public interface Bitcoin {
 
             Bitcoin.RawTransaction transaction();
 
-            public interface ScriptPubKey {
+            interface ScriptPubKey {
                 String asm();
 
                 String hex();
@@ -297,7 +297,7 @@ public interface Bitcoin {
             }
         }
 
-        public interface In extends Bitcoin.TxInput {
+        interface In extends Bitcoin.TxInput {
             Map<String, Object> scriptSig();
 
             long sequence();
@@ -308,7 +308,7 @@ public interface Bitcoin {
         }
     }
 
-    public interface PeerInfo {
+    interface PeerInfo {
         String addr();
 
         String services();
@@ -336,7 +336,7 @@ public interface Bitcoin {
         int banscore();
     }
 
-    public interface MiningInfo {
+    interface MiningInfo {
         int blocks();
 
         int currentblocksize();
@@ -360,7 +360,7 @@ public interface Bitcoin {
         boolean generate();
     }
 
-    public interface Info {
+    interface Info {
         int version();
 
         int protocolversion();
@@ -394,7 +394,7 @@ public interface Bitcoin {
         String errors();
     }
 
-    public interface Block {
+    interface Block {
         String hash();
 
         int confirmations();
@@ -426,7 +426,7 @@ public interface Bitcoin {
         Bitcoin.Block next() throws BitcoinException;
     }
 
-    public static class BasicTxOutput implements Bitcoin.TxOutput {
+    class BasicTxOutput implements Bitcoin.TxOutput {
         public String address;
         public BigDecimal amount;
 
@@ -444,13 +444,13 @@ public interface Bitcoin {
         }
     }
 
-    public interface TxOutput {
+    interface TxOutput {
         String address();
 
         BigDecimal amount();
     }
 
-    public static class BasicTxInput implements Bitcoin.TxInput {
+    class BasicTxInput implements Bitcoin.TxInput {
         public String txid;
         public int vout;
 
@@ -468,18 +468,18 @@ public interface Bitcoin {
         }
     }
 
-    public interface TxInput {
+    interface TxInput {
         String txid();
 
         int vout();
     }
 
-    public static enum AddNoteCmd {
+    enum AddNoteCmd {
         add,
         remove,
         onetry;
 
-        private AddNoteCmd() {
+        AddNoteCmd() {
         }
     }
 }

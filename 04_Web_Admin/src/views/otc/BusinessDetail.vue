@@ -1,47 +1,45 @@
 <template>
 	<Card class="businessDetail">
 		<p slot="title">
-			商家信息
-			<Button type="primary" size="small" @click="refreshPageManual">
+			{{ $t('businessinformation.businessinformation') }}	<Button type="primary" size="small" @click="refreshPageManual">
 				<Icon type="refresh"></Icon>
-				刷新
-			</Button>
+				{{ $t('perpetualcontractcurrencystandardmanagement.refresh') }}	</Button>
 		</p>
 		<Spin class="loading" v-if="ifLoading" size="large"></Spin>
 		<Row>
 			<Col span="6">
-				审核状态：<span class="status">{{ userInfo.status | filterStatus }}</span>
+				{{ $t('realnamemanagement.auditstatus') }}：<span class="status">{{ userInfo.status | filterStatus }}</span>
 			</Col>
 			<Col span="6">
-				真实姓名：<span>{{ userInfo.realName }}</span>
+				{{ $t('auditdetails.realname') }}：<span>{{ userInfo.member.realName }}</span>
 			</Col>
 			<Col span="6">
-				保证金：<span>{{ userInfo.amount + userInfo.info.coinSymbol }}</span>
+				{{ $t('common.margin') }}：<span>{{ userInfo.amount + userInfo.info.coinSymbol }}</span>
 			</Col>
 		</Row>
 		<Row>
 			<Col span="6">
-				手机号：<span>{{ userInfo.info.telno }}</span>
+				{{ $t('currencywithdrawalauditmanagement.cellphonenumber') }}：<span>{{ userInfo.info.areaCode }}{{ userInfo.info.telno }}</span>
 			</Col>
 			<Col span="6">
-				微信号：<span>{{ userInfo.info.wechat }}</span>
+				{{ $t('common.wechat') }}：<span>{{ userInfo.info.wechat }}</span>
 			</Col>
 			<Col span="6">
-				QQ号：<span>{{ userInfo.info.qq }}</span>
+				{{ $t('common.qq') }}：<span>{{ userInfo.info.qq }}</span>
 			</Col>
 		</Row>
 		<Row>
-			未通过原因：<span>{{ !userInfo.detail ? '无' : userInfo.detail }}</span>
+			{{ $t('businessinformation.reasonforfailure') }}：<span>{{ !userInfo.detail ? '无' : userInfo.detail }}</span>
 		</Row>
 
 		<Row class="imgs" type="flex" justify="space-around">
 			<Col span="11">
-				<img :src="userInfo.info.assetData" alt="个人数字资产证明"><br>
-				<p style="color:#333">个人数字资产证明</p>
+				<img :src="userInfo.info.assetData" alt="$t('businessinformation.personaldigitalassetcertificate')"><br>
+				<p style="color:#333">{{ $t('businessinformation.personaldigitalassetcertificate') }}</p>
 			</Col>
 			<Col span="11">
-				<img :src="userInfo.info.tradeData" alt="数字资产交易证明"><br>
-				<p style="color:#333">数字资产交易证明</p>
+				<img :src="userInfo.info.tradeData" alt="$t('businessinformation.digitalassettransactioncertificate')"><br>
+				<p style="color:#333">{{ $t('businessinformation.digitalassettransactioncertificate') }}</p>
 			</Col>
 
 		</Row>
@@ -70,6 +68,7 @@ export default {
 			.then(res => {
 				if(!res.code){
 					this.userInfo = res.data;
+					console.log(this.userInfo);
 				}else this.$Message.error(res.message)
 				this.ifLoading = false;
 			})
@@ -81,7 +80,7 @@ export default {
 	},
 	filters: {
 		filterStatus(val) {
-			let arr = ['未认证', '认证-待审核', '认证-审核成功', '认证-审核失败', '保证金不足'];
+			let arr = [this.$t('businessinformation.notcertified'), this.$t('businessinformation.certificationpendingapproval'), this.$t('businessinformation.authenticationauditsuccessful'), this.$t('businessinformation.authenticationauditfailed'), this.$t('businessinformation.insufficientmargin')];
 			return arr[val];
 		}
 	}

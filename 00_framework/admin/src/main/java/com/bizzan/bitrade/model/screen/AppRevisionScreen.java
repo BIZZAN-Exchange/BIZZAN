@@ -4,14 +4,13 @@ import com.bizzan.bitrade.ability.ScreenAbility;
 import com.bizzan.bitrade.constant.Platform;
 import com.bizzan.bitrade.entity.QAppRevision;
 import com.querydsl.core.types.dsl.BooleanExpression;
-
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @Title: ${file_name}
  * @Description:
  * @date 2019/4/2417:20

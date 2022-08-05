@@ -1,5 +1,7 @@
 package com.bizzan.bitrade.aspect;
 
+import com.bizzan.bitrade.constant.SysConstant;
+import com.bizzan.bitrade.service.LocaleMessageSourceService;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -13,9 +15,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.bizzan.bitrade.constant.SysConstant;
-import com.bizzan.bitrade.service.LocaleMessageSourceService;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.concurrent.TimeUnit;
@@ -23,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * 登录之后发送邮件或者短信频率最快也只能一分钟一次
  *
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年04月03日
  */
 @Aspect

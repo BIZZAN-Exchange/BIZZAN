@@ -3,7 +3,7 @@
 </style>
 <template>
     <div class="main" :class="{'main-hide-text': shrink}">
-        <div class="sidebar-menu-con" :style="{width: shrink?'60px':'170px', overflow: shrink ? 'visible' : 'auto'}">
+        <div class="sidebar-menu-con" :style="{width: shrink?'60px':'200px', overflow: shrink ? 'visible' : 'auto'}">
             <shrinkable-menu
                 :shrink="shrink"
                 @on-change="handleSubmenuChange"
@@ -23,7 +23,7 @@
                 </div>
             </shrinkable-menu>
         </div>
-        <div class="main-header-con" :style="{paddingLeft: shrink?'60px':'170px'}">
+        <div class="main-header-con" :style="{paddingLeft: shrink?'60px':'200px'}">
             <div class="main-header" style="border-bottom: none;">
                 <div class="navicon-con">
                     <Button :style="{transform: 'rotateZ(' + (this.shrink ? '-90' : '0') + 'deg)'}" type="text" @click="toggleClick">
@@ -38,6 +38,7 @@
                 <div class="header-avator-con">
                     <full-screen v-model="isFullScreen" @on-change="fullscreenChange"></full-screen>
                     <lock-screen></lock-screen>
+                    <multi-language></multi-language>
                     <!-- 暂缺 -->
                     <!-- <message-tip v-model="mesCount"></message-tip> -->
                     <theme-switch style="display:none;"></theme-switch>
@@ -50,8 +51,8 @@
                                     <Icon type="arrow-down-b"></Icon>
                                 </a>
                                 <DropdownMenu slot="list">
-                                  <DropdownItem name="ownSpace">个人中心</DropdownItem>
-                                  <DropdownItem name="loginout" divided class="resetexit">退出登录</DropdownItem>
+                                  <DropdownItem name="ownSpace">{{$t('common.personalcenter')}}</DropdownItem>
+                                  <DropdownItem name="loginout" divided class="resetexit">{{$t('common.logout')}}</DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
                             <Avatar :src="avatorPath" style="background-color:#e96500;margin-left: 10px;"></Avatar>
@@ -59,12 +60,12 @@
                     </div>
                 </div>
             </div>
-            <div style="background-image: linear-gradient( 135deg, #F0A70A 10%, #0D25B9 100%);text-align: center;height:30px;line-height:30px;letter-spacing: 1px;color:#FFF;">看看就行，不要摸（改数据）！购买商用系统请联系QQ：390330302（唯一渠道，谨防被骗）</div>
+            <div style="background-image: linear-gradient( 135deg, #F0A70A 10%, #0D25B9 100%);text-align: center;height:30px;line-height:30px;letter-spacing: 1px;color:#FFF;">{{$t('common.connect')}}</div>
             <div class="tags-con">
                 <tags-page-opened :pageTagsList="pageTagsList" @getopen="test"></tags-page-opened>
             </div>
         </div>
-        <div class="single-page-con" :style="{left: shrink?'60px':'170px'}">
+        <div class="single-page-con" :style="{left: shrink?'60px':'200px'}">
             <div class="single-page">
 
                 <keep-alive :include="cachePage">
@@ -83,6 +84,7 @@ import tagsPageOpened from "./main-components/tags-page-opened.vue";
 import breadcrumbNav from "./main-components/breadcrumb-nav.vue";
 import fullScreen from "./main-components/fullscreen.vue";
 import lockScreen from "./main-components/lockscreen/lockscreen.vue";
+import multiLanguage from "./main-components/multi-language.vue";
 import messageTip from "./main-components/message-tip.vue";
 import themeSwitch from "./main-components/theme-switch/theme-switch.vue";
 import Cookies from "js-cookie";
@@ -98,6 +100,7 @@ export default {
     breadcrumbNav,
     fullScreen,
     lockScreen,
+    multiLanguage,
     messageTip,
     themeSwitch
   },

@@ -15,7 +15,6 @@ import com.bizzan.bitrade.service.*;
 import com.bizzan.bitrade.util.DateUtil;
 import com.bizzan.bitrade.util.MessageResult;
 import com.querydsl.core.types.Predicate;
-
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -31,21 +30,16 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 
 @RestController
 @RequestMapping("member/member-wallet")
@@ -88,6 +82,7 @@ public class MemberWalletController extends BaseAdminController {
             MemberWalletScreen screen) {
         QMemberWallet qMemberWallet = QMemberWallet.memberWallet;
         QMember qMember = QMember.member;
+//        QMemberAddress qMemberAddress = QMemberAddress.memberAddress;
         List<Predicate> criteria = new ArrayList<>();
         if (StringUtils.hasText(screen.getAccount())) {
             criteria.add(qMember.username.like("%" + screen.getAccount() + "%")
@@ -95,9 +90,9 @@ public class MemberWalletController extends BaseAdminController {
                     .or(qMember.email.like(screen.getAccount() + "%"))
                     .or(qMember.realName.like("%" + screen.getAccount() + "%")));
         }
-        if (!StringUtils.isEmpty(screen.getWalletAddress())) {
-            criteria.add(qMemberWallet.address.eq(screen.getWalletAddress()));
-        }
+//        if (!StringUtils.isEmpty(screen.getWalletAddress())) {
+//            criteria.add(qMemberAddress.address.eq(screen.getWalletAddress()));
+//        }
 
         if (!StringUtils.isEmpty(screen.getUnit())) {
             criteria.add(qMemberWallet.coin.unit.eq(screen.getUnit()));
@@ -157,15 +152,15 @@ public class MemberWalletController extends BaseAdminController {
         memberTransaction.setRealFee("0");
         memberTransaction.setDiscountFee("0");
         memberTransaction= memberTransactionService.save(memberTransaction);
-        
+
         String[] adminList = admins.split(",");
         for(int i = 0; i < adminList.length; i++) {
 			sendEmailMsg(adminList[i], "管理员人工充值(用户ID: " + uid + ", 币种: " + unit + ", 数量: " + amount + "); 操作者：" +admin.getUsername() + "/" + admin.getMobilePhone(), "人工充值通知");
 		}
-        
+
         return success(messageSource.getMessage("SUCCESS"));
     }
-    
+
     /**
      * 发送邮件
      * @param email
@@ -191,7 +186,7 @@ public class MemberWalletController extends BaseAdminController {
 	        Template template = cfg.getTemplate("simpleMessage.ftl");
 	        String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
 	        helper.setText(html, true);
-	
+
 	        //发送邮件
 	        javaMailSender.send(mimeMessage);
 	        log.info("send email for {},content:{}", email, html);
@@ -199,7 +194,7 @@ public class MemberWalletController extends BaseAdminController {
     		e.printStackTrace();
     	}
     }
-    
+
     @RequiresPermissions("member:member-wallet:reset-address")
     @PostMapping("reset-address")
     @AccessLog(module = AdminModule.MEMBER, operation = "重置钱包地址")

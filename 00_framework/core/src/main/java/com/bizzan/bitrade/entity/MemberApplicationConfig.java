@@ -1,10 +1,9 @@
 package com.bizzan.bitrade.entity;
 
+import com.bizzan.bitrade.constant.BooleanEnum;
 import lombok.Data;
 
 import javax.persistence.*;
-
-import com.bizzan.bitrade.constant.BooleanEnum;
 
 @Data
 @Entity

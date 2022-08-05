@@ -1,6 +1,5 @@
 export default {
-    //host: 'https://api.bizzan.pro',
-	host: 'http://127.0.0.1:6010',
+    
     common: {
         login: '/admin/system/employee/sign/in'
     },

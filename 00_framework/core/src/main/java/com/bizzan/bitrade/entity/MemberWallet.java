@@ -2,14 +2,13 @@ package com.bizzan.bitrade.entity;
 
 import com.bizzan.bitrade.constant.BooleanEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Data;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @description 会员钱包
  * @date 2019/1/2 15:28
  */

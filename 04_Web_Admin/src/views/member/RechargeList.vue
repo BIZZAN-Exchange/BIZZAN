@@ -3,11 +3,9 @@
   <div>
     <Card>
       <p slot="title">
-        充币明细
-        <Button type="primary" size="small" @click="refreshPageManual">
+        {{ $t('chargingdetails.chargingdetails') }} <Button type="primary" size="small" @click="refreshPageManual">
           <Icon type="refresh"></Icon>
-          刷新
-        </Button>
+          {{ $t('perpetualcontractcurrencystandardmanagement.refresh') }} </Button>
       </p>
 
        <Row>
@@ -37,43 +35,43 @@ export default {
     return {
       columns_first: [
          {
-            title: '会员ID',
+            title: this.$t('hui-yuan-id'),
             key: 'id',
           },
           {
-            title: '用户名',
+            title: this.$t('memberinvitationlist.username'),
             key: 'username',
           },
           {
-            title: '邮箱',
+            title: this.$t('memberinvitationlist.mailbox'),
             key: 'email',
           },
           {
-            title: '手机号',
+            title: this.$t('memberinvitationlist.cellphonenumber'),
             key: 'mobilePhone',
           },
            {
-            title: '真实姓名',
+            title: this.$t('businessinformation.realname'),
             key: 'realName',
           },
            {
-            title: '币种名称',
+            title: this.$t('collectionconfigurationmanagement.currencyname1'),
             key: 'username',
           },
           {
-            title: '钱包地址',
+            title: this.$t('withdrawaldetails.walletaddress'),
             key: 'username',
           },
           {
-            title: '充币个数',
+            title: this.$t('chargingdetails.numberofcoinscharged'),
             key: 'username',
           },
           {
-            title: '充币时间',
+            title: this.$t('chargingdetails.chargingtime'),
             key: 'username',
           },
           {
-            title: '充币类型',
+            title: this.$t('chargingdetails.chargingtype'),
             key: 'username',
           },
       ],

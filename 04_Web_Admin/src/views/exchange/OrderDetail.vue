@@ -2,8 +2,7 @@
   <div>
     <Card>
       <p slot="title">
-        币币委托详情
-        <!-- <Button type="primary" size="small" @click="refreshPageManual">
+        {{ $t('detailsofcurrencyentrustment.detailsofcurrencyentrustment') }} <!-- <Button type="primary" size="small" @click="refreshPageManual">
           <Icon type="refresh"></Icon>
           刷新
         </Button> -->
@@ -12,28 +11,28 @@
       <div class="baseInfo">
         <Row>
           <Col span="6">
-          <p>委托单号：<span>{{detail[0].orderId}}</span></p>
+          <p>{{ $t('detailsofcurrencyentrustment.commissionno') }}<span>{{detail[0].orderId}}</span></p>
           </Col>
           <Col span="6">
-          <p>状态：<span>{{getStatus(detail[0].status)}}</span></p>
+          <p>{{ $t('currencywithdrawalauditmanagement.status') }}<span>{{getStatus(detail[0].status)}}</span></p>
           </Col>
           <Col span="6">
-          <p>委托时间：<span>{{getTime(detail[0].time)}}</span></p>
+          <p>{{ $t('detailsofcurrencyentrustment.entrustedtime') }}<span>{{getTime(detail[0].time)}}</span></p>
           </Col>
           <Col span="6">
-          <p>委托类型：<span>{{getStyle(detail[0].type)}}</span></p>
+          <p>{{ $t('detailsofcurrencyentrustment.typeofdelegation') }}<span>{{getStyle(detail[0].type)}}</span></p>
           </Col>
         </Row>
 
         <Row>
           <Col span="6">
-          <p>委托价格：<span>{{detail[0].price}}</span></p>
+          <p>{{ $t('detailsofcurrencyentrustment.entrustedprice') }}<span>{{detail[0].price}}</span></p>
           </Col>
           <Col span="6">
-          <p>委托数量：<span>{{detail[0].amount}}</span></p>
+          <p>{{ $t('detailsofcurrencyentrustment.entrustedquantity') }}<span>{{detail[0].amount}}</span></p>
           </Col>
           <Col span="6">
-          <p>成交数量：<span>{{detail[0].tradedAmount}}</span></p>
+          <p>{{ $t('detailsofcurrencyentrustment.numberoftransactions') }}<span>{{detail[0].tradedAmount}}</span></p>
           </Col>
         </Row>
       </div>
@@ -42,8 +41,7 @@
     <br><br>
     <Card>
       <p slot="title">
-        交易记录
-      </p>
+        {{ $t('detailsofcurrencyentrustment.transactions') }} </p>
       <Row>
         <Table :columns="columnsList" :data="userpage" border :loading="ifLoading" class='user_center'>
         </Table>
@@ -70,23 +68,23 @@ export default {
       pageIndex: 1,
       columnsList: [
         {
-          title: "订单号",
+          title: this.$t('detailsofcurrencyentrustment.orderno'),
           key: "orderId"
         },
         {
-          title: "挂单价格",
+          title: this.$t('detailsofcurrencyentrustment.pendingorderprice'),
           key: "price"
         },
         {
-          title: "挂单量",
+          title: this.$t('detailsofcurrencyentrustment.pendingorderquantity'),
           key: "amount"
         },
         {
-          title: "手续费",
+          title: this.$t('transactiondetailsinlegalcurrency.handlingcharges'),
           key: "fee"
         },
         {
-          title: "交易时间",
+          title: this.$t('transactiondetailsinlegalcurrency.transactiontime'),
           key: "time",
           render: (h, obj) => {
             let formatTime = dtime(obj.row.time).format("YYYY-MM-DD HH:mm:ss");
@@ -117,7 +115,7 @@ export default {
           useDiscount: null
         }
       ],
-      status: ["交易中", "已完成", "已取消"]
+      status: [this.$t('detailsofcurrencyentrustment.trading'), this.$t('transactiondetailsinlegalcurrency.completed'), this.$t('transactiondetailsinlegalcurrency.cancelled')]
     };
   },
   methods: {
@@ -129,16 +127,16 @@ export default {
       return dtime(time).format('YYYY-MM-DD HH:mm:ss')
     },
     getStyle(str){
-      return str=="MARKET_PRICE" ? "市价" : "限价";
+      return str=="MARKET_PRICE" ? this.$t('detailsofcurrencyentrustment.marketprice') : this.$t('detailsofcurrencyentrustment.pricelimit');
     },
     getStatus(str) {
       var direction = ""
       if (str == "TRADING") {
-        direction = "交易中";
+        direction = this.$t('detailsofcurrencyentrustment.trading');
       } else if (str == "COMPLETED") {
-        direction = "已完成";
+        direction = this.$t('transactiondetailsinlegalcurrency.completed');
       } else if (direction == "CANCELED") {
-        direction = "已取消";
+        direction = this.$t('transactiondetailsinlegalcurrency.cancelled');
       }
       return direction;
     },
@@ -156,7 +154,7 @@ export default {
         if (!res.code) {
           this.detail = res.data && res.data.content;
         } else {
-          this.$Message.error("查询错误");
+          this.$Message.error(this.$t('detailsofcurrencyentrustment.queryerror'));
         }
       });
       exgOrderDetail({ id: orderID }).then(res => {

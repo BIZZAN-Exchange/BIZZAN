@@ -1,10 +1,11 @@
 package com.bizzan.bitrade;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import com.bizzan.bitrade.Trader.CoinTrader;
-import com.bizzan.bitrade.entity.*;
+import com.bizzan.bitrade.entity.ExchangeOrder;
+import com.bizzan.bitrade.entity.ExchangeOrderDirection;
+import com.bizzan.bitrade.entity.ExchangeOrderStatus;
+import com.bizzan.bitrade.entity.ExchangeOrderType;
+import org.junit.Before;
 
 import java.math.BigDecimal;
 import java.util.Calendar;

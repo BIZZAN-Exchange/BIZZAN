@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年12月29日
  */
 @Data
@@ -21,7 +21,7 @@ public class LoginByEmail {
     private String password;
 
     @NotBlank(message = "{LoginByEmail.username.null}")
-    @Length(min = 3, max = 20, message = "{LoginByEmail.username.length}")
+//    @Length(min = 3, max = 20, message = "{LoginByEmail.username.length}")
     private String username;
 
     @NotBlank(message =  "{LoginByEmail.country.null}")

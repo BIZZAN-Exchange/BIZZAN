@@ -2,64 +2,62 @@
 <div>
   <Card>
     <p slot="title">
-      系统帮助
-    </p>
+      {{ $t('systemhelp.systemhelp') }} </p>
     <div class="formWrapper">
-      <div class="titleWrapper">标题：
+      <div class="titleWrapper">{{ $t('editannouncement.title') }}
         <p class="title"><Input v-model="title"  style="width:500px"></Input></p>
       </div>
 
       <div class="createTimeWrapper" v-if="!!queryDetailId" >
-        创建时间：
-        <p class="title"><Input v-model="createTime" disabled></Input></p>
+        {{ $t('advertisingmanagement.createdon') }} <p class="title"><Input v-model="createTime" disabled></Input></p>
       </div>
 
-      <div>分类：
+      <div>{{ $t('editannouncement.classification') }}
         <Select v-model="klass" style="width:200px">
           <Option v-for=" perKlass in klassArr " :value="perKlass.value" :key="perKlass.value">{{ perKlass.name }}</Option>
         </Select>
       </div>
-      <div class="titleWrapper">排序：
+      <div class="titleWrapper">{{ $t('perpetualcontractcurrencystandardmanagement.sort') }}
         <p class="title"><Input v-model="sort"  style="width:200px"></Input></p>
       </div>
-      <div>语言：
+      <div>{{ $t('editannouncement.language') }}
         <RadioGroup v-model="lang">
           <Radio label="zh_CN">
-            <span>中文</span>
+            <span>{{ $t('announcementmanagement.chinese') }}</span>
           </Radio>
           <Radio label="en_US">
             <span>English</span>
           </Radio>
           <Radio label="ja_JP">
-            <span>日语</span>
+            <span>{{ $t('announcementmanagement.japanese') }}</span>
           </Radio>
           <Radio label="ko_KR">
-            <span>韩语</span>
+            <span>{{ $t('announcementmanagement.korean') }}</span>
           </Radio>
           <Radio label="de_DE">
-            <span>德语</span>
+            <span>{{ $t('announcementmanagement.german') }}</span>
           </Radio>
           <Radio label="fr_FR">
-            <span>法语</span>
+            <span>{{ $t('announcementmanagement.french') }}</span>
           </Radio>
           <Radio label="it_IT">
-            <span>意大利</span>
+            <span>{{ $t('announcementmanagement.italy') }}</span>
           </Radio>
           <Radio label="es_ES">
-            <span>西班牙</span>
+            <span>{{ $t('announcementmanagement.spain') }}</span>
           </Radio>
           <Radio label="zh_HK">
-            <span>繁体</span>
+            <span>{{ $t('advertisingmanagement.traditionalchinesecharacter') }}</span>
           </Radio>
         </RadioGroup>
       </div>
-      <div>状态：
+      <div>{{ $t('currencywithdrawalauditmanagement.status') }}
         <RadioGroup v-model="status" @on-change="changeAdStatus">
           <Radio :label="0">
-            <span>显示</span>
+            <span>{{ $t('perpetualcontractcurrencystandardmanagement.display') }}</span>
           </Radio>
           <Radio :label="1">
-            <span>不显示</span>
+            <span>{{ $t('announcementmanagement.dontshow') }}</span>
           </Radio>
         </RadioGroup>
       </div>
@@ -68,12 +66,11 @@
 
     <div class="btnWrapper">
       <Button type="success" long size='large' @click="upload">
-        提交
-      </Button>
+        {{ $t('addeditredenvelopes.submit') }} </Button>
     </div>
 
     <div class="circleWrapper" v-show="uploading">
-      <p>图片上传中...</p>
+      <p>{{ $t('redpacketmanagement.pictureuploading') }}</p>
     </div>
   </Card>
 
@@ -95,13 +92,13 @@ import { getStore, removeStore, setStore } from '@/config/storage';
     data () {
       return {
         klassArr: [
-          { name: '新手指南', value: 0 },
-          { name: '常见问题', value: 1 },
-          { name: '交易指南', value: 2 },
-          { name: '币种资料', value: 3 },
-          { name: '行情技术', value: 4 },
-          { name: '条款协议', value: 5 },
-          { name: '其他', value: 6 },
+          { name: this.$t('systemhelp.beginnersguide'), value: 0 },
+          { name: this.$t('systemhelp.frequentlyaskedquestions'), value: 1 },
+          { name: this.$t('systemhelp.transactionguide'), value: 2 },
+          { name: this.$t('systemhelp.currencydata'), value: 3 },
+          { name: this.$t('systemhelp.markettechnology'), value: 4 },
+          { name: this.$t('systemhelp.termagreement'), value: 5 },
+          { name: this.$t('editannouncement.other'), value: 6 },
         ],
         uploading: false,
         ifAdd: true,
@@ -124,16 +121,16 @@ import { getStore, removeStore, setStore } from '@/config/storage';
           uploadCallback: (data) => {
             this.uploading = false;
             if(!data.code){
-              this.$Message.success('上传成功!');
+              this.$Message.success(this.$t('addeditredenvelopes.uploadsuccessful'));
               return data.data;
             }else{
-              this.$Message.error('上传失败!');
+              this.$Message.error(this.$t('addeditredenvelopes.uploadfailed'));
             }
           },
           uploadFailed: (err) => {
             console.log(err)
             this.uploading = false;
-            this.$Message.error('上传失败!');
+            this.$Message.error(this.$t('addeditredenvelopes.uploadfailed'));
 
           }
         }
@@ -169,15 +166,15 @@ import { getStore, removeStore, setStore } from '@/config/storage';
         if ( this.title ==='' || this.title ===null ||
             this.klass ==='' || this.klass ===null ||
             getStore('smeditor') ==='' || getStore('smeditor') === null ) {
-              this.$Message.warning('请完善信息！')
+              this.$Message.warning(this.$t('systeminformationmaintenance.pleaseimprovetheinformation'))
         } else {
           fn(uploadObj)
           .then( res => {
             if(!res.code) {
-              this.$Message.success('操作成功!');
+              this.$Message.success(this.$t('advertisingmanagement.operationsucceeded'));
               this.$router.push('/content/helpManage');
               removeStore('smeditor');
-            }  else this.$Message.error('异常错误!');
+            }  else this.$Message.error(this.$t('addeditredenvelopes.abnormalerror'));
           })
         }
       }

@@ -1,13 +1,10 @@
 package com.bizzan.bitrade.entity;
 
-import com.bizzan.bitrade.entity.MemberAddress;
-import com.bizzan.bitrade.entity.ScanMemberAddress;
-
 import lombok.Builder;
 import lombok.Data;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年01月26日
  */
 @Builder

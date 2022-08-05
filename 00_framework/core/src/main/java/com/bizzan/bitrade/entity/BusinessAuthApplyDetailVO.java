@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.bizzan.bitrade.constant.CertifiedBusinessStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Data;
 
 import javax.persistence.EnumType;

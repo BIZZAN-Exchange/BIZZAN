@@ -3,17 +3,13 @@ package com.bizzan.bitrade.service;
 import com.bizzan.bitrade.dao.DividendStartRecordDao;
 import com.bizzan.bitrade.entity.DividendStartRecord;
 import com.bizzan.bitrade.service.Base.TopBaseService;
-import com.querydsl.core.types.Predicate;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年03月22日
  */
 @Service

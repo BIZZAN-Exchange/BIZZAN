@@ -1,16 +1,15 @@
 package com.bizzan.bitrade.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.bizzan.bitrade.dao.WebsiteInformationDao;
 import com.bizzan.bitrade.entity.QWebsiteInformation;
 import com.bizzan.bitrade.entity.WebsiteInformation;
 import com.bizzan.bitrade.service.Base.BaseService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @description
  * @date 2019/1/26 10:18
  */

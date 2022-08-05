@@ -1,8 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
 
-//export const BASEURL = axios.defaults.baseURL = 'https://api.bizzan.pro/';
-export const BASEURL = axios.defaults.baseURL = 'http://127.0.0.1:6010/';
+export const BASEURL = axios.defaults.baseURL = 'https://api.bizzan.biz/';
 
 export const fetch = (url, params = {}) => {
     return new Promise((resolve, reject) => {
@@ -27,6 +26,23 @@ export const post = (url, data = {}) => {
             .catch(err => {
                 reject(err);
             })
+    })
+}
+
+export const postOut = (url, data = {}) => {
+    return new Promise((resolve, reject) => {
+        axios({
+            method: 'post',
+            url: url,
+            data: qs.stringify(data, { arrayFormat: 'repeat' }),
+            responseType: "blob"
+        })
+        .then(response => {
+            resolve(response.data)
+        })
+        .catch(err => {
+            reject(err);
+        })
     })
 }
 

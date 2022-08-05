@@ -11,20 +11,20 @@ import org.slf4j.LoggerFactory;
  */
 public class WalletOperationUtil {
 
-    private static Logger logger = LoggerFactory.getLogger(WalletOperationUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(WalletOperationUtil.class);
 
     //前提，钱包已加锁并重启。
     //钱包解密 walletpassphrase <passphrase> <timeout> [mintonly]
     public static void walletpassphrase(BitcoinRPCClient rpcClient, String passphrase) throws BitcoinException {
 
-            rpcClient.query("walletpassphrase", passphrase, 60);
+        rpcClient.query("walletpassphrase", passphrase, 60);
 
     }
 
     //钱包加锁walletlock
     public static void walletlock(BitcoinRPCClient rpcClient) throws BitcoinException {
 
-            rpcClient.query("walletlock");
+        rpcClient.query("walletlock");
 
     }
 }

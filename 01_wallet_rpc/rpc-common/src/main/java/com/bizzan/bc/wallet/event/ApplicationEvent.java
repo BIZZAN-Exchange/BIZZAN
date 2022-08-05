@@ -1,10 +1,10 @@
 package com.bizzan.bc.wallet.event;
 
-import com.bizzan.bc.wallet.service.WatcherLogService;
 import com.bizzan.bc.wallet.component.Watcher;
 import com.bizzan.bc.wallet.entity.Coin;
 import com.bizzan.bc.wallet.entity.WatcherLog;
 import com.bizzan.bc.wallet.entity.WatcherSetting;
+import com.bizzan.bc.wallet.service.WatcherLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ApplicationEvent implements ApplicationListener<ContextRefreshedEvent> {
-    private Logger logger = LoggerFactory.getLogger(ApplicationEvent.class);
+    private final Logger logger = LoggerFactory.getLogger(ApplicationEvent.class);
     @Autowired
     private DepositEvent depositEvent;
     @Autowired(required = false)
@@ -28,15 +28,15 @@ public class ApplicationEvent implements ApplicationListener<ContextRefreshedEve
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        if(watcher != null) {
+        if (watcher != null) {
             logger.info("=======Initialize Block Data Watcher=====");
             WatcherLog watcherLog = watcherLogService.findOne(coin.getName());
-            logger.info("watcherLog:{}",watcherLog);
-            if (watcherLog != null ) {
+            logger.info("watcherLog:{}", watcherLog);
+            if (watcherLog != null) {
                 watcher.setCurrentBlockHeight(watcherLog.getLastSyncHeight());
-            } else if(watcherSetting.getInitBlockHeight().equalsIgnoreCase("latest")) {
+            } else if (watcherSetting.getInitBlockHeight().equalsIgnoreCase("latest")) {
                 watcher.setCurrentBlockHeight(watcher.getNetworkBlockHeight());
-            }else {
+            } else {
                 Long height = Long.parseLong(watcherSetting.getInitBlockHeight());
                 watcher.setCurrentBlockHeight(height);
             }
@@ -52,8 +52,7 @@ public class ApplicationEvent implements ApplicationListener<ContextRefreshedEve
             //设置交易需要的确认数
             watcher.setConfirmation(watcherSetting.getConfirmation());
             new Thread(watcher).start();
-        }
-        else{
+        } else {
             logger.error("=====启动程序失败=====");
         }
     }

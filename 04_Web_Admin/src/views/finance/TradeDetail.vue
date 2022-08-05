@@ -2,11 +2,9 @@
   <div>
     <Card>
       <p slot="title">
-        交易明细
-        <Button type="primary" size="small" @click="refreshPageManual">
+        {{ $t('transactiondetails.transactiondetails') }} <Button type="primary" size="small" @click="refreshPageManual">
           <Icon type="refresh"></Icon>
-          刷新
-        </Button>
+          {{ $t('perpetualcontractcurrencystandardmanagement.refresh') }} </Button>
       </p>
 
       <Row class="functionWrapper">
@@ -14,9 +12,9 @@
 
 					<div class="poptip">
 						<Poptip trigger="hover"
-										content="请输入会员ID"
+										:content="$t('transactiondetails.pleaseenterthememberid')"
 										placement="bottom-start">
-							<Input placeholder="请输入会员ID"
+							<Input :placeholder="$t('transactiondetails.pleaseenterthememberid')"
 										v-model="filterSearch.memberId"/>
 							</Input>
 						</Poptip>
@@ -33,7 +31,7 @@
 					</div> -->
 
 					<div class="poptip">
-						<span>交易类型：</span>
+						<span>{{ $t('servicechargewithdrawaldetails.transactiontype') }}</span>
 						<Select v-model="filterSearch.type">
 							<Option v-for="(item, index) in tradeTypeArr"
 										:value="index"
@@ -43,17 +41,17 @@
 					<br>
 					<div class="poptip range">
 						<Poptip trigger="hover"
-										content="最低交易金额搜索"
+										:content="$t('transactiondetails.minimumtransactionamountsearch')"
 										placement="bottom-start">
-							<Input placeholder="最低交易金额搜索"
+							<Input :placeholder="$t('transactiondetails.minimumtransactionamountsearch')"
 										v-model="filterSearch.minMoney"/>
 							</Input>
 						</Poptip>
 						~
 						<Poptip trigger="hover"
-										content="最高交易金额搜索"
+										:content="$t('transactiondetails.maximumtransactionamountsearch')"
 										placement="bottom-start">
-							<Input placeholder="最高交易金额搜索"
+							<Input :placeholder="$t('transactiondetails.maximumtransactionamountsearch')"
 										v-model="filterSearch.maxMoney"/>
 							</Input>
 						</Poptip>
@@ -61,17 +59,17 @@
 
 					<div class="poptip range">
 						<Poptip trigger="hover"
-										content="最低手续费搜索"
+										:content="$t('transactiondetails.minimumfeesearch')"
 										placement="bottom-start">
-							<Input placeholder="最低手续费搜索"
+							<Input :placeholder="$t('transactiondetails.minimumfeesearch')"
 										v-model="filterSearch.minFee"/>
 							</Input>
 						</Poptip>
 						~
 						<Poptip trigger="hover"
-										content="最高手续费搜索"
+										:content="$t('transactiondetails.maximumhandlingchargesearch')"
 										placement="bottom-start">
-							<Input placeholder="最高手续费搜索"
+							<Input :placeholder="$t('transactiondetails.maximumhandlingchargesearch')"
 										v-model="filterSearch.maxFee"/>
 							</Input>
 						</Poptip>
@@ -82,12 +80,13 @@
 							type="daterange"
 							placement="bottom-end"
 							@on-change="dateRange"
-							placeholder="选择时间区间">
+							:placeholder="$t('servicechargewithdrawaldetails.selecttimeinterval')">
 						</DatePicker>
 					</div>
 
 					<div class="btns">
-						<Button type="info" size="small" @click="searchByFilter">搜索</Button>
+						<Button type="info" size="small" @click="searchByFilter">{{ $t('positionmanagementcontractassetmanagement.search') }}</Button>
+            <Button type="success" size="small" @click="exportExcel">{{ $t('positionmanagementcontractassetmanagement.export') }}</Button>
 					</div>
 
 				</div>
@@ -106,7 +105,7 @@
 </template>
 
 <script>
-import { perTradeAll  } from '@/service/getData';
+import { perTradeAll, perTradeAllOut  } from '@/service/getData';
   export default{
     data () {
       return {
@@ -120,21 +119,22 @@ import { perTradeAll  } from '@/service/getData';
 			minFee: '',
 			maxFee: '',
 			startTime: '',
-			endTime: ''
+			endTime: '',
+      isOut: 0
 		},
-		tradeTypeArr: [ '充值', '提现', '转账', '币币交易', '法币买入', '法币卖出', '活动奖励', '推广奖励', '分红', '投票', '人工充值', '配对',
-              "活动兑换", "C2C买入", "C2C卖出", "红包发出", "红包领取","提现码提现","提现码充值","永续合约手续费","永续合约盈利","永续合约亏损","期权合约失败","期权合约手续费","期权合约奖金","合约返佣","平级奖励","平台手续费收入" ],
+		tradeTypeArr: [ this.$t('handlingchargemanagement.recharge'), this.$t('handlingchargemanagement.withdrawal'), this.$t('handlingchargemanagement.transfer'), this.$t('servicechargewithdrawaldetails.currencytransaction'), this.$t('handlingchargemanagement.purchaseinlegalcurrency'), this.$t('handlingchargemanagement.sellinginlegalcurrency'), this.$t('handlingchargemanagement.activityrewards'), this.$t('handlingchargemanagement.promotionreward'), this.$t('handlingchargemanagement.dividends'), this.$t('handlingchargemanagement.vote'), this.$t('handlingchargemanagement.manualrecharge'), this.$t('handlingchargemanagement.pairing'),
+              this.$t('handlingchargemanagement.eventredemption'), this.$t('transactiondetails.c2cbuy'), this.$t('transactiondetails.c2csales'), this.$t('transactiondetails.redenvelopeissued'), this.$t('transactiondetails.redenvelopecollection'),this.$t('essentialinformation.withdrawalcodewithdrawal'),this.$t('essentialinformation.cashwithdrawalcoderecharge'),this.$t('transactiondetails.servicechargeofperpetualcontract'),this.$t('transactiondetails.profitfromperpetualcontracts'),this.$t('transactiondetails.lossonperpetualcontracts'),this.$t('essentialinformation.optioncontractfailed'),this.$t('essentialinformation.optioncontractfee'),this.$t('essentialinformation.optioncontractbonus'),this.$t('essentialinformation.contractrebate'),this.$t('essentialinformation.peerrewards'),this.$t('essentialinformation.platformfeeincome') ],
         currentPageIdx: 1,
         ifLoading: true,
         pageNum: null,
         userpage: [],
         columns_first: [
           {
-            title: '会员ID',
+            title: this.$t('essentialinformation.memberid'),
             key:"memberId"
           },
           {
-            title: '交易类型',
+            title: this.$t('handlingchargemanagement.transactiontype'),
             render: (h ,obj) => {
               let type =  obj.row.type;
               return h('span',{
@@ -142,7 +142,7 @@ import { perTradeAll  } from '@/service/getData';
             }
           },
           {
-            title: '交易金额',
+            title: this.$t('essentialinformation.transactionamount'),
             render: (h ,obj) => {
               let  amount =  obj.row.amount;
               let  symbol =  obj.row.symbol;
@@ -150,11 +150,11 @@ import { perTradeAll  } from '@/service/getData';
             }
           },
           {
-            title: '交易手续费',
+            title: this.$t('handlingchargemanagement.transactionhandlingfee'),
             key:"fee"
           },
           {
-            title: '交易时间',
+            title: this.$t('transactiondetailsinlegalcurrency.transactiontime'),
             key:"createTime"
           },
 
@@ -162,14 +162,35 @@ import { perTradeAll  } from '@/service/getData';
       }
     },
     methods: {
+      exportExcel() {
+        this.filterSearch.isOut = 1
+        perTradeAllOut(this.filterSearch)
+            .then(res => {
+              // 文件下载
+              let blob = new Blob([res], {type: 'application/vnd.ms-excel'})
+              let objectUrl = URL.createObjectURL(blob)
+              // window.location.href = objectUrl
+              const fileName = this.$t('transactiondetails.transactiondetails')// 导出文件名
+              const elink = document.createElement('a') // 创建a标签
+              elink.download = fileName // a标签添加属性
+              elink.style.display = 'none'
+              elink.href = objectUrl
+              document.body.appendChild(elink)
+              elink.click() // 执行下载
+              URL.revokeObjectURL(elink.href) // 释放URL 对象
+              document.body.removeChild(elink) // 释放标签
+              this.$Message.success(this.$t('positionmanagementcontractassetmanagement.exportsuccessful'))
+            })
+      },
 			searchByFilter() {
 				let reg = /\D/;
 				if(reg.test(this.filterSearch.memberId)) {
-					this.$Message.warning('请输入正确的会员ID!');
+					this.$Message.warning(this.$t('transactiondetails.note1'));
 					return;
 				}
 				this.currentPageIdx = 1;
 				this.filterSearch.pageNo = 1;
+				this.filterSearch.isOut = 0
 				this.refreshPage(this.filterSearch)
 			},
 			dateRange(val) {
@@ -183,15 +204,18 @@ import { perTradeAll  } from '@/service/getData';
 				}
 				this.filterSearch.pageNo = 1;
 				this.filterSearch.pageSize = 10;
+				this.filterSearch.isOut = 0
 				this.refreshPage(this.filterSearch);
       },
       changePage(pageIndex) {
 				this.currentPageIdx = pageIndex;
 				this.filterSearch.pageNo = pageIndex;
+				this.filterSearch.isOut = 0
 				this.refreshPage(this.filterSearch)
       },
       refreshPage(obj) {
 				this.ifLoading = true;
+        obj.outType = 0
         perTradeAll(obj).then( res => {
           if(!res.code) {
 						this.ifLoading = false;
@@ -204,7 +228,7 @@ import { perTradeAll  } from '@/service/getData';
       }
     },
     created () {
-      this.refreshPage();
+      this.refreshPage({});
     }
   }
 </script>

@@ -58,7 +58,7 @@
 
                             <div class="info-item" v-if="activityDetail.type == 6">
                                 <p class="title gray">{{$t('activity.releaseDetail')}}</p>
-                                <p class="value" style="color:#F90;">{{activityDetail.lockedDays}} {{$t('activity.lock')}} 
+                                <p class="value" style="color:#F90;">{{activityDetail.lockedDays}} {{$t('activity.lock')}}
                                     <span v-if="activityDetail.lockPeriod == 0">{{$t('activity.lockday')}}</span>
                                     <span v-if="activityDetail.lockPeriod == 1">{{$t('activity.lockweek')}}</span>
                                     <span v-if="activityDetail.lockPeriod == 2">{{$t('activity.lockmonth')}}</span>
@@ -636,7 +636,7 @@ export default {
       if (index == 1) {
         if (this.formValidateAddr.email) {
           //获取邮箱code
-          this.$http.post(this.host + "/uc/activity/code").then(response => {
+          this.$http.post(this.host + "/uc/mobile/activity/code").then(response => {
             var resp = response.body;
             if (resp.code == 0) {
               this.$Message.success(resp.message);

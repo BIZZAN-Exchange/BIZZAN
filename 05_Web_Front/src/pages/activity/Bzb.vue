@@ -71,7 +71,7 @@
       <div class="content_wrapper">
         <div class="content1">
           <h5>BZB介绍</h5>
-          <p>BZB是币严(WWW.BIZZAN.PRO)交易平台权益凭证，总发行量5亿枚，永不增发。BZB的持有者除了可享受代币升值、收益分红、上币分红等权益外，还可以通过参与币严(WWW.BIZZAN.PRO)超级节点(合伙人)投票获得节点收益，超级节点具有决策参与权、第一知情权、优先上币权以及未来上市股票分配等传统企业股东权益。
+          <p>BZB是BIZZAN(WWW.BIZZAN.BIZ)交易平台权益凭证，总发行量5亿枚，永不增发。BZB的持有者除了可享受代币升值、收益分红、上币分红等权益外，还可以通过参与BIZZAN(WWW.BIZZAN.BIZ)超级节点(合伙人)投票获得节点收益，超级节点具有决策参与权、第一知情权、优先上币权以及未来上市股票分配等传统企业股东权益。
 </p>
           <p>BZB除了是交易平台权益凭证，也将成为BIZZAN生态项目的唯一权益凭证，如矿池、DEX、游戏、钱包、资讯等生态项目，BIZZAN是开放生态型交易所，我们欢迎任何项目方加入BZB生态，并在初期给予一定数量的BZB作为生态项目成员的发展基金。
           </p>
@@ -125,7 +125,7 @@
       <div class="content_wrapper">
         <div class="content1">
           <h5>白皮书</h5>
-          <p>币严(WWW.BIZZAN.PRO)数字资产交易平台白皮书-中文版.pdf</p>
+          <p>BIZZAN(WWW.BIZZAN.BIZ)数字资产交易平台白皮书-中文版.pdf</p>
           <p>BIZZAN Exchange Platform White Paper-English.pdf</p>
         </div>
       </div>

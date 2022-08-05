@@ -1,8 +1,8 @@
 <template>
   <div class="pdf">
-    <embed src="https://bizzanex.oss-cn-hangzhou.aliyuncs.com/BIZZANWhitePaperVer%201.0.pdf" width="100%" height="800">
+    <embed src="https://bizzan01.oss-cn-hongkong.aliyuncs.com/BIZZANWhitePaperVer%201.0.pdf" width="100%" height="800">
     <p class="arrow" style="text-align:center;color:#000;margin: 20px 0 20px 0;">
-      <a style="color: #FFF;" href="https://raw.githubusercontent.com/bizzanpublic/bizzan/master/BIZZANWhitePaperVer%201.0.pdf" target="_blank">{{$t("sectionPage.downloadwhite")}}</a>
+      <a style="color: #FFF;" href="https://raw.githubusercontent.com/BIZZANpublic/BIZZAN/master/BIZZANWhitePaperVer%201.0.pdf" target="_blank">{{$t("sectionPage.downloadwhite")}}</a>
     </p>
   </div>
 </template>
@@ -10,7 +10,7 @@
 export default {
   data() {
     return {
-      src: 'https://bizzanex.oss-cn-hangzhou.aliyuncs.com/BIZZANWhitePaperVer%201.0.pdf'
+      src: 'https://bizzan01.oss-cn-hongkong.aliyuncs.com/BIZZANWhitePaperVer%201.0.pdf'
     };
   },
   created: function() {

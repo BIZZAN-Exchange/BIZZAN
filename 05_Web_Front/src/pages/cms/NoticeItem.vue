@@ -131,7 +131,7 @@ export default {
           id = 0;
         }
       }
-      this.qrcode.value = this.rootHost + "/announcement/" + id;
+      this.qrcode.value = this.rootHost + "/#/announcement/" + id;
       this.queryId = id;
 
       this.spinShow = true;

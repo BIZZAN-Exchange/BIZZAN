@@ -11,7 +11,7 @@
           <Input type="password" v-model="formInline.password" :placeholder="$t('uc.login.pwdtip')" @on-keyup="onKeyup">
           </Input>
         </FormItem>
-        <p id="notice" class="hide">{{$t('uc.login.validatemsg')}}</p>
+        <!-- <p id="notice" class="hide">{{$t('uc.login.validatemsg')}}</p> -->
         <p style="height:30px;">
           <router-link to="/findPwd" style="color:#979797;float:right;padding-right:10px;font-size:12px;">
             {{$t('uc.login.forget')}}
@@ -27,8 +27,26 @@
       </Form>
 
     </div>
+    <Modal v-model="modal" width="280">
+      <p slot="header">
+       {{$t('uc.forget.googleAuth')}}
+      </p>
+      <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
+        <FormItem prop="user"></FormItem>
+        <FormItem prop="code" class="password">
+          <InputNumber style="width: 200px" v-model="formInline.code" :placeholder="$t('uc.forget.smscode')">
+          </InputNumber>
+        </FormItem>
+      </Form>
+      <div slot="footer">
+        <span style="margin-right:50px" >{{$t('common.close')}}</span>
+        <span style="background:#f0ac19;color:#fff;width:80px;border-radius:30px;display:inline-block;text-align:center;height:30px;line-height: 30px;" @click="loginWithCode" >{{$t('common.ok')}}</span>
+      </div>
+    </Modal>
   </div>
+
 </template>
+
 <style scoped lang="scss">
 /* 验证码 */
 .login_form {
@@ -117,15 +135,18 @@
 <script>
 import gtInit from "../../assets/js/gt.js";
 import $ from "jquery";
+
 export default {
   data() {
     return {
       country: "+86",
+      modal: false,
       captchaObj: null,
       _captchaResult: null,
       formInline: {
         user: "",
-        password: ""
+        password: "",
+        code:null
       },
       ruleInline: {
         user: [
@@ -192,6 +213,11 @@ export default {
         );
       });
     },
+    loginWithCode(){
+      this.modal=false;
+      this.handleSubmit("formInline");
+
+    },
     handler(captchaObj) {
       captchaObj.onReady(() => {
           $("#wait").hide();
@@ -204,12 +230,12 @@ export default {
           }
         });
       $(".login_btn").click(() => {
-        // let reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
-          // tel = this.formInline.user,
-         let flagtel = this.formInline.user.length>=4 ? true : false,
+        let reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
+          tel = this.formInline.user,
+          flagtel = reg.test(tel),
           flagpass = this.formInline.password.length >= 6 ? true : false;
         flagtel && flagpass; // && captchaObj.verify();
-        (!flagtel || !flagpass) && this.$Message.error(this.$t("common.fillComplete"));
+        // (!flagtel || !flagpass) && this.$Message.error("请填写完整的信息");
         this.handleSubmit("formInline"); // 屏蔽了验证
       });
     },
@@ -232,6 +258,7 @@ export default {
           var params = {};
           params["username"] = this.formInline.user;
           params["password"] = this.formInline.password;
+          params["code"] = this.formInline.code;
           this.$http.post(this.host + this.api.uc.login, params).then(response => {
               var resp = response.body;
               if (resp.code == 0) {
@@ -242,14 +269,21 @@ export default {
                 }
                 this.$router.push("/uc/safe");
               } else {
-                this.$Message.error(resp.message);
+                if (resp.code == 505){
+                    this.modal=true;
+                    this.formInline.code="";
+                }else {
+                  this.$Message.error(resp.message);
+                  this.formInline.code="";
+                }
+
               }
             });
         } else {
 
         }
       });
-      /* 带验证*/
+      /* 带验证
       var result = this._captchaResult;
       if (!result) {
         $("#notice").show();
@@ -280,7 +314,7 @@ export default {
           }
         });
       }
-      
+      */
     }
   }
 };

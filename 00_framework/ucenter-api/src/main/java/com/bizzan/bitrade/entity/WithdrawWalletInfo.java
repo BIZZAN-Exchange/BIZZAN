@@ -1,5 +1,6 @@
 package com.bizzan.bitrade.entity;
 
+import com.bizzan.bitrade.constant.BooleanEnum;
 import lombok.Builder;
 import lombok.Data;
 
@@ -7,10 +8,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-import com.bizzan.bitrade.constant.BooleanEnum;
-
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年01月29日
  */
 @Builder

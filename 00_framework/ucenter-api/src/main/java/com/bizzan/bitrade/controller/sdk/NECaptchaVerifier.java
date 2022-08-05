@@ -2,7 +2,6 @@ package com.bizzan.bitrade.controller.sdk;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bizzan.bitrade.controller.sdk.utils.HttpClient4Utils;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;

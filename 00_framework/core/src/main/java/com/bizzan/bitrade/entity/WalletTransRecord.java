@@ -1,6 +1,5 @@
 package com.bizzan.bitrade.entity;
 
-import com.bizzan.bitrade.constant.BooleanEnum;
 import com.bizzan.bitrade.constant.WalletType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

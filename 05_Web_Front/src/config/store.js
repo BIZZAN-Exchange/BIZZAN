@@ -26,7 +26,7 @@ export default new Vuex.Store({
         },
         initLang(state) {
             if (localStorage.getItem('LANGUAGE') == null) {
-                state.lang = "zh_CN";
+                state.lang = "en_US";
             } else {
                 state.lang = JSON.parse(localStorage.getItem('LANGUAGE'));
             }

@@ -6,6 +6,7 @@ import com.aliyuncs.dm.model.v20151123.*;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.*;
+import com.aliyuncs.regions.ProductDomain;
 import freemarker.template.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.util.ByteSource;
@@ -26,6 +27,8 @@ import com.bizzan.bitrade.entity.transform.AuthMember;
 import com.bizzan.bitrade.event.MemberEvent;
 import com.bizzan.bitrade.service.*;
 import com.bizzan.bitrade.util.*;
+
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -56,12 +59,12 @@ public class RegisterController {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    @Value("${spring.mail.username}")
-    private String from;
-    @Value("${spark.system.host}")
-    private String host;
-    @Value("${spark.system.name}")
-    private String company;
+//    @Value("${spring.mail.username}")
+//    private String from;
+//    @Value("${spark.system.host}")
+//    private String host;
+//    @Value("${spark.system.name}")
+//    private String company;
 
     @Value("${aliyun.mail-sms.region}")
     private String e_Region;
@@ -105,9 +108,23 @@ public class RegisterController {
     private final NECaptchaVerifier verifier = new NECaptchaVerifier(captchaId, new NESecretPair(secretId, secretKey));
 
     // 邮件配置
-    private IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", "5f6ce0d8ef4545fb28dc", "50155d47f0b1sad1e7cf7e9029dd");
+    private IClientProfile profile = null;
 
-    private IAcsClient client = new DefaultAcsClient(profile);
+    private IAcsClient client = null;
+
+    @PostConstruct
+    public void init(){
+        profile = DefaultProfile.getProfile(e_Region, e_accessKeyId, e_accessSecret);
+        if(!"cn-hangzhou".equals(e_Region)) {
+            try {
+                DefaultProfile.addEndpoint("dm." + e_Region + ".aliyuncs.com", e_Region, "Dm", "dm." + e_Region + ".aliyuncs.com");
+            } catch (ClientException e) {
+                e.printStackTrace();
+            }
+        }
+        client = new DefaultAcsClient(profile);
+    }
+
     private SingleSendMailRequest request = new SingleSendMailRequest();
 
     /**
@@ -219,13 +236,14 @@ public class RegisterController {
         member.setPassword(password);
         member.setEmail(loginByEmail.getEmail());
         member.setSalt(credentialsSalt);
-        member.setAvatar("https://bizzanex.oss-cn-hangzhou.aliyuncs.com/defaultavatar.png"); // 默认用户头像
+        member.setAvatar("https://bizzan01.oss-cn-hongkong.aliyuncs.com/defaultavatar.png"); // 默认用户头像
         Member member1 = memberService.save(member);
-        
+
         if (member1 != null) {
-        	// Member为@entity注解类，与数据库直接映射，因此，此处setPromotionCode会直接同步到数据库
+            // Member为@entity注解类，与数据库直接映射，因此，此处setPromotionCode会直接同步到数据库
             member1.setPromotionCode(GeneratorUtil.getPromotionCode(member1.getId()));
             memberEvent.onRegisterSuccess(member1, loginByEmail.getPromotion().trim());
+
         }
         return "registeredResult";
     }
@@ -277,12 +295,14 @@ public class RegisterController {
         member.setPassword(password);
         member.setEmail(loginByEmail.getEmail());
         member.setSalt(credentialsSalt);
-        member.setAvatar("https://bizzanex.oss-cn-hangzhou.aliyuncs.com/defaultavatar.png"); // 默认用户头像
+        member.setAvatar("https://bizzan01.oss-cn-hongkong.aliyuncs.com/defaultavatar.png"); // 默认用户头像
         Member member1 = memberService.save(member);
 
         if (member1 != null) {
             // Member为@entity注解类，与数据库直接映射，因此，此处setPromotionCode会直接同步到数据库
             member1.setPromotionCode(GeneratorUtil.getPromotionCode(member1.getId()));
+            //保持下吧
+            memberService.updatePromotionCode(member1.getId(),member1.getPromotionCode());
             memberEvent.onRegisterSuccess(member1, loginByEmail.getPromotion().trim());
             return success(localeMessageSourceService.getMessage("REGISTRATION_SUCCESS"));
         } else {
@@ -290,31 +310,31 @@ public class RegisterController {
         }
     }
 
-    @Async
-    public void sentEmail(ValueOperations valueOperations, LoginByEmail loginByEmail, String email) throws MessagingException, IOException, TemplateException {
-        //缓存邮箱和注册信息
-        String token = UUID.randomUUID().toString().replace("-", "");
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = null;
-        helper = new MimeMessageHelper(mimeMessage, true);
-        helper.setFrom(from);
-        helper.setTo(email);
-        helper.setSubject(company);
-        Map<String, Object> model = new HashMap<>(16);
-        model.put("username", loginByEmail.getUsername());
-        model.put("token", token);
-        model.put("host", host);
-        model.put("name", company);
-        Configuration cfg = new Configuration(Configuration.VERSION_2_3_26);
-        cfg.setClassForTemplateLoading(this.getClass(), "/templates");
-        Template template = cfg.getTemplate("activateEmail.ftl");
-        String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
-        helper.setText(html, true);
-        //发送邮件
-        javaMailSender.send(mimeMessage);
-        valueOperations.set(token, loginByEmail, 12, TimeUnit.HOURS);
-        valueOperations.set(email, "", 12, TimeUnit.HOURS);
-    }
+//    @Async
+//    public void sentEmail(ValueOperations valueOperations, LoginByEmail loginByEmail, String email) throws MessagingException, IOException, TemplateException {
+//        //缓存邮箱和注册信息
+//        String token = UUID.randomUUID().toString().replace("-", "");
+//        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+//        MimeMessageHelper helper = null;
+//        helper = new MimeMessageHelper(mimeMessage, true);
+//        helper.setFrom(from);
+//        helper.setTo(email);
+//        helper.setSubject(company);
+//        Map<String, Object> model = new HashMap<>(16);
+//        model.put("username", loginByEmail.getUsername());
+//        model.put("token", token);
+//        model.put("host", host);
+//        model.put("name", company);
+//        Configuration cfg = new Configuration(Configuration.VERSION_2_3_26);
+//        cfg.setClassForTemplateLoading(this.getClass(), "/templates");
+//        Template template = cfg.getTemplate("activateEmail.ftl");
+//        String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+//        helper.setText(html, true);
+//        //发送邮件
+//        javaMailSender.send(mimeMessage);
+//        valueOperations.set(token, loginByEmail, 12, TimeUnit.HOURS);
+//        valueOperations.set(email, "", 12, TimeUnit.HOURS);
+//    }
 
     /**
      * 手机注册
@@ -345,20 +365,20 @@ public class RegisterController {
         isTrue(!memberService.phoneIsExist(phone), localeMessageSourceService.getMessage("PHONE_ALREADY_EXISTS"));
         isTrue(!memberService.usernameIsExist(loginByPhone.getUsername()), localeMessageSourceService.getMessage("USERNAME_ALREADY_EXISTS"));
         if (StringUtils.hasText(loginByPhone.getPromotion().trim())) {
-        	isTrue(memberService.userPromotionCodeIsExist(loginByPhone.getPromotion()),localeMessageSourceService.getMessage("USER_PROMOTION_CODE_EXISTS"));        	
+            isTrue(memberService.userPromotionCodeIsExist(loginByPhone.getPromotion()),localeMessageSourceService.getMessage("USER_PROMOTION_CODE_EXISTS"));
         }
         //校验是否通过验证码 短信上行
-        // isTrue(verifier.verify(loginByPhone.getValidate(),""),localeMessageSourceService.getMessage("VERIFICATION_CODE_INCORRECT"));
+//         isTrue(verifier.verify(loginByPhone.getValidate(),""),localeMessageSourceService.getMessage("VERIFICATION_CODE_INCORRECT"));
         //腾讯防水注册校验
         //isTrue(gtestCon.watherProof(loginByPhone.getTicket(),loginByPhone.getRandStr(),ip),localeMessageSourceService.getMessage("VERIFICATION_PICTURE_NOT_CORRECT"));
         // 短信验证码检查
-//        Object code =valueOperations.get(SysConstant.PHONE_REG_CODE_PREFIX + phone);
-//        notNull(code, localeMessageSourceService.getMessage("VERIFICATION_CODE_NOT_EXISTS"));
-//        if (!code.toString().equals(loginByPhone.getCode())) {
-//            return error(localeMessageSourceService.getMessage("VERIFICATION_CODE_INCORRECT"));
-//        } else {
-//            valueOperations.getOperations().delete(SysConstant.PHONE_REG_CODE_PREFIX + phone);
-//        }
+        Object code =valueOperations.get(SysConstant.PHONE_REG_CODE_PREFIX + phone);
+        notNull(code, localeMessageSourceService.getMessage("VERIFICATION_CODE_NOT_EXISTS"));
+        if (!code.toString().equals(loginByPhone.getCode())) {
+            return error(localeMessageSourceService.getMessage("VERIFICATION_CODE_INCORRECT"));
+        } else {
+            valueOperations.getOperations().delete(SysConstant.PHONE_REG_CODE_PREFIX + phone);
+        }
         //不可重复随机数
         String loginNo = String.valueOf(idWorkByTwitter.nextId());
         //盐
@@ -385,10 +405,10 @@ public class RegisterController {
         member.setPassword(password);
         member.setMobilePhone(phone);
         member.setSalt(credentialsSalt);
-        member.setAvatar("https://bizzanex.oss-cn-hangzhou.aliyuncs.com/defaultavatar.png"); // 默认用户头像
+        member.setAvatar("https://bizzan01.oss-cn-hongkong.aliyuncs.com/defaultavatar.png"); // 默认用户头像
         Member member1 = memberService.save(member);
         if (member1 != null) {
-        	// Member为@entity注解类，与数据库直接映射，因此，此处setPromotionCode会直接同步到数据库
+            // Member为@entity注解类，与数据库直接映射，因此，此处setPromotionCode会直接同步到数据库
             member1.setPromotionCode(GeneratorUtil.getPromotionCode(member1.getId()));
             memberEvent.onRegisterSuccess(member1, loginByPhone.getPromotion().trim());
             return success(localeMessageSourceService.getMessage("REGISTRATION_SUCCESS"));
@@ -443,7 +463,7 @@ public class RegisterController {
         isTrue(!memberService.phoneIsExist(phone), localeMessageSourceService.getMessage("PHONE_ALREADY_EXISTS"));
         isTrue(!memberService.usernameIsExist(loginByPhone.getUsername()), localeMessageSourceService.getMessage("USERNAME_ALREADY_EXISTS"));
         if (StringUtils.hasText(loginByPhone.getPromotion().trim())) {
-        	isTrue(memberService.userPromotionCodeIsExist(loginByPhone.getPromotion()),localeMessageSourceService.getMessage("USER_PROMOTION_CODE_EXISTS"));        	
+            isTrue(memberService.userPromotionCodeIsExist(loginByPhone.getPromotion()),localeMessageSourceService.getMessage("USER_PROMOTION_CODE_EXISTS"));
         }
 //        isTrue(memberService.userPromotionCodeIsExist(loginByPhone.getPromotion()),localeMessageSourceService.getMessage("USER_PROMOTION_CODE_EXISTS"));
         //校验是否通过验证码 短信上行
@@ -513,7 +533,12 @@ public class RegisterController {
             return error(localeMessageSourceService.getMessage("EMAIL_ALREADY_SEND"));
         }
         try {
-            sentEmailCode(valueOperations, email, code);
+//            sentEmailCode(valueOperations, email, code);
+            Map<String, Object> model = new HashMap<>(16);
+            model.put("code", code);
+            sentEmailByAliyun(email, model,"Verification Code","bindCodeEmail.ftl");
+            valueOperations.set(EMAIL_BIND_CODE_PREFIX + email, code, 10, TimeUnit.MINUTES);
+
         } catch (Exception e) {
             e.printStackTrace();
             return error(localeMessageSourceService.getMessage("SEND_FAILED"));
@@ -521,27 +546,29 @@ public class RegisterController {
         return success(localeMessageSourceService.getMessage("SENT_SUCCESS_TEN"));
     }
 
-    @Async
-    public void sentEmailCode(ValueOperations valueOperations, String email, String code) throws MessagingException, IOException, TemplateException {
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = null;
-        helper = new MimeMessageHelper(mimeMessage, true);
-        helper.setFrom(from);
-        helper.setTo(email);
-        helper.setSubject(company);
-        Map<String, Object> model = new HashMap<>(16);
-        model.put("code", code);
-        Configuration cfg = new Configuration(Configuration.VERSION_2_3_26);
-        cfg.setClassForTemplateLoading(this.getClass(), "/templates");
-        Template template = cfg.getTemplate("bindCodeEmail.ftl");
-        String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
-        helper.setText(html, true);
+//    @Async
+//    public void sentEmailCode(ValueOperations valueOperations, String email, String code) throws MessagingException, IOException, TemplateException {
+//        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+//        MimeMessageHelper helper = null;
+//        helper = new MimeMessageHelper(mimeMessage, true);
+//        helper.setFrom(from);
+//        helper.setTo(email);
+//        helper.setSubject(company);
+//        Map<String, Object> model = new HashMap<>(16);
+//        model.put("code", code);
+//        Configuration cfg = new Configuration(Configuration.VERSION_2_3_26);
+//        cfg.setClassForTemplateLoading(this.getClass(), "/templates");
+//        Template template = cfg.getTemplate("bindCodeEmail.ftl");
+//        String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+//        helper.setText(html, true);
+//
+//        //发送邮件
+//        javaMailSender.send(mimeMessage);
+//        log.info("send email for {},content:{}", email, html);
+//        valueOperations.set(EMAIL_BIND_CODE_PREFIX + email, code, 10, TimeUnit.MINUTES);
+//    }
 
-        //发送邮件
-        javaMailSender.send(mimeMessage);
-        log.info("send email for {},content:{}", email, html);
-        valueOperations.set(EMAIL_BIND_CODE_PREFIX + email, code, 10, TimeUnit.MINUTES);
-    }
+
 
     /**
      * 增加提币地址验证码
@@ -564,33 +591,39 @@ public class RegisterController {
             return error(localeMessageSourceService.getMessage("EMAIL_ALREADY_SEND"));
         }
         try {
-            sentEmailAddCode(valueOperations, email, code);
+//            sentEmailAddCode(valueOperations, email, code);
+            Map<String, Object> model = new HashMap<>(16);
+            model.put("code", code);
+            sentEmailByAliyun(email, model,"Verification Code","addAddressCodeEmail.ftl");
+            valueOperations.set(ADD_ADDRESS_CODE_PREFIX + email, code, 10, TimeUnit.MINUTES);
+
         } catch (Exception e) {
             e.printStackTrace();
+            log.error(e.toString());
             return error(localeMessageSourceService.getMessage("SEND_FAILED"));
         }
         return success(localeMessageSourceService.getMessage("SENT_SUCCESS_TEN"));
     }
 
-    @Async
-    public void sentEmailAddCode(ValueOperations valueOperations, String email, String code) throws MessagingException, IOException, TemplateException {
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = null;
-        helper = new MimeMessageHelper(mimeMessage, true);
-        helper.setFrom(from);
-        helper.setTo(email);
-        helper.setSubject(company);
-        Map<String, Object> model = new HashMap<>(16);
-        model.put("code", code);
-        Configuration cfg = new Configuration(Configuration.VERSION_2_3_26);
-        cfg.setClassForTemplateLoading(this.getClass(), "/templates");
-        Template template = cfg.getTemplate("addAddressCodeEmail.ftl");
-        String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
-        helper.setText(html, true);
-        //发送邮件
-        javaMailSender.send(mimeMessage);
-        valueOperations.set(ADD_ADDRESS_CODE_PREFIX + email, code, 10, TimeUnit.MINUTES);
-    }
+//    @Async
+//    public void sentEmailAddCode(ValueOperations valueOperations, String email, String code) throws MessagingException, IOException, TemplateException {
+//        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+//        MimeMessageHelper helper = null;
+//        helper = new MimeMessageHelper(mimeMessage, true);
+//        helper.setFrom(from);
+//        helper.setTo(email);
+//        helper.setSubject(company);
+//        Map<String, Object> model = new HashMap<>(16);
+//        model.put("code", code);
+//        Configuration cfg = new Configuration(Configuration.VERSION_2_3_26);
+//        cfg.setClassForTemplateLoading(this.getClass(), "/templates");
+//        Template template = cfg.getTemplate("addAddressCodeEmail.ftl");
+//        String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+//        helper.setText(html, true);
+//        //发送邮件
+//        javaMailSender.send(mimeMessage);
+//        valueOperations.set(ADD_ADDRESS_CODE_PREFIX + email, code, 10, TimeUnit.MINUTES);
+//    }
 
     @RequestMapping("/reset/email/code")
     @ResponseBody
@@ -604,7 +637,12 @@ public class RegisterController {
         }
         try {
             String code = String.valueOf(GeneratorUtil.getRandomNumber(100000, 999999));
-            sentResetPassword(valueOperations, account, code);
+//            sentResetPassword(valueOperations, account, code);
+            Map<String, Object> model = new HashMap<>(16);
+            model.put("code", code);
+            sentEmailByAliyun(account, model,"Verification Code","resetPasswordCodeEmail.ftl");
+            valueOperations.set(RESET_PASSWORD_CODE_PREFIX + account, code, 10, TimeUnit.MINUTES);
+
         } catch (Exception e) {
             e.printStackTrace();
             return error(localeMessageSourceService.getMessage("SEND_FAILED"));
@@ -612,25 +650,25 @@ public class RegisterController {
         return success(localeMessageSourceService.getMessage("SENT_SUCCESS_TEN"));
     }
 
-    @Async
-    public void sentResetPassword(ValueOperations valueOperations, String email, String code) throws MessagingException, IOException, TemplateException {
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = null;
-        helper = new MimeMessageHelper(mimeMessage, true);
-        helper.setFrom(from);
-        helper.setTo(email);
-        helper.setSubject(company);
-        Map<String, Object> model = new HashMap<>(16);
-        model.put("code", code);
-        Configuration cfg = new Configuration(Configuration.VERSION_2_3_26);
-        cfg.setClassForTemplateLoading(this.getClass(), "/templates");
-        Template template = cfg.getTemplate("resetPasswordCodeEmail.ftl");
-        String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
-        helper.setText(html, true);
-        //发送邮件
-        javaMailSender.send(mimeMessage);
-        valueOperations.set(RESET_PASSWORD_CODE_PREFIX + email, code, 10, TimeUnit.MINUTES);
-    }
+//    @Async
+//    public void sentResetPassword(ValueOperations valueOperations, String email, String code) throws MessagingException, IOException, TemplateException {
+//        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+//        MimeMessageHelper helper = null;
+//        helper = new MimeMessageHelper(mimeMessage, true);
+//        helper.setFrom(from);
+//        helper.setTo(email);
+//        helper.setSubject(company);
+//        Map<String, Object> model = new HashMap<>(16);
+//        model.put("code", code);
+//        Configuration cfg = new Configuration(Configuration.VERSION_2_3_26);
+//        cfg.setClassForTemplateLoading(this.getClass(), "/templates");
+//        Template template = cfg.getTemplate("resetPasswordCodeEmail.ftl");
+//        String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+//        helper.setText(html, true);
+//        //发送邮件
+//        javaMailSender.send(mimeMessage);
+//        valueOperations.set(RESET_PASSWORD_CODE_PREFIX + email, code, 10, TimeUnit.MINUTES);
+//    }
 
     /**
      * 忘记密码后重置密码
@@ -684,8 +722,12 @@ public class RegisterController {
         }
         String code = String.valueOf(GeneratorUtil.getRandomNumber(100000, 999999));
         try {
-            sentResetPassword(valueOperations, member.getEmail(), code);
-        } catch (MessagingException | IOException | TemplateException e) {
+//            sentResetPassword(valueOperations, member.getEmail(), code);
+            Map<String, Object> model = new HashMap<>(16);
+            model.put("code", code);
+            sentEmailByAliyun(member.getEmail(), model,"Verification Code","resetPasswordCodeEmail.ftl");
+            valueOperations.set(RESET_PASSWORD_CODE_PREFIX + member.getEmail(), code, 10, TimeUnit.MINUTES);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return success();
@@ -712,8 +754,13 @@ public class RegisterController {
         }
         String code = String.valueOf(GeneratorUtil.getRandomNumber(100000, 999999));
         try {
-            sentResetPassword(valueOperations, email, code);
-        } catch (MessagingException | IOException | TemplateException e) {
+//            sentResetPassword(valueOperations, email, code);
+            Map<String, Object> model = new HashMap<>(16);
+            model.put("code", code);
+            sentEmailByAliyun(email, model,"Verification Code","resetPasswordCodeEmail.ftl");
+            valueOperations.set(RESET_PASSWORD_CODE_PREFIX + email, code, 10, TimeUnit.MINUTES);
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return success();
@@ -732,30 +779,34 @@ public class RegisterController {
             return error(localeMessageSourceService.getMessage("EMAIL_ALREADY_SEND"));
         }
         try {
-            sentEmailRegCode(valueOperations, email, code);
+            Map<String, Object> model = new HashMap<>(16);
+            model.put("code", code);
+            sentEmailByAliyun(email, model,"Verification Code","bindCodeEmail.ftl");
+            valueOperations.set(EMAIL_REG_CODE_PREFIX + email, code, 10, TimeUnit.MINUTES);
         } catch (Exception e) {
             e.printStackTrace();
+            log.error(e.getMessage());
             return error(localeMessageSourceService.getMessage("SEND_FAILED"));
         }
         return success(localeMessageSourceService.getMessage("SENT_SUCCESS_TEN"));
     }
 
     @Async
-    public void sentEmailRegCode(ValueOperations valueOperations, String email, String code) throws MessagingException, IOException, TemplateException, ClientException, ClientException {
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = null;
-        helper = new MimeMessageHelper(mimeMessage, true);
-        helper.setFrom(from);
-        helper.setTo(email);
-        helper.setSubject(company);
-        Map<String, Object> model = new HashMap<>(16);
-        model.put("code", code);
+    public void sentEmailByAliyun(String email,Map<String, Object> model,String subject,String templateName) throws MessagingException, IOException, TemplateException, ClientException, ClientException {
+//        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+//        MimeMessageHelper helper = null;
+//        helper = new MimeMessageHelper(mimeMessage, true);
+//        helper.setFrom(from);
+//        helper.setTo(email);
+//        helper.setSubject(company);
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_26);
         cfg.setClassForTemplateLoading(this.getClass(), "/templates");
-        Template template = cfg.getTemplate("bindCodeEmail.ftl");
+        Template template = cfg.getTemplate(templateName);
         String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
-        helper.setText(html, true);
-
+//        helper.setText(html, true);
+        if(!"cn-hangzhou".equals(e_Region)) {
+            request.setVersion("2017-06-22");
+        }
         request.setAccountName(emailFromAddress);
         request.setFromAlias(emailAlias);
         request.setAddressType(1);
@@ -764,7 +815,7 @@ public class RegisterController {
         request.setToAddress(email);
         //可以给多个收件人发送邮件，收件人之间用逗号分开，批量发信建议使用BatchSendMailRequest方式
         //request.setToAddress(“邮箱1,邮箱2”);
-        request.setSubject("Verification Code");
+        request.setSubject(subject);
         //如果采用byte[].toString的方式的话请确保最终转换成utf-8的格式再放入htmlbody和textbody，若编码不一致则会被当成垃圾邮件。
         //注意：文本邮件的大小限制为3M，过大的文本会导致连接超时或413错误
         request.setHtmlBody(html);
@@ -775,8 +826,8 @@ public class RegisterController {
         //request.setClickTrace(“0”);
         //如果调用成功，正常返回httpResponse；如果调用失败则抛出异常，需要在异常中捕获错误异常码；错误异常码请参考对应的API文档;
         SingleSendMailResponse httpResponse = client.getAcsResponse(request);
-
         log.info("send email for {},content:{}", email, html);
-        valueOperations.set(EMAIL_REG_CODE_PREFIX + email, code, 10, TimeUnit.MINUTES);
+
     }
+
 }

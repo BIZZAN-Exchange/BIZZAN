@@ -1,21 +1,20 @@
 package com.bizzan.bitrade.entity.transform;
 
-import lombok.Builder;
-import lombok.Data;
-
-import java.io.Serializable;
-import java.math.BigDecimal;
-
 import com.bizzan.bitrade.constant.AdvertiseControlStatus;
 import com.bizzan.bitrade.constant.AdvertiseType;
 import com.bizzan.bitrade.constant.BooleanEnum;
 import com.bizzan.bitrade.constant.PriceType;
 import com.bizzan.bitrade.entity.Advertise;
 import com.bizzan.bitrade.entity.Country;
+import lombok.Builder;
+import lombok.Data;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
 
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年01月09日
  */
 @Builder

@@ -1,20 +1,17 @@
 package com.bizzan.bitrade.dao;
 
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import com.bizzan.bitrade.constant.TransactionType;
+import com.bizzan.bitrade.dao.base.BaseDao;
+import com.bizzan.bitrade.entity.MemberTransaction;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bizzan.bitrade.constant.TransactionType;
-import com.bizzan.bitrade.dao.base.BaseDao;
-import com.bizzan.bitrade.entity.MemberTransaction;
-
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Date;
 
 public interface MemberTransactionDao extends BaseDao<MemberTransaction> {
 
@@ -37,4 +34,9 @@ public interface MemberTransactionDao extends BaseDao<MemberTransaction> {
     @Modifying
     @Query("delete from MemberTransaction as m where m.createTime < :beforeTime and m.type = 3 and m.memberId = 1")
     int deleteHistory(@Param("beforeTime") Date beforeTime);
+
+    @Transactional
+    @Modifying
+    @Query(value = "delete from member_wallet_history where op_time < :beforeTime and member_id = 1", nativeQuery = true)
+    int deleteWalletHistory(@Param("beforeTime") Date beforeTime);
 }

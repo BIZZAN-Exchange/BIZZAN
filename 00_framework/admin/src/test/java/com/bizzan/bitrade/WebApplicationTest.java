@@ -1,31 +1,19 @@
 package com.bizzan.bitrade;
 
 import com.alibaba.fastjson.JSON;
-import com.bizzan.bitrade.constant.AdvertiseControlStatus;
-import com.bizzan.bitrade.constant.PageModel;
-import com.bizzan.bitrade.constant.RewardRecordType;
-import com.bizzan.bitrade.constant.TransactionTypeEnum;
 import com.bizzan.bitrade.core.Menu;
 import com.bizzan.bitrade.dao.MemberDao;
 import com.bizzan.bitrade.dao.MemberWalletDao;
 import com.bizzan.bitrade.dao.OrderDao;
-import com.bizzan.bitrade.dto.MemberWalletDTO;
-import com.bizzan.bitrade.entity.*;
-import com.bizzan.bitrade.job.MemberStatisticsJob;
+import com.bizzan.bitrade.entity.TurnoverStatistics;
 import com.bizzan.bitrade.service.*;
 import com.bizzan.bitrade.util.DateUtil;
-import com.bizzan.bitrade.util.ExcelUtil;
 import com.bizzan.bitrade.util.MessageResult;
-import com.bizzan.bitrade.vo.RegisterPromotionVO;
-import com.jayway.jsonpath.Predicate;
-
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.Decimal128;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.ResponseEntity;
@@ -33,12 +21,12 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.*;
-import java.lang.reflect.Field;
-import java.lang.reflect.Member;
+import java.io.File;
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

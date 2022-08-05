@@ -1,5 +1,9 @@
 package com.bizzan.bitrade.config;
 
+import com.bizzan.bitrade.ext.OrdinalToEnumConverterFactory;
+import com.bizzan.bitrade.interceptor.LogInterceptor;
+import com.bizzan.bitrade.interceptor.OutExcelInterceptor;
+import com.bizzan.bitrade.interceptor.SessionInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -13,13 +17,8 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import com.bizzan.bitrade.ext.OrdinalToEnumConverterFactory;
-import com.bizzan.bitrade.interceptor.LogInterceptor;
-import com.bizzan.bitrade.interceptor.OutExcelInterceptor;
-import com.bizzan.bitrade.interceptor.SessionInterceptor;
-
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  */
 @Configuration
 public class ApplicationConfig extends WebMvcConfigurerAdapter {
@@ -64,7 +63,7 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
         registry.addInterceptor(filterConfig).addPathPatterns("/**");
         registry.addInterceptor(new SessionInterceptor()).addPathPatterns("/**")
                 .excludePathPatterns("/code/sms-provider/**","/captcha","/system/employee/sign/in",
-                        "/system/employee/check","/system/employee/logout",
+                        "/system/employee/check","/system/employee/logout","/system/employee/login",
                         "/noauth/exchange-coin/detail",
                         "/noauth/exchange-coin/modify-limit");
         registry.addInterceptor(new LogInterceptor()).addPathPatterns("/**");

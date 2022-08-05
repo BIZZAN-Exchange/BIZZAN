@@ -15,6 +15,7 @@ import Cookies from 'js-cookie';
 import Viser from 'viser-vue';
 import { setStore, getStore, removeStore } from "@/config/storage.js";
 import fullscreen from 'vue-fullscreen'
+import I18nConfig from "@/config/lang/config.js";
 
 Vue.prototype.$ajax = axios;
 axios.defaults.withCredentials = true;
@@ -58,6 +59,20 @@ axios.interceptors.response.use((response) => {
     return response;
 });
 
+axios.interceptors.request.use(function(config) {
+    // 请求成功后返回的内容
+    let token = localStorage.getItem('admin-auth-token'); //拦截器获取到token 存储到变量token中
+    if (token) {
+        //config是一个请求参数,他是一个对象,Authorization 是前后台约定好的那key,把获取到的token赋值给他
+        config.headers['admin-auth-token'] = token;
+    }else{
+        config.headers['admin-auth-token'] = "000000000000000000000000000000000000";
+    }
+    return config;
+}, function(error) { //请求失败后返回的内容
+    return Promise.reject(error);
+});
+
 Date.prototype.Format = function(fmt){
     var o = {
         "M+": this.getMonth()+1,
@@ -85,6 +100,40 @@ Date.prototype.Format = function(fmt){
 //   config.headers['x-auth-token'] = Cookies.get('x-auth-token');
 //   return config;
 // })
+
+//多语言开始
+const i18n = new VueI18n({
+    // locale: 'en_US',
+    locale: I18nConfig.default,
+    messages: I18nConfig.messages,
+    silentTranslationWarn: true
+});
+// Vue.http.interceptors.push((request, next) => {
+//     //登录成功后将后台返回的TOKEN在本地存下来,每次请求从sessionStorage中拿到存储的TOKEN值
+//     request.headers.set('x-auth-token', localStorage.getItem('TOKEN'));
+//     let lang = localStorage.getItem('LANGUAGE');
+//     if(lang!=null){
+//         lang = lang.substr(1);
+//         lang = lang.substr(0,lang.length-1);
+//     }
+//     request.headers.set('lang', lang);
+//
+//     next((response) => {
+//         //登录极验证时需获取后台返回的TOKEN值
+//         var xAuthToken = response.headers.get('x-auth-token');
+//         if (xAuthToken != null && xAuthToken != '') {
+//             localStorage.setItem('TOKEN', xAuthToken);
+//         }
+//
+//         if (response.data.code == '4000' || response.data.code == '3000') {
+//             store.commit('setMember', null);
+//             router.push('/login');
+//             return false;
+//         }
+//         return response;
+//     });
+// });
+//多语言结束
 Vue.prototype.numToFixed = util.numToFixed; //主要用于科学计数法转数字
 
 Vue.prototype.api = Api;
@@ -96,6 +145,7 @@ Vue.use(fullscreen);
 new Vue({
     el: '#app',
     router: router,
+    i18n,
     store: store,
     render: h => h(App),
     data: {

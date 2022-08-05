@@ -2,10 +2,8 @@ package com.bizzan.bitrade.entity;
 
 import com.bizzan.bitrade.constant.TransactionTypeEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.Data;
 import lombok.ToString;
-import org.bson.types.Decimal128;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Column;

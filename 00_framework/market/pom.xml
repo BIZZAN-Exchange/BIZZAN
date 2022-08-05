@@ -37,11 +37,11 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
-		<!--引入redis -->
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
 		</dependency>
+		<!--引入redis -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
@@ -121,7 +121,7 @@
 			<groupId>com.bizzan.bitrade</groupId>
 			<artifactId>netty</artifactId>
 			<version>1.0</version>
-        </dependency>
+		</dependency>
 	</dependencies>
 
 	<build>

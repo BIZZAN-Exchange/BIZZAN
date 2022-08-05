@@ -7,12 +7,14 @@ import java.math.BigDecimal;
 public interface RpcController {
     /**
      * 获取当前区块高度
+     *
      * @return
      */
     MessageResult blockHeight();
 
     /**
      * 为用户获取新地址
+     *
      * @param uuid
      * @return
      */
@@ -20,6 +22,7 @@ public interface RpcController {
 
     /**
      * 提现
+     *
      * @param toAddress
      * @param amount
      * @param fee
@@ -27,16 +30,18 @@ public interface RpcController {
      * @param withdrawId
      * @return
      */
-    MessageResult withdraw(String toAddress, BigDecimal amount, BigDecimal fee,Boolean isSync,String withdrawId);
+    MessageResult withdraw(String toAddress, BigDecimal amount, BigDecimal fee, Boolean isSync, String withdrawId);
 
     /**
      * 转账
+     *
      * @return
      */
     MessageResult transfer();
 
     /**
      * 余额
+     *
      * @return
      */
     MessageResult balance();

@@ -32,19 +32,19 @@ export default {
             ifLoading: true,
             columns: [
                 {
-                    title: "会员名称",
+                    title: this.$t('memberinvitationlist.membername'),
                     key: "username"
                 },
                 {
-                    title: '手机号',
+                    title: this.$t('memberinvitationlist.cellphonenumber'),
                     key: 'mobilePhone'
                 },
                 {
-                    title: '邮箱',
+                    title: this.$t('memberinvitationlist.mailbox'),
                     key: 'email'
                 },
                 {
-                    title: '注册时间',
+                    title: this.$t('realnamemanagement.registrationtime'),
                     key:"registrationTime"
                 }
             ]

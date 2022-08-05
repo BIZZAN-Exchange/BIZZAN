@@ -15,15 +15,15 @@ import java.net.MalformedURLException;
  */
 @Configuration
 public class RpcClientConfig {
-    private Logger logger = LoggerFactory.getLogger(RpcClientConfig.class);
+    private final Logger logger = LoggerFactory.getLogger(RpcClientConfig.class);
 
     @Bean
-    public BitcoinRPCClient setClient(@Value("${coin.rpc}") String uri){
+    public BitcoinRPCClient setClient(@Value("${coin.rpc}") String uri) {
         try {
-            logger.info("uri={}",uri);
-            BitcoinRPCClient client =  new BitcoinRPCClient(uri);
+            logger.info("uri={}", uri);
+            BitcoinRPCClient client = new BitcoinRPCClient(uri);
             int blockCount = client.getBlockCount();
-            logger.info("blockHeight={}",blockCount);
+            logger.info("blockHeight={}", blockCount);
             return client;
         } catch (MalformedURLException e) {
             logger.info("init wallet failed");

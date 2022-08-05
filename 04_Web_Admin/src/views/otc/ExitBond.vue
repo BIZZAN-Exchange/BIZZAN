@@ -2,30 +2,28 @@
   <div class="ExitBond">
     <Card>
       <p slot="title">
-        退保管理
-        <Button type="primary" size="small" @click="refreshPageManual">
+        {{ $t('surrendermanagement.surrendermanagement') }} <Button type="primary" size="small" @click="refreshPageManual">
           <Icon type="refresh"></Icon>
-          刷新
-        </Button>
+          {{ $t('perpetualcontractcurrencystandardmanagement.refresh') }} </Button>
       </p>
 
 			<Row class="functionWrapper">
         <div class="searchWrapper clearfix">
 					
 					<div class="poptip">
-						<Poptip trigger="hover" content="请输入会员昵称、邮箱、手机号" placement="bottom-start">
-							<Input placeholder="请输入会员昵称、邮箱、手机号" v-model="filterSearch.account"/></Input>
+						<Poptip trigger="hover" :content="$t('surrendermanagement.note2')" placement="bottom-start">
+							<Input :placeholder="$t('surrendermanagement.note2')" v-model="filterSearch.account"/></Input>
 						</Poptip>
 					</div>
 
 					<div class="poptip">
-						<Select v-model="filterSearch.status" placeholder="请选择状态">
+						<Select v-model="filterSearch.status" :placeholder="$t('surrendermanagement.pleaseselectastatus')">
 							<Option v-for="item in statusArr" :value="item.value" :key="item.value">{{item.name}}</Option>
 						</Select>
 					</div>
 					
 					<div class="btns">
-						<Button type="info" size="small" @click="searchByFilter">搜索</Button>
+						<Button type="info" size="small" @click="searchByFilter">{{ $t('positionmanagementcontractassetmanagement.search') }}</Button>
 					</div>
 				</div>
 			</Row>		
@@ -48,56 +46,56 @@
 
 			<Modal
 				class="bondCheck" 
-				title="退保审核"
+				:title="$t('surrendermanagement.surrenderreview')"
 				v-model="bondCheck"
 				@on-cancel="cancelSub"
 			>
-				<Row>退保金额： {{ 
+				<Row>{{$t('surrendermanagement.surrenderamount')}}{{ 
 					!exitBondDetail.depositRecord ? '' : exitBondDetail.depositRecord.amount+exitBondDetail.depositRecord.coin.unit }}</Row>
-				<Row>退保原因： {{ (!exitBondDetail.businessCancelApply ? '无' : exitBondDetail.businessCancelApply.reason) | reasonFilter }}</Row>
+				<Row>{{$t('surrendermanagement.note6')}} {{ (!exitBondDetail.businessCancelApply ? $t('surrendermanagement.none') : exitBondDetail.businessCancelApply.reason) | reasonFilter }}</Row>
 				<br>
 				<Row>
 					<Col span="8">
-						发布广告数：{{ exitBondDetail.advertiseNum }}
+						{{$t('surrendermanagement.note3')}}{{ exitBondDetail.advertiseNum }}
 					</Col>
 					<Col span="8">
-						申诉次数：{{ exitBondDetail.complainantNum }}
+						{{$t('surrendermanagement.note1')}}{{ exitBondDetail.complainantNum }}
 					</Col>
 					<Col span="8">
-						被申诉次数：{{ exitBondDetail.defendantNum }}
+						{{$t('surrendermanagement.note5')}}{{ exitBondDetail.defendantNum }}
 					</Col>
 				</Row>
 				<br>
 				<Row>
 					<Col span="12">
-						总成交额：{{ !exitBondDetail.money ? 0 : exitBondDetail.money }}
+						{{$t('surrendermanagement.note7')}}{{ !exitBondDetail.money ? 0 : exitBondDetail.money }}
 					</Col>
 					<Col span="12" >
-						总手续费：{{ !exitBondDetail.fee ? 0 : exitBondDetail.fee }}
+						{{$t('surrendermanagement.note4')}}{{ !exitBondDetail.fee ? 0 : exitBondDetail.fee }}
 					</Col>
 				</Row>
 				<br>
 				<br>
-				<p>注：审核通过后，系统会自动将保证金转入用户账户</p>
+				<p>{{ $t('surrendermanagement.note8') }}</p>
 
 				<div slot="footer">
 					<Row>
 						<Col span="8" offset="3">
-							<Button long type="info" @click="confirmPass(1)">审核通过</Button>
+							<Button long type="info" @click="confirmPass(1)">{{ $t('surrendermanagement.approved') }}</Button>
 						</Col>
 						<Col span="8" offset="3">
-							<Button long type="error" @click="confirmPass(0)">审核不通过</Button>
+							<Button long type="error" @click="confirmPass(0)">{{ $t('surrendermanagement.failedtopassthereview') }}</Button>
 						</Col>
 					</Row>
 				</div>
 			</Modal>
 
-			<Modal title="拒绝原因（选填）"
+			<Modal title="$t('surrendermanagement.reasonforrejectionoptional')"
 				v-model="rejectModal"
 				width="400"
 				@on-ok="subReject"
 			>
-				<Input v-model="subCheck.reason" type="textarea" placeholder="请输入拒绝原因...">
+				<Input v-model="subCheck.reason" type="textarea" placeholder="$t('surrendermanagement.note9')">
 				</Input>
 			</Modal>
     </Card>
@@ -136,59 +134,59 @@ export default {
       totalNum: null,
       columns_first: [
         {
-					title: '会员昵称',
+					title: this.$t('currencywithdrawalapproval.membernickname'),
 					key: 'username',
 					render: (h, ctx) => {
 						return h('span', {}, ctx.row.member.username)
 					}
         },
         {
-          title: "会员邮箱",
+          title: this.$t('surrendermanagement.membermailbox'),
 					key: "email",
 					render: (h, ctx) => {
 						return h('span', {}, ctx.row.member.email)
 					}
         },
          {
-          title: "会员手机号",
+          title: this.$t('surrendermanagement.membermobilenumber'),
 					key: "mobilePhone",
 					render: (h, ctx) => {
 						return h('span', {}, ctx.row.member.mobilePhone)
 					}
         },
         {
-					title: "保证金币种",
+					title: this.$t('surrendermanagement.guaranteedgoldcoins'),
 					key: 'unit',
 					render: (h, ctx) => {
 						return h('span', {}, ctx.row.depositRecord.coin.unit)
 					}
         },
         {
-          title: "保证金数量",
+          title: this.$t('querymarginstrategy.amountofdeposit'),
 					key: "amount",
 					render: (h, ctx) => {
 						return h('span', {}, ctx.row.depositRecord.amount)
 					}
         },
         {
-          title: "提交审核时间",
+          title: this.$t('surrendermanagement.submitforreviewtime'),
           key: "cancelApplyTime"
 				},
 				{
-          title: "审核时间",
+          title: this.$t('currencywithdrawalauditmanagement.audittime1'),
 					key: "handleTime",
 					render: (h, ctx) => {
 						return h('span', {}, !ctx.row.handleTime ? '-' : ctx.row.handleTime);
 					}
 				},
 				{
-          title: "状态",
+          title: this.$t('managementofoptioncontractsineachperiod.status'),
 					key: "status",
 					render: (h, ctx) => {
 						let status = '';
-						if(ctx.row.status === 6) status = '失败';
-						else if(ctx.row.status === 5) status = '待审核';
-						else if(ctx.row.status === 7) status = '成功';
+						if(ctx.row.status === 6) status = this.$t('currencywithdrawalauditmanagement.fail');
+						else if(ctx.row.status === 5) status = this.$t('currencywithdrawalapproval.pendingreview');
+						else if(ctx.row.status === 7) status = this.$t('currencywithdrawalapproval.success');
 						return h('span', {}, status);
 					}
 				},
@@ -197,16 +195,16 @@ export default {
         //   key: "module"
 				// },
 				{
-          title: "操作",
+          title: this.$t('perpetualcontractcurrencystandardmanagement.operation'),
 					key: "module",
 					render: (h, ctx) => {
-						let btnText = '审核';
+						let btnText = this.$t('currencywithdrawalauditmanagement.audit');
 						let btnType = 'info';
 						if(ctx.row.status === 5) {
-							 btnText = '审核';
+							 btnText = this.$t('currencywithdrawalauditmanagement.audit');
 							 btnType = 'info';
 						}else{
-							 btnText = '查看';
+							 btnText = this.$t('transactiondetailsinlegalcurrency.view');
 						   btnType = 'success';
 						}
 						return h('Button', {
@@ -308,14 +306,14 @@ export default {
 		cancelBusinessStatus().then(res => {
 			if(!res.code){
 				this.statusArr = res.data;
-				this.statusArr.push({ value: '', name: '全部' });
+				this.statusArr.push({ value: '', name: this.$t('transactiondetailsinlegalcurrency.all') });
 			}else this.$Message.error(res.message);
 		});
 		this.refreshPage()
 	},
 	filters: {
 		reasonFilter(val) {
-			if(!val) return '无';
+			if(!val) return this.$t('surrendermanagement.none');
 			else return val;
 		}
 	}

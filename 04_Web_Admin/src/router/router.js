@@ -53,7 +53,7 @@ export const otherRouter = {
     redirect: '/home',
     component: Main,
     children: [
-        { path: 'home', title: '首页', name: 'home_index', component: resolve => { require(['@/views/home/home.vue'], resolve); } },
+        { path: 'home', title: '首页', titleKey:"index", name: 'home_index', component: resolve => { require(['@/views/home/home.vue'], resolve); } },
         { path: 'finance/auditdetail', title: '提现审核详情', name: 'finance:auditdetail', component: resolve => { require(['@/views/finance/AuditDetail.vue'], resolve); } },
         { path: 'member/memberaudit/auditdetail', title: '会员审核详情', name: 'member:memberaudit:auditdetail', component: resolve => { require(['@/views/member/AuthenticateDetail.vue'], resolve); } },
         { path: 'member/memberdetail', title: '会员详情', name: 'member:memberdetail', component: resolve => { require(['@/views/member/MemberDetail.vue'], resolve); } },
@@ -83,18 +83,18 @@ let findSlideArr = [
     { id: 18, path: '/content', icon: 'folder', component: Main },
     { id: 177, path: '/businessAuth', icon: 'cash', component: Main },
     { id: 162, path: '/activity', icon: 'cube', component: Main },
-    { id: 203, path: '/ctc', icon: 'arrow-swap', component: Main },
     { id: 220, path: '/envelope', icon: 'ios-albums', component: Main },
     { id: 214, path: '/Invitation', icon: 'android-share-alt', component: Main},
-    { id: 13, path: 'memberaudit', icon: 'document', component: resolve => { require(['@/views/member/Authenticate.vue'], resolve) } },
+    { id: 321, path: '/convert', icon: 'cube', component: Main },
+	{ id: 13, path: 'memberaudit', icon: 'document', component: resolve => { require(['@/views/member/Authenticate.vue'], resolve) } },
     { id: 23, path: 'coin', icon: 'document', component: resolve => { require(['@/views/system/Coin.vue'], resolve) } },
-    { id: 94, path: 'userwithdrawals', icon: 'document', component: resolve => { require(['@/views/finance/WithdrawalsExamine.vue'], resolve) } },
+    { id: 298, path: 'withdraw', icon: 'document', component: resolve => { require(['@/views/finance/withdraw.vue'], resolve) } },
     { id: 9, path: 'advertise', icon: 'document', component: resolve => { require(['@/views/content/AddAdvertisement.vue'], resolve) } },
     { id: 10, path: 'helpManage', icon: 'document', component: resolve => { require(['@/views/content/helpManage.vue'], resolve) } },
     { id: 26, path: 'announcemanage', icon: 'document', component: resolve => { require(['@/views/content/AnnounceManage.vue'], resolve) } },
     { id: 12, path: 'membermanage', icon: 'document', component: resolve => { require(['@/views/member/MemberManage.vue'], resolve) } },
     { id: 19, path: 'tradedetail', icon: 'document', component: resolve => { require(['@/views/finance/TradeDetail.vue'], resolve) } },
-    { id: 131, path: 'changecoindetail', icon: 'document', component: resolve => { require(['@/views/finance/ChargeCoinDetail.vue'], resolve) } },
+    { id: 295, path: 'recharge', icon: 'document', component: resolve => { require(['@/views/finance/Recharge.vue'], resolve) } },
     { id: 95, path: 'feemanage', icon: 'document', component: resolve => { require(['@/views/finance/FeeManage.vue'], resolve) } },
     { id: 4, path: 'departmanage', icon: 'document', component: resolve => { require(['@/views/system/Department.vue'], resolve) } },
     { id: 150, path: 'apprevision', icon: 'document', component: resolve => { require(['@/views/system/AppReversion.vue'], resolve) } },
@@ -119,12 +119,14 @@ let findSlideArr = [
     { id: 171, path: 'statistic', icon: 'document', component: resolve => { require(['@/views/finance/FinanceStatistic.vue'], resolve) } },
     { id: 178, path: 'manage', icon: 'document', component: resolve => { require(['@/views/bond/BondManage.vue'], resolve) } },
     { id: 196, path: 'activity', icon: 'document', component: resolve => { require(['@/views/activity/Activity.vue'], resolve) } },
-    { id: 204, path: 'ctcorderlist', icon: 'document', component: resolve => { require(['@/views/ctc/list.vue'], resolve) } },
-    { id: 210, path: 'ctcacceptorlist', icon: 'document', component: resolve => { require(['@/views/ctc/acceptor.vue'], resolve) } },
     { id: 215, path: 'InvitationRecord', icon: 'document', component: resolve => { require(['@/views/invitation/InvitationRecord.vue'], resolve) }},
     { id: 216, path: 'inviteRankList', icon: 'document', component: resolve => { require(['@/views/invitation/InvitationRank.vue'], resolve) }},
     { id: 221, path: 'envelopeList', icon: 'document', component: resolve => { require(['@/views/redenvelope/RedEnvelope.vue'], resolve) }},
-];
+    { id: 284, path: 'coinprotocol', icon: 'document', component: resolve => { require(['@/views/system/CoinProTocol.vue'], resolve) } },
+    { id: 286, path: 'coinext', icon: 'document', component: resolve => { require(['@/views/system/CoinExt.vue'], resolve) } },
+    { id: 293, path: 'automainconfig', icon: 'document', component: resolve => { require(['@/views/system/AutoMainConfig.vue'], resolve) } },
+
+]
 let sidebarArr = JSON.parse(getStore('leftSidebarList')) || [];
 
 let userDefinedIDArr = [];

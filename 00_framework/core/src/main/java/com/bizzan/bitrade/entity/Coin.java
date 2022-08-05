@@ -1,22 +1,19 @@
 package com.bizzan.bitrade.entity;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
+import com.bizzan.bitrade.constant.BooleanEnum;
+import com.bizzan.bitrade.constant.CommonStatus;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.bizzan.bitrade.constant.BooleanEnum;
-import com.bizzan.bitrade.constant.CommonStatus;
-import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin E-Mali:390330302@qq.com
  * @description
- * @date 2019/12/29 14:14
+ * @date 2021/12/29 14:14
  */
 @Entity
 @Data
@@ -40,6 +37,11 @@ public class Coin {
     @NotBlank(message = "单位不得为空")
     private String unit;
     /**
+     *  logo图url
+     */
+    @Excel(name = "logo图url", orderNum = "1", width = 20)
+    private String iconUrl;
+    /**
      * 状态
      */
     @Enumerated(EnumType.ORDINAL)
@@ -49,28 +51,24 @@ public class Coin {
      * 最小提币手续费
      */
     @Excel(name = "最小提币手续费", orderNum = "1", width = 20)
-    @NotNull(message = "最小提币手续费不得为空")
-    private Double minTxFee;
+    private double minTxFee;
     /**
      * 对人民币汇率
      */
     @Excel(name = "对人民币汇率", orderNum = "1", width = 20)
-    @NotNull(message = "对人民币汇率不得为空")
     @Column(columnDefinition = "decimal(18,2) default 0.00 comment '人民币汇率'")
-    private Double cnyRate;
+    private double cnyRate;
     /**
      * 最大提币手续费
      */
     @Excel(name = "最大提币手续费", orderNum = "1", width = 20)
-    @NotNull(message = "最大提币手续费不得为空")
-    private Double maxTxFee;
+    private double maxTxFee;
     /**
      * 对美元汇率
      */
     @Excel(name = "对美元汇率", orderNum = "1", width = 20)
-    @NotNull(message = "对美元汇率不得为空")
     @Column(columnDefinition = "decimal(18,2) default 0.00 comment '美元汇率'")
-    private Double usdRate;
+    private double usdRate;
     /**
      * 是否支持rpc接口
      */

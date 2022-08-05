@@ -1,42 +1,6 @@
 
 package com.bizzan.bitrade.controller.system;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import com.sun.media.jfxmedia.logging.Logger;
-import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
-import org.springframework.util.Assert;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttribute;
-
 import com.bizzan.bitrade.annotation.AccessLog;
 import com.bizzan.bitrade.constant.AdminModule;
 import com.bizzan.bitrade.constant.PageModel;
@@ -58,17 +22,46 @@ import com.bizzan.bitrade.vendor.provider.SMSProvider;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.bizzan.bitrade.core.Convert;
 import com.bizzan.bitrade.core.Encrypt;
-
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年12月19日
  */
 
@@ -110,6 +103,49 @@ public class EmployeeController extends BaseAdminController {
     @Value("${spark.system.admins}")
     private String admins;
 
+    @RequestMapping(value = "/login")
+    @ResponseBody
+    @AccessLog(module = AdminModule.SYSTEM, operation = "判断后台登录输入手机验证码")
+    public MessageResult adminLogin(@RequestParam(value = "username",required = true)String username,
+                                    @RequestParam(value = "password",required = true)String password,
+                                    @RequestParam(value = "captcha",required = false)String captcha){
+        if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
+            return error("用户名或密码不能为空");
+        }
+        String ADMIN_LOGIN = "ADMIN_LOGIN";
+        log.info("验证码Client：" + captcha);
+        password = Encrypt.MD5(password + md5Key);
+        log.info("==================>"+password);
+        Admin admin = adminService.login(username,password);
+        if(admin==null){
+            return error("用户名或密码不存在");
+        }else{
+            try {
+                UsernamePasswordToken token = new UsernamePasswordToken(username, password,true);
+                SecurityUtils.getSubject().login(token);
+                List<Menu> list;
+                if ("root".equalsIgnoreCase(admin.getUsername())) {
+                    list = sysRoleService.toMenus(sysPermissionService.findAll(), 0L);
+                } else {
+                    list = sysRoleService.toMenus(sysRoleService.getPermissions(admin.getRoleId()), 0L);
+                }
+                Subject subject = SecurityUtils.getSubject();
+                Serializable tokenId = subject.getSession().getId();
+                Map<String, Object> map = new HashMap<>();
+                map.put("authToken", tokenId);
+                map.put("permissions", list);
+                map.put("admin", admin);
+                String[] adminList = admins.split(",");
+                for(int i = 0; i < adminList.length; i++) {
+                    sendEmailMsg(adminList[i], "管理员(UserName: " + username + ", Phone: " + admin.getMobilePhone()+ ") 登录后台", "管理员登录通知");
+                }
+                return success("登录成功", map);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return error("手机验证码发送或保存失败");
+        }
+    }
 
     /**
      * 提交登录信息
@@ -141,6 +177,7 @@ public class EmployeeController extends BaseAdminController {
             UsernamePasswordToken token = new UsernamePasswordToken(username, password,true);
             token.setHost(getRemoteIp(request));
             SecurityUtils.getSubject().login(token);
+            token.setRememberMe(true);
             //valueOperations.getOperations().delete(SysConstant.ADMIN_LOGIN_PHONE_PREFIX+phone);
             Admin admin = (Admin) request.getSession().getAttribute(SysConstant.SESSION_ADMIN);
             //token.setRememberMe(true);
@@ -156,10 +193,10 @@ public class EmployeeController extends BaseAdminController {
             map.put("permissions", list);
             map.put("admin", admin);
             
-            String[] adminList = admins.split(",");
-			for(int i = 0; i < adminList.length; i++) {
-				sendEmailMsg(adminList[i], "管理员(UserName: " + username + ", Phone: " + phone+ ") 登录后台", "管理员登录通知");
-			}
+//            String[] adminList = admins.split(",");
+//			for(int i = 0; i < adminList.length; i++) {
+//				sendEmailMsg(adminList[i], "管理员(UserName: " + username + ", Phone: " + phone+ ") 登录后台", "管理员登录通知");
+//			}
 			
             return success("登录成功", map);
         } catch (AuthenticationException e) {
@@ -212,7 +249,7 @@ public class EmployeeController extends BaseAdminController {
         String password = Convert.strToStr(request(request, "password"), "");
         String captcha = Convert.strToStr(request(request, "captcha"), "");
         if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
-            return error("用户名或密码不能为空");
+            return error("User name or Password cannot be empty");
         }
         HttpSession session = request.getSession();
         request.getSession().setAttribute("test", "123456789");
@@ -226,9 +263,9 @@ public class EmployeeController extends BaseAdminController {
         String sss = (String) session.getAttribute("CAPTCHA_" + ADMIN_LOGIN);
         log.info("验证码Session：" + sss);
 
-        if (!CaptchaUtil.validate(session, ADMIN_LOGIN, captcha)) {
-            return error("验证码不正确");
-        }
+//        if (!CaptchaUtil.validate(session, ADMIN_LOGIN, captcha)) {
+//            return error("验证码不正确");
+//        }
         password = Encrypt.MD5(password + md5Key);
         log.info("==================>"+password);
         Admin admin = adminService.login(username,password);
@@ -304,7 +341,7 @@ public class EmployeeController extends BaseAdminController {
                 return error("用户名已存在！");
             }
             if (StringUtils.isBlank(admin.getPassword())) {
-                return error("密码不能为空");
+                return error("Password cannot be empty");
             }
             password = Encrypt.MD5(admin.getPassword() + md5Key);
         }

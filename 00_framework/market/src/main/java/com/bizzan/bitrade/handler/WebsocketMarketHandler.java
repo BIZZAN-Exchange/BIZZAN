@@ -1,14 +1,13 @@
 package com.bizzan.bitrade.handler;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Component;
-
 import com.bizzan.bitrade.entity.CoinThumb;
 import com.bizzan.bitrade.entity.ExchangeTrade;
 import com.bizzan.bitrade.entity.KLine;
 import com.bizzan.bitrade.job.ExchangePushJob;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component

@@ -1,12 +1,11 @@
 package com.bizzan.bitrade.config;
 
-import com.bizzan.bitrade.vendor.provider.support.*;
-import org.apache.commons.lang.StringUtils;
+import com.bizzan.bitrade.vendor.provider.SMSProvider;
+import com.bizzan.bitrade.vendor.provider.support.AliyunSMSGlobeProvider;
+import com.bizzan.bitrade.vendor.provider.support.SaiyouSMSProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import com.bizzan.bitrade.vendor.provider.SMSProvider;
 
 @Configuration
 public class SmsProviderConfig {
@@ -44,14 +43,15 @@ public class SmsProviderConfig {
 
     @Bean
     public SMSProvider getSMSProvider(@Value("${sms.driver:}") String driverName) {
-    	//赛邮
-        return new SaiyouSMSProvider(username, password, sign, gateway);
 
+
+        return new AliyunSMSGlobeProvider(ali_accessKeyId, ali_accessSecret);
+    	//赛邮
+//        return new SaiyouSMSProvider(username, password, sign, gateway);
         //飞鸽
         //return new FeigeSMSProvider(sign,username,password);
-
         //阿里云短信调用
-        //return new AliyunSMSprovider(ali_Region, ali_accessKeyId, ali_accessSecret, ali_smsSign, ali_smsTemplate);
+//        return new AliyunSMSprovider(ali_Region, ali_accessKeyId, ali_accessSecret, new String(ali_smsSign.getBytes(StandardCharsets.ISO_8859_1),StandardCharsets.UTF_8), ali_smsTemplate);
 
         //第一短信
 //    	return new DiyiSMSProvider(username, password, sign);

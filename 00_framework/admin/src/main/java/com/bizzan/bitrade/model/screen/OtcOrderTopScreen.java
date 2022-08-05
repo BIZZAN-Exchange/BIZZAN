@@ -2,7 +2,6 @@ package com.bizzan.bitrade.model.screen;
 
 import com.bizzan.bitrade.constant.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.Data;
 
 import java.util.Date;

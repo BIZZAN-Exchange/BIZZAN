@@ -1,7 +1,6 @@
 package com.bizzan.bitrade.service;
 
 import com.bizzan.bitrade.dao.QuickExchangeDao;
-import com.bizzan.bitrade.entity.PromotionCardOrder;
 import com.bizzan.bitrade.entity.QuickExchange;
 import com.bizzan.bitrade.service.Base.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;

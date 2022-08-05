@@ -14,7 +14,8 @@ util.title = function(title) {
 const ajaxUrl = env === 'development' ?
     'http://127.0.0.1:8888' :
     env === 'production' ?
-    'https://admin.bizzan.pro' :
+    'https://www.url.com' :
+    'https://debug.url.com';
 
 util.ajax = axios.create({
     baseURL: ajaxUrl,
@@ -69,17 +70,17 @@ util.handleTitle = function(vm, item) {
     if (typeof item.title === 'object') {
         return vm.$t(item.title.i18n);
     } else {
-        return item.title;
+        return item.titleKey;
     }
 };
 
 util.setCurrentPath = function(vm, name) {
-    let title = '';
+    let titleKey = '';
     let isOtherRouter = false;
     vm.$store.state.app.routers.forEach(item => {
         if (item.children.length === 1) {
             if (item.children[0].name === name) {
-                title = util.handleTitle(vm, item);
+                titleKey = util.handleTitle(vm, item);
                 if (item.name === 'otherRouter') {
                     isOtherRouter = true;
                 }
@@ -87,7 +88,7 @@ util.setCurrentPath = function(vm, name) {
         } else {
             item.children.forEach(child => {
                 if (child.name === name) {
-                    title = util.handleTitle(vm, child);
+                    titleKey = util.handleTitle(vm, child);
                     if (item.name === 'otherRouter') {
                         isOtherRouter = true;
                     }
@@ -98,18 +99,18 @@ util.setCurrentPath = function(vm, name) {
     let currentPathArr = [];
     if (name === 'home_index') {
         currentPathArr = [{
-            title: util.handleTitle(vm, util.getRouterObjByName(vm.$store.state.app.routers, 'home_index')),
+            titleKey: util.handleTitle(vm, util.getRouterObjByName(vm.$store.state.app.routers, 'home_index')),
             path: '',
             name: 'home_index'
         }];
     } else if ((name.indexOf('_index') >= 0 || isOtherRouter) && name !== 'home_index') {
         currentPathArr = [{
-                title: util.handleTitle(vm, util.getRouterObjByName(vm.$store.state.app.routers, 'home_index')),
+                titleKey: util.handleTitle(vm, util.getRouterObjByName(vm.$store.state.app.routers, 'home_index')),
                 path: '/home',
                 name: 'home_index'
             },
             {
-                title: title,
+                titleKey: titleKey,
                 path: '',
                 name: name
             }
@@ -133,18 +134,18 @@ util.setCurrentPath = function(vm, name) {
         })[0];
         if (currentPathObj.children.length <= 1 && currentPathObj.name === 'home') {
             currentPathArr = [{
-                title: '首页',
+                titleKey: 'index',
                 path: '',
                 name: 'home_index'
             }];
         } else if (currentPathObj.children.length <= 1 && currentPathObj.name !== 'home') {
             currentPathArr = [{
-                    title: '首页',
+                    titleKey: 'index',
                     path: '/home',
                     name: 'home_index'
                 },
                 {
-                    title: currentPathObj.title,
+                    titleKey: currentPathObj.titleKey,
                     path: '',
                     name: name
                 }
@@ -154,17 +155,17 @@ util.setCurrentPath = function(vm, name) {
                 return child.name === name;
             })[0];
             currentPathArr = [{
-                    title: '首页',
+                    titleKey: 'index',
                     path: '/home',
                     name: 'home_index'
                 },
                 {
-                    title: currentPathObj.title,
+                    titleKey: currentPathObj.titleKey,
                     path: '',
                     name: currentPathObj.name
                 },
                 {
-                    title: childObj.title,
+                    titleKey: childObj.titleKey,
                     path: currentPathObj.path + '/' + childObj.path,
                     name: name
                 }
@@ -264,4 +265,43 @@ util.numToFixed=function(number,scale){
     return new Number(number).toFixed(scale);
 }
 
+util.parseTime = function(time, cFormat, xArr, aArr) {
+    if ((time + "").length === 10) {
+        time = +time * 1000;
+    }
+    xArr = xArr && xArr.length === 2 ? xArr : ['AM', 'PM']
+    aArr = aArr && aArr.length === 7 ? aArr : ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    const format = cFormat || "{y}-{m}-{d} {h}:{i}:{s}";
+    let date;
+    if (typeof time === "object") {
+        date = time;
+    } else if (!isNaN(parseInt(time))){
+        date = new Date(parseInt(time));
+    } else {
+        date = new Date(time);
+    }
+    const formatObj = {
+        y: date.getFullYear(),
+        m: date.getMonth() + 1,
+        d: date.getDate(),
+        h: date.getHours(),
+        i: date.getMinutes(),
+        s: date.getSeconds(),
+        a: date.getDay()
+    };
+    const timeStr = format.replace(/{(y|m|d|h|i|s|a|x)+}/g, (result, key) => {
+        let value = formatObj[key];
+        if (key === "x") {
+            let h = formatObj['h']
+            return h <= 12 ? xArr[0] : xArr[1]
+        }
+        if (key === "a")
+            return aArr[value - 1];
+        if (result.length > 0 && value < 10) {
+            value = "0" + value;
+        }
+        return value || 0;
+    });
+    return timeStr;
+}
 export default util;

@@ -8,7 +8,7 @@ import javax.persistence.Id;
 /**
  * 国家
  *
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年02月10日
  */
 @Data

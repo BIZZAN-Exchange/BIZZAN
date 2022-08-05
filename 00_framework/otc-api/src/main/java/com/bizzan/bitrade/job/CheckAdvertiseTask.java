@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import com.bizzan.bitrade.core.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -14,15 +15,14 @@ import com.bizzan.bitrade.entity.OtcCoin;
 import com.bizzan.bitrade.exception.InformationExpiredException;
 import com.bizzan.bitrade.service.AdvertiseService;
 import com.bizzan.bitrade.service.OtcCoinService;
-import  com.bizzan.bitrade.core.DataException;
 
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年02月01日
  */
-@Component
+//@Component
 @Slf4j
 public class CheckAdvertiseTask {
     @Autowired
@@ -32,12 +32,12 @@ public class CheckAdvertiseTask {
     @Autowired
     private AdvertiseService advertiseService;
 
-    @Scheduled(fixedRate = 60000 * 30)
+    //    @Scheduled(fixedRate = 60000 * 30)
     public void checkExpireOrder() {
         log.info("=========开始检查自动下架的广告===========");
         //支持的币种
         List<OtcCoin> list = otcCoinService.getNormalCoin();
-        Map<String, BigDecimal> map = coins.getCoins();
+        Map<String, BigDecimal> map = coins.getCoins().get("CNY");
         list.stream().forEach(
                 x -> {
                     BigDecimal marketPrice = map.get(x.getUnit());
@@ -57,7 +57,7 @@ public class CheckAdvertiseTask {
                         );
                     } catch (SQLException e) {
                         e.printStackTrace();
-                    } catch (DataException e) {
+                    }catch (DataException e) {
                         e.printStackTrace();
                     }
                 }

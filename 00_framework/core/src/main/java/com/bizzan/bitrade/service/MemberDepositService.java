@@ -6,15 +6,11 @@ import com.bizzan.bitrade.entity.MemberDeposit;
 import com.bizzan.bitrade.entity.QMember;
 import com.bizzan.bitrade.entity.QMemberDeposit;
 import com.bizzan.bitrade.service.Base.BaseService;
-import com.bizzan.bitrade.service.Base.TopBaseService;
-import com.bizzan.bitrade.util.PredicateUtils;
 import com.bizzan.bitrade.vo.MemberDepositVO;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

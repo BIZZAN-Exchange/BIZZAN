@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * 微信信息
  *
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年01月16日
  */
 @Data

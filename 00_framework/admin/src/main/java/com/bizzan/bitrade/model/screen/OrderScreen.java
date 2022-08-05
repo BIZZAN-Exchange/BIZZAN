@@ -1,10 +1,9 @@
 package com.bizzan.bitrade.model.screen;
 
+import com.bizzan.bitrade.constant.AdvertiseType;
 import lombok.Data;
 
 import java.math.BigDecimal;
-
-import com.bizzan.bitrade.constant.AdvertiseType;
 
 @Data
 public class OrderScreen extends OtcOrderTopScreen{
@@ -16,4 +15,5 @@ public class OrderScreen extends OtcOrderTopScreen{
     private BigDecimal minMoney;
     private BigDecimal maxMoney;
     private AdvertiseType advertiseType ;
+    Integer isOut;
 }

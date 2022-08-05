@@ -10,7 +10,7 @@ import com.bizzan.bitrade.service.SysPermissionService;
 import com.bizzan.bitrade.util.MessageResult;
 import com.mysema.commons.lang.Assert;
 import com.querydsl.core.types.dsl.BooleanExpression;
-
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-
+@Slf4j
 @RestController
 @RequestMapping("/system/permission")
 public class PermissionController extends BaseController {

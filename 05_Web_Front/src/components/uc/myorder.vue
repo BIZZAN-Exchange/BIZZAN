@@ -233,21 +233,21 @@ export default {
         // width: 80,
         ellipsis: "true",
         align: "center",
-        render: function(h, params) {
-          return h("p", [
-            h(
-              "a",
-              {
-                on: {
-                  click: function() {
-                    self.$router.push("/checkuser?id=" + params.row.name);
-                  }
-                }
-              },
-              params.row.name
-            )
-          ]);
-        }
+        // render: function(h, params) {
+        //   return h("p", [
+        //     h(
+        //       "a",
+        //       {
+        //         on: {
+        //           click: function() {
+        //             self.$router.push("/checkuser?id=" + params.row.name);
+        //           }
+        //         }
+        //       },
+        //       params.row.name
+        //     )
+        //   ]);
+        // }
       });
       columns.push({
         title: this.$t("uc.otcorder.amount"),

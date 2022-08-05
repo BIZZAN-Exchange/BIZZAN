@@ -1,10 +1,7 @@
 package com.bizzan.bitrade.controller;
 
-import com.sun.media.jfxmedia.logging.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.bizzan.bitrade.util.CaptchaUtil;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;

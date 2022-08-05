@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 @Data
 public class CoinThumb {
     private String symbol;
+    private Long time;
     private BigDecimal open = BigDecimal.ZERO;
     private BigDecimal high= BigDecimal.ZERO;
     private BigDecimal low= BigDecimal.ZERO;

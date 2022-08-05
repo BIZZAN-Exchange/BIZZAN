@@ -2,9 +2,7 @@
   <div>
     <Card>
       <p slot="title">
-      个人中心
-        
-      </p>
+      {{ $t('common.personalcenter') }} </p>
 
       <Row >
         <Table 
@@ -17,16 +15,16 @@
 
       <Modal
         v-model="showModel"
-        title="修改密码"
+        :title="$t('personalcenter.changepassword')"
         width=400
         @on-ok="confirmSub"
-        @on-cancel="$Message.info('已取消！')">
+        @on-cancel="$Message.info(this.$t('personalcenter.cancel'))">
         <Form :model="userPW" :label-width="60" label-position="right" :rules="checkPass">
-          <FormItem label="旧密码：" prop="lastPassword">
-            <Input type="password" v-model="userPW.lastPassword" placeholder="请输入旧密码"></Input>
+          <FormItem :label="$t('personalcenter.lastPassword')" prop="lastPassword">
+            <Input type="password" v-model="userPW.lastPassword" :placeholder="$t('personalcenter.lastPasswordplaceholder')"></Input>
           </FormItem>
-           <FormItem label="新密码：" prop="newPassword">
-            <Input type="password" v-model="userPW.newPassword" placeholder="请输入新密码"></Input>
+           <FormItem :label="$t('personalcenter.newPassword')" prop="newPassword">
+            <Input type="password" v-model="userPW.newPassword" :placeholder="$t('personalcenter.newPasswordplaceholder')"></Input>
           </FormItem>
         </Form>
       </Modal>
@@ -43,28 +41,28 @@ export default {
   data() {
     return {
       checkPass: {
-        lastPassword:  { required: true, message: '不能为空', trigger: 'change' },
-        newPassword:  { required: true, message: '不能为空', trigger: 'change' }
+        lastPassword:  { required: true, message: this.$t('common.notblank'), trigger: 'change' },
+        newPassword:  { required: true, message: this.$t('common.notblank'), trigger: 'change' }
       },
       column_frist: [
         {
-          title: '用户名',
+          title: this.$t('personalcenter.username'),
           key: 'username'
         },
         {
-          title: '所在部门',
+          title: this.$t('personalcenter.departmentName'),
           key: 'departmentName'
         },
         {
-          title: '拥有权限',
+          title: this.$t('personalcenter.role'),
           key: 'role'
         },
         {
-          title: '电话号码',
+          title: this.$t('personalcenter.mobilePhone'),
           key: 'mobilePhone'
         },
         {
-          title: '邮箱',
+          title: this.$t('personalcenter.email'),
           key: 'email'
         },
         {
@@ -73,7 +71,7 @@ export default {
         },
         {
 
-          title: '操作',
+          title: this.$t('common.option'),
           render : (h, obj) => {
              return h ( 'Button',{
                props: {
@@ -85,7 +83,7 @@ export default {
                    this.showModel = true;
                  }
                }
-             }, '修改密码' )
+             }, this.$t('personalcenter.changepassword') )
           }
         },
       ],
@@ -114,7 +112,7 @@ export default {
           }else this.$Message.error(res.message);
         })
         .catch( err => console.log(err))
-      }else this.$Message.warning('请完善信息！')
+      }else this.$Message.warning(this.$t('personalcenter.completeinformation'))
     }
   },
   created() {

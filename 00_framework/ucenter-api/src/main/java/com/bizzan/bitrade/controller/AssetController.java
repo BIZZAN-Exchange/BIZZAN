@@ -1,19 +1,20 @@
 package com.bizzan.bitrade.controller;
 
 
-import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
-import static org.springframework.util.Assert.hasText;
-
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import com.bizzan.bitrade.constant.WalletType;
-import com.bizzan.bitrade.entity.*;
+import com.alibaba.fastjson.JSONObject;
+import com.bizzan.bitrade.constant.TransactionType;
+import com.bizzan.bitrade.entity.Member;
+import com.bizzan.bitrade.entity.MemberWallet;
+import com.bizzan.bitrade.entity.QuickExchange;
+import com.bizzan.bitrade.entity.transform.AuthMember;
+import com.bizzan.bitrade.es.ESUtils;
 import com.bizzan.bitrade.service.*;
+import com.bizzan.bitrade.system.CoinExchangeFactory;
+import com.bizzan.bitrade.util.DateUtil;
 import com.bizzan.bitrade.util.Md5;
+import com.bizzan.bitrade.util.MessageResult;
+import com.bizzan.bitrade.core.Convert;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
@@ -23,23 +24,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
-
-import com.alibaba.fastjson.JSONObject;
-import com.bizzan.bitrade.constant.TransactionType;
-import com.bizzan.bitrade.entity.transform.AuthMember;
-import com.bizzan.bitrade.es.ESUtils;
-import com.bizzan.bitrade.system.CoinExchangeFactory;
-import com.bizzan.bitrade.util.DateUtil;
-import com.bizzan.bitrade.util.MessageResult;
-import com.bizzan.bitrade.core.Convert;
-
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
+import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
+import static org.springframework.util.Assert.hasText;
 
 @RestController
 @RequestMapping("/asset")
@@ -84,7 +80,15 @@ public class AssetController {
     @RequestMapping("wallet")
     public MessageResult findWallet(@SessionAttribute(SESSION_MEMBER) AuthMember member) {
         List<MemberWallet> wallets = walletService.findAllByMemberId(member.getId());
-        wallets.forEach(wallet -> {
+
+
+        Iterator<MemberWallet> iterator = wallets.iterator();
+        while (iterator.hasNext()){
+            MemberWallet wallet = iterator.next();
+            if(1==wallet.getCoin().getStatus().getOrdinal() && wallet.getBalance().compareTo(BigDecimal.ZERO)<=0){
+                iterator.remove();
+                continue;
+            }
             CoinExchangeFactory.ExchangeRate rate = coinExchangeFactory.get(wallet.getCoin().getUnit());
             if (rate != null) {
                 wallet.getCoin().setUsdRate(rate.getUsdRate().doubleValue());
@@ -94,21 +98,21 @@ public class AssetController {
             }
             // 生成Memo
             if(wallet.getCoin().getAccountType() == 1) {
-            	// 门罗币特殊处理（Memo是64位的paymentId）
-            	if(wallet.getCoin().getUnit().equals("XMR")) {
-            		// 生成64位Hash，然后将其中1,9,17,25,33,41,49,57位替换
-            		StringBuilder hash = new StringBuilder(DigestUtils.md5Hex(String.valueOf(wallet.getMemberId())) + DigestUtils.md5Hex(String.valueOf(wallet.getMemberId()+1)));
-            		String hexId = String.format("%08x", wallet.getMemberId());
-            		for(int i = 0; i < 8; i++) {
-            			hash.setCharAt((i*8 + 1), hexId.charAt(i));
-            		}
-            		wallet.setMemo(hash.toString());
-            	}else {
-            		wallet.setMemo(String.valueOf(wallet.getMemberId() + 345678)); // 用户ID + 345678
-            	}
+                // 门罗币特殊处理（Memo是64位的paymentId）
+                if(wallet.getCoin().getUnit().equals("XMR")) {
+                    // 生成64位Hash，然后将其中1,9,17,25,33,41,49,57位替换
+                    StringBuilder hash = new StringBuilder(DigestUtils.md5Hex(String.valueOf(wallet.getMemberId())) + DigestUtils.md5Hex(String.valueOf(wallet.getMemberId()+1)));
+                    String hexId = String.format("%08x", wallet.getMemberId());
+                    for(int i = 0; i < 8; i++) {
+                        hash.setCharAt((i*8 + 1), hexId.charAt(i));
+                    }
+                    wallet.setMemo(hash.toString());
+                }else {
+                    wallet.setMemo(String.valueOf(wallet.getMemberId() + 345678)); // 用户ID + 345678
+                }
             }
             wallet.getCoin().setColdWalletAddress(""); // 对前端隐藏冷钱包地址
-        });
+        }
         MessageResult mr = MessageResult.success("success");
         mr.setData(wallets);
         return mr;
@@ -272,6 +276,9 @@ public class AssetController {
      */
     @RequestMapping("wallet/trans-usd")
     public MessageResult transUsd(@SessionAttribute(SESSION_MEMBER) AuthMember member, String fromUnit, String toUnit, BigDecimal amount) {
+        if(BigDecimal.ZERO.compareTo(amount) >= 0){
+            return MessageResult.error("划转数量错误！");
+        }
         try {
             // 判断是否是需要转化的币种
             if(!fromUnit.equals("USDT") && !fromUnit.equals("EUSDT") && !fromUnit.equals("TUSDT")){
@@ -286,6 +293,7 @@ public class AssetController {
             }
             MemberWallet fromWallet = walletService.findByCoinUnitAndMemberId(fromUnit, member.getId());
             Assert.notNull(fromWallet, "币种钱包不存在!");
+
             if(fromWallet.getBalance().compareTo(amount) >= 0) {
                 MemberWallet toWallet = walletService.findByCoinUnitAndMemberId(toUnit, member.getId());
                 Assert.notNull(toWallet, "币种钱包不存在!");

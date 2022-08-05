@@ -1,15 +1,11 @@
 package com.bizzan.bitrade.entity;
 
 import com.bizzan.bitrade.constant.MemberLevelEnum;
-import com.bizzan.bitrade.entity.Country;
-import com.bizzan.bitrade.entity.Location;
-import com.bizzan.bitrade.entity.Member;
-
 import lombok.Builder;
 import lombok.Data;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年01月31日
  */
 @Data

@@ -15,6 +15,7 @@ public class CoinThumb {
     private BigDecimal change = BigDecimal.ZERO.setScale(2);
     private BigDecimal volume = BigDecimal.ZERO.setScale(2);
     private BigDecimal turnover= BigDecimal.ZERO;
+    private BigDecimal feePercent= BigDecimal.ZERO;
     //昨日收盘价
     private BigDecimal lastDayClose = BigDecimal.ZERO;
     //交易币对usd汇率

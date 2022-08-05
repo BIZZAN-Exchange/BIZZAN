@@ -14,8 +14,9 @@ public class Contract {
     private String address;
     private BigInteger gasLimit;
     private String eventTopic0;
-    public EthConvert.Unit getUnit(){
-        if(StringUtils.isEmpty(decimals))return EthConvert.Unit.ETHER;
+
+    public EthConvert.Unit getUnit() {
+        if (StringUtils.isEmpty(decimals)) return EthConvert.Unit.ETHER;
         else return EthConvert.Unit.fromString(decimals);
     }
 }

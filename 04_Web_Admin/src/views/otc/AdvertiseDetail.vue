@@ -2,59 +2,58 @@
 	<div>
 		<Row class="btns">
 			<Button type="primary"  @click="refreshPage"> 
-				<Icon type="refresh"></Icon> 刷新 
+				<Icon type="refresh"></Icon> {{ $t('perpetualcontractcurrencystandardmanagement.refresh') }} 
 			</Button>
 		</Row>
 		<Card>
 			<div slot="title">
-				基本信息
-			</div>
+				{{ $t('essentialinformation.essentialinformation') }}	</div>
 			<div class="baseInfo">
 				<Row>
 					<Col span="6">
-						<p>状态：<span>{{ !baseInfo.status ? '上架' : '下架' }}</span></p>
+						<p>{{ $t('currencywithdrawalauditmanagement.status') }}<span>{{ !baseInfo.status ? '上架' : '下架' }}</span></p>
 					</Col>
 					<Col span="6">
-						<p>交易类型：<span>{{ !baseInfo.advertiseType ? '买入' : '卖出' }}</span></p>
+						<p>{{ $t('servicechargewithdrawaldetails.transactiontype') }}<span>{{ !baseInfo.advertiseType ? '买入' : '卖出' }}</span></p>
 					</Col span="6">
 					<Col span="6">
-						<p>交易币种：<span>{{ !baseInfo.coin ? '' : baseInfo.coin.unit  }}</span></p>
+						<p>{{ $t('essentialinformation.transactioncurrency') }}<span>{{ !baseInfo.coin ? '' : baseInfo.coin.unit  }}</span></p>
 					</Col>
 					<Col span="6">
-						<p>交易货币：<span>{{ !baseInfo.country ? '' : baseInfo.country.localCurrency }}</span></p>
+						<p>{{ $t('essentialinformation.transactioncurrency1') }}<span>{{ !baseInfo.country ? '' : baseInfo.country.localCurrency }}</span></p>
 					</Col>
 				</Row>
 				<Row>
 					<Col span="6">
-						<p>交易期限：<span>{{ baseInfo.timeLimit }}分钟</span></p>
+						<p>{{ $t('essentialinformation.transactionterm') }}<span>{{ $t('baseinfotimelimit-fen-zhong', [baseInfo.timeLimit]) }}</span></p>
 					</Col>
 					<Col span="6">
-						<p>买入量：<span>{{ baseInfo.dealAmount }}</span></p>
+						<p>{{ $t('essentialinformation.purchasevolume') }}<span>{{ baseInfo.dealAmount }}</span></p>
 					</Col span="6">
 					<Col span="6">
-						<p>国家：<span>{{ !baseInfo.country ? '' : baseInfo.country.zhName }}</span></p>
+						<p>{{ $t('essentialinformation.country') }}<span>{{ !baseInfo.country ? '' : baseInfo.country.zhName }}</span></p>
 					</Col>
 					<Col span="6">
-						<p>付款方式：<span>{{ baseInfo.payMode }}</span></p>
+						<p>{{ $t('essentialinformation.paymentmethod') }}<span>{{ baseInfo.payMode }}</span></p>
 					</Col>
 				</Row>
 				<Row>
 					<Col span="6">
-						<p>最小交易额：<span>{{ baseInfo.minLimit }}</span></p>
+						<p>{{ $t('essentialinformation.minimumtransactionamount') }}<span>{{ baseInfo.minLimit }}</span></p>
 					</Col>
 					<Col span="6">
-						<p>最大交易额：<span>{{ baseInfo.maxLimit }}</span></p>
+						<p>{{ $t('essentialinformation.maximumtransactionvolume') }}<span>{{ baseInfo.maxLimit }}</span></p>
 					</Col span="6">
 					<Col span="6">
-						<p>固定价格：<span>{{ baseInfo.price }}</span></p>
+						<p>{{ $t('essentialinformation.fixedprice') }}<span>{{ baseInfo.price }}</span></p>
 					</Col>
 				</Row>
 				<Row>
 					<Col span="6">
-						<p>备注信息：<span>{{ baseInfo.remark }}</span></p>
+						<p>{{ $t('essentialinformation.remarks') }}<span>{{ baseInfo.remark }}</span></p>
 					</Col>
 					<Col span="6" offset="6">
-						<p>自动回复：<span>{{ !baseInfo.auto ? '是' : '否'}}</span></p>
+						<p>{{ $t('essentialinformation.autoreply') }}<span>{{ !baseInfo.auto ? '是' : '否'}}</span></p>
 					</Col span="6">
 				</Row>
 			</div>
@@ -63,8 +62,7 @@
 			<br>
 		<Card>
 			<div slot="title">
-				订单明细
-				<!-- <Button type="primary" size="small" @click="refreshPageManual">
+				{{ $t('essentialinformation.orderdetails') }}	<!-- <Button type="primary" size="small" @click="refreshPageManual">
 					<Icon type="refresh"></Icon> 刷新
 				</Button> -->
 			</div>
@@ -107,11 +105,11 @@ export default {
 			},
 			columnsList: [
 				{
-					title: '订单号',
+					title: this.$t('detailsofcurrencyentrustment.orderno'),
 					key: 'orderSn'
 				},
 				{
-					title: '交易人',
+					title: this.$t('transactiondetailsinlegalcurrency.trader'),
 					key: 'customerName',
 					render: (h, obj) => {
 						let cName = obj.row.customerName;
@@ -120,27 +118,27 @@ export default {
 					}
 				},
 				{
-					title: '交易时间',
+					title: this.$t('transactiondetailsinlegalcurrency.transactiontime'),
 					key: 'createTime'
 				},
 				{
-					title: '订单数量',
+					title: this.$t('transactiondetailsinlegalcurrency.orderquantity'),
 					key: 'number'
 				},
 				{
-					title: '订单金额',
+					title: this.$t('essentialinformation.orderamount'),
 					key: 'money'
 				},
 				{
-					title: '手续费',
+					title: this.$t('transactiondetailsinlegalcurrency.handlingcharges'),
 					key: 'fee'
 				},
 				{
-					title: '支付方式',
+					title: this.$t('transactiondetailsinlegalcurrency.paymentmethod'),
 					key: 'payMode'
 				},
 				{
-					title: '订单状态',
+					title: this.$t('essentialinformation.orderstatus'),
 					key: 'status'
 
 				},

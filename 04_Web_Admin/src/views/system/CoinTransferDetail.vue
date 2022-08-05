@@ -2,11 +2,9 @@
   <div>
     <Card>
       <p slot="title">
-        转入明细
-        <Button type="primary" size="small" @click="refreshPageManual">
+        {{ $t('transferindetails.transferindetails') }} <Button type="primary" size="small" @click="refreshPageManual">
           <Icon type="refresh"></Icon>
-          刷新
-        </Button>
+          {{ $t('perpetualcontractcurrencystandardmanagement.refresh') }} </Button>
       </p>
 
       <Row>
@@ -46,19 +44,19 @@ export default {
 					key: 'id'
 				},
 				{
-          title: "转入币种",
+          title: this.$t('transferindetails.transferincurrency'),
           key: "unit"
 				},
         {
-          title: "转入时间",
+          title: this.$t('transferindetails.transferintime'),
           key: "transferTime"
         },
          {
-          title: "转入数量",
+          title: this.$t('transferindetails.transferinquantity'),
           key: "amount"
         },
         {
-					title: "钱包余额",
+					title: this.$t('transferindetails.walletbalance'),
 					key: 'balance',
 					render: (h, obj) => {
 							let num = obj.row.balance;
@@ -69,7 +67,7 @@ export default {
 						}
         },
         {
-          title: "最小手续费",
+          title: this.$t('transferindetails.minimumhandlingcharge'),
 					key: "minerFee",
 					render: (h, obj) => {
 						let num = obj.row.minerFee;
@@ -80,15 +78,15 @@ export default {
 					}
         },
 				{
-          title: "操作人",
+          title: this.$t('transferindetails.operator'),
           key: "adminName"
 				},
 				{
-          title: "冷钱包地址",
+          title: this.$t('transferindetails.coldwalletaddress'),
           key: "coldAddress"
 				},
 				{
-          title: "转入单号",
+          title: this.$t('transferindetails.transferinno'),
           key: "transactionNumber"
 				},
 				

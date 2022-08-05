@@ -1,12 +1,15 @@
 /*
  * Copyright (c) 2017-2018 阿期米德 All Rights Reserved.
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @Date: 2019/7/10 14:06
  * @Version: 1.0
  * History:
  * v1.0.0, sanfeng,  2019/7/10 14:06, Create
  */
 package com.bizzan.bitrade;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,13 +19,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.junit.Test;
-
 /**
  * <p>Description: </p>
  *
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @Date: 2019/7/10 14:06
  */
 public class LockFreeTest {

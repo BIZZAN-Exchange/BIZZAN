@@ -9,7 +9,6 @@ import com.bizzan.bitrade.dao.MemberDao;
 import com.bizzan.bitrade.entity.*;
 import com.bizzan.bitrade.service.*;
 import com.bizzan.bitrade.util.BigDecimalUtils;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +20,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年01月09日
  */
 @Service
@@ -48,7 +47,10 @@ public class MemberEvent {
      */
     @Value("${commission.need.real-name:1}")
     private int needRealName;
-    
+
+    @Autowired
+    private MemberRecordService memberRecordService;
+
     @Value("${commission.promotion.second-level:0}")
     private int promotionSecondLevel ;
 
@@ -71,6 +73,7 @@ public class MemberEvent {
             Member member1 = memberDao.findMemberByPromotionCode(promotionCode);
             if (member1 != null) {
                 member.setInviterId(member1.getId());
+                memberDao.updateInviterId(member.getId(),member1.getId());
                 //如果不需要实名认证，直接发放奖励
                 if (needRealName == 0) {
                     promotion(member1, member);
@@ -91,11 +94,13 @@ public class MemberEvent {
         //推广活动
         if (inviterMember != null) {
             member.setInviterId(inviterMember.getId());
+            memberDao.updateInviterId(member.getId(),inviterMember.getId());
             //如果不需要实名认证，直接发放奖励
             if (needRealName == 0) {
                 promotion(inviterMember, member);
             }
         }
+
         //增加upper关系
         memberWeightUpperService.saveMemberWeightUpper(member);
     }
@@ -181,6 +186,38 @@ public class MemberEvent {
             Member member3 = memberDao.findOne(member2.getInviterId());
             member3.setThirdLevel(member3.getThirdLevel() + 1);
         }
+    }
+
+    public void onLoginFail(String phone, String email, String ip, String remark) {
+        memberRecordLog(ip, phone, email, "login", null, "failed", 1, "用户登录失败");
+    }
+
+    private void memberRecordLog(String ip, String phone, String email, String action, Long memberId, String result, int type, String remark){
+        //if(reg.matcher(ip).find()) return;
+
+        MemberRecord mr = new MemberRecord();
+
+        mr.setIp(ip);
+        mr.setAction(action);
+        mr.setEmail(email);
+        mr.setPhone(phone);
+        mr.setMemberId(memberId);
+        mr.setResult(result);
+        mr.setCreateTime(new Date());
+        mr.setAnalysised(0); // 未解析IP地址信息
+        mr.setActionType(type); // 登录失败
+
+        mr.setIsoCode("");
+        mr.setCountryName("");
+        mr.setCountryNameZh("");
+        mr.setSubdivision("");
+        mr.setSubdivisionZh("");
+        mr.setCityName("");
+        mr.setCityNameZh("");
+        mr.setLatitude("");
+        mr.setLongitude("");
+        mr.setRemark(remark);
+        memberRecordService.save(mr);
     }
 
 }

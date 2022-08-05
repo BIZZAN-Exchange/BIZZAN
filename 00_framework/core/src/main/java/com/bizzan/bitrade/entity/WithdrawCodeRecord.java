@@ -1,22 +1,18 @@
 package com.bizzan.bitrade.entity;
 
-import com.bizzan.bitrade.constant.AuditStatus;
-import com.bizzan.bitrade.constant.BooleanEnum;
 import com.bizzan.bitrade.constant.WithdrawStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import javax.security.auth.message.AuthStatus;
 import java.math.BigDecimal;
 import java.util.Date;
 
 /**
  * 提币申请(提币码)
  *
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年01月29日
  */
 @Entity

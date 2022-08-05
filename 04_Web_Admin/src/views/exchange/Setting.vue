@@ -1,32 +1,31 @@
 <template>
  <div>
-	 <!-- 待优化 2018年4月16日15:33:35 -->
+	 
     <Card>
 			<p slot="title">
-			  币币设置
-        <Button type="primary" size="small" @click="refreshPageManual">
-          <Icon type="refresh"></Icon>刷新
+			  {{ $t('currencysetting.currencysetting') }} <Button type="primary" size="small" @click="refreshPageManual">
+          <Icon type="refresh"></Icon>{{ $t('perpetualcontractcurrencystandardmanagement.refresh') }}
         </Button>
 			</p>
       <Row class="functionWrapper" style='padding:0px 8px 8px 8px'>
         <Col span="18">
           <div class="searchWrapper" style="float:left;">
               <div class="poptip">
-                  <Input placeholder="币种名称" v-model="searchSymbol" /></Input>
+                  <Input :placeholder="$t('collectionconfigurationmanagement.currencyname1')" v-model="searchSymbol" /></Input>
               </div>
               <div class="poptip">/</div>
               <div class="poptip">
-                  <Input placeholder="基础币种名" v-model="searchBase" /></Input>
+                  <Input :placeholder="$t('currencysetting.nameofbasecurrency')" v-model="searchBase" /></Input>
               </div>
               <div class="btns">
-                  <Button type="info" @click="search">搜索</Button>
+                  <Button type="info" @click="search">{{ $t('positionmanagementcontractassetmanagement.search') }}</Button>
               </div>
           </div>
         </Col>
         <Col span="6">
           <div style="float: right" class="clearfix">
-            <Button type="error" @click="delcoin" >删除交易对</Button>
-            <Button type="primary"@click="addcoin">添加交易对</Button>
+            <Button type="error" @click="delcoin" >{{ $t('currencysetting.deletetransactionpair') }}</Button>
+            <Button type="primary"@click="addcoin">{{ $t('perpetualcontractcurrencystandardmanagement.addtransactionpair') }}</Button>
 
           </div>
         </Col>
@@ -35,95 +34,95 @@
       <Modal
           class="auditModel"
           v-model="fixModel"
-          title="修改信息"
+          :title="$t('currencysetting.modifyinformation')"
           @on-ok="confirmClicked">
           <ul>
-            <li><span><i>*</i> 交易对：</span>
+            <li><span><i>*</i> {{ $t('perpetualcontractcurrencystandardmanagement.transactionpair') }}</span>
               <p>
                 <Input v-model="fixSymbol" disabled></Input>
                 <span>{{ }}</span>
               </p>
             </li>
 
-            <li><span><i>*</i> 手续费：</span>
+            <li><span><i>*</i> {{ $t('transactiondetailsinlegalcurrency.servicecharge') }}</span>
                 <p><Input v-model="fee"
                  :class="{'errorFormatBorder': feeClass}"
                   @on-change="checkFee(fee)"></Input>
                 </p>
-                <em v-show="feeClass">格式不正确</em>
+                <em v-show="feeClass">{{ $t('currencysetting.incorrectformat') }}</em>
             </li>
 
-            <li><span><i>*</i> 状态：</span>
+            <li><span><i>*</i> {{ $t('currencywithdrawalauditmanagement.status') }}</span>
               <p>
                 <RadioGroup v-model="fixEnable">
-                  <Radio label="1"><em>启用(上架)</em></Radio>
-                  <Radio label="2"><em>禁止(下架)</em></Radio>
+                  <Radio label="1"><em>{{ $t('currencysetting.enableontheshelf') }}</em></Radio>
+                  <Radio label="2"><em>{{ $t('currencysetting.forbiddenofftheshelf') }}</em></Radio>
                 </RadioGroup>
               </p>
             </li>
-            <li><span><i>*</i> 前端显示：</span>
+            <li><span><i>*</i> {{ $t('currencysetting.frontenddisplay') }}</span>
               <p>
                 <RadioGroup v-model="fixVisible">
-                  <Radio label="1"><em>显示</em></Radio>
-                  <Radio label="2"><em>隐藏</em></Radio>
+                  <Radio label="1"><em>{{ $t('perpetualcontractcurrencystandardmanagement.display') }}</em></Radio>
+                  <Radio label="2"><em>{{ $t('perpetualcontractcurrencystandardmanagement.hide') }}</em></Radio>
                 </RadioGroup>
               </p>
             </li>
-            <li><span><i>*</i> 是否可交易：</span>
+            <li><span><i>*</i> {{ $t('currencysetting.tradable') }}</span>
               <p>
                 <RadioGroup v-model="fixExchangeable">
-                  <Radio label="1"><em>是</em></Radio>
-                  <Radio label="2"><em>否</em></Radio>
+                  <Radio label="1"><em>{{ $t('perpetualcontractcurrencystandardmanagement.yes') }}</em></Radio>
+                  <Radio label="2"><em>{{ $t('perpetualcontractcurrencystandardmanagement.no') }}</em></Radio>
                 </RadioGroup>
               </p>
             </li>
-            <li><span><i>*</i> 市价买：</span>
+            <li><span><i>*</i> {{ $t('currencysetting.marketprice') }}</span>
               <p>
                 <RadioGroup v-model="fixEnableMarketBuy">
-                  <Radio label="1"><em>可以</em></Radio>
-                  <Radio label="0"><em>不可以</em></Radio>
+                  <Radio label="1"><em>{{ $t('currencysetting.sure') }}</em></Radio>
+                  <Radio label="0"><em>{{ $t('currencysetting.maynot') }}</em></Radio>
                 </RadioGroup>
               </p>
             </li>
-            <li><span><i>*</i> 市价卖：</span>
+            <li><span><i>*</i> {{ $t('currencysetting.marketprice1') }}</span>
               <p>
                 <RadioGroup v-model="fixEnableMarketSell">
-                  <Radio label="1"><em>可以</em></Radio>
-                  <Radio label="0"><em>不可以</em></Radio>
+                  <Radio label="1"><em>{{ $t('currencysetting.sure') }}</em></Radio>
+                  <Radio label="0"><em>{{ $t('currencysetting.maynot') }}</em></Radio>
                 </RadioGroup>
               </p>
             </li>
 
-            <li><span><i>*</i> 可买：</span>
+            <li><span><i>*</i> {{ $t('currencysetting.available') }}</span>
               <p>
                 <RadioGroup v-model="fixEnableBuy">
-                  <Radio label="1"><em>可以</em></Radio>
-                  <Radio label="0"><em>不可以</em></Radio>
+                  <Radio label="1"><em>{{ $t('currencysetting.sure') }}</em></Radio>
+                  <Radio label="0"><em>{{ $t('currencysetting.maynot') }}</em></Radio>
                 </RadioGroup>
               </p>
             </li>
 
-            <li><span><i>*</i> 可卖：</span>
+            <li><span><i>*</i> {{ $t('currencysetting.availableforsale') }}</span>
               <p>
                 <RadioGroup v-model="fixEnableSell">
-                  <Radio label="1"><em>可以</em></Radio>
-                  <Radio label="0"><em>不可以</em></Radio>
+                  <Radio label="1"><em>{{ $t('currencysetting.sure') }}</em></Radio>
+                  <Radio label="0"><em>{{ $t('currencysetting.maynot') }}</em></Radio>
                 </RadioGroup>
               </p>
             </li>
-            <li><span><i>*</i> 排序：</span>
+            <li><span><i>*</i> {{ $t('perpetualcontractcurrencystandardmanagement.sort') }}</span>
               <p><Input v-model="fixSort"
                         :class="{'errorFormatBorder': sortClass}"
-                        @on-change="checksort(fixSort)" placeholder="例：5，须大于4(必须)"></Input>
+                        @on-change="checksort(fixSort)" :placeholder="$t('currencysetting.note44')"></Input>
               </p>
-              <em v-show="sortClass">格式不正确</em>
+              <em v-show="sortClass">{{ $t('currencysetting.incorrectformat') }}</em>
             </li>
 
-            <li><span><i>*</i> 最高买单价：</span>
+            <li><span><i>*</i> {{ $t('currencysetting.maximumpurchaseprice') }}</span>
                 <p><Input v-model="fixMaxBuyPrice"></Input>
                 </p>
             </li>
-            <li><span><i>*</i> 最小下单额：</span>
+            <li><span><i>*</i> {{ $t('currencysetting.minimumorderamount') }}</span>
                 <p><Input v-model="fixMinTurnover"></Input>
                 </p>
             </li>
@@ -133,222 +132,222 @@
       <Modal
           class="auditModel"
           v-model="auditModal"
-          title="添加币种"
+          title="$t('currencymanagement1.addcurrency')"
           width="850"
           @on-ok="confirmAudit">
           <Row :gutter="30">
             <Col span="10">
-              <p class="setting-title">基本信息设置</p>
+              <p class="setting-title">{{ $t('currencysetting.basicinformationsettings') }}</p>
               <ul>
-                <li><span><i>*</i> 交易对：</span>
+                <li><span><i>*</i> {{ $t('perpetualcontractcurrencystandardmanagement.transactionpair') }}</span>
                   <p>
                     <Input v-model="symbol"
                            :class="{'errorFormatBorder': checkSymbolClass}"
-                           @on-change="checkPair(symbol)" placeholder="例: BTC/USDT(必须)"></Input>
+                           @on-change="checkPair(symbol)" :placeholder="$t('currencysetting.examplebtcrequired')"></Input>
                   </p>
-                  <em v-show="checkSymbolClass">格式不正确</em>
+                  <em v-show="checkSymbolClass">{{ $t('currencysetting.incorrectformat') }}</em>
                 </li>
-                <li><span><i>*</i> 交易币种：</span>
+                <li><span><i>*</i> {{ $t('essentialinformation.transactioncurrency') }}</span>
                   <p><Input v-model="coinSymbol"
                             :class="{'errorFormatBorder': coinSymbolClass}"
-                            @on-change="checkCoinSymbol(coinSymbol)"  placeholder="例: BTC(必须)"></Input>
+                            @on-change="checkCoinSymbol(coinSymbol)"  :placeholder="$t('currencysetting.examplebtcrequired')"></Input>
                   </p>
-                  <em v-show="coinSymbolClass">格式不正确</em>
+                  <em v-show="coinSymbolClass">{{ $t('currencysetting.incorrectformat') }}</em>
                 </li>
 
-                <li><span><i>*</i> 结算币种：</span>
+                <li><span><i>*</i> {{ $t('currencysetting.settlementcurrency') }}</span>
                   <p><Input v-model="baseSymbol"
                             :class="{'errorFormatBorder': baseSymbolClass}"
-                            @on-change="checkbaseSymbol(baseSymbol)" placeholder="例: USDT(必须)"></Input>
+                            @on-change="checkbaseSymbol(baseSymbol)" :placeholder="$t('currencysetting.exampleusdtrequired')"></Input>
                   </p>
-                   <em v-show="baseSymbolClass">格式不正确</em>
+                   <em v-show="baseSymbolClass">{{ $t('currencysetting.incorrectformat') }}</em>
                 </li>
-                <li><span><i>*</i> 手续费：</span>
+                <li><span><i>*</i> {{ $t('transactiondetailsinlegalcurrency.servicecharge') }}</span>
                   <p><Input v-model="fee"
                    :class="{'errorFormatBorder': feeClass}"
-                    @on-change="checkFee(fee)" placeholder="例: 0.001(必须)"></Input>
+                    @on-change="checkFee(fee)" :placeholder="$t('currencysetting.note35')"></Input>
                   </p>
-                  <em v-show="feeClass">格式不正确</em>
+                  <em v-show="feeClass">{{ $t('currencysetting.incorrectformat') }}</em>
                 </li>
 
-                <li><span><i>*</i> 币种精度：</span>
+                <li><span><i>*</i> {{ $t('currencyextensionmanagement.currencyaccuracy') }}</span>
                   <p><Input v-model="coinScale"
                             :class="{'errorFormatBorder': coinScaleClass}"
-                            @on-change="checkCoinScale(coinScale)" placeholder="例: 4(必须)"></Input>
+                            @on-change="checkCoinScale(coinScale)" :placeholder="$t('currencysetting.example4required')"></Input>
                   </p>
-                  <em v-show="coinScaleClass">格式不正确</em>
+                  <em v-show="coinScaleClass">{{ $t('currencysetting.incorrectformat') }}</em>
 
                 </li>
 
-                <li><span><i>*</i> 基币小数精度：</span>
+                <li><span><i>*</i> {{ $t('perpetualcontractcurrencystandardmanagement.decimalprecisioninbasecurrency') }}</span>
                   <p><Input v-model="baseCoinScale"
                             :class="{'errorFormatBorder': baseCoinScaleClass}"
-                            @on-change="checkbaseCoinScale(baseCoinScale)" placeholder="例: 6(必须)"></Input>
+                            @on-change="checkbaseCoinScale(baseCoinScale)" :placeholder="$t('currencysetting.example6required')"></Input>
                   </p>
-                  <em v-show="baseCoinScaleClass">格式不正确</em>
+                  <em v-show="baseCoinScaleClass">{{ $t('currencysetting.incorrectformat') }}</em>
                 </li>
-                <li><span><i>*</i> 最低卖单价：</span>
+                <li><span><i>*</i> {{ $t('currencysetting.minimumsellingprice') }}</span>
                   <p><Input v-model="minSellPrice"
                             :class="{'errorFormatBorder': minSellPriceClass}"
-                            @on-change="checkminSellPrice(minSellPrice)" placeholder="不限制: 0.00000000(必须)"></Input>
+                            @on-change="checkminSellPrice(minSellPrice)" :placeholder="$t('currencysetting.note42')"></Input>
                   </p>
-                  <em v-show="minSellPriceClass">格式不正确</em>
+                  <em v-show="minSellPriceClass">{{ $t('currencysetting.incorrectformat') }}</em>
                 </li>
-                <li><span><i>*</i> 最高买单价：</span>
+                <li><span><i>*</i> {{ $t('currencysetting.maximumpurchaseprice') }}</span>
                   <p><Input v-model="maxBuyPrice"
                             :class="{'errorFormatBorder': maxBuyPriceClass}"
-                            @on-change="checkmaxBuyPrice(maxBuyPrice)" placeholder="不限制: 0.00000000(必须)"></Input>
+                            @on-change="checkmaxBuyPrice(maxBuyPrice)" :placeholder="$t('currencysetting.note42')"></Input>
                   </p>
-                  <em v-show="maxBuyPriceClass">格式不正确</em>
+                  <em v-show="maxBuyPriceClass">{{ $t('currencysetting.incorrectformat') }}</em>
                 </li>
-                <li><span><i>*</i> 最小下单量：</span>
+                <li><span><i>*</i> {{ $t('currencysetting.minimumorderquantity') }}</span>
                   <p><Input v-model="minVolume"
                             :class="{'errorFormatBorder': minVolumeClass}"
-                            @on-change="checkminVolume(minVolume)" placeholder="不限制: 0.00000000(必须)"></Input>
+                            @on-change="checkminVolume(minVolume)" :placeholder="$t('currencysetting.note42')"></Input>
                   </p>
-                  <em v-show="minVolumeClass">格式不正确</em>
+                  <em v-show="minVolumeClass">{{ $t('currencysetting.incorrectformat') }}</em>
                 </li>
-                <li><span><i>*</i> 最大下单量：</span>
+                <li><span><i>*</i> {{ $t('currencysetting.maximumorderquantity1') }}</span>
                   <p><Input v-model="maxVolume"
                             :class="{'errorFormatBorder': maxVolumeClass}"
-                            @on-change="checkmaxVolume(maxVolume)" placeholder="不限制: 0.00000000(必须)"></Input>
+                            @on-change="checkmaxVolume(maxVolume)" :placeholder="$t('currencysetting.note42')"></Input>
                   </p>
-                  <em v-show="maxVolumeClass">格式不正确</em>
+                  <em v-show="maxVolumeClass">{{ $t('currencysetting.incorrectformat') }}</em>
                 </li>
-                <li><span><i>*</i> 交易区：</span>
+                <li><span><i>*</i> {{ $t('currencysetting.tradingarea') }}</span>
                   <p><Input v-model="zone"
                             :class="{'errorFormatBorder': zoneClass}"
-                            @on-change="checkzone(zone)" placeholder="0:主板, 1:创新板(必须)"></Input>
+                            @on-change="checkzone(zone)" :placeholder="$t('currencysetting.note20')"></Input>
                   </p>
-                  <em v-show="zoneClass">格式不正确</em>
+                  <em v-show="zoneClass">{{ $t('currencysetting.incorrectformat') }}</em>
                 </li>
-                <li><span><i>*</i>最小挂单额：</span>
+                <li><span><i>*</i>{{ $t('currencysetting.minimumcharge') }}</span>
                   <p><Input v-model="minTurnover"
                             :class="{'errorFormatBorder': minTurnoverClass}"
-                            @on-change="checkminTurnover(minTurnover)" placeholder="不限制: 0.00000000(必须)"></Input>
+                            @on-change="checkminTurnover(minTurnover)" :placeholder="$t('currencysetting.note42')"></Input>
                   </p>
-                  <em v-show="minTurnoverClass">格式不正确</em>
+                  <em v-show="minTurnoverClass">{{ $t('currencysetting.incorrectformat') }}</em>
                 </li>
-                <li><span><i>*</i>排序：</span>
+                <li><span><i>*</i>{{ $t('perpetualcontractcurrencystandardmanagement.sort') }}</span>
                   <p><Input v-model="sort"
                             :class="{'errorFormatBorder': sortClass}"
-                            @on-change="checksort(sort)" placeholder="例：5，须大于4(必须)"></Input>
+                            @on-change="checksort(sort)" :placeholder="$t('currencysetting.note44')"></Input>
                   </p>
-                  <em v-show="sortClass">格式不正确</em>
+                  <em v-show="sortClass">{{ $t('currencysetting.incorrectformat') }}</em>
                 </li>
               </ul>
             </Col>
             <Col span="12">
               <Row :gutter="30">
-                <p class="setting-title">币种活动设置</p>
+                <p class="setting-title">{{ $t('currencysetting.currencyactivitysettings') }}</p>
                 <ul>
-                  <li><span><i>*</i>活动类型：</span>
+                  <li><span><i>*</i>{{ $t('currencysetting.activitytype') }}</span>
                     <p>
                       <RadioGroup v-model="publishType">
-                        <Radio label="1"><em>无活动</em></Radio>
-                        <Radio label="2"><em>抢购发行</em></Radio>
-                        <Radio label="3"><em>分摊发行</em></Radio>
+                        <Radio label="1"><em>{{ $t('currencysetting.noactivity') }}</em></Radio>
+                        <Radio label="2"><em>{{ $t('currencysetting.rushpurchaseandissuance') }}</em></Radio>
+                        <Radio label="3"><em>{{ $t('currencysetting.distribution') }}</em></Radio>
                       </RadioGroup>
                     </p>
                   </li>
-                  <li><span>活动开始时间：</span>
+                  <li><span>{{ $t('currencysetting.activitystarttime') }}</span>
                     <p>
                       <DatePicker v-model="startTime" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="yyyy-MM-dd HH:mm:ss" style="width: 200px"></DatePicker>
                     </p>
-                    <em>抢购发行与分摊发行都需要设置</em>
+                    <em>{{ $t('currencysetting.note6') }}</em>
                   </li>
-                  <li><span>活动结束时间：</span>
+                  <li><span>{{ $t('currencysetting.activityendtime') }}</span>
                     <p>
                       <DatePicker v-model="endTime" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="yyyy-MM-dd HH:mm:ss" style="width: 200px"></DatePicker>
                     </p>
-                    <em>抢购发行与分摊发行都需要设置</em>
+                    <em>{{ $t('currencysetting.note6') }}</em>
                   </li>
-                  <li><span>清盘结束时间：</span>
+                  <li><span>{{ $t('currencysetting.windingupendtime') }}</span>
                     <p>
                       <DatePicker v-model="clearTime" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="yyyy-MM-dd HH:mm:ss" style="width: 200px"></DatePicker>
                     </p>
-                    <em>抢购发行与分摊发行都需要设置</em>
+                    <em>{{ $t('currencysetting.note6') }}</em>
                   </li>
-                  <li><span>分摊发行价：</span>
+                  <li><span>{{ $t('currencysetting.apportionedissueprice') }}</span>
                     <p><Input v-model="publishPrice"
                                style="width: 200px"
                               :class="{'errorFormatBorder': publishPriceClass}"
-                              @on-change="checkpublishPrice(publishPrice)" placeholder="不限制: 0.00000000(必须)"></Input>
+                              @on-change="checkpublishPrice(publishPrice)" :placeholder="$t('currencysetting.note42')"></Input>
                     </p>
-                    <em>抢购发行与分摊发行都需要设置</em>
+                    <em>{{ $t('currencysetting.note6') }}</em>
                   </li>
-                  <li><span>发行数量：</span>
+                  <li><span>{{ $t('currencysetting.numberofissues') }}</span>
                     <p><Input v-model="publishAmount"
-                               style="width: 200px" placeholder="不限制: 10000.00000000(必须)"></Input>
+                               style="width: 200px" :placeholder="$t('currencysetting.note42')"></Input>
                     </p>
-                    <em>抢购发行与分摊发行都需要设置</em>
+                    <em>{{ $t('currencysetting.note6') }}</em>
                   </li>
                 </ul>
               </Row>
               <Row :gutter="30">
-                <p class="setting-title">币种状态设置</p>
+                <p class="setting-title">{{ $t('currencysetting.currencystatussetting') }}</p>
                 <ul>
-                  <li><span><i>*</i> 状态：</span>
+                  <li><span><i>*</i> {{ $t('currencywithdrawalauditmanagement.status') }}</span>
                     <p>
                       <RadioGroup v-model="enable">
-                        <Radio label="1"><em>启用</em></Radio>
-                        <Radio label="2"><em>禁止</em></Radio>
+                        <Radio label="1"><em>{{ $t('perpetualcontractustandardmanagement.enable') }}</em></Radio>
+                        <Radio label="2"><em>{{ $t('perpetualcontractcurrencystandardmanagement.prohibit') }}</em></Radio>
                       </RadioGroup>
                     </p>
                   </li>
-                  <li><span><i>*</i> 前端显示：</span>
+                  <li><span><i>*</i> {{ $t('currencysetting.frontenddisplay') }}</span>
                     <p>
                       <RadioGroup v-model="visible">
-                        <Radio label="1"><em>显示</em></Radio>
-                        <Radio label="2"><em>隐藏</em></Radio>
+                        <Radio label="1"><em>{{ $t('perpetualcontractcurrencystandardmanagement.display') }}</em></Radio>
+                        <Radio label="2"><em>{{ $t('perpetualcontractcurrencystandardmanagement.hide') }}</em></Radio>
                       </RadioGroup>
                     </p>
                   </li>
-                  <li><span><i>*</i> 是否可交易：</span>
+                  <li><span><i>*</i> {{ $t('currencysetting.tradable') }}</span>
                     <p>
                       <RadioGroup v-model="exchangeable">
-                        <Radio label="1"><em>是</em></Radio>
-                        <Radio label="2"><em>否</em></Radio>
+                        <Radio label="1"><em>{{ $t('perpetualcontractcurrencystandardmanagement.yes') }}</em></Radio>
+                        <Radio label="2"><em>{{ $t('perpetualcontractcurrencystandardmanagement.no') }}</em></Radio>
                       </RadioGroup>
                     </p>
                   </li>
-                  <li><span><i>*</i> 市价买：</span>
+                  <li><span><i>*</i> {{ $t('currencysetting.marketprice') }}</span>
                     <p>
                       <RadioGroup v-model="enableMarketBuy">
-                        <Radio label="1"><em>可以</em></Radio>
-                        <Radio label="0"><em>不可以</em></Radio>
+                        <Radio label="1"><em>{{ $t('currencysetting.sure') }}</em></Radio>
+                        <Radio label="0"><em>{{ $t('currencysetting.maynot') }}</em></Radio>
                       </RadioGroup>
                     </p>
                   </li>
-                  <li><span><i>*</i> 市价卖：</span>
+                  <li><span><i>*</i> {{ $t('currencysetting.marketprice1') }}</span>
                     <p>
                       <RadioGroup v-model="enableMarketSell">
-                        <Radio label="1"><em>可以</em></Radio>
-                        <Radio label="0"><em>不可以</em></Radio>
+                        <Radio label="1"><em>{{ $t('currencysetting.sure') }}</em></Radio>
+                        <Radio label="0"><em>{{ $t('currencysetting.maynot') }}</em></Radio>
                       </RadioGroup>
                     </p>
                   </li>
-                  <li><span><i>*</i> 可买：</span>
+                  <li><span><i>*</i> {{ $t('currencysetting.available') }}</span>
                     <p>
                       <RadioGroup v-model="enableBuy">
-                        <Radio label="1"><em>可以</em></Radio>
-                        <Radio label="0"><em>不可以</em></Radio>
+                        <Radio label="1"><em>{{ $t('currencysetting.sure') }}</em></Radio>
+                        <Radio label="0"><em>{{ $t('currencysetting.maynot') }}</em></Radio>
                       </RadioGroup>
                     </p>
                   </li>
-                  <li><span><i>*</i> 可卖：</span>
+                  <li><span><i>*</i> {{ $t('currencysetting.availableforsale') }}</span>
                     <p>
                       <RadioGroup v-model="enableSell">
-                        <Radio label="1"><em>可以</em></Radio>
-                        <Radio label="0"><em>不可以</em></Radio>
+                        <Radio label="1"><em>{{ $t('currencysetting.sure') }}</em></Radio>
+                        <Radio label="0"><em>{{ $t('currencysetting.maynot') }}</em></Radio>
                       </RadioGroup>
                     </p>
                   </li>
-                  <li><span><i>*</i> 机器人类型：</span>
+                  <li><span><i>*</i> {{ $t('currencysetting.robottype') }}</span>
                     <p>
                       <RadioGroup v-model="robotType">
-                        <Radio label="0"><em>一般</em></Radio>
-                        <Radio label="1"><em>控盘</em></Radio>
+                        <Radio label="0"><em>{{ $t('currencysetting.commonly') }}</em></Radio>
+                        <Radio label="1"><em>{{ $t('currencysetting.dashboard') }}</em></Radio>
                       </RadioGroup>
                     </p>
                   </li>
@@ -374,23 +373,23 @@
         @on-change="changePage"
         show-elevator></Page>
       </Row>
-      <p style="font-size:11px;">注意1：【状态】= 下架，无论【可交易】的状态为是或否，都无法交易，并且前台也不显示</p>
-      <p style="font-size:11px;">注意2：【状态】= 上架，且【可交易】= 是，可以正常交易</p>
-      <p style="font-size:11px;">注意3：【状态】= 上架，且【可交易】= 否，不可以交易</p>
-      <p style="font-size:11px;">注意4：【状态】= 上架，且【显示】= 是，前台显示</p>
-      <p style="font-size:11px;">注意5：【状态】用于整体控制交易对，除非下架交易对，否则都应该一直设置为“上架”状态</p>
-      <p style="font-size:11px;">注意6：【可交易】用于控制上架状态的交易对是否可交易，这种情形一般应用于暂停交易或维护交易对时</p>
-      <p style="font-size:11px;">注意7：【显示】用于控制上架状态的交易对是否在前天显示，一般应用于交易对上线前的一些准备工作，如启动交易引擎&行情引擎等</p>
-      <p style="font-size:11px;">注意8：启动引擎前，交易对状态需要设置：【状态】= 上架</p>
-      <p style="font-size:11px;">注意9：停止引擎前，交易对状态需要设置：【可交易】= 是</p>
-      <p style="font-size:11px;">注意10：撤销所有委托前，须在【交易引擎】和【行情引擎】状态同时为“运行中”，且须设置【可交易】= 否，并且等待几分钟确保积累订单被处理完（可通过查看交易引擎委托状态订单数变化进行判断）</p>
-      <p style="font-size:11px;">注意11：新建币种时，【显示】设置为隐藏，【可交易】设置为禁用，然后开启引擎后，等待行情引擎启动后，再将【显示】设置为可见。否则会导致前端无法获取交易列表</p>
+      <p style="font-size:11px;">{{ $t('currencysetting.note18') }}</p>
+      <p style="font-size:11px;">{{ $t('currencysetting.note14') }}</p>
+      <p style="font-size:11px;">{{ $t('currencysetting.note27') }}</p>
+      <p style="font-size:11px;">{{ $t('currencysetting.note45') }}</p>
+      <p style="font-size:11px;">{{ $t('currencysetting.note16') }}</p>
+      <p style="font-size:11px;">{{ $t('currencysetting.note9') }}</p>
+      <p style="font-size:11px;">{{ $t('currencysetting.note33') }}{{ $t('currencysetting.marketengineetc') }}</p>
+      <p style="font-size:11px;">{{ $t('currencysetting.note8') }}</p>
+      <p style="font-size:11px;">{{ $t('currencysetting.note34') }}</p>
+      <p style="font-size:11px;">{{ $t('currencysetting.note24') }}</p>
+      <p style="font-size:11px;">{{ $t('currencysetting.note47') }}</p>
       <hr>
-      <p style="font-size:11px;">外部交易所行情获取：https://api.bizzan.pro/ermarket/thumb/btcusdt</p>
-      <p style="font-size:11px;">获取所有机器人配置：https://api.bizzan.pro/ernormal/robotList</p>
+      <p style="font-size:11px;">{{ $t('currencysetting.note26') }}</p>
+      <p style="font-size:11px;">{{ $t('currencysetting.note3') }}</p>
       <Modal
         v-model="ifDelete"
-        title="删除交易对"
+        :title="$t('currencysetting.deletetransactionpair')"
         @on-ok="confirmDel"
         @on-cancel="$Message.info('已取消！')">
         <p>是否删除选中的{{ deleteArr.length }}项</p>
@@ -398,75 +397,75 @@
 			 <Modal
 					class="auditModel"
 					v-model="loginPassModal"
-					title="请输入登录密码"
+					:title="$t('c2cacceptormanagement.pleaseentertheloginpassword')"
 					width="350"
 					@on-cancle="loginPW = ''"
 					@on-ok="confirmLoginPass">
-					<Input v-model="loginPW" type="password" placeholder="请输入登录密码"></Input>
+					<Input v-model="loginPW" type="password" :placeholder="$t('c2cacceptormanagement.pleaseentertheloginpassword')"></Input>
 			 </Modal>
 
        <Modal
           class="auditModel"
           v-model="startEngineModel"
-          title="启动撮合交易引擎确认"
+          :title="$t('currencysetting.startthematchingtradingengineforconfirmation')"
           width="350"
           @on-cancle="$Message.info('已取消！')"
           @on-ok="confirmClicked">
-          <p style="font-size:20px;font-weight:bold;text-align:center;">启动撮合交易：<span style="color: #FF0000;">{{targetSymbol}}</span></p>
-          <p style="font-size:12px;text-align:center;margin-top: 10px;">确定启动该交易对的撮合交易引擎吗?</p>
+          <p style="font-size:20px;font-weight:bold;text-align:center;">{{ $t('currencysetting.startmatchingtransaction') }}<span style="color: #FF0000;">{{targetSymbol}}</span></p>
+          <p style="font-size:12px;text-align:center;margin-top: 10px;">{{ $t('currencysetting.note5') }}</p>
        </Modal>
 
        <Modal
           class="auditModel"
           v-model="stopEngineModel"
-          title="停止撮合交易引擎确认"
+          :title="$t('currencysetting.stopmatchingtransactionengineconfirmation')"
           width="350"
           @on-cancle="$Message.info('已取消！')"
           @on-ok="confirmClicked">
-          <p style="font-size:20px;font-weight:bold;text-align:center;">停止撮合交易：<span style="color: #FF0000;">{{targetSymbol}}</span></p>
-          <p style="font-size:12px;text-align:center;margin-top: 10px;">确定停止该交易对的撮合交易引擎吗?</p>
+          <p style="font-size:20px;font-weight:bold;text-align:center;">{{ $t('currencysetting.stopmatchingtransactions') }}<span style="color: #FF0000;">{{targetSymbol}}</span></p>
+          <p style="font-size:12px;text-align:center;margin-top: 10px;">{{ $t('currencysetting.note46') }}</p>
        </Modal>
        <Modal
           class="auditModel"
           v-model="cancelAllModel"
-          title="撤销所有委托确认"
+          :title="$t('currencysetting.revokealldelegatedconfirmations')"
           width="350"
           @on-cancle="$Message.info('已取消！')"
           @on-ok="confirmClicked">
-          <p style="font-size:20px;font-weight:bold;text-align:center;">撤销所有委托：<span style="color: #FF0000;">{{targetSymbol}}</span></p>
-          <p style="font-size:12px;text-align:center;margin-top: 10px;">确定撤销该交易对所有委托订单吗?</p>
+          <p style="font-size:20px;font-weight:bold;text-align:center;">{{ $t('currencysetting.revokeallmandates') }}<span style="color: #FF0000;">{{targetSymbol}}</span></p>
+          <p style="font-size:12px;text-align:center;margin-top: 10px;">{{ $t('currencysetting.note38') }}</p>
        </Modal>
        <Modal
           class="auditModel"
           v-model="resetModel"
-          title="重置引擎确认"
+          :title="$t('currencysetting.resetengineconfirmation')"
           width="350"
           @on-cancle="$Message.info('已取消！')"
           @on-ok="confirmClicked">
-          <p style="font-size:20px;font-weight:bold;text-align:center;">重置交易引擎：<span style="color: #FF0000;">{{targetSymbol}}</span></p>
-          <p style="font-size:12px;text-align:center;margin-top: 10px;">确定重置交易引擎吗?</p>
+          <p style="font-size:20px;font-weight:bold;text-align:center;">{{ $t('currencysetting.resettradingengine') }}<span style="color: #FF0000;">{{targetSymbol}}</span></p>
+          <p style="font-size:12px;text-align:center;margin-top: 10px;">{{ $t('currencysetting.areyousuretoresetthetradingengine') }}</p>
        </Modal>
 
        <Modal
           class="auditModel"
           v-model="exchangeEngineModel"
-          title="交易引擎委托明细"
+          :title="$t('currencysetting.transactionengineentrustmentdetails')"
           width="350"
           @on-cancle="confirmExchangeEngineMoel"
           @on-ok="">
           <p style="font-size:20px;font-weight:bold;text-align:center;margin-bottom:20px;"><span style="color: #FF0000;">{{engineTargetSymbol}}</span></p>
           <Row :gutter="30">
             <Col span="12">
-              <p style="font-size:14px;font-weight:bold;text-align:center;margin-bottom: 10px;padding-bottom:10px;border-bottom: 1px solid #B7B7B7;"><span>买单概况</span></p>
-              <p style="font-size:12px;text-align:center;margin-top: 10px;">限价买单：{{engineLimitBuyCount}}</p>
-              <p style="font-size:12px;text-align:center;margin-top: 10px;">市价买单：{{engineMarketBuyCount}}</p>
-              <p style="font-size:12px;text-align:center;margin-top: 10px;">买单深度：{{engineBuyDepth}}</p>
+              <p style="font-size:14px;font-weight:bold;text-align:center;margin-bottom: 10px;padding-bottom:10px;border-bottom: 1px solid #B7B7B7;"><span>{{ $t('currencysetting.billoverview') }}</span></p>
+              <p style="font-size:12px;text-align:center;margin-top: 10px;">{{ $t('currencysetting.note2', [engineLimitBuyCount]) }}</p>
+              <p style="font-size:12px;text-align:center;margin-top: 10px;">{{ $t('currencysetting.note41', [engineMarketBuyCount]) }}</p>
+              <p style="font-size:12px;text-align:center;margin-top: 10px;">{{ $t('currencysetting.note43', [engineBuyDepth]) }}</p>
             </Col>
             <Col span="12">
-              <p style="font-size:14px;font-weight:bold;text-align:center;margin-bottom: 10px;padding-bottom:10px;border-bottom: 1px solid #B7B7B7;"><span>卖单概况</span></p>
-              <p style="font-size:12px;text-align:center;margin-top: 10px;">限价卖单：{{engineLimitSellCount}}</p>
-              <p style="font-size:12px;text-align:center;margin-top: 10px;">限价卖单：{{engineMarketSellCount}}</p>
-              <p style="font-size:12px;text-align:center;margin-top: 10px;">卖单深度：{{engineSellDepth}}</p>
+              <p style="font-size:14px;font-weight:bold;text-align:center;margin-bottom: 10px;padding-bottom:10px;border-bottom: 1px solid #B7B7B7;"><span>{{ $t('currencysetting.salesorderoverview') }}</span></p>
+              <p style="font-size:12px;text-align:center;margin-top: 10px;">{{ $t('currencysetting.note25', [engineLimitSellCount]) }}</p>
+              <p style="font-size:12px;text-align:center;margin-top: 10px;">{{ $t('currencysetting.note25', [engineMarketSellCount]) }}</p>
+              <p style="font-size:12px;text-align:center;margin-top: 10px;">{{ $t('currencysetting.note39', [engineSellDepth]) }}</p>
             </Col>
           </Row>
        </Modal>
@@ -474,77 +473,77 @@
        <Modal
           class="auditModel"
           v-model="robotModel"
-          title="修改机器人参数"
+          :title="$t('currencysetting.modifyrobotparameters')"
           @on-ok="alterRobotClicked">
           <ul>
-            <li><span><i>*</i>交易对：</span>
+            <li><span><i>*</i>{{ $t('perpetualcontractcurrencystandardmanagement.transactionpair') }}</span>
               <p>
                 <Input v-model="robotParams.symbol" disabled></Input>
                 <span>{{ }}</span>
               </p>
             </li>
-            <li><span><i>*</i> 启动机器人：</span>
+            <li><span><i>*</i> {{ $t('currencysetting.starttherobot') }}</span>
               <p>
                 <RadioGroup v-model="robotParams.isHalt">
-                  <Radio label="1"><em>停止</em></Radio>
-                  <Radio label="0"><em>启动</em></Radio>
+                  <Radio label="1"><em>{{ $t('currencysetting.stopit') }}</em></Radio>
+                  <Radio label="0"><em>{{ $t('currencysetting.startup') }}</em></Radio>
                 </RadioGroup>
               </p>
             </li>
             <li>
-                <span><i>*</i>最低交易量：</span>
+                <span><i>*</i>{{ $t('currencysetting.minimumtradingvolume') }}</span>
                 <p> <Input v-model="robotParams.startAmount"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>交易量随机因子(1%)：</span>
+                <span><i>*</i>{{ $t('currencysetting.note1') }}</span>
                 <p> <Input v-model="robotParams.randRange0"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>交易量随机因子(9%)：</span>
+                <span><i>*</i>{{ $t('currencysetting.note28') }}</span>
                 <p> <Input v-model="robotParams.randRange1"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>交易量随机因子(20%)：</span>
+                <span><i>*</i>{{ $t('currencysetting.note32') }}</span>
                 <p> <Input v-model="robotParams.randRange2"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>交易量随机因子(20%)：</span>
+                <span><i>*</i>{{ $t('currencysetting.note32') }}</span>
                 <p> <Input v-model="robotParams.randRange3"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>交易量随机因子(20%)：</span>
+                <span><i>*</i>{{ $t('currencysetting.note32') }}</span>
                 <p> <Input v-model="robotParams.randRange4"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>交易量随机因子(20%)：</span>
+                <span><i>*</i>{{ $t('currencysetting.note32') }}</span>
                 <p> <Input v-model="robotParams.randRange5"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>交易量随机因子(10%)：</span>
+                <span><i>*</i>{{ $t('currencysetting.note37') }}</span>
                 <p> <Input v-model="robotParams.randRange6"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>价格精度要求：</span>
+                <span><i>*</i>{{ $t('currencysetting.priceaccuracyrequirements') }}</span>
                 <p> <Input v-model="robotParams.scale"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>数量精度要求：</span>
+                <span><i>*</i>{{ $t('currencysetting.quantityaccuracyrequirements') }}</span>
                 <p> <Input v-model="robotParams.amountScale"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>买卖盘最高差价：</span>
+                <span><i>*</i>{{ $t('currencysetting.maximumbidaskspread') }}</span>
                 <p> <Input v-model="robotParams.maxSubPrice"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>初始订单数(>24)：</span>
+                <span><i>*</i>{{ $t('currencysetting.note10') }}</span>
                 <p> <Input v-model="robotParams.initOrderCount"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>价格变化步长(%)：</span>
+                <span><i>*</i>{{ $t('currencysetting.pricechangestep') }}</span>
                 <p> <Input v-model="robotParams.priceStepRate"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>下单时间间隔(毫秒)：</span>
+                <span><i>*</i>{{ $t('currencysetting.note23') }}</span>
                 <p> <Input v-model="robotParams.runTime"></Input> </p>
             </li>
           </ul>
@@ -554,82 +553,82 @@
       <Modal
           class="auditModel"
           v-model="priceRobotModel"
-          title="（定价机器人）修改机器人参数"
+          :title="$t('currencysetting.note15')"
           @on-ok="alterPriceRobotClicked">
           <ul>
-            <li><span><i>*</i>交易对：</span>
+            <li><span><i>*</i>{{ $t('perpetualcontractcurrencystandardmanagement.transactionpair') }}</span>
               <p>
                 <Input v-model="priceRobotParams.symbol" disabled></Input>
                 <span>{{ }}</span>
               </p>
             </li>
-            <li><span><i>*</i> 启动机器人：</span>
+            <li><span><i>*</i> {{ $t('currencysetting.starttherobot') }}</span>
               <p>
                 <RadioGroup v-model="priceRobotParams.isHalt">
-                  <Radio label="1"><em>停止</em></Radio>
-                  <Radio label="0"><em>启动</em></Radio>
+                  <Radio label="1"><em>{{ $t('currencysetting.stopit') }}</em></Radio>
+                  <Radio label="0"><em>{{ $t('currencysetting.startup') }}</em></Radio>
                 </RadioGroup>
               </p>
             </li>
 
             <li>
-                <span><i>*</i>固定价格：</span>
+                <span><i>*</i>{{ $t('essentialinformation.fixedprice') }}</span>
                 <p> <Input v-model="priceRobotParams.price"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>最低交易量：</span>
+                <span><i>*</i>{{ $t('currencysetting.minimumtradingvolume') }}</span>
                 <p> <Input v-model="priceRobotParams.startAmount"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>交易量随机因子(1%)：</span>
+                <span><i>*</i>{{ $t('currencysetting.note1') }}</span>
                 <p> <Input v-model="priceRobotParams.randRange0"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>交易量随机因子(9%)：</span>
+                <span><i>*</i>{{ $t('currencysetting.note28') }}</span>
                 <p> <Input v-model="priceRobotParams.randRange1"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>交易量随机因子(20%)：</span>
+                <span><i>*</i>{{ $t('currencysetting.note32') }}</span>
                 <p> <Input v-model="priceRobotParams.randRange2"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>交易量随机因子(20%)：</span>
+                <span><i>*</i>{{ $t('currencysetting.note32') }}</span>
                 <p> <Input v-model="priceRobotParams.randRange3"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>交易量随机因子(20%)：</span>
+                <span><i>*</i>{{ $t('currencysetting.note32') }}</span>
                 <p> <Input v-model="priceRobotParams.randRange4"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>交易量随机因子(20%)：</span>
+                <span><i>*</i>{{ $t('currencysetting.note32') }}</span>
                 <p> <Input v-model="priceRobotParams.randRange5"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>交易量随机因子(10%)：</span>
+                <span><i>*</i>{{ $t('currencysetting.note37') }}</span>
                 <p> <Input v-model="priceRobotParams.randRange6"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>价格精度要求：</span>
+                <span><i>*</i>{{ $t('currencysetting.priceaccuracyrequirements') }}</span>
                 <p> <Input v-model="priceRobotParams.scale"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>数量精度要求：</span>
+                <span><i>*</i>{{ $t('currencysetting.quantityaccuracyrequirements') }}</span>
                 <p> <Input v-model="priceRobotParams.amountScale"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>买卖盘最高差价：</span>
+                <span><i>*</i>{{ $t('currencysetting.maximumbidaskspread') }}</span>
                 <p> <Input v-model="priceRobotParams.maxSubPrice"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>初始订单数(>24)：</span>
+                <span><i>*</i>{{ $t('currencysetting.note10') }}</span>
                 <p> <Input v-model="priceRobotParams.initOrderCount"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>价格变化步长(%)：</span>
+                <span><i>*</i>{{ $t('currencysetting.pricechangestep') }}</span>
                 <p> <Input v-model="priceRobotParams.priceStepRate"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>下单时间间隔(毫秒)：</span>
+                <span><i>*</i>{{ $t('currencysetting.note23') }}</span>
                 <p> <Input v-model="priceRobotParams.runTime"></Input> </p>
             </li>
           </ul>
@@ -821,7 +820,7 @@ export default {
           type: "index"
         },
         {
-          title: "交易对",
+          title: this.$t('managementofoptioncontractsineachperiod.transactionpair'),
           width: 120,
           key: "symbol",
           render: (h, params) => {
@@ -836,7 +835,7 @@ export default {
           }
         },
         {
-          title: "市价买卖",
+          title: this.$t('currencysetting.marketpricetrading'),
           width: 65,
           key: "fee",
           render: (h, params) => {
@@ -853,7 +852,7 @@ export default {
           }
         },
         {
-          title: "可买卖",
+          title: this.$t('currencysetting.tradable1'),
           width: 65,
           key: "fee",
           render: (h, params) => {
@@ -870,12 +869,12 @@ export default {
           }
         },
         {
-          title: "显示",
+          title: this.$t('perpetualcontractcurrencystandardmanagement.display'),
           width:45,
           key: "visible",
           render: (h, params) => {
             const row = params.row;
-            const visible = row.visible == "1" ? "是" : "否";
+            const visible = row.visible == "1" ? this.$t('perpetualcontractcurrencystandardmanagement.yes') : this.$t('perpetualcontractcurrencystandardmanagement.no');
             if(row.visible == "1") {
               return h("span", {
                 style:{
@@ -891,12 +890,12 @@ export default {
           }
         },
         {
-          title: "可交易",
+          title: this.$t('currencysetting.tradable'),
           width: 45,
           key: "exchangeable",
           render: (h, params) => {
             const row = params.row;
-            const exchangeable = row.exchangeable == "1" ? "是" : "否";
+            const exchangeable = row.exchangeable == "1" ? this.$t('perpetualcontractcurrencystandardmanagement.yes') : this.$t('perpetualcontractcurrencystandardmanagement.no');
             if(row.exchangeable == "1") {
               return h("span", {
                 style:{
@@ -912,14 +911,14 @@ export default {
           }
         },
         {
-          title: "机器人",
+          title: this.$t('currencysetting.robot'),
           width: 60,
           key: "robotType",
           render: (h, params) => {
             const row = params.row;
-            var robot = "一般";
+            var robot = this.$t('currencysetting.commonly');
             if(row.robotType == "1"){
-              robot = "控盘";
+              robot = this.$t('currencysetting.dashboard');
             }
             return h("span", {
               style:{
@@ -928,13 +927,13 @@ export default {
             }, robot);
           }
         },{
-          title: "机器人参数",
+          title: this.$t('currencysetting.robotparameters'),
           width: 80,
           key: "engineStatus",
           render: (h, params) => {
             const row = params.row;
             var btnType = row.exEngineStatus == 1 ? "primary" : "default";
-            var btnText = row.exEngineStatus == 1 ? "设置" : "新建";
+            var btnText = row.exEngineStatus == 1 ? this.$t('currencysetting.settings') : this.$t('currencysetting.new');
             return h("div", [
               h(
                 "Button",
@@ -980,8 +979,8 @@ export default {
                               this.robotParams.symbol = row.symbol;
                               this.robotModel = true;
                               this.$Notice.info({
-                                    title: "创建机器人",
-                                    desc: "该交易对没有机器人",
+                                    title: this.$t('currencysetting.createrobot'),
+                                    desc: this.$t('currencysetting.thistransactionpairhasnorobots'),
                                     duration: 10
                                 });
                               this.$Loading.finish();
@@ -996,17 +995,17 @@ export default {
           }
         },
         {
-          title: "交易引擎",
+          title: this.$t('currencysetting.tradingengine'),
           width: 100,
           key: "engineStatus",
           render: (h, params) => {
             const row = params.row;
-            var engineStatus = "无引擎";
+            var engineStatus = this.$t('currencysetting.noengine');
             if(row.engineStatus == "1"){
-              engineStatus = "运行中";
+              engineStatus = this.$t('currencysetting.running');
             }
             if(row.engineStatus == "2"){
-              engineStatus = "暂停中";
+              engineStatus = this.$t('currencysetting.paused');
             }
             if(row.engineStatus == "1") {
               return h(
@@ -1044,7 +1043,7 @@ export default {
                             this.$Loading.finish();
                           }else{
                             this.$Notice.error({
-                                  title: "获取失败",
+                                  title: this.$t('currencysetting.getfailed'),
                                   desc: res.message,
                                   duration: 10
                               });
@@ -1069,17 +1068,17 @@ export default {
           }
         },
         {
-          title: "行情引擎",
+          title: this.$t('currencysetting.marketengine'),
           width: 100,
           key: "engineStatus",
           render: (h, params) => {
             const row = params.row;
-            var marketEngineStatus = "无引擎";
+            var marketEngineStatus = this.$t('currencysetting.noengine');
             if(row.marketEngineStatus == "1"){
-              marketEngineStatus = "运行中";
+              marketEngineStatus = this.$t('currencysetting.running');
             }
             if(row.marketEngineStatus == "2"){
-              marketEngineStatus = "暂停中";
+              marketEngineStatus = this.$t('currencysetting.paused');
             }
 
             if(row.marketEngineStatus == "1" && row.engineStatus == "2") {
@@ -1090,7 +1089,7 @@ export default {
                   props: {type: "error",size: "small", loading:true},
                   style: {marginRight: "5px"},
                 },
-                "停止中"
+                this.$t('currencysetting.stopping')
               )]);
             }
 
@@ -1117,7 +1116,7 @@ export default {
                   props: {type: "success",size: "small", loading:true},
                   style: {marginRight: "5px"},
                 },
-                "启动中"
+                this.$t('currencysetting.starting')
               )]);
             }
             return h("div", {
@@ -1133,12 +1132,12 @@ export default {
           }
         },
         {
-          title: "状态",
+          title: this.$t('managementofoptioncontractsineachperiod.status'),
           width: 70,
           key: "enable",
           render: (h, params) => {
             const row = params.row;
-            const enable = row.enable == "1" ? "上架" : "下架";
+            const enable = row.enable == "1" ? this.$t('backstageadvertising.ontheshelf') : this.$t('backstageadvertising.offtheshelf');
             if(row.enable == "1") {
               return h("span", {
                 style:{
@@ -1154,28 +1153,28 @@ export default {
           }
         },
         {
-          title: '排序',
+          title: this.$t('currencymanagement1.sort'),
           key:"sort",
           width: 60
         },
         {
-          title: "发行活动",
+          title: this.$t('currencysetting.releaseactivities'),
           width: 150,
           key: "publishType",
           render: (h, params) => {
             const row = params.row;
             const currentTime = dtime(row.currentTime).format('YYYY-MM-DD HH:mm:ss');
-            var publishType = "未知";
+            var publishType = this.$t('currencysetting.unknown');
             const txtColor = currentTime > row.clearTime ? "#B7B7B7" : "#42b983";
 
             if(row.publishType == "NONE"){
-              publishType = "无活动";
+              publishType = this.$t('currencysetting.noactivity');
             }
             if(row.publishType == "QIANGGOU"){
-              publishType = currentTime > row.clearTime ? "抢购(已结束)" : "抢购(进行中)";
+              publishType = currentTime > row.clearTime ? this.$t('currencysetting.rushpurchaseended') : this.$t('currencysetting.rushpurchaseinprogress');
             }
             if(row.publishType == "FENTAN"){
-              publishType = currentTime > row.clearTime ? "分摊(已结束)" : "分摊(进行中)";
+              publishType = currentTime > row.clearTime ? this.$t('currencysetting.allocationended') : this.$t('currencysetting.allocationinprogress');
             }
 
             if(row.publishType == "QIANGGOU" || row.publishType == "FENTAN") {
@@ -1197,11 +1196,11 @@ export default {
                     }, [
                       h("span", {}, publishType),
                       h("br", {}, ""),
-                      h("span", {style:{fontSize:"8px"}}, "开始："+params.row.startTime.substr(0, 16)),
+                      h("span", {style:{fontSize:"8px"}}, this.$t('currencysetting.start')+params.row.startTime.substr(0, 16)),
                       h("br", {}, ""),
-                      h("span", {style:{fontSize:"8px"}}, "结束："+params.row.endTime.substr(0, 16)),
+                      h("span", {style:{fontSize:"8px"}}, this.$t('currencysetting.end')+params.row.endTime.substr(0, 16)),
                       h("br", {}, ""),
-                      h("span", {style:{fontSize:"8px"}}, "盘整："+params.row.clearTime.substr(0, 16))
+                      h("span", {style:{fontSize:"8px"}}, this.$t('currencysetting.consolidation')+params.row.clearTime.substr(0, 16))
                     ]);
                 }
             }
@@ -1213,7 +1212,7 @@ export default {
           }
         },
         {
-          title: "手续费",
+          title: this.$t('transactiondetailsinlegalcurrency.handlingcharges'),
           width: 80,
           key: "symbol",
           render: (h, params) => {
@@ -1228,7 +1227,7 @@ export default {
           }
         },
         {
-          title: "推荐",
+          title: this.$t('currencysetting.recommended'),
           key: "flag",
           width: 60,
           render: (h, params) => {
@@ -1238,42 +1237,42 @@ export default {
           }
         },
         {
-          title: '币种精度',
+          title: this.$t('currencyextensionmanagement.currencyprecision'),
           key:"coinScale",
           width: 90
         },
         {
-          title: '基币精度',
+          title: this.$t('currencysetting.basecurrencyprecision'),
           key:"baseCoinScale",
           width: 90
         },
         {
-          title: '最小成交额',
+          title: this.$t('currencysetting.minimumturnover'),
           key:"minTurnover",
           width: 100
         },
         {
-          title: '最小下单量',
+          title: this.$t('currencysetting.minimumorderquantity1'),
           key:"minVolume",
           width: 100
         },
         {
-          title: '最大下单量',
+          title: this.$t('currencysetting.maximumorderquantity'),
           key:"maxVolume",
           width: 100
         },
         {
-          title: '卖单最低价',
+          title: this.$t('currencysetting.lowestpriceofsalesorder'),
           key:"minSellPrice",
           width: 100
         },
         {
-          title: '买单最高价',
+          title: this.$t('currencysetting.paythehighestprice'),
           key:"maxBuyPrice",
           width: 100
         },
         {
-          title: "操作",
+          title: this.$t('perpetualcontractcurrencystandardmanagement.operation'),
           key: "xx",
           width: 330,
           fixed: 'right',
@@ -1303,7 +1302,7 @@ export default {
                     }
                   }
                 },
-                "设置"
+                this.$t('currencysetting.settings')
               ),
               h(
                 "Button",
@@ -1319,7 +1318,7 @@ export default {
                   },
                   key: 'loading'
                 },
-                "启动引擎"
+                this.$t('currencysetting.startengine')
               ),
               h(
                 "Button",
@@ -1334,7 +1333,7 @@ export default {
                     }
                   }
                 },
-                "停止引擎"
+                this.$t('currencysetting.stopengine')
               ),
               h(
                 "Button",
@@ -1345,16 +1344,16 @@ export default {
                     click: () => {
                       if(obj.row.engineStatus != "1"){
                         this.$Notice.error({
-                            title: "撤销所有委托失败",
-                            desc: "请在交易引擎状态为【运行中】时撤销委托。",
+                            title: this.$t('currencysetting.failedtorevokealldelegates'),
+                            desc: this.$t('currencysetting.note17'),
                             duration: 10
                         });
                         return;
                       }
                       if(obj.row.exchangeable == "1"){
                         this.$Notice.error({
-                            title: "撤销所有委托失败",
-                            desc: "请先设置交易对的【可交易】状态为否，然后等待一分钟再操作",
+                            title: this.$t('currencysetting.failedtorevokealldelegates'),
+                            desc: this.$t('currencysetting.note29'),
                             duration: 10
                         });
                         return;
@@ -1365,7 +1364,7 @@ export default {
                     }
                   }
                 },
-                "撤销所有委托"
+                this.$t('currencysetting.revokealldelegates')
               ),
               h(
                 "Button",
@@ -1376,8 +1375,8 @@ export default {
                     click: () => {
                       if(obj.row.exchangeable != "1"){
                         this.$Notice.error({
-                            title: "重置提示",
-                            desc: "请先设置交易对的【可交易】状态为是",
+                            title: this.$t('currencysetting.resetprompt'),
+                            desc: this.$t('currencysetting.note7'),
                             duration: 10
                         });
                         return;
@@ -1388,7 +1387,7 @@ export default {
                     }
                   }
                 },
-                "重置引擎"
+                this.$t('currencysetting.resetengine')
               )
             ]);
           }
@@ -1485,12 +1484,12 @@ export default {
 
           fixBBSetting(obj).then( res => {
             if (!res.code) {
-  						this.$Message.success('修改成功！');
+  						this.$Message.success(this.$t('perpetualcontractcurrencystandardmanagement.modificationsucceeded'));
               this.current = 1;
               this.refreshdata(1);
               this.$Loading.finish();
             }else {
-              this.$Message.error('修改失败！');
+              this.$Message.error(this.$t('currencysetting.modificationfailed'));
               this.$Loading.error();
             }
           });
@@ -1504,8 +1503,8 @@ export default {
           startBBTrader(obj).then( res => {
             if (!res.code) {
               this.$Notice.success({
-                    title: "【" + this.targetSymbol+ '】  启动成功，请刷新查看结果！',
-                    desc: res.message+" 行情引擎将于2分钟内启动。",
+                    title: "【" + this.targetSymbol+ this.$t('currencysetting.modificationsucceeded'),
+                    desc: res.message+ this.$t('currencysetting.note11'),
                     duration: 10
                 });
               this.current = 1;
@@ -1513,7 +1512,7 @@ export default {
               this.$Loading.finish();
             }else{
               this.$Notice.error({
-                    title: "【" + this.targetSymbol+ '】  启动失败',
+                    title: "【" + this.targetSymbol+ this.$t('currencysetting.startfailed'),
                     desc: res.message,
                     duration: 10
                 });
@@ -1531,8 +1530,8 @@ export default {
           stopBBTrader(obj).then( res => {
             if (!res.code) {
               this.$Notice.success({
-                    title: "【" + this.targetSymbol+ '】  停止成功！',
-                    desc: res.message+" 行情引擎将于2分钟内停止。",
+                    title: "【" + this.targetSymbol+ this.$t('currencysetting.stopsuccessfully'),
+                    desc: res.message+this.$t('currencysetting.note40'),
                     duration: 10
                 });
               this.current = 1;
@@ -1540,7 +1539,7 @@ export default {
               this.$Loading.finish();
             }else{
               this.$Notice.error({
-                    title: "【" + this.targetSymbol+ '】  停止失败',
+                    title: "【" + this.targetSymbol+ this.$t('currencysetting.stopfailed'),
                     desc: res.message,
                     duration: 10
                 });
@@ -1556,7 +1555,7 @@ export default {
           cancelBBAllOrders(obj).then( res => {
             if (!res.code) {
               this.$Notice.success({
-                    title: "【" + this.targetSymbol+ '】  撤销成功！',
+                    title: "【" + this.targetSymbol+ this.$t('currencysetting.revocationsucceeded'),
                     desc: res.message,
                     duration: 10
                 });
@@ -1565,7 +1564,7 @@ export default {
               this.$Loading.finish();
             }else{
               this.$Notice.error({
-                    title: "【" + this.targetSymbol+ '】  撤销失败',
+                    title: "【" + this.targetSymbol+ this.$t('currencysetting.revocationfailed'),
                     desc: res.message,
                     duration: 10
                 });
@@ -1581,7 +1580,7 @@ export default {
           resetBBTrader(obj).then( res => {
             if (!res.code) {
               this.$Notice.success({
-                    title: "【" + this.targetSymbol+ '】  重置成功！',
+                    title: "【" + this.targetSymbol+ this.$t('currencysetting.resetsucceeded'),
                     desc: res.message,
                     duration: 10
                 });
@@ -1590,7 +1589,7 @@ export default {
               this.$Loading.finish();
             }else{
               this.$Notice.error({
-                    title: "【" + this.targetSymbol+ '】  重置失败',
+                    title: "【" + this.targetSymbol+ this.$t('currencysetting.resetfailed'),
                     desc: res.message,
                     duration: 10
                 });
@@ -1605,7 +1604,7 @@ export default {
         createRobotConfig(this.robotParams).then( res => {
             if(!res.code) {
               this.$Notice.success({
-                      title: "创建成功！",
+                      title: this.$t('currencysetting.createdsuccessfully'),
                       desc: res.message,
                       duration: 10
                   });
@@ -1613,7 +1612,7 @@ export default {
               this.refreshdata(1);
             }else{
               this.$Notice.error({
-                      title: "创建失败",
+                      title: this.$t('currencysetting.creationfailed'),
                       desc: res.message,
                       duration: 10
                   });
@@ -1623,7 +1622,7 @@ export default {
         setRobotConfig(this.robotParams).then( res => {
             if(!res.code) {
               this.$Notice.success({
-                      title: "修改成功！",
+                      title: this.$t('perpetualcontractcurrencystandardmanagement.modificationsucceeded'),
                       desc: res.message,
                       duration: 10
                   });
@@ -1631,7 +1630,7 @@ export default {
               this.refreshdata(1);
             }else{
               this.$Notice.error({
-                      title: "修改失败",
+                      title: this.$t('perpetualcontractcurrencystandardmanagement.modificationfailed'),
                       desc: res.message,
                       duration: 10
                   });
@@ -1645,7 +1644,7 @@ export default {
         createPriceRobotConfig(this.priceRobotParams).then( res => {
             if(!res.code) {
               this.$Notice.success({
-                      title: "创建成功！",
+                      title: this.$t('currencysetting.createdsuccessfully'),
                       desc: res.message,
                       duration: 10
                   });
@@ -1653,7 +1652,7 @@ export default {
               this.refreshdata(1);
             }else{
               this.$Notice.error({
-                      title: "创建失败",
+                      title: this.$t('currencysetting.creationfailed'),
                       desc: res.message,
                       duration: 10
                   });
@@ -1663,7 +1662,7 @@ export default {
         setPriceRobotConfig(this.priceRobotParams).then( res => {
             if(!res.code) {
               this.$Notice.success({
-                      title: "修改成功！",
+                      title: this.$t('perpetualcontractcurrencystandardmanagement.modificationsucceeded'),
                       desc: res.message,
                       duration: 10
                   });
@@ -1671,7 +1670,7 @@ export default {
               this.refreshdata(1);
             }else{
               this.$Notice.error({
-                      title: "修改失败",
+                      title: this.$t('perpetualcontractcurrencystandardmanagement.modificationfailed'),
                       desc: res.message,
                       duration: 10
                   });
@@ -1690,7 +1689,7 @@ export default {
                       || !this.fee || !this.coinScale || !this.baseCoinScale;
 
       if(judgeCondition || judgeEmpty) {
-        this.$Message.warning('信息录入不正确！');
+        this.$Message.warning(this.$t('currencysetting.informationinputisincorrect'));
       } else {
         let obj= {
           symbol: this.symbol,
@@ -1724,7 +1723,7 @@ export default {
         addBBSetting(obj).then( res => {
           if(!res.code) {
             this.$Notice.success({
-                    title: "添加成功！",
+                    title: this.$t('currencysetting.addedsuccessfully'),
                     desc: res.message,
                     duration: 10
                 });
@@ -1732,7 +1731,7 @@ export default {
             this.refreshdata(1);
           }else{
             this.$Notice.error({
-                    title: "添加失败",
+                    title: this.$t('currencysetting.addfailed'),
                     desc: res.message,
                     duration: 10
                 });
@@ -1750,7 +1749,7 @@ export default {
       delBBSetting({ ids: this.deleteArr }).then( res =>{
         if(!res.code) {
           this.$Notice.success({
-                    title: "删除成功！",
+                    title: this.$t('currencysetting.deletionsucceeded'),
                     desc: res.message,
                     duration: 10
                 });
@@ -1758,7 +1757,7 @@ export default {
           this.refreshdata(1);
         }else {
           this.$Notice.error({
-                    title: "删除失败！",
+                    title: this.$t('currencysetting.deletionfailed'),
                     desc: res.message,
                     duration: 10
                 });
@@ -1781,13 +1780,13 @@ export default {
 
       queryBBSetting({ pageNo: pageIndex, pageSize: 50, coinSymbol: this.searchSymbol, baseSymbol: this.searchBase }).then( res => {
         this.exchange = res.data.content;
-        this.pageNum = res.data.totalElements;
+        this.pageNum = res.data.totalPages;
         this.ifLoading = false;
       });
     },
     delcoin() {
       if(!this.deleteArr.length) {
-        this.$Message.warning('尚未选取项目！');
+        this.$Message.warning(this.$t('currencysetting.noitemshavebeenselected'));
       } else  this.ifDelete = true;
     },
     addcoin() {

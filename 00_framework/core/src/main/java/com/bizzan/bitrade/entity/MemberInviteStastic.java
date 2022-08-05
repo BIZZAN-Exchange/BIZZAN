@@ -1,26 +1,17 @@
 package com.bizzan.bitrade.entity;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Data;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 /**
  * 推广合伙人总榜单（每日更新）
  * 与日、周、月榜单(MemberInviteStasticRank表)的主要区别是总榜单保存返佣金额，但分类榜单不会保存
  * 同时，总榜单无历史快照，而分类榜单中可以查询历史日期的榜单
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * 
  */
 @Entity

@@ -2,61 +2,58 @@
 <div>
   <Card>
     <p slot="title">
-      编辑公告
-    </p>
+      {{ $t('editannouncement.editannouncement') }} </p>
     <div class="formWrapper">
       <div class="titleWrapper">
-        标题：
-        <p class="title"><Input v-model="title"></Input></p>
+        {{ $t('editannouncement.title') }} <p class="title"><Input v-model="title"></Input></p>
       </div>
-      <div>分类：
+      <div>{{ $t('editannouncement.classification') }}
         <Select v-model="klass" style="width:200px">
           <Option v-for=" perKlass in klassArr " :value="perKlass.value" :key="perKlass.value">{{ perKlass.name }}</Option>
         </Select>
       </div>
       <div class="createTimeWrapper" v-if="!!queryDetailId" >
-        创建时间：
-        <p class="title"><Input v-model="createTime" disabled></Input></p>
+        {{ $t('advertisingmanagement.createdon') }} <p class="title"><Input v-model="createTime" disabled></Input></p>
       </div>
 
-      <div>状态：
+      <div>{{ $t('currencywithdrawalauditmanagement.status') }}
         <RadioGroup v-model="status" @on-change="changeAdStatus">
           <Radio :label="0">
-            <span>显示</span>
+            <span>{{ $t('perpetualcontractcurrencystandardmanagement.display') }}</span>
           </Radio>
           <Radio :label="1">
-            <span>不显示</span>
+            <span>{{ $t('announcementmanagement.dontshow') }}</span>
           </Radio>
         </RadioGroup>
       </div>
-      <div>语言：
+      <div>{{ $t('editannouncement.language') }}
         <RadioGroup v-model="lang">
           <Radio label="zh_CN">
-            <span>中文</span>
+            <span>{{ $t('announcementmanagement.chinese') }}</span>
           </Radio>
           <Radio label="en_US">
-            <span>English</span>
+            <span>{{ $t('announcementmanagement.english') }}</span>
           </Radio>
           <Radio label="ja_JP">
-            <span>日语</span>
+            <span>{{ $t('announcementmanagement.japanese') }}</span>
           </Radio>
           <Radio label="ko_KR">
-            <span>韩语</span>
+            <span>{{ $t('announcementmanagement.korean') }}</span>
           </Radio>
           <Radio label="de_DE">
-            <span>德语</span>
+            <span>{{ $t('announcementmanagement.german') }}</span>
           </Radio>
           <Radio label="fr_FR">
-            <span>法语</span>
+            <span>{{ $t('announcementmanagement.french') }}</span>
           </Radio>
           <Radio label="it_IT">
-            <span>意大利</span>
+            <span>{{ $t('announcementmanagement.italy') }}</span>
           </Radio>
           <Radio label="es_ES">
-            <span>西班牙</span>
+            <span>{{ $t('announcementmanagement.spain') }}</span>
           </Radio>
           <Radio label="zh_HK">
-            <span>繁体</span>
+            <span>{{ $t('advertisingmanagement.traditionalchinesecharacter') }}</span>
           </Radio>
         </RadioGroup>
       </div>
@@ -65,12 +62,11 @@
 
     <div class="btnWrapper">
       <Button type="success" :disabled="false" long size='large' @click="upload">
-        提交
-      </Button>
+        {{ $t('addeditredenvelopes.submit') }} </Button>
     </div>
 
     <div class="circleWrapper" v-show="uploading">
-      <p>图片上传中...</p>
+      <p>{{ $t('redpacketmanagement.pictureuploading') }}</p>
     </div>
 
   </Card>
@@ -92,13 +88,13 @@ import { getStore, removeStore, setStore } from '@/config/storage';
     data () {
       return {
         klassArr: [
-          { name: '一般公告', value: 0 },
-          { name: '活动公告', value: 1 },
-          { name: '充提公告', value: 2 },
-          { name: '系统公告', value: 3 },
-          { name: '上币公告', value: 4 },
-          { name: '投票公告', value: 5 },
-          { name: '其他', value: 6 },
+          { name: this.$t('editannouncement.generalannouncement'), value: 0 },
+          { name: this.$t('editannouncement.activityannouncement'), value: 1 },
+          { name: this.$t('editannouncement.withdrawalannouncement'), value: 2 },
+          { name: this.$t('editannouncement.systemannouncement'), value: 3 },
+          { name: this.$t('editannouncement.currencyannouncement'), value: 4 },
+          { name: this.$t('editannouncement.votingannouncement'), value: 5 },
+          { name: this.$t('editannouncement.other'), value: 6 },
         ],
         uploading: false,
         ifAdd: true,
@@ -121,17 +117,17 @@ import { getStore, removeStore, setStore } from '@/config/storage';
           uploadCallback: (data) => {
             this.uploading = false;
             if(!data.code){
-              this.$Message.success('上传成功!');
+              this.$Message.success(this.$t('addeditredenvelopes.uploadsuccessful'));
               return data.data;
             }else{
-              this.$Message.error('上传失败!');
+              this.$Message.error(this.$t('addeditredenvelopes.uploadfailed'));
             }
           },
           // 上传失败回调, 可选
           uploadFailed: (err) => {
             this.uploading = false;
             console.log(err)
-            this.$Message.error('上传失败!');
+            this.$Message.error(this.$t('addeditredenvelopes.uploadfailed'));
           }
         }
       }
@@ -155,23 +151,23 @@ import { getStore, removeStore, setStore } from '@/config/storage';
 
         if(this.title===''|| this.title===null || this.klass ==='' || this.klass ===null ||
             content===''|| content===null  ) {
-            this.$Message.warning('请完善信息!');
+            this.$Message.warning(this.$t('editannouncement.pleaseimprovetheinformation'));
         } else {
           if (this.ifAdd) {
             addAnnounce({ title: this.title, content: content, isShow: bol, lang: this.lang, announcementClassification: this.klass })
             .then( res => {
               if (!res.code) {
-                this.$Message.success('操作成功!');
+                this.$Message.success(this.$t('advertisingmanagement.operationsucceeded'));
                 this.$router.push('/content/announcemanage');
-              } else this.$Message.error('异常错误!');
+              } else this.$Message.error(this.$t('addeditredenvelopes.abnormalerror'));
             })
           }else {
             updateAnnounce( this.queryDetailId ,{ title: this.title, content: content, isShow: bol, lang: this.lang, announcementClassification: this.klass})
              .then( res => {
               if (!res.code) {
-                this.$Message.success('操作成功!');
+                this.$Message.success(this.$t('advertisingmanagement.operationsucceeded'));
                 this.$router.push('/content/announcemanage');
-              } else this.$Message.error('异常错误!');
+              } else this.$Message.error(this.$t('addeditredenvelopes.abnormalerror'));
             })
           }
         }

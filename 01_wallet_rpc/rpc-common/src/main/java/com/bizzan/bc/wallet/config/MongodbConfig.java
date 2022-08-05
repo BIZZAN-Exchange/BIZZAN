@@ -1,10 +1,10 @@
 package com.bizzan.bc.wallet.config;
 
+import com.bizzan.bc.wallet.converter.BigDecimalToDecimal128Converter;
+import com.bizzan.bc.wallet.converter.Decimal128ToBigDecimalConverter;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
-import com.bizzan.bc.wallet.converter.BigDecimalToDecimal128Converter;
-import com.bizzan.bc.wallet.converter.Decimal128ToBigDecimalConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -13,28 +13,28 @@ import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
+import org.springframework.data.mongodb.core.convert.CustomConversions;
 import org.springframework.data.mongodb.core.convert.DefaultDbRefResolver;
 import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
-import org.springframework.data.mongodb.core.convert.CustomConversions;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
-@ConditionalOnProperty(name="spring.data.mongodb.uri")
+@ConditionalOnProperty(name = "spring.data.mongodb.uri")
 public class MongodbConfig extends AbstractMongoConfiguration {
     @Value("${spring.data.mongodb.uri}")
     private String uri;
 
 
-    public MongoClientURI getMongoClientURI(){
+    public MongoClientURI getMongoClientURI() {
         return new MongoClientURI(uri);
     }
 
     @Override
     protected String getDatabaseName() {
-        return  this.getMongoClientURI().getDatabase();
+        return this.getMongoClientURI().getDatabase();
     }
 
     @Override
@@ -45,7 +45,7 @@ public class MongodbConfig extends AbstractMongoConfiguration {
 
     @Bean
     public MongoDbFactory dbFactory() throws Exception {
-        return new SimpleMongoDbFactory(this.mongo(),this.getDatabaseName());
+        return new SimpleMongoDbFactory(this.mongo(), this.getDatabaseName());
     }
 
     @Bean
@@ -67,7 +67,7 @@ public class MongodbConfig extends AbstractMongoConfiguration {
 
 
     @Bean
-    public MongoTemplate mongoTemplate(MongoDbFactory dbFactory,MappingMongoConverter converter) throws Exception {
+    public MongoTemplate mongoTemplate(MongoDbFactory dbFactory, MappingMongoConverter converter) throws Exception {
         return new MongoTemplate(dbFactory, converter);
     }
 }

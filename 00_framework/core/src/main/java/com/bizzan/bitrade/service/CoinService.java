@@ -6,6 +6,7 @@ import com.bizzan.bitrade.constant.PageModel;
 import com.bizzan.bitrade.dao.CoinDao;
 import com.bizzan.bitrade.dao.OtcCoinDao;
 import com.bizzan.bitrade.dto.CoinDTO;
+import com.bizzan.bitrade.dto.ContractDTO;
 import com.bizzan.bitrade.entity.Coin;
 import com.bizzan.bitrade.entity.OtcCoin;
 import com.bizzan.bitrade.entity.QCoin;
@@ -15,7 +16,6 @@ import com.bizzan.bitrade.service.Base.BaseService;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,16 +24,18 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.bizzan.bitrade.constant.BooleanEnum.IS_FALSE;
-import static com.bizzan.bitrade.constant.BooleanEnum.IS_TRUE;
-
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.bizzan.bitrade.constant.BooleanEnum.IS_FALSE;
+import static com.bizzan.bitrade.constant.BooleanEnum.IS_TRUE;
+
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin E-Mali:390330302@qq.com
  * @description
- * @date 2019/12/29 14:50
+ * @date 2021/12/29 14:50
  */
 @Service
 public class CoinService extends BaseService {
@@ -150,7 +152,7 @@ public class CoinService extends BaseService {
 
     /**
      * @Description: 查询所有合法币种
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author Hevin E-Mali:390330302@qq.com
      */
     public List<Coin> findLegalAll() {
         return (List<Coin>) coinDao.findAll(QCoin.coin.hasLegal.eq(true));
@@ -197,4 +199,31 @@ public class CoinService extends BaseService {
         coin.setIsPlatformCoin(IS_TRUE);
     }
 
+    public List<CoinDTO> list() {
+        return coinDao.list();
+    }
+
+    public List<ContractDTO> getContractByProtocol(String protocol) {
+        List<Object[]> list = coinDao.getContractByProtocol(protocol);
+        List<ContractDTO> result = new ArrayList<>();
+        if(list!=null && list.size()>0){
+            for (Object[] ol : list) {
+                ContractDTO dto = new ContractDTO();
+                if(ol[0]!=null){
+                    dto.setName((String)ol[0]);
+                }
+                if(ol[1]!=null){
+                    dto.setAddress((String)ol[1]);
+                }
+                if(ol[2]!=null){
+                    dto.setDecimals((int)ol[2]);
+                }
+                if(ol[3]!=null){
+                    dto.setMinCollectAmount((BigDecimal)ol[3]);
+                }
+                result.add(dto);
+            }
+        }
+        return  result;
+    }
 }

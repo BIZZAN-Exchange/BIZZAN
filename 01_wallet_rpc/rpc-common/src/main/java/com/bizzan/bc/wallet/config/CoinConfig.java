@@ -17,14 +17,14 @@ public class CoinConfig {
 
     @Bean
     @ConfigurationProperties(prefix = "coin")
-    public Coin getCoin(){
+    public Coin getCoin() {
         Coin coin = new Coin();
         return coin;
     }
 
     @Bean
     @ConfigurationProperties(prefix = "watcher")
-    public WatcherSetting getWatcherSetting(){
+    public WatcherSetting getWatcherSetting() {
         WatcherSetting setting = new WatcherSetting();
         return setting;
     }

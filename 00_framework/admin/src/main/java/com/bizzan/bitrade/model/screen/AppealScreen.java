@@ -1,8 +1,8 @@
 package com.bizzan.bitrade.model.screen;
 
-import com.bizzan.bitrade.constant.*;
-import com.bizzan.bitrade.entity.Advertise;
-
+import com.bizzan.bitrade.constant.AdvertiseType;
+import com.bizzan.bitrade.constant.BooleanEnum;
+import com.bizzan.bitrade.constant.OrderStatus;
 import lombok.Data;
 
 @Data

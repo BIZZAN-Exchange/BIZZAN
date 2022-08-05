@@ -4,11 +4,9 @@ package com.bizzan.bitrade.service;
 import com.bizzan.bitrade.constant.AdvertiseType;
 import com.bizzan.bitrade.constant.OrderStatus;
 import com.bizzan.bitrade.constant.PageModel;
-import com.bizzan.bitrade.constant.TransactionTypeEnum;
 import com.bizzan.bitrade.dao.OrderDao;
 import com.bizzan.bitrade.entity.MemberWallet;
 import com.bizzan.bitrade.entity.Order;
-import com.bizzan.bitrade.entity.QAppeal;
 import com.bizzan.bitrade.entity.QOrder;
 import com.bizzan.bitrade.exception.InformationExpiredException;
 import com.bizzan.bitrade.pagination.Criteria;
@@ -23,7 +21,6 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
-
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.SQLQuery;
 import org.hibernate.transform.Transformers;
@@ -35,16 +32,15 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
-import static com.bizzan.bitrade.util.BigDecimalUtils.add;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.bizzan.bitrade.util.BigDecimalUtils.add;
+
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年12月11日
  */
 @Service
@@ -258,6 +254,30 @@ public class OrderService extends BaseService {
         return new PageImpl<>(list,pageModel.getPageable(),total);
     }
 
+    public List<OtcOrderVO> outExcelAll(List<Predicate> predicates , PageModel pageModel){
+        List<OrderSpecifier> orderSpecifiers = pageModel.getOrderSpecifiers();
+        JPAQuery<OtcOrderVO> query = queryFactory.select(
+                Projections.fields(OtcOrderVO.class,
+                        QOrder.order.id.as("id"),
+                        QOrder.order.orderSn.as("orderSn"),
+                        QOrder.order.advertiseType.as("advertiseType"),
+                        QOrder.order.createTime.as("createTime"),
+                        QOrder.order.memberName.as("memberName"),
+                        QOrder.order.customerName.as("customerName"),
+                        QOrder.order.coin.unit,
+                        QOrder.order.money,
+                        QOrder.order.number,
+                        QOrder.order.commission.as("fee"),
+                        QOrder.order.payMode.as("payMode"),
+                        QOrder.order.releaseTime.as("releaseTime"),
+                        QOrder.order.cancelTime.as("cancelTime"),
+                        QOrder.order.payTime.as("payTime"),
+                        QOrder.order.status.as("status"))
+        ).from(QOrder.order).where(predicates.toArray(new BooleanExpression[predicates.size()]));
+        query.orderBy(orderSpecifiers.toArray(new OrderSpecifier[orderSpecifiers.size()]));
+        List<OtcOrderVO> list = query.fetch();
+        return list;
+    }
     public List<Object[]> getOtcOrderStatistics(String date){
         return orderDao.getOtcTurnoverAmount(date);
     }

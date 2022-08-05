@@ -1,5 +1,12 @@
 package com.bizzan.bitrade.job;
 
+import com.bizzan.bitrade.constant.TransactionTypeEnum;
+import com.bizzan.bitrade.dao.*;
+import com.bizzan.bitrade.entity.ExchangeTurnoverStatistics;
+import com.bizzan.bitrade.entity.MemberLog;
+import com.bizzan.bitrade.entity.TurnoverStatistics;
+import com.bizzan.bitrade.service.OrderService;
+import com.bizzan.bitrade.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,15 +16,6 @@ import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.bizzan.bitrade.constant.TransactionTypeEnum;
-import com.bizzan.bitrade.dao.*;
-import com.bizzan.bitrade.entity.ExchangeTurnoverStatistics;
-import com.bizzan.bitrade.entity.MemberLog;
-import com.bizzan.bitrade.entity.TurnoverStatistics;
-import com.bizzan.bitrade.service.OrderService;
-import com.bizzan.bitrade.util.DateUtil;
 
 import java.math.BigDecimal;
 import java.text.ParseException;

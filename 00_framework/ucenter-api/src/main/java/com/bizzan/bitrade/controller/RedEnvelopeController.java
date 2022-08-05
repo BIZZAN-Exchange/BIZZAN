@@ -67,7 +67,7 @@ import com.bizzan.bitrade.vo.MemberPromotionStasticVO;
 /**
  * 红包
  *
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年03月19日
  */
 @RestController
@@ -451,7 +451,7 @@ public class RedEnvelopeController extends BaseController{
 	        member1.setPassword(password);
 	        member1.setMobilePhone(phone);
 	        member1.setSalt(credentialsSalt);
-	        member1.setAvatar("https://bizzan.oss-cn-hangzhou.aliyuncs.com/defaultavatar.png");
+	        member1.setAvatar("https://bizzan01.oss-cn-hongkong.aliyuncs.com/defaultavatar.png");
 	        member = memberService.save(member1);
 	        if (member != null) {
 	        	// Member为@entity注解类，与数据库直接映射，因此，此处setPromotionCode会直接同步到数据库

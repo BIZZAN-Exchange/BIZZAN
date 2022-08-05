@@ -1,11 +1,10 @@
 package com.bizzan.bitrade.dao;
 
+import com.bizzan.bitrade.entity.MemberDeposit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
-
-import com.bizzan.bitrade.entity.MemberDeposit;
 
 import java.util.List;
 

@@ -8,17 +8,14 @@ import com.bizzan.bitrade.entity.BusinessAuthApply;
 import com.bizzan.bitrade.entity.DepositRecord;
 import com.bizzan.bitrade.entity.Member;
 import com.bizzan.bitrade.entity.MemberWallet;
-import com.bizzan.bitrade.entity.transform.AuthMember;
 import com.bizzan.bitrade.event.MemberEvent;
 import com.bizzan.bitrade.model.screen.MemberScreen;
 import com.bizzan.bitrade.service.*;
 import com.bizzan.bitrade.util.FileUtil;
-import com.bizzan.bitrade.util.GeneratorUtil;
 import com.bizzan.bitrade.util.MessageResult;
 import com.bizzan.bitrade.util.PredicateUtils;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
-
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -34,13 +31,12 @@ import java.util.*;
 
 import static com.bizzan.bitrade.constant.CertifiedBusinessStatus.*;
 import static com.bizzan.bitrade.constant.MemberLevelEnum.IDENTIFICATION;
-import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
 import static com.bizzan.bitrade.entity.QMember.member;
 import static org.springframework.util.Assert.isTrue;
 import static org.springframework.util.Assert.notNull;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @description 后台管理会员
  * @date 2019/12/25 16:50
  */
@@ -264,6 +260,15 @@ public class MemberController extends BaseAdminController {
         return result;
     }
 
+    private Long coverToLong(String str){
+        try {
+            Long num=Long.valueOf(str);//把字符串强制转换为数字
+            return num;//如果是数字，数字
+        } catch (Exception e) {
+            return null;//如果抛出异常，返回null
+        }
+    }
+
     private Predicate getPredicate(MemberScreen screen) {
         ArrayList<BooleanExpression> booleanExpressions = new ArrayList<>();
         if (screen.getStatus() != null) {
@@ -280,11 +285,19 @@ public class MemberController extends BaseAdminController {
         }
 
         if (!StringUtils.isEmpty(screen.getAccount())) {
-            booleanExpressions.add(member.username.like("%" + screen.getAccount() + "%")
-                    .or(member.mobilePhone.like(screen.getAccount() + "%"))
-                    .or(member.email.like(screen.getAccount() + "%"))
-                    .or(member.id.eq(Long.valueOf(screen.getAccount())))
-                    .or(member.realName.like("%" + screen.getAccount() + "%")));
+            Long accountId = coverToLong(screen.getAccount());
+            if(accountId==null) {
+                booleanExpressions.add(member.username.like("%" + screen.getAccount() + "%")
+                        .or(member.mobilePhone.like(screen.getAccount() + "%"))
+                        .or(member.email.like(screen.getAccount() + "%"))
+                        .or(member.realName.like("%" + screen.getAccount() + "%")));
+            }else {
+                booleanExpressions.add(member.username.like("%" + screen.getAccount() + "%")
+                        .or(member.mobilePhone.like(screen.getAccount() + "%"))
+                        .or(member.email.like(screen.getAccount() + "%"))
+                        .or(member.id.eq(accountId))
+                        .or(member.realName.like("%" + screen.getAccount() + "%")));
+            }
         }
         if (screen.getCommonStatus() != null) {
             booleanExpressions.add(member.status.eq(screen.getCommonStatus()));

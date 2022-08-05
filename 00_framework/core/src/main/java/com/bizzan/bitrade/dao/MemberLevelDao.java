@@ -1,15 +1,12 @@
 package com.bizzan.bitrade.dao;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import com.bizzan.bitrade.dao.base.BaseDao;
+import com.bizzan.bitrade.entity.MemberLevel;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import com.bizzan.bitrade.dao.base.BaseDao;
-import com.bizzan.bitrade.entity.MemberLevel;
-
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @description 会员等级Dao
  * @date 2019/12/26 17:24
  */

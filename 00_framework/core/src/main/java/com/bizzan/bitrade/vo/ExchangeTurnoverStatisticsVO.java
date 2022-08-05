@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.ToString;
 
-import javax.persistence.Column;
 import java.math.BigDecimal;
 import java.util.Date;
 

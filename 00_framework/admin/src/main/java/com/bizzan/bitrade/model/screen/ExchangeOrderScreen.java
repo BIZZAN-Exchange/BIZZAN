@@ -1,13 +1,12 @@
 package com.bizzan.bitrade.model.screen;
 
-import lombok.Data;
-
-import java.math.BigDecimal;
-
 import com.bizzan.bitrade.constant.BooleanEnum;
 import com.bizzan.bitrade.entity.ExchangeOrderDirection;
 import com.bizzan.bitrade.entity.ExchangeOrderStatus;
 import com.bizzan.bitrade.entity.ExchangeOrderType;
+import lombok.Data;
+
+import java.math.BigDecimal;
 
 @Data
 public class ExchangeOrderScreen {
@@ -34,4 +33,5 @@ public class ExchangeOrderScreen {
      * 01（委托订单  历史订单）
      */
     BooleanEnum completed ;
+    Integer isOut;
 }

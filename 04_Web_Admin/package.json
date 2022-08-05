@@ -75,19 +75,19 @@
     "less-loader": "^4.1.0",
     "semver": "^5.4.1",
     "style-loader": "^0.19.0",
+    "uglifyjs-webpack-plugin": "^1.0.0-beta.3",
     "unsupported": "^1.1.0",
     "url-loader": "^0.6.2",
     "vue-hot-reload-api": "^2.2.4",
     "vue-html-loader": "^1.2.3",
-    "vue-i18n": "^5.0.3",
+    "vue-i18n": "^7.3.4",
     "vue-loader": "^13.5.0",
     "vue-style-loader": "^3.0.3",
     "vue-template-compiler": "^2.5.9",
-    "webpack": "^3.10.0",
+    "webpack": "^3.12.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^2.9.5",
     "webpack-merge": "^4.1.1",
-    "webpack-uglify-parallel": "^0.1.4",
-    "uglifyjs-webpack-plugin": "^1.0.0-beta.3"
+    "webpack-uglify-parallel": "^0.1.4"
   }
 }

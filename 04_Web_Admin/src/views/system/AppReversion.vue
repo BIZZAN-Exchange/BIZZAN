@@ -2,13 +2,16 @@
     <div >
       <Card>
         <p slot="title">
-        版本管理
-          <Button type="primary" size="small" @click="refreshPageManual">
+        {{ $t('versionmanagement.versionmanagement') }} <Button type="primary" size="small" @click="refreshPageManual">
             <Icon type="refresh"></Icon>
-            刷新
-          </Button>
+            {{ $t('perpetualcontractcurrencystandardmanagement.refresh') }} </Button>
         </p>
 
+        <!--<Row class="functionWrapper">-->
+        <!--  <div class="btnsWrapper clearfix">-->
+        <!--    <Button type="primary" @click="handleForm(null,null)">添加</Button>-->
+        <!--  </div>-->
+        <!--</Row>-->
         <Row >
           <Table
           :columns="column_frist"
@@ -25,14 +28,58 @@
                                 :current="currentPageIdx"
                 show-elevator></Page>
         </Row>
+        <Modal
+            :title="formMap[formName]"
+            v-model="formVisible"
+            :mask-closable="false"
+        >
+          <Form :model="formData" :rules="formRules" ref="dataForm">
+            <FormItem :label="$t('versionmanagement.platform1')" prop="platform">
+              <RadioGroup v-model.trim="formData.platform">
+                <Radio label="0">{{ $t('versionmanagement.androidapp') }}</Radio>
+                <Radio label="1">{{ $t('versionmanagement.appleapp') }}</Radio>
+              </RadioGroup>
+            </FormItem>
+            <FormItem :label="$t('versionmanagement.edition')" prop="version">
+              <Input v-model="formData.version" :placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
+            </FormItem>
+            <FormItem :label="$t('versionmanagement.downloadaddress')" prop="downloadUrl">
+              <Input :disabled="downloadUrlLoading" v-model="formData.downloadUrl" :placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
+              <div class="demo-spin-col">
+                <Spin fix v-if="downloadUrlLoading">
+                  <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+                  <div>{{ $t('versionmanagement.uploading') }}</div>
+                </Spin>
+                <Upload v-else :action="basicUrl+'admin/common/upload/oss/app'"
+                        :on-success = 'uploadSuccess'
+                        :on-error = "uploadFailed"
+                        :on-progress = "uploadLoading"
+                        :show-upload-list = "false">
+                  <Button type="ghost" icon="ios-cloud-upload-outline">{{ $t('versionmanagement.uploadfile') }}</Button>
+                </Upload>
+              </div>
+            </FormItem>
+          </Form>
+          <div slot="footer">
+            <Button @click="hideForm">{{ $t('currencywithdrawalauditmanagement.cancel') }}</Button>
+            <Button type="primary" @click="formSubmit" :loading="formLoading">{{ $t('collectionconfigurationmanagement.determine') }}</Button>
+          </div>
+        </Modal>
       </Card>
     </div>
 </template>
 
 <script>
 
-import { sysAppRevision } from '@/service/getData'
-import { setStore, getStore, removeStore } from '@/config/storage';
+import { sysAppRevision, sysAppRevisionSave, BASICURL } from '@/service/getData'
+
+const formJson = {
+  id: "",
+  platform: "",
+  version: "",
+  downloadUrl: "",
+  remark: ""
+};
 
 export default {
   data() {
@@ -41,6 +88,7 @@ export default {
       currentPageIdx: 1,
       ifLoading: true,
       showForm: false,
+      basicUrl: BASICURL,
       column_frist: [
         {
           title: 'ID',
@@ -48,15 +96,20 @@ export default {
           width: 80
         },
         {
-          title: '平台',
-          key: 'platform'
+          title: this.$t('versionmanagement.platform'),
+          key: 'platform',
+          render: (h, obj) => {
+            console.log(obj)
+            let str = obj.row.platform == 0 ? this.$t('versionmanagement.androidapp') : this.$t('versionmanagement.appleapp')
+            return h ( 'div', str)
+          }
         },
         {
-          title: '当前版本',
+          title: this.$t('versionmanagement.currentversion'),
           key: 'version'
         },
         {
-          title: '操作',
+          title: this.$t('perpetualcontractcurrencystandardmanagement.operation'),
           render: (h, obj) => {
             return h ( 'div', [
               h('Button',{
@@ -69,16 +122,37 @@ export default {
                 },
                 on:{
                   click: () =>{
-
+                    this.handleForm(obj.index, obj.row)
                   }
 
                 }
-              }, '修改')
+              }, this.$t('perpetualcontractcurrencystandardmanagement.modify'))
             ] )
           }
         },
       ],
       appreversion: [],
+      index: null,
+      formName: null,
+      formMap: {
+        add: this.$t('collectionconfigurationmanagement.new'),
+        edit: this.$t('collectionconfigurationmanagement.edit')
+      },
+      formData: formJson,
+      formRules: {
+        platform: [
+          {required: true, message: this.$t('versionmanagement.pleaseselectaplatform'), trigger: "charge"}
+        ],
+        version: [
+          {required: true, message: this.$t('versionmanagement.pleaseenterversion'), trigger: "blur"}
+        ],
+        downloadUrl: [
+          {required: true, message: this.$t('versionmanagement.pleaseenterthedownloadlink'), trigger: "blur"}
+        ],
+      },
+      formVisible: false,
+      formLoading: false,
+      downloadUrlLoading: false,
     }
   },
 
@@ -88,7 +162,7 @@ export default {
       this.refreshPage({ pageNo: pageIndex, pageSize: 10 });
     },
     cancelChange() {
-      this.$Message.info('已取消修改！');
+      this.$Message.info(this.$t('versionmanagement.modificationcanceled'));
     },
     refreshPageManual() {
       this.refreshPage({ pageNo: this.currentPageIdx, pageSize: 10 });
@@ -104,7 +178,68 @@ export default {
       }, err => {
         console.log(err);
       })
+    },
+    // 显示表单
+    handleForm(index, row) {
+      this.formVisible = true;
+      this.formData = JSON.parse(JSON.stringify(formJson));
+      if (row !== null) {
+        row.platform = row.platform + ""
+        this.formData = Object.assign({}, row);
     }
+      this.formName = "add";
+      if (index !== null) {
+        this.index = index;
+        this.formName = "edit";
+      }
+    },
+    // 隐藏表单
+    hideForm() {
+      // 更改值
+      this.formVisible = false;
+      return true;
+    },
+    formSubmit() {
+      if (this.formLoading) {
+        return false
+      }
+      this.$refs["dataForm"].validate(valid => {
+        if (valid) {
+          this.formLoading = true;
+          let data = Object.assign({}, this.formData);
+          if (this.formName === "add") {
+            delete data.id
+          }
+          console.log(data)
+          sysAppRevisionSave(data).then(response => {
+            this.formLoading = false;
+            if (response.code) {
+              this.$Message.error(response.message);
+              return false;
+            }
+            this.$Message.success(this.$t('currencywithdrawalauditmanagement.operationsuccessful'));
+            this.formVisible = false;
+            // 刷新表单
+            this.refreshPageManual();
+          });
+        }
+      });
+    },
+    uploadLoading() {
+      this.downloadUrlLoading = true
+      this.$Loading.start()
+    },
+    uploadSuccess(response) {
+      this.downloadUrlLoading = false
+      this.$Loading.finish()
+      this.formData.downloadUrl = response.data
+      this.$Message.success(this.$t('advertisingmanagement.uploadsuccessful'));
+    },
+    uploadFailed(error) {
+      this.downloadUrlLoading = false
+      this.$Loading.finish()
+      this.$Message.error(this.$t('advertisingmanagement.uploadfailed'));
+    },
   },
   created () {
     this.refreshPage();
@@ -113,6 +248,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  .demo-spin-col{
+    position: relative;
+  }
+  .demo-spin-icon-load{
+    animation: ani-demo-spin 1s linear infinite;
+  }
   .permissionWrapper{
     position: absolute;
     z-index: 10;

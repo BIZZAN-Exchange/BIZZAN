@@ -1,29 +1,21 @@
 package com.bizzan.bitrade.vendor.provider.support;
 
+import com.bizzan.bitrade.dto.SmsDTO;
+import com.bizzan.bitrade.service.SmsService;
+import com.bizzan.bitrade.util.MessageResult;
+import com.bizzan.bitrade.vendor.provider.SMSProvider;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.params.HttpMethodParams;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.alibaba.fastjson.JSONObject;
-import com.bizzan.bitrade.dto.SmsDTO;
-import com.bizzan.bitrade.service.SmsService;
-import com.bizzan.bitrade.util.MessageResult;
-import com.bizzan.bitrade.vendor.provider.SMSProvider;
-
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * 第一信息短信接口（http://www.1xinxi.cn）
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  *
  */
 @Slf4j

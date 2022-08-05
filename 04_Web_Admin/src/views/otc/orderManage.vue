@@ -2,9 +2,8 @@
 	<div>
 		<Card>
 			<p slot="title">
-				订单管理
-				<Button type="primary" size="small" @click="refreshPageManual">
-					<Icon type="refresh"></Icon> 刷新
+				{{ $t('ordermanagement.ordermanagement') }}	<Button type="primary" size="small" @click="refreshPageManual">
+					<Icon type="refresh"></Icon> {{ $t('perpetualcontractcurrencystandardmanagement.refresh') }}
 				</Button>
 			</p>
 			<Row class="functionWrapper">
@@ -20,9 +19,9 @@
 
 					<div class="poptip">
 						<Poptip trigger="hover" 
-										content="请输入订单号搜索" 
+										:content="$t('currentdelegation.pleaseentertheordernumbertosearch')" 
 										placement="bottom-start">
-							<Input placeholder="请输入订单号搜索" 
+							<Input :placeholder="$t('currentdelegation.pleaseentertheordernumbertosearch')" 
 										v-model="filterSearch.orderSn"/> 
 							</Input>      
 						</Poptip>
@@ -30,9 +29,9 @@
 
 					<div class="poptip">
 						<Poptip trigger="hover" 
-										content="请输入交易人搜索" 
+										:content="$t('transactiondetailsinlegalcurrency.pleaseentertradersearch')" 
 										placement="bottom-start">
-							<Input placeholder="请输入交易人搜索" 
+							<Input :placeholder="$t('transactiondetailsinlegalcurrency.pleaseentertradersearch')" 
 										v-model="filterSearch.customerName"/> 
 							</Input>      
 						</Poptip>
@@ -40,25 +39,25 @@
 
 					<div class="poptip">
 						<Poptip trigger="hover" 
-										content="请输入创建人搜索" 
+										:content="$t('transactiondetailsinlegalcurrency.pleaseentercreatorsearch')" 
 										placement="bottom-start">
-							<Input placeholder="请输入创建人搜索" 
+							<Input :placeholder="$t('transactiondetailsinlegalcurrency.pleaseentercreatorsearch')" 
 										v-model="filterSearch.memberName"/> 
 							</Input>      
 						</Poptip>
 					</div>
 
 					<div class="poptip">
-						<span>币种：</span>
+						<span>{{ $t('perpetualcontractcurrencystandardmanagement.currency') }}</span>
 						<Select v-model="filterSearch.unit">
 							<Option v-for="(item, index) in coinSearchArr" 
-										:value="item.unit=='全部'?'':item.unit" 
+										:value="item.unit== this.$t('ordermanagement.all')?'':item.unit" 
 										:key="item.unit">{{ item.unit }}</Option>
 						</Select>
 					</div>
 
 					<div class="poptip">
-						<span>类型：</span>
+						<span>{{ $t('transactiondetailsinlegalcurrency.type') }}</span>
 						<Select v-model="filterSearch.advertiseType">
 							<Option v-for="item in advertiseArr" 
 										:value="item.status" 
@@ -69,17 +68,17 @@
 
 					<div class="poptip range">
 						<Poptip trigger="hover" 
-										content="最低订单数搜索" 
+										:content="$t('ordermanagement.minimumordernumbersearch')" 
 										placement="bottom-start">
-							<Input placeholder="最低订单数搜索" 
+							<Input :placeholder="$t('ordermanagement.minimumordernumbersearch')" 
 										v-model="filterSearch.minNumber"/> 
 							</Input> 
 						</Poptip>
 						~
 						<Poptip trigger="hover" 
-										content="最高订单数搜索" 
+										:content="$t('ordermanagement.maximumorderssearch')" 
 										placement="bottom-start">
-							<Input placeholder="最高订单数搜索" 
+							<Input :placeholder="$t('ordermanagement.maximumorderssearch')" 
 										v-model="filterSearch.maxNumber"/> 
 							</Input> 
 						</Poptip>
@@ -87,24 +86,24 @@
 
 					<div class="poptip range">
 						<Poptip trigger="hover" 
-										content="最低订单金额搜索" 
+										:content="$t('ordermanagement.minimumorderamountsearch')" 
 										placement="bottom-start">
-							<Input placeholder="最低订单金额搜索" 
+							<Input :placeholder="$t('ordermanagement.minimumorderamountsearch')" 
 										v-model="filterSearch.minMoney"/> 
 							</Input> 
 						</Poptip>
 						~
 						<Poptip trigger="hover" 
-										content="最高订单金额搜索" 
+										:content="$t('ordermanagement.maximumorderamountsearch')" 
 										placement="bottom-start">
-							<Input placeholder="最高订单金额搜索" 
+							<Input :placeholder="$t('ordermanagement.maximumorderamountsearch')" 
 										v-model="filterSearch.maxMoney"/> 
 							</Input> 
 						</Poptip>
 					</div>
 
 					<div class="poptip">
-						<span>订单状态：</span>
+						<span>{{ $t('currentdelegation.orderstatus') }}</span>
 						<Select v-model="filterSearch.status">
 							<Option v-for="item in orderStatusArr" 
 										:value="item.status" 
@@ -117,12 +116,12 @@
 							type="daterange" 
 							placement="bottom-end" 
 							@on-change="dateRange"
-							placeholder="选择时间区间"> 
+							:placeholder="$t('servicechargewithdrawaldetails.selecttimeinterval')"> 
 						</DatePicker>
 					</div>
 
 					<div class="btns">
-						<Button type="info" size="small" @click="searchByFilter">搜索</Button>
+						<Button type="info" size="small" @click="searchByFilter">{{ $t('positionmanagementcontractassetmanagement.search') }}</Button>
 					</div>
 
 				</div>
@@ -145,22 +144,22 @@
 			</Row>
 				
 			<Modal v-model="showModal" :width="500" class="modelInfo">
-					<h3 slot="header">订单信息</h3>
+					<h3 slot="header">{{ $t('transactiondetailsinlegalcurrency.orderinformation') }}</h3>
 						<ul>
-							<li><span>订单编号：</span>{{ modelInner.orderSn }}</li>
-							<li><span>交易时间：</span>{{ modelInner.createTime }}</li>
-							<li><span>交易人：</span>{{ modelInner.customerName }}</li>
-							<li><span>创建人：</span>{{ modelInner.memberName }}</li>
-							<li><span>币种：</span>{{ modelInner.unit }}</li>
-							<li><span>类型：</span>{{ !modelInner.advertiseType ? '购买':'出售' }}</li>
-							<li><span>订单数量：</span>{{ modelInner.number }}</li>
-							<li><span>订单金额：</span>{{ modelInner.money }}</li>
-							<li><span>手续费：</span>{{ ''+modelInner.fee }}</li>
-							<li><span>支付方式：</span>{{ modelInner.payMode }}</li>
-							<li><span>订单状态：</span>{{ modelInner.status | filterOrderStatus }}</li>
-							<li><span>付款时间：</span>{{ modelInner.payTime }}</li>
-							<li><span>订单取消时间：</span>{{ !modelInner.cancelTime ? '--' : modelInner.cancelTime }}</li>
-							<li><span>放行时间：</span>{{ !modelInner.releaseTime ? '--' : modelInner.releaseTime }}</li>
+							<li><span>{{ $t('ordermanagement.orderno') }}</span>{{ modelInner.orderSn }}</li>
+							<li><span>{{ $t('transactiondetailsinlegalcurrency.tradingtime') }}</span>{{ modelInner.createTime }}</li>
+							<li><span>{{ $t('ordermanagement.trader') }}</span>{{ modelInner.customerName }}</li>
+							<li><span>{{ $t('ordermanagement.createdby') }}</span>{{ modelInner.memberName }}</li>
+							<li><span>{{ $t('perpetualcontractcurrencystandardmanagement.currency') }}</span>{{ modelInner.unit }}</li>
+							<li><span>{{ $t('transactiondetailsinlegalcurrency.type') }}</span>{{ !modelInner.advertiseType ? '购买':'出售' }}</li>
+							<li><span>{{ $t('transactiondetailsinlegalcurrency.orderquantity1') }}</span>{{ modelInner.number }}</li>
+							<li><span>{{ $t('orderdetails.orderamount') }}</span>{{ modelInner.money }}</li>
+							<li><span>{{ $t('transactiondetailsinlegalcurrency.servicecharge') }}</span>{{ ''+modelInner.fee }}</li>
+							<li><span>{{ $t('orderdetails.paymentmethod') }}</span>{{ modelInner.payMode }}</li>
+							<li><span>{{ $t('currentdelegation.orderstatus') }}</span>{{ modelInner.status | filterOrderStatus }}</li>
+							<li><span>{{ $t('transactiondetailsinlegalcurrency.paymenttime') }}</span>{{ modelInner.payTime }}</li>
+							<li><span>{{ $t('transactiondetailsinlegalcurrency.ordercancellationtime') }}</span>{{ !modelInner.cancelTime ? '--' : modelInner.cancelTime }}</li>
+							<li><span>{{ $t('transactiondetailsinlegalcurrency.releasetime') }}</span>{{ !modelInner.releaseTime ? '--' : modelInner.releaseTime }}</li>
 						</ul>
 					<div slot="footer">
 					</div>
@@ -184,17 +183,17 @@ export default {
 				property: []
 			},
 			orderStatusArr: [
-				{ status: 0, text: '已取消' },
-				{ status: 1, text: '未付款' },
-				{ status: 2, text: '已付款' },
-				{ status: 3, text: '已完成' },
-				{ status: 4, text: '申诉中' },
-				{ status: '', text: '全部' }
+				{ status: 0, text: this.$t('transactiondetailsinlegalcurrency.cancelled') },
+				{ status: 1, text: this.$t('transactiondetailsinlegalcurrency.unpaid') },
+				{ status: 2, text: this.$t('transactiondetailsinlegalcurrency.paid') },
+				{ status: 3, text: this.$t('transactiondetailsinlegalcurrency.completed') },
+				{ status: 4, text: this.$t('transactiondetailsinlegalcurrency.appealing') },
+				{ status: '', text: this.$t('transactiondetailsinlegalcurrency.all') }
 			],
 			advertiseArr: [
-				{ status: 0, text: '买入' },
-				{ status: 1, text: '卖出' },
-				{ status: '', text: '全部' }
+				{ status: 0, text: this.$t('transactiondetailsinlegalcurrency.buy') },
+				{ status: 1, text: this.$t('transactiondetailsinlegalcurrency.sell') },
+				{ status: '', text: this.$t('transactiondetailsinlegalcurrency.all') }
 			],
 			filterSearch: {
 				status: '',
@@ -221,62 +220,62 @@ export default {
           width: 60,
         },
         {
-          title: "订单编号",
+          title: this.$t('transactiondetailsinlegalcurrency.orderno'),
           width: 90,
           key: "orderSn"
         },
         {
-          title: "交易时间",
+          title: this.$t('transactiondetailsinlegalcurrency.transactiontime'),
           width: 105,
 					key: "createTime",
 					sortable: 'custom'
         },
         {
-          title: "交易人",
+          title: this.$t('transactiondetailsinlegalcurrency.trader'),
           key: "customerName"
         },
         {
-          title: "创建人",
+          title: this.$t('transactiondetailsinlegalcurrency.createdby'),
           key: "memberName"
         },
         {
-          title: "币种",
+          title: this.$t('transactiondetailsinlegalcurrency.currency'),
           key: "unit"
         },
         {
-          title: "类型",
+          title: this.$t('entrustedmanagement.type'),
           key: "advertiseType",
           render(h, obj) {
-            return h("span", {}, obj.row.advertiseType === 0 ? "买入" : "卖出");
+            return h("span", {}, obj.row.advertiseType === 0 ? this.$t('transactiondetailsinlegalcurrency.buy') : this.$t('transactiondetailsinlegalcurrency.sell'));
           }
         },
         {
-          title: "订单数量",
+          title: this.$t('transactiondetailsinlegalcurrency.orderquantity'),
           key: "number"
         },
         {
-          title: "订单金额",
+          title: this.$t('transactiondetailsinlegalcurrency.orderamount'),
           key: "money"
         },
         {
-          title: "手续费",
+          title: this.$t('transactiondetailsinlegalcurrency.handlingcharges'),
           key: "fee"
         },
         {
-          title: "支付方式",
+          title: this.$t('transactiondetailsinlegalcurrency.paymentmethod'),
           key: "payMode"
         },
         {
-          title: "订单状态",
+          title: this.$t('transactiondetailsinlegalcurrency.orderstatus'),
           key: "status",
           render(h, params) {
             let status = params.row.status;
-						let arr = ['已取消', '未付款', '已付款', '已完成', '申诉中'];
+						let arr = [this.$t('transactiondetailsinlegalcurrency.cancelled'), this.$t('transactiondetailsinlegalcurrency.unpaid'), this.$t('transactiondetailsinlegalcurrency.paid'), this.$t('transactiondetailsinlegalcurrency.completed'), this.$t('transactiondetailsinlegalcurrency.appealing')];
             return h("span", {}, arr[status]);
           }
         },
         {
-          title: "操作",
+          title: this.$t('perpetualcontractcurrencystandardmanagement.operation'),
           align: "center",
           key: "handle",
           render: (h, obj) => {
@@ -297,7 +296,7 @@ export default {
                     }
                   }
                 },
-                "查看"
+                this.$t('transactiondetailsinlegalcurrency.view')
               )
             ]);
           }
@@ -379,7 +378,7 @@ export default {
 		.then(res => {
 			if (!res.code) {
 				this.coinSearchArr = res.data;
-				this.coinSearchArr.push({ name: '全部', unit: '全部' })
+				this.coinSearchArr.push({ name: this.$t('transactiondetailsinlegalcurrency.all'), unit: this.$t('transactiondetailsinlegalcurrency.all') })
 			} else this.$Message.error(res.message);
 		})
 		.catch(err => {
@@ -389,7 +388,7 @@ export default {
 	},
 	filters: {
 		filterOrderStatus (val) {
-			let arr = ['已取消', '未付款', '已付款', '已完成', '申诉中'];
+			let arr = [this.$t('transactiondetailsinlegalcurrency.cancelled'), this.$t('transactiondetailsinlegalcurrency.unpaid'), this.$t('transactiondetailsinlegalcurrency.paid'), this.$t('transactiondetailsinlegalcurrency.completed'), this.$t('transactiondetailsinlegalcurrency.appealing')];
 			return arr[val];
 		},
 	},

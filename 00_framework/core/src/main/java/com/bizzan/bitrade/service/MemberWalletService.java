@@ -1,15 +1,5 @@
 package com.bizzan.bitrade.service;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.bizzan.bitrade.constant.BooleanEnum;
 import com.bizzan.bitrade.constant.PageModel;
 import com.bizzan.bitrade.constant.TransactionType;
@@ -18,19 +8,12 @@ import com.bizzan.bitrade.dao.MemberDao;
 import com.bizzan.bitrade.dao.MemberDepositDao;
 import com.bizzan.bitrade.dao.MemberWalletDao;
 import com.bizzan.bitrade.dto.MemberWalletDTO;
-import com.bizzan.bitrade.entity.Coin;
-import com.bizzan.bitrade.entity.Member;
-import com.bizzan.bitrade.entity.MemberDeposit;
-import com.bizzan.bitrade.entity.MemberTransaction;
-import com.bizzan.bitrade.entity.MemberWallet;
-import com.bizzan.bitrade.entity.Order;
-import com.bizzan.bitrade.entity.OtcCoin;
-import com.bizzan.bitrade.entity.QMember;
-import com.bizzan.bitrade.entity.QMemberWallet;
+import com.bizzan.bitrade.entity.*;
 import com.bizzan.bitrade.es.ESUtils;
 import com.bizzan.bitrade.exception.InformationExpiredException;
 import com.bizzan.bitrade.service.Base.BaseService;
 import com.bizzan.bitrade.util.BigDecimalUtils;
+import com.bizzan.bitrade.util.Md5;
 import com.bizzan.bitrade.util.MessageResult;
 import com.bizzan.bitrade.vendor.provider.SMSProvider;
 import com.querydsl.core.types.OrderSpecifier;
@@ -38,8 +21,17 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
-
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -53,12 +45,20 @@ public class MemberWalletService extends BaseService {
     @Autowired
     private CoinDao coinDao;
     @Autowired
+    private CoinService coinService;
+    @Autowired
     private MemberTransactionService transactionService;
     @Autowired
+    private AddressextService addressextService;
+    @Autowired
     private MemberDepositDao depositDao;
+    @Autowired
+    private CoinprotocolService coinprotocolService;
+    @Autowired
+    private RechargeService rechargeService;
     @Autowired(required=false)
     private ESUtils esUtils;
-    
+
     public MemberWallet save(MemberWallet wallet) {
         return memberWalletDao.saveAndFlush(wallet);
     }
@@ -73,6 +73,10 @@ public class MemberWalletService extends BaseService {
     public MemberWallet findByOtcCoinAndMemberId(OtcCoin coin, long memberId) {
         Coin coin1 = coinDao.findByUnit(coin.getUnit());
         return memberWalletDao.findByCoinAndMemberId(coin1, memberId);
+    }
+
+    public BigDecimal getBalance(Long memberId, String coinName){
+        return memberWalletDao.getBalance(memberId, coinName);
     }
 
     /**
@@ -117,8 +121,12 @@ public class MemberWalletService extends BaseService {
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
-    public MessageResult recharge(Coin coin, String address, BigDecimal amount, String txid) {
-        MemberWallet wallet = findByCoinAndAddress(coin, address);
+    public MessageResult recharge(Coin coin, String address, BigDecimal amount, String txid,String fromAddress,String protocol,Long blockHeight) {
+        Addressext addressext = addressextService.findByAddress(address);
+        if(addressext==null){
+            return new MessageResult(500, "wallet cannot be null");
+        }
+        MemberWallet wallet = findByCoinAndMemberId(coin, Long.valueOf(addressext.getMemberId()));
         if (wallet == null) {
             return new MessageResult(500, "wallet cannot be null");
         }
@@ -133,14 +141,39 @@ public class MemberWalletService extends BaseService {
         deposit.setUnit(wallet.getCoin().getUnit());
         depositDao.save(deposit);
 
-        // ERC20 USDT充值，余额增加到USDT上
-        if(coin.getUnit().equals("EUSDT")) {
-            MemberWallet walletShadow = findByCoinUnitAndMemberId("USDT", wallet.getMemberId());
-            walletShadow.setBalance(walletShadow.getBalance().add(amount));
-        }else {
-            wallet.setBalance(wallet.getBalance().add(amount)); // 为用户增加余额
+
+        Recharge recharge = new Recharge();
+        recharge.setAddress(address);
+        recharge.setAddtime(System.currentTimeMillis());
+        recharge.setBlock(blockHeight);
+        recharge.setCoinid(0L);
+        recharge.setCoinname(coin.getName());
+        recharge.setMemberid(addressext.getMemberId());
+        recharge.setHash(txid);
+        recharge.setNconfirms(20);
+        recharge.setConfirms(20);
+        try {
+            if(!StringUtils.isEmpty(txid)){
+                recharge.setMd5(Md5.md5Digest(txid));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        
+        recharge.setMoney(amount.doubleValue());
+        recharge.setProtocol(addressext.getCoinProtocol());
+        recharge.setSend(fromAddress);
+        recharge.setStatus(1);
+        recharge.setAgreen(0);
+        Coinprotocol byProtocol = coinprotocolService.findByProtocol(addressext.getCoinProtocol());
+        if(byProtocol!=null){
+            recharge.setProtocolname(byProtocol.getProtocolname());
+        }
+
+        rechargeService.save(recharge);
+
+
+        wallet.setBalance(wallet.getBalance().add(amount)); // 为用户增加余额
+
         MemberTransaction transaction = new MemberTransaction();
         transaction.setAmount(amount);
         transaction.setSymbol(wallet.getCoin().getUnit());
@@ -154,17 +187,17 @@ public class MemberWalletService extends BaseService {
 
         transaction = transactionService.save(transaction);
 
-        Member mRes = memberDao.findOne(wallet.getMemberId());
-        if(mRes != null ) {
-        	try {
-				smsProvider.sendCustomMessage(mRes.getMobilePhone(), "尊敬的用户：恭喜您充值"+ wallet.getCoin().getUnit() + "成功，充值数量为：" + amount.stripTrailingZeros().toPlainString());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-        }
+//        Member mRes = memberDao.findOne(wallet.getMemberId());
+//        if(mRes != null ) {
+//            try {
+//                smsProvider.sendCustomMessage(mRes.getMobilePhone(), "尊敬的用户：恭喜您充值"+ wallet.getCoin().getUnit() + "成功，充值数量为：" + amount.stripTrailingZeros().toPlainString());
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
         return new MessageResult(0, "success");
     }
-    
+
     /**
      * 钱包充值(EOS地址类型）
      *
@@ -258,7 +291,28 @@ public class MemberWalletService extends BaseService {
     }
 
     public List<MemberWallet> findAllByMemberId(Long memberId) {
-        return memberWalletDao.findAllByMemberId(memberId);
+        List<MemberWallet> list = memberWalletDao.findAllByMemberId(memberId);
+        //补全钱包
+        List<Coin> coins =  coinService.findAll();
+        for(Coin coin:coins) {
+            boolean isHas = false;
+            for (MemberWallet memberWallet : list) {
+                if(memberWallet.getCoin().getUnit().equals(coin.getUnit())){
+                    isHas = true;
+                }
+            }
+            if(!isHas) {
+                MemberWallet wallet = new MemberWallet();
+                wallet.setCoin(coin);
+                wallet.setMemberId(memberId);
+                wallet.setBalance(new BigDecimal(0));
+                wallet.setFrozenBalance(new BigDecimal(0));
+                wallet.setAddress("");
+                this.save(wallet);
+                list.add(wallet);
+            }
+        }
+        return list;
     }
 
     /**
@@ -433,14 +487,27 @@ public class MemberWalletService extends BaseService {
     public Page<MemberWalletDTO> joinFind(List<Predicate> predicates,QMember qMember ,QMemberWallet qMemberWallet,PageModel pageModel) {
         List<OrderSpecifier> orderSpecifiers = pageModel.getOrderSpecifiers();
         predicates.add(qMember.id.eq(qMemberWallet.memberId));
+        JPAQuery<MemberWalletDTO> query = queryFactory.selectDistinct(
+                        Projections.fields(MemberWalletDTO.class, qMemberWallet.id.as("id"),qMemberWallet.memberId.as("memberId") ,qMember.username,qMember.realName.as("realName"),
+                        qMember.email,qMember.mobilePhone.as("mobilePhone"),qMemberWallet.balance,qMemberWallet.coin.unit
+                        ,qMemberWallet.frozenBalance.as("frozenBalance"),qMemberWallet.balance.add(qMemberWallet.frozenBalance).as("allBalance")))
+                .from(QMember.member,QMemberWallet.memberWallet,QMemberAddress.memberAddress).where(predicates.toArray(new Predicate[predicates.size()]))
+                        .orderBy(orderSpecifiers.toArray(new OrderSpecifier[orderSpecifiers.size()]));
+        List<MemberWalletDTO> content = query.offset((pageModel.getPageNo()-1)*pageModel.getPageSize()).limit(pageModel.getPageSize()).fetch();
+        long total = query.fetchCount();
+        return new PageImpl<>(content, pageModel.getPageable(), total);
+    }
+
+    public List<MemberWalletDTO> joinFindAll(List<Predicate> predicates,QMember qMember ,QMemberWallet qMemberWallet,PageModel pageModel) {
+        List<OrderSpecifier> orderSpecifiers = pageModel.getOrderSpecifiers();
+        predicates.add(qMember.id.eq(qMemberWallet.memberId));
         JPAQuery<MemberWalletDTO> query = queryFactory.select(
                         Projections.fields(MemberWalletDTO.class, qMemberWallet.id.as("id"),qMemberWallet.memberId.as("memberId") ,qMember.username,qMember.realName.as("realName"),
                         qMember.email,qMember.mobilePhone.as("mobilePhone"),qMemberWallet.balance,qMemberWallet.address,qMemberWallet.coin.unit
                         ,qMemberWallet.frozenBalance.as("frozenBalance"),qMemberWallet.balance.add(qMemberWallet.frozenBalance).as("allBalance"))).from(QMember.member,QMemberWallet.memberWallet).where(predicates.toArray(new Predicate[predicates.size()]))
                         .orderBy(orderSpecifiers.toArray(new OrderSpecifier[orderSpecifiers.size()]));
-        List<MemberWalletDTO> content = query.offset((pageModel.getPageNo()-1)*pageModel.getPageSize()).limit(pageModel.getPageSize()).fetch();
-        long total = query.fetchCount();
-        return new PageImpl<>(content, pageModel.getPageable(), total);
+        List<MemberWalletDTO> content = query.fetch();
+        return content;
     }
 
     public BigDecimal getAllBalance(String coinName){
@@ -450,7 +517,7 @@ public class MemberWalletService extends BaseService {
     public MemberDeposit findDeposit(String address,String txid){
         return depositDao.findByAddressAndTxid(address,txid);
     }
-    
+
     public MemberDeposit findDepositByTxid(String txid){
         return depositDao.findByTxid(txid);
     }
@@ -462,24 +529,24 @@ public class MemberWalletService extends BaseService {
     public void increaseBalance(Long walletId,BigDecimal amount){
         memberWalletDao.increaseBalance(walletId,amount);
     }
-    
+
     public int unfreezeLess(){
         return memberWalletDao.unfreezeLess();
     }
-    
+
     public int unfreezeMore(){
         return memberWalletDao.unfreezeMore();
     }
-    
-    
+
+
 //    public int initSuperPaterner(long memberId){
 //        return memberWalletDao.initSuperPaterner(memberId);
 //    }
-    
+
     public int dropWeekTable(int weekDay){
         return memberWalletDao.dropWeekTable(weekDay);
     }
-    
+
     public int createWeekTable(int weekDay){
         return memberWalletDao.createWeekTable(weekDay);
     }
@@ -573,5 +640,11 @@ public class MemberWalletService extends BaseService {
     @Transactional
     public void decreaseToRelease(Long id, BigDecimal amount) {
         memberWalletDao.decreaseToRelease(id, amount);
+    }
+
+
+    @Transactional
+    public void decreaseBalance(Long walletId, BigDecimal amount) {
+        memberWalletDao.decreaseBalance(walletId,amount);
     }
 }

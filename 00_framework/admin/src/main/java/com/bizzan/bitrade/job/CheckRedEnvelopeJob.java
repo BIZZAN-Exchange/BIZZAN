@@ -1,13 +1,5 @@
 package com.bizzan.bitrade.job;
 
-import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-
 import com.bizzan.bitrade.constant.TransactionType;
 import com.bizzan.bitrade.entity.MemberTransaction;
 import com.bizzan.bitrade.entity.MemberWallet;
@@ -15,8 +7,14 @@ import com.bizzan.bitrade.entity.RedEnvelope;
 import com.bizzan.bitrade.service.MemberTransactionService;
 import com.bizzan.bitrade.service.MemberWalletService;
 import com.bizzan.bitrade.service.RedEnvelopeService;
-
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.List;
 
 @Component
 @Slf4j

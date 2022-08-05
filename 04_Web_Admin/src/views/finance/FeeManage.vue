@@ -2,16 +2,14 @@
   <div>
     <Card>
       <p slot="title">
-        手续费管理
-        <Button type="primary" size="small" @click="refreshPageManual">
+        {{ $t('handlingchargemanagement.handlingchargemanagement') }} <Button type="primary" size="small" @click="refreshPageManual">
           <Icon type="refresh"></Icon>
-          刷新
-        </Button>
+          {{ $t('perpetualcontractcurrencystandardmanagement.refresh') }} </Button>
       </p>
 
       <Row class="functionWrapper">
         <div class="searchWrapper clearfix">
-						<span>交易类型：</span>
+						<span>{{ $t('servicechargewithdrawaldetails.transactiontype') }}</span>
 						<Select v-model="filterSearch.type" style="width: 200px">
 							<Option v-for="(item, index) in tradeTypeArr"
 										:value="index"
@@ -19,17 +17,18 @@
 						</Select>
 				</div>
         <div class="searchWrapper clearfix" style="margin-left:20px;">
-						<span>交易时间：</span>
+						<span>{{ $t('transactiondetailsinlegalcurrency.tradingtime') }}</span>
 						<DatePicker
 							type="daterange"
 							placement="bottom-end"
               v-model="value1"
 							@on-change="dateRange"
-							placeholder="选择时间区间">
+							:placeholder="$t('servicechargewithdrawaldetails.selecttimeinterval')">
 						</DatePicker>
 				</div>
         <div class="searchWrapper clearfix">
-          <Button type="primary" @click="searchByFilter">搜索</Button>
+          <Button type="primary" @click="searchByFilter">{{ $t('positionmanagementcontractassetmanagement.search') }}</Button>
+          <Button type="success" @click="exportExcel">{{ $t('positionmanagementcontractassetmanagement.export') }}</Button>
         </div>
       </Row>
 
@@ -46,7 +45,7 @@
 
 <script>
 
-import { perTradeAll  } from '@/service/getData';
+import { perTradeAll, perTradeAllOut  } from '@/service/getData';
 
   export default{
     data () {
@@ -62,49 +61,71 @@ import { perTradeAll  } from '@/service/getData';
 					minFee: '',
 					maxFee: '',
 					startTime: '',
-					endTime: ''
+					endTime: '',
+          isOut: 0
 				},
         ifLoading: true,
         current: 1,
         pageNum: null,
         userpage: [],
-        tradeTypeArr: [ '充值', '提现', '转账', '币币交易', '法币买入', '法币卖出',
-              '活动奖励', '推广奖励', '分红', '投票', '人工充值', '配对',
-              "活动兑换", "CTC买入", "CTC卖出", "发红包", "收红包" ],
+        tradeTypeArr: [ this.$t('handlingchargemanagement.recharge'), this.$t('handlingchargemanagement.withdrawal'), this.$t('handlingchargemanagement.transfer'), this.$t('servicechargewithdrawaldetails.currencytransaction'), this.$t('handlingchargemanagement.purchaseinlegalcurrency'), this.$t('handlingchargemanagement.sellinginlegalcurrency'),
+              this.$t('handlingchargemanagement.activityrewards'), this.$t('handlingchargemanagement.promotionreward'), this.$t('handlingchargemanagement.dividends'), this.$t('handlingchargemanagement.vote'), this.$t('handlingchargemanagement.manualrecharge'), this.$t('handlingchargemanagement.pairing'),
+              this.$t('handlingchargemanagement.eventredemption'), this.$t('handlingchargemanagement.ctcbuy'), this.$t('handlingchargemanagement.ctcsales'), this.$t('handlingchargemanagement.redenvelope'), this.$t('handlingchargemanagement.receiveredenvelopes') ],
         columns_first: [
           {
-            title: '会员ID',
+            title: this.$t('realnamemanagement.memberid'),
             key:"memberId"
           },
 
           {
-            title: '交易类型',
+            title: this.$t('handlingchargemanagement.transactiontype'),
 						key: 'type',
 						render: (h, obj) => {
               	return h ('span', {}, this.tradeTypeArr[obj.row.type])
 						}
           },
           {
-            title: '手续费类型',
+            title: this.$t('servicechargewithdrawaldetails.handlingchargetype'),
             key:"symbol"
           },
 
           {
-            title: '交易时间',
+            title: this.$t('transactiondetailsinlegalcurrency.transactiontime'),
             key:"createTime"
           },
           {
-            title: '交易手续费',
+            title: this.$t('handlingchargemanagement.transactionhandlingfee'),
             key:"fee"
           },
         ]
       }
     },
     methods: {
+      exportExcel() {
+        this.filterSearch.isOut = 1
+        perTradeAllOut(this.filterSearch)
+            .then(res => {
+              // 文件下载
+              let blob = new Blob([res], {type: 'application/vnd.ms-excel'})
+              let objectUrl = URL.createObjectURL(blob)
+              // window.location.href = objectUrl
+              const fileName = this.$t('handlingchargemanagement.handlingfeedetails')// 导出文件名
+              const elink = document.createElement('a') // 创建a标签
+              elink.download = fileName // a标签添加属性
+              elink.style.display = 'none'
+              elink.href = objectUrl
+              document.body.appendChild(elink)
+              elink.click() // 执行下载
+              URL.revokeObjectURL(elink.href) // 释放URL 对象
+              document.body.removeChild(elink) // 释放标签
+              this.$Message.success(this.$t('positionmanagementcontractassetmanagement.exportsuccessful'))
+            })
+      },
       searchByFilter(){
         this.current = 1;
         console.log(this.filterSearch)
 				this.filterSearch.pageNo = 1;
+        this.filterSearch.isOut = 0
 				this.refreshPage(this.filterSearch)
       },
       refreshPageManual() {
@@ -115,6 +136,7 @@ import { perTradeAll  } from '@/service/getData';
 				}
 				this.filterSearch.pageNo = 1;
 				this.filterSearch.pageSize = 10;
+				this.filterSearch.isOut = 0
 				this.refreshPage(this.filterSearch);
       },
       dateRange() {
@@ -134,10 +156,12 @@ import { perTradeAll  } from '@/service/getData';
       changePage(pageIndex) {
         this.current = pageIndex;
         this.filterSearch.pageNo = pageIndex;
+        this.filterSearch.isOut = 0
         this.refreshPage( this.filterSearch );
       },
       refreshPage(obj) {
         this.ifLoading = true;
+        obj.outType = 1
         perTradeAll(obj).then( res => {
           if(!res.code) {
             this.ifLoading = false;
@@ -151,7 +175,7 @@ import { perTradeAll  } from '@/service/getData';
 
     },
     created () {
-      this.refreshPage();
+      this.refreshPage({});
     }
   }
 </script>

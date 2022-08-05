@@ -1,19 +1,18 @@
 package com.bizzan.bitrade.controller.finance;
 
-import static com.bizzan.bitrade.constant.BooleanEnum.IS_FALSE;
-import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
-import static com.bizzan.bitrade.constant.WithdrawStatus.FAIL;
-import static com.bizzan.bitrade.constant.WithdrawStatus.SUCCESS;
-import static com.bizzan.bitrade.constant.WithdrawStatus.WAITING;
-import static org.springframework.util.Assert.isTrue;
-import static org.springframework.util.Assert.notNull;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import com.bizzan.bitrade.entity.transform.AuthMember;
+import com.bizzan.bitrade.annotation.AccessLog;
+import com.bizzan.bitrade.constant.*;
+import com.bizzan.bitrade.controller.common.BaseAdminController;
+import com.bizzan.bitrade.entity.*;
+import com.bizzan.bitrade.es.ESUtils;
+import com.bizzan.bitrade.model.screen.WithdrawRecordScreen;
+import com.bizzan.bitrade.service.*;
+import com.bizzan.bitrade.util.MessageResult;
+import com.bizzan.bitrade.vendor.provider.SMSProvider;
+import com.bizzan.bitrade.vo.WithdrawRecordVO;
+import com.querydsl.core.types.Predicate;
+import com.bizzan.bitrade.core.Encrypt;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,38 +23,18 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import com.bizzan.bitrade.annotation.AccessLog;
-import com.bizzan.bitrade.constant.AdminModule;
-import com.bizzan.bitrade.constant.BooleanEnum;
-import com.bizzan.bitrade.constant.PageModel;
-import com.bizzan.bitrade.constant.SysConstant;
-import com.bizzan.bitrade.constant.TransactionType;
-import com.bizzan.bitrade.constant.WithdrawStatus;
-import com.bizzan.bitrade.controller.common.BaseAdminController;
-import com.bizzan.bitrade.entity.Admin;
-import com.bizzan.bitrade.entity.Member;
-import com.bizzan.bitrade.entity.MemberTransaction;
-import com.bizzan.bitrade.entity.MemberWallet;
-import com.bizzan.bitrade.entity.QMember;
-import com.bizzan.bitrade.entity.QWithdrawRecord;
-import com.bizzan.bitrade.entity.WithdrawRecord;
-import com.bizzan.bitrade.es.ESUtils;
-import com.bizzan.bitrade.model.screen.WithdrawRecordScreen;
-import com.bizzan.bitrade.service.LocaleMessageSourceService;
-import com.bizzan.bitrade.service.MemberService;
-import com.bizzan.bitrade.service.MemberTransactionService;
-import com.bizzan.bitrade.service.MemberWalletService;
-import com.bizzan.bitrade.service.WithdrawRecordService;
-import com.bizzan.bitrade.util.MessageResult;
-import com.bizzan.bitrade.vendor.provider.SMSProvider;
-import com.bizzan.bitrade.vo.WithdrawRecordVO;
-import com.querydsl.core.types.Predicate;
-import com.bizzan.bitrade.core.Encrypt;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
+import static com.bizzan.bitrade.constant.BooleanEnum.IS_FALSE;
+import static com.bizzan.bitrade.constant.WithdrawStatus.*;
+import static org.springframework.util.Assert.isTrue;
+import static org.springframework.util.Assert.notNull;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @description 提现
  * @date 2019/2/25 11:22
  */

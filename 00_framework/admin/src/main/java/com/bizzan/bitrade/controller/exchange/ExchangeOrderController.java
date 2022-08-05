@@ -9,16 +9,20 @@ import com.bizzan.bitrade.controller.common.BaseAdminController;
 import com.bizzan.bitrade.entity.*;
 import com.bizzan.bitrade.model.screen.ExchangeOrderScreen;
 import com.bizzan.bitrade.model.screen.ExchangeTradeScreen;
+import com.bizzan.bitrade.model.vo.ExchangeOrderOutVO;
+import com.bizzan.bitrade.model.vo.ExchangeOrderVO;
 import com.bizzan.bitrade.service.ExchangeOrderService;
 import com.bizzan.bitrade.service.LocaleMessageSourceService;
+import com.bizzan.bitrade.service.MemberService;
+import com.bizzan.bitrade.util.ExcelUtil;
 import com.bizzan.bitrade.util.FileUtil;
 import com.bizzan.bitrade.util.MessageResult;
 import com.bizzan.bitrade.util.PredicateUtils;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -27,11 +31,14 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @description
  * @date 2019/1/31 10:52
  */
@@ -44,6 +51,8 @@ public class ExchangeOrderController extends BaseAdminController {
     private ExchangeOrderService exchangeOrderService;
     @Autowired
     private LocaleMessageSourceService messageSource;
+    @Autowired
+    private MemberService memberService;
 
     @RequiresPermissions("exchange:exchange-order:all")
     @PostMapping("all")
@@ -72,7 +81,8 @@ public class ExchangeOrderController extends BaseAdminController {
     @AccessLog(module = AdminModule.EXCHANGE, operation = "分页查找exchangeOrder")
     public MessageResult page(
             PageModel pageModel,
-            ExchangeOrderScreen screen) {
+            ExchangeOrderScreen screen,
+            HttpServletResponse response) throws IOException {
         if (pageModel.getDirection() == null && pageModel.getProperty() == null) {
             ArrayList<Sort.Direction> directions = new ArrayList<>();
             directions.add(Sort.Direction.DESC);
@@ -83,8 +93,70 @@ public class ExchangeOrderController extends BaseAdminController {
         }
         //获取查询条件
         Predicate predicate = getPredicate(screen);
+        if (screen.getIsOut() == 1) {
+            Iterable<ExchangeOrder> allOut = exchangeOrderService.findAllOut(predicate);
+            Set<Long> memberSet = new HashSet<>();
+            allOut.forEach(v -> {
+                memberSet.add(v.getMemberId());
+            });
+            Map<Long, Member> memberMap = memberService.mapByMemberIds(new ArrayList<>(memberSet));
+            List<ExchangeOrderOutVO> voList = new ArrayList<>();
+            allOut.forEach(v -> {
+                ExchangeOrderOutVO vo = new ExchangeOrderOutVO();
+                BeanUtils.copyProperties(v, vo);
+                vo.setPrice(v.getType() == ExchangeOrderType.LIMIT_PRICE ? v.getPrice().toPlainString() : "市价");
+                if (v.getTurnover() != null && v.getTurnover().compareTo(BigDecimal.ZERO) > 0 && v.getTradedAmount() != null && v.getTradedAmount().compareTo(BigDecimal.ZERO) > 0) {
+                    BigDecimal price = v.getTurnover().divide(v.getTradedAmount(), 6, BigDecimal.ROUND_DOWN);
+                    vo.setPrice(price.toString());
+                }
+                vo.setAmount(v.getAmount().toPlainString());
+                vo.setTradedAmount(v.getTradedAmount().toPlainString());
+                vo.setType(v.getType() == ExchangeOrderType.MARKET_PRICE ? "市价" : "限价");
+                vo.setDirection(v.getDirection() == ExchangeOrderDirection.BUY ? "买入" : "卖出");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                vo.setTime(sdf.format(new Date(v.getTime())));
+                ExchangeOrderStatus status = v.getStatus();
+                String strStatus = "--";
+                if (status == ExchangeOrderStatus.TRADING) {
+                    strStatus = "交易中";
+                } else if (status == ExchangeOrderStatus.COMPLETED) {
+                    strStatus = "已完成";
+                } else if (status == ExchangeOrderStatus.CANCELED) {
+                    strStatus = "已取消";
+                }
+                vo.setStatus(strStatus);
+                Long memberId = vo.getMemberId();
+                if (memberMap.containsKey(memberId)) {
+                    Member member = memberMap.get(memberId);
+                    vo.setEmail(member.getEmail());
+                    vo.setMobilePhone(member.getMobilePhone());
+                    vo.setRealName(member.getRealName());
+                }
+                voList.add(vo);
+            });
+            ExcelUtil.listToExcel(voList, ExchangeOrderOutVO.class.getDeclaredFields(), response.getOutputStream());
+            return null;
+        }
         Page<ExchangeOrder> all = exchangeOrderService.findAll(predicate, pageModel.getPageable());
-        return success(all);
+        List<Long> memberIds = all.getContent().stream().distinct().map(ExchangeOrder::getMemberId).collect(Collectors.toList());
+        Map<Long, Member> memberMap = memberService.mapByMemberIds(memberIds);
+        Page<ExchangeOrderVO> page = all.map(v -> {
+            ExchangeOrderVO exchangeOrderVO = new ExchangeOrderVO();
+            BeanUtils.copyProperties(v, exchangeOrderVO);
+            if (v.getTurnover() != null && v.getTurnover().compareTo(BigDecimal.ZERO) > 0 && v.getTradedAmount() != null && v.getTradedAmount().compareTo(BigDecimal.ZERO) > 0) {
+                BigDecimal price = v.getTurnover().divide(v.getTradedAmount(), 6, BigDecimal.ROUND_DOWN);
+                exchangeOrderVO.setPrice(price);
+            }
+            Long memberId = exchangeOrderVO.getMemberId();
+            if (memberMap.containsKey(memberId)) {
+                Member member = memberMap.get(memberId);
+                exchangeOrderVO.setEmail(member.getEmail());
+                exchangeOrderVO.setMobilePhone(member.getMobilePhone());
+                exchangeOrderVO.setRealName(member.getRealName());
+            }
+            return exchangeOrderVO;
+        });
+        return success(page);
     }
 
     private Predicate getPredicate(ExchangeOrderScreen screen) {

@@ -24,6 +24,16 @@
         <module>cloud</module>
 		<module>netty</module>
         <module>wallet</module>
+<!--		<module>agent-api</module>-->
+<!--		<module>contract-swap-core</module>-->
+<!--		<module>contract-swap-api</module>-->
+<!--		<module>contract-coin-swap-core</module>-->
+<!--		<module>contract-coin-swap-api</module>-->
+<!--		<module>contract-option-core</module>-->
+<!--		<module>contract-option-api</module>-->
+<!--		<module>contract-second-core</module>-->
+<!--		<module>contract-second-api</module>-->
+<!--        <module>kline-robot</module>-->
     </modules>
 
 	<parent>

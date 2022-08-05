@@ -1,20 +1,25 @@
 package com.bizzan.bitrade.controller.exchange;
 
-import static org.springframework.util.Assert.notNull;
-
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.bizzan.bitrade.annotation.AccessLog;
+import com.bizzan.bitrade.constant.AdminModule;
+import com.bizzan.bitrade.constant.BooleanEnum;
+import com.bizzan.bitrade.constant.PageModel;
+import com.bizzan.bitrade.constant.SysConstant;
+import com.bizzan.bitrade.controller.common.BaseAdminController;
+import com.bizzan.bitrade.entity.*;
+import com.bizzan.bitrade.model.screen.ExchangeCoinScreen;
+import com.bizzan.bitrade.service.CoinService;
+import com.bizzan.bitrade.service.ExchangeCoinService;
+import com.bizzan.bitrade.service.ExchangeOrderService;
+import com.bizzan.bitrade.service.LocaleMessageSourceService;
+import com.bizzan.bitrade.util.FileUtil;
+import com.bizzan.bitrade.util.MessageResult;
+import com.bizzan.bitrade.util.PredicateUtils;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.bizzan.bitrade.core.Encrypt;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.util.Assert;
@@ -26,45 +31,20 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.bizzan.bitrade.annotation.AccessLog;
-import com.bizzan.bitrade.constant.AdminModule;
-import com.bizzan.bitrade.constant.BooleanEnum;
-import com.bizzan.bitrade.constant.PageModel;
-import com.bizzan.bitrade.constant.SysConstant;
-import com.bizzan.bitrade.controller.common.BaseAdminController;
-import com.bizzan.bitrade.entity.Admin;
-import com.bizzan.bitrade.entity.Coin;
-import com.bizzan.bitrade.entity.ExchangeCoin;
-import com.bizzan.bitrade.entity.ExchangeOrder;
-import com.bizzan.bitrade.entity.ExchangeOrderStatus;
-import com.bizzan.bitrade.entity.QExchangeCoin;
-import com.bizzan.bitrade.entity.QExchangeOrder;
-import com.bizzan.bitrade.model.screen.ExchangeCoinScreen;
-import com.bizzan.bitrade.model.screen.ExchangeOrderScreen;
-import com.bizzan.bitrade.service.CoinService;
-import com.bizzan.bitrade.service.ExchangeCoinService;
-import com.bizzan.bitrade.service.ExchangeOrderService;
-import com.bizzan.bitrade.service.LocaleMessageSourceService;
-import com.bizzan.bitrade.util.FileUtil;
-import com.bizzan.bitrade.util.MessageResult;
-import com.bizzan.bitrade.util.PredicateUtils;
-import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.bizzan.bitrade.core.Encrypt;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import static org.springframework.util.Assert.notNull;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @description 币币交易手续费
  * @date 2019/1/19 15:16
  */
@@ -236,6 +216,8 @@ public class ExchangeCoinController extends BaseAdminController {
             @RequestParam(value = "enableMarketSell", required = false) Integer enableMarketSell, // 是否可市价买（1:是,0:否）
             @RequestParam(value = "enableBuy", required = false) Integer enableBuy, // 是否可买（1:是,0:否）
             @RequestParam(value = "enableSell", required = false) Integer enableSell, // 是否可卖（1:是,0:否）
+            @RequestParam(value = "flag", required = false) Integer flag, // 是否推荐（1:是,0:否）
+            @RequestParam(value = "fakeDataStatus", required = false) Integer fakeDataStatus, // 假数据状态（0：关闭，1：启动）
             @RequestParam(value = "sort", required = false) Integer sort,
             @RequestParam(value = "password") String password,
             @SessionAttribute(SysConstant.SESSION_ADMIN) Admin admin) {
@@ -275,6 +257,12 @@ public class ExchangeCoinController extends BaseAdminController {
         }
         if(enableSell != null && enableSell >= 0 && enableSell <2) {
             exchangeCoin.setEnableSell(enableSell ==1 ? BooleanEnum.IS_TRUE : BooleanEnum.IS_FALSE);
+        }
+        if(flag != null && flag >= 0 && flag <2) {
+            exchangeCoin.setFlag(flag);
+        }
+        if(fakeDataStatus != null && fakeDataStatus >= 0 && fakeDataStatus <2) {
+            exchangeCoin.setFakeDataStatus(fakeDataStatus);
         }
         logger.info("Modify exchange coin: " + symbol);
         exchangeCoinService.save(exchangeCoin);
@@ -943,7 +931,7 @@ public class ExchangeCoinController extends BaseAdminController {
 
     /**
      * 此处修改需要修改机器人交易工程RobotParams
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
      *
      */
     class RobotParams {
@@ -1090,7 +1078,7 @@ public class ExchangeCoinController extends BaseAdminController {
 
     /**
      * K线数据
-     * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
      *
      */
     class CustomRobotKline{

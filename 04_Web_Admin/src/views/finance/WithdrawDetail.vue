@@ -2,11 +2,9 @@
   <div>
     <Card>
       <p slot="title">
-        提币明细
-        <Button type="primary" size="small" @click="refreshPageManual">
+        {{ $t('withdrawaldetails.withdrawaldetails') }} <Button type="primary" size="small" @click="refreshPageManual">
           <Icon type="refresh"></Icon>
-          刷新
-        </Button>
+          {{ $t('perpetualcontractcurrencystandardmanagement.refresh') }} </Button>
       </p>
 
       <Row class="functionWrapper">
@@ -23,9 +21,9 @@
 
 					<div class="poptip">
 						<Poptip trigger="hover"
-										content="请输入真实姓名或用户昵称查询"
+										:content="$t('withdrawaldetails.note1')"
 										placement="bottom-start">
-							<Input placeholder="请输入真实姓名或用户昵称查询" style="width:200px"
+							<Input :placeholder="$t('withdrawaldetails.note1')" style="width:200px"
 										v-model="filterSearch.account"/>
 							</Input>
 						</Poptip>
@@ -33,23 +31,23 @@
 
 					<div class="poptip">
 						<Poptip trigger="hover"
-										content="请输入手机号查询"
+										:content="$t('withdrawaldetails.pleaseenteryourmobilenumbertoquery')"
 										placement="bottom-start">
-							<Input placeholder="请输入手机号查询"
+							<Input :placeholder="$t('withdrawaldetails.pleaseenteryourmobilenumbertoquery')"
 										v-model="filterSearch.mobilePhone"/>
 							</Input>
 						</Poptip>
 					</div>
 
 					<div class="poptip">
-						<span>币种：</span>
+						<span>{{ $t('perpetualcontractcurrencystandardmanagement.currency') }}</span>
 						<Select v-model="filterSearch.unit">
 							<Option v-for="(item, index) in coinSearchArr" :value="item.unit" :key="item.unit">{{ item.unit }}</Option>
 						</Select>
 					</div>
 
 					<div class="btns">
-						<Button type="info" size="small" @click="searchByFilter">搜索</Button>
+						<Button type="info" size="small" @click="searchByFilter">{{ $t('positionmanagementcontractassetmanagement.search') }}</Button>
 					</div>
 
 				</div>
@@ -98,47 +96,47 @@ import { getCoinName, withdrawManage  } from '@/service/getData';
             key: 'transactionNumber'
           },
 		  {
-            title: '币种名称',
+            title: this.$t('collectionconfigurationmanagement.currencyname1'),
             key: 'unit'
           },
           {
-            title: '提币个数',
+            title: this.$t('withdrawaldetails.numberofcurrencywithdrawals'),
             key: 'totalAmount'
           },
           {
-						title: '实际到账数',
+						title: this.$t('withdrawaldetails.actualreceipts'),
 						key: 'arrivedAmount'
           },
           {
-						title: '提币手续费',
+						title: this.$t('withdrawaldetails.handlingchargeforcurrencywithdrawal'),
 						key: 'fee'
           },
           {
-            title: '申请时间',
+            title: this.$t('currencywithdrawalapproval.applicationtime'),
             key: 'createTime'
           },
           {
-            title: '用户昵称',
+            title: this.$t('withdrawaldetails.usernickname'),
             key: 'memberUsername'
           },
           {
-            title: '邮箱',
+            title: this.$t('memberinvitationlist.mailbox'),
             key: 'email'
           },
           {
-            title: '手机号',
+            title: this.$t('memberinvitationlist.cellphonenumber'),
             key: 'phone'
           },
           {
-            title: '真实姓名',
+            title: this.$t('businessinformation.realname'),
             key: 'memberRealName'
           },
           {
-            title: '钱包地址',
+            title: this.$t('withdrawaldetails.walletaddress'),
             key: 'address'
           },
           {
-            title: '审核时间',
+            title: this.$t('currencywithdrawalauditmanagement.audittime1'),
             key: 'dealTime'
           },
 
@@ -160,10 +158,10 @@ import { getCoinName, withdrawManage  } from '@/service/getData';
 				this.refreshPage(this.filterSearch);
 			},
 			searchByFilter() {
-				let reg = /1[3456789]\d{9}/g;
+				let reg = /1[3456789]\d{9}/g;d
 				let phone = this.filterSearch.mobilePhone;
 				if(phone && !reg.test(phone)){
-						this.$Message.error("请输入正确的手机号")
+						this.$Message.error(this.$t('withdrawaldetails.pleaseenterthecorrectmobilenumber'))
 				}else{
 					this.currentPageIdx = 1;
 					this.filterSearch.pageNo = 1;

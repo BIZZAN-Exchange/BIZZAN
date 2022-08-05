@@ -1,24 +1,15 @@
 package com.spark.blockchain.rpcclient;
 
-import com.spark.blockchain.rpcclient.Bitcoin.BasicTxInput;
-import com.spark.blockchain.rpcclient.Bitcoin.BasicTxOutput;
-import com.spark.blockchain.rpcclient.Bitcoin.RawTransaction;
-import com.spark.blockchain.rpcclient.Bitcoin.TxInput;
-import com.spark.blockchain.rpcclient.Bitcoin.TxOutput;
-import com.spark.blockchain.rpcclient.Bitcoin.Unspent;
-import com.spark.blockchain.rpcclient.Bitcoin.RawTransaction.Out;
+import com.spark.blockchain.rpcclient.Bitcoin.*;
+
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.*;
 
 public class BitcoinRawTxBuilder {
     public final Bitcoin bitcoin;
     public LinkedHashSet<TxInput> inputs = new LinkedHashSet();
     public List<TxOutput> outputs = new ArrayList();
-    private HashMap<String, RawTransaction> txCache = new HashMap();
+    private final HashMap<String, RawTransaction> txCache = new HashMap();
 
     public BitcoinRawTxBuilder(Bitcoin bitcoin) {
         this.bitcoin = bitcoin;
@@ -53,8 +44,8 @@ public class BitcoinRawTxBuilder {
         double v = value;
         Iterator var7 = unspent.iterator();
 
-        while(var7.hasNext()) {
-            Unspent o = (Unspent)var7.next();
+        while (var7.hasNext()) {
+            Unspent o = (Unspent) var7.next();
             if (!this.inputs.contains(new BitcoinRawTxBuilder.Input(o))) {
                 this.in(o);
                 v = BitcoinUtil.normalizeAmount(v - o.amount().doubleValue());
@@ -73,7 +64,7 @@ public class BitcoinRawTxBuilder {
     }
 
     private RawTransaction tx(String txId) throws BitcoinException {
-        RawTransaction tx = (RawTransaction)this.txCache.get(txId);
+        RawTransaction tx = this.txCache.get(txId);
         if (tx != null) {
             return tx;
         } else {
@@ -91,15 +82,15 @@ public class BitcoinRawTxBuilder {
         double is = 0.0D;
 
         TxInput i;
-        for(Iterator var6 = this.inputs.iterator(); var6.hasNext(); is = BitcoinUtil.normalizeAmount(is + ((Out)this.tx(i.txid()).vOut().get(i.vout())).value())) {
-            i = (TxInput)var6.next();
+        for (Iterator var6 = this.inputs.iterator(); var6.hasNext(); is = BitcoinUtil.normalizeAmount(is + this.tx(i.txid()).vOut().get(i.vout()).value())) {
+            i = (TxInput) var6.next();
         }
 
         double os = fee;
 
         TxOutput o;
-        for(Iterator var8 = this.outputs.iterator(); var8.hasNext(); os = BitcoinUtil.normalizeAmount(os + o.amount().doubleValue())) {
-            o = (TxOutput)var8.next();
+        for (Iterator var8 = this.outputs.iterator(); var8.hasNext(); os = BitcoinUtil.normalizeAmount(os + o.amount().doubleValue())) {
+            o = (TxOutput) var8.next();
         }
 
         if (os < is) {
@@ -140,7 +131,7 @@ public class BitcoinRawTxBuilder {
             } else if (!(obj instanceof TxInput)) {
                 return false;
             } else {
-                TxInput other = (TxInput)obj;
+                TxInput other = (TxInput) obj;
                 return this.vout == other.vout() && this.txid.equals(other.txid());
             }
         }

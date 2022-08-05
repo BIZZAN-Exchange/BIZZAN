@@ -1,13 +1,12 @@
 package com.bizzan.bitrade.vo;
 
 
+import com.bizzan.bitrade.annotation.Excel;
 import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Map;
-
-import com.bizzan.bitrade.annotation.Excel;
 
 @Data
 @Builder

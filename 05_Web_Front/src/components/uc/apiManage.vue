@@ -336,22 +336,22 @@ export default {
       arr.push({
         title: this.$t("uc.api.createTime"),
         // width: 100,
-        width: this.locale == 'en' ? 110 : 100,
+        width: this.locale == 'en' ? 140 : 140,
         key: "createTime"
       });
       arr.push({
         title: this.$t("uc.api.mark"),
-        width: 90,
+        width: 100,
         key: "remark"
       });
       arr.push({
         title: "API Key",
-        width: 150,
+        width: 300,
         key: "apiKey"
       });
       arr.push({
         title: this.$t("uc.api.accessKey"),
-        width: this.locale == 'en' ? 130 : 100,
+        width: this.locale == 'en' ? 200 : '',
         render: (h, params) => {
           const text = "******";
           return h("span", {}, text);
@@ -368,7 +368,7 @@ export default {
       });
       arr.push({
         title: this.$t("uc.api.ioDays"),
-        width: this.locale == 'en' ? 150 : '',
+        width: this.locale == 'en' ? 140 : 140,
         render: (h, params) => {
           if (!params.row.bindIp) {
             let residue = +new Date(params.row.expireTime) - +new Date();
@@ -382,7 +382,7 @@ export default {
       arr.push({
         title: this.$t("uc.api.operation"),
         align: "center",
-        width: 180,
+        width: 160,
         render: (h, params) => {
           return [
             h(

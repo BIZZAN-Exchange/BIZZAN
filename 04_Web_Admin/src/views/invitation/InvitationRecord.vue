@@ -2,28 +2,26 @@
     <div>
         <Card>
             <p slot="title">
-                会员邀请列表
-                <Button type="primary" size="small" @click="refreshPageManual">
+                {{ $t('memberinvitationlist.memberinvitationlist') }} <Button type="primary" size="small" @click="refreshPageManual">
                     <Icon type="refresh"></Icon>
-                    刷新
-                </Button>
+                    {{ $t('perpetualcontractcurrencystandardmanagement.refresh') }} </Button>
             </p>
             <Row class="functionWrapper">
                 <div class="searchWrapper">
                     <div class="poptip">
-                        会员名称：<Input placeholder="会员名称" v-model="realName" />
+                        {{ $t('membermanagement.membername') }}:<Input :placeholder="$t('membermanagement.membername')" v-model="realName" />
                         </Input>
                     </div>
                     <div class="poptip">
-                        手机号：<Input placeholder="手机号" v-model="mobilePhone" />
+                        {{ $t('currencywithdrawalauditmanagement.cellphonenumber') }}<Input :placeholder="$t('memberinvitationlist.cellphonenumber')" v-model="mobilePhone" />
                         </Input>
                     </div>
                     <div class="poptip">
-                        邮箱：<Input placeholder="邮箱" v-model="email" />
+                        {{ $t('currencywithdrawalauditmanagement.email') }}<Input :placeholder="$t('memberinvitationlist.mailbox')" v-model="email" />
                         </Input>
                     </div>
                     <div class="btns">
-                        <Button type="info" @click="search">搜索</Button>
+                        <Button type="info" @click="search">{{ $t('positionmanagementcontractassetmanagement.search') }}</Button>
                     </div>
                 </div>
             </Row>
@@ -71,37 +69,37 @@ export default {
                     }
                 },
                 {
-                    title: "编号",
+                    title: this.$t('announcementmanagement.no'),
                     key: "id"
                 },
                 {
-                    title: '用户名',
+                    title: this.$t('memberinvitationlist.username'),
                     key: 'username'
                 },
                 {
-                    title: '邀请码',
+                    title: this.$t('memberinvitationlist.invitationcode'),
                     key: 'promotionCode'
                 },
                 {
-                    title: '一级邀请',
+                    title: this.$t('memberinvitationlist.firstlevelinvitation'),
                     render: (h, params) => {
                         return h("div", {}, params.row.firstLevel);
                     }
                 },
                 {
-                    title: '二级邀请',
+                    title: this.$t('memberinvitationlist.secondaryinvitation'),
                     render: (h, params) => {
                         return h("div", {}, params.row.secondLevel);
                     }
                 },
                 {
-                    title: '三级邀请',
+                    title: this.$t('memberinvitationlist.level3invitation'),
                     render: (h, params) => {
                         return h("div", {}, params.row.thirdLevel);
                     }
                 },
                 {
-                    title: "获得积分",
+                    title: this.$t('memberinvitationlist.earnpoints'),
                     key: "generalizeTotal"
                 }
             ]

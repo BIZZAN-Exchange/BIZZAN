@@ -2,39 +2,37 @@
     <div >
       <Card>
         <p slot="title">
-        角色管理
-          <Button type="primary" size="small" @click="refreshPageManual">
+        {{ $t('rolemanagement.rolemanagement') }} <Button type="primary" size="small" @click="refreshPageManual">
             <Icon type="refresh"></Icon>
-            刷新
-          </Button>
+            {{ $t('perpetualcontractcurrencystandardmanagement.refresh') }} </Button>
         </p>
 
         <Row class="functionWrapper">
           <div class="btnsWrapper clearfix">
-            <Button type="primary" @click="addRoleBtn">添加角色</Button>
+            <Button type="primary" @click="addRoleBtn">{{ $t('rolemanagement.addrole') }}</Button>
           </div>
         </Row>
 
         <Modal
           v-model="delRole"
-          title="删除角色"
+          :title="$t('rolemanagement.deleterole')"
           @on-ok="deleteRole"
-          @on-cancel="$Message.info('已取消！')">
-          <p>是否删除该角色?</p>
+          @on-cancel="$Message.info(this.$t('rolemanagement.cancel'))">
+          <p>{{ $t('rolemanagement.deletethisrole') }}</p>
       
         </Modal>
 
         <Modal
           v-model="showAddRole"
-          title="添加角色"
+          :title="$t('rolemanagement.addrole')"
           @on-ok="addRole">
           <Form label-position="right" :model="formValidate" :label-width="100" :rules="ruleValidate"> 
 
-            <FormItem label="角色名称：" prop="name">
+            <FormItem :label="$t('rolemanagement.rolename')" prop="name">
               <Input v-model="formValidate.name"></Input>
             </FormItem>
 
-            <FormItem label="角色描述：">
+            <FormItem :label="$t('rolemanagement.roledescription')">
               <Input type="textarea" v-model="formValidate.roleDscrp"> </Input>
             </FormItem>
 
@@ -54,12 +52,12 @@
         </Row>
         <Modal
             v-model="showForm"
-            title="修改权限"
+            :title="$t('rolemanagement.modifypermissions')"
             @on-ok="confirmChange"
             @on-cancel="cancelChange">
             
             <Form>
-              <FormItem label="角色描述：">
+              <FormItem :label="$t('rolemanagement.roledescription')">
                 <Input type="textarea" v-model="formValidate.roleDscrp"> </Input>
               </FormItem>
             </Form>
@@ -75,7 +73,7 @@
         </Row>
       </Card>
       <div class="permissionWrapper" v-if="permissionWrapper">
-        <p>数据更新中...</p>
+        <p>{{ $t('rolemanagement.dataupdating') }}</p>
       </div>
     </div>
 </template>
@@ -109,7 +107,7 @@ export default {
       },
       ruleValidate: {
         name: [
-          { required: true, message: '角色名称不能为空!', trigger: 'blur' }
+          { required: true, message: this.$t('rolemanagement.rolenamecannotbeempty'), trigger: 'blur' }
         ]
       },
       column_frist: [
@@ -119,11 +117,11 @@ export default {
           width: 80
         },
         {
-          title: '角色名称',
+          title: this.$t('rolemanagement.rolename1'),
           key: 'role'
         },
         {
-          title: '备注',
+          title: this.$t('systeminformationmaintenance.remarks'),
           key: 'description'
         },
         //  {
@@ -131,7 +129,7 @@ export default {
         //   key: ' | filterPermission'
         // },
         {
-          title: '操作',
+          title: this.$t('perpetualcontractcurrencystandardmanagement.operation'),
           render: (h, obj) => {
             return h ( 'div', [
               h('Button',{
@@ -175,13 +173,13 @@ export default {
                         })
                     this.permissions = initTree;
                       }else {
-                        this.$Message.error('数据获取异常！')
+                        this.$Message.error(this.$t('rolemanagement.dataacquisitionexception'))
                       }
                     })  
                   }
   
                 }
-              }, '修改'),
+              }, this.$t('perpetualcontractcurrencystandardmanagement.modify')),
 
               h('Button',{
                 props: {
@@ -195,7 +193,7 @@ export default {
                     this.delRoleBtn();
                   }
                 }
-              }, '删除'),
+              }, this.$t('secondcontractcompensationsetting.delete')),
 
             ] ) 
 
@@ -218,7 +216,7 @@ export default {
       deleteRole({ id: this.deleteRoleID })
       .then( res => {
         if(!res.code) {
-          this.$Message.success('删除成功！');
+          this.$Message.success(this.$t('currencysetting.deletionsucceeded'));
           this.refreshPage();
         }else this.$Message.error(res.message);
       } )
@@ -276,7 +274,7 @@ export default {
 			}
 			
       if(this.formValidate.name === '' || !this.formValidate.name) {
-        this.$Message.warning('角色名称不能为空！');
+        this.$Message.warning(this.$t('jiao-se-ming-cheng-bu-neng-wei-kong'));
       }else{
 				this.permissionWrapper = true;
         let obj = { 
@@ -288,7 +286,7 @@ export default {
         addAuditRole(obj)
         .then( res => {
           if (!res.code) {
-            this.$Message.success('操作成功！');
+            this.$Message.success(this.$t('perpetualcontractcurrencystandardmanagement.operationsucceeded'));
             this.refreshPage();
 					}else this.$Message.error(res.message);
 					this.permissionWrapper = false;
@@ -343,10 +341,10 @@ export default {
       addAuditRole(obj)
       .then( res =>{
         if (!res.code) {
-          this.$Message.success('角色权限修改成功！');
+          this.$Message.success(this.$t('rolemanagement.rolepermissionsmodifiedsuccessfully'));
           this.refreshPage();
         }else{
-          this.$Message.error('角色权限修改失败！');
+          this.$Message.error(this.$t('rolemanagement.rolepermissionmodificationfailed'));
         }
       this.permissionWrapper = false;
         
@@ -354,7 +352,7 @@ export default {
 
     },
     cancelChange() {
-      this.$Message.info('已取消修改！');
+      this.$Message.info(this.$t('versionmanagement.modificationcanceled'));
     },
     getAllPermissionFn(bol = true) { 
       let allPermission = [];

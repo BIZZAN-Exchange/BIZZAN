@@ -1,7 +1,6 @@
 package com.bizzan.bitrade.model;
 
 import com.bizzan.bitrade.model.screen.AccountScreen;
-
 import lombok.Data;
 
 @Data

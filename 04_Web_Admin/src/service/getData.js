@@ -1,4 +1,4 @@
-import { BASEURL, fetch, post, patch, put, postConfig } from './http.js'
+import { BASEURL, fetch, post, postOut, patch, put, postConfig } from './http.js'
 
 export const BASICURL = BASEURL;
 // export const uploadPic = data => post('', data);
@@ -36,6 +36,7 @@ export const allTradeInfo = () => post('admin/finance/member-transaction/all');
 
 //GET获取 "财务管理"=>"个人记录"
 export const perTradeAll = data => post('admin/finance/member-transaction/page-query', data);
+export const perTradeAllOut = data => postOut('admin/finance/member-transaction/page-query', data);
 
 //POST获取 "会员实名审核"
 export const MemberRealNameList = data => post('admin/member/member-application/page-query', data);
@@ -90,6 +91,7 @@ export const memberManage = data => post('admin/member/page-query', data);
 
 //Post "会员管理" => "会员详情"
 export const memberDetail = data => post('admin/member/detail', data);
+export const memberUpdateInvite = data => post('admin/member/update-invite', data);
 
 //GET "内容管理" => "公告管理"
 export const announceManage = data => fetch('admin/system/announcement/page-query', data);
@@ -171,6 +173,7 @@ export const cancelAppealOrder = data => post('admin/otc/appeal/cancel-order', d
 
 //POST "法币管理" => "后台申诉"=> "订单管理"
 export const queryOtcOrder = data => post('admin/otc/order/page-query', data);
+export const queryOtcOrderOut = data => postOut('admin/otc/order/page-query', data);
 
 //POST "法币管理" => "币种管理"
 export const queryOtcCoin = data => post('admin/otc/otc-coin/page-query', data);
@@ -264,9 +267,11 @@ export const overviewBB = data => post('admin/exchange/exchange-coin/exchange-ov
 
 //POST "币币管理" => "币币订单"
 export const queryBBOrder = data => post('admin/exchange/exchange-order/page-query', data);
+export const queryBBOrderOut = data => postOut('admin/exchange/exchange-order/page-query', data);
 
 //POST "会员管理" => "会员资产"
 export const memberAsset = data => post('admin/member/member-wallet/balance', data);
+export const memberAssetOut = data => postOut('admin/member/member-wallet/balance', data);
 
 //patch "财务管理" => "放币"
 export const passCoin = data => patch('admin/finance/withdraw-record/remittance', data);
@@ -352,6 +357,7 @@ export const delTansAdr = data => post('admin/system/transfer-address/deletes', 
 //POST获取 "首页"=>"获取验证码"
 export const getLoginCode = data => post('admin/system/employee/check', data);
 
+export const login = data => post('admin/system/employee/login', data);
 //POST获取 "首页"=>"获取验证码后登录"
 export const signIn = data => post('admin/system/employee/sign/in', data);
 
@@ -609,28 +615,55 @@ export const ctcAcceptorSwitch = data => post('admin/ctc/acceptor/switch', data)
 
 //POST获取 "系统管理"=>"APP版本"=>"列表"
 export const sysAppRevision = data => fetch('admin/system/app-revision/page-query', data);
+export const sysAppRevisionSave = data => {return data.id && data.id > 0 ? put('admin/system/app-revision/' + data.id, data) : post('admin/system/app-revision', data)}
 
-// 期权合约管理=========================================================
 
-//POST获取 "期权合约"=>"交易对管理"=>"获取交易对列表"
-export const queryOptionCoinList = data => post('admin/option-coin/page-query', data);
-
-//POST获取 "期权合约"=>"交易对管理"=>"新增交易对"
-export const addOptionCoin = data => post('admin/option-coin/add', data);
-
-//POST获取 "期权合约"=>"交易对管理"=>"更新交易对"
-export const alterOptionCoin = data => post('admin/option-coin/alter', data);
-
-//POST获取 "期权合约"=>"交易对管理"=>"查询每期合约"
-export const queryOptionList = data => post('admin/option/page-query', data);
-
-//POST获取 "期权合约"=>"交易对管理"=>"查询每期合约"
-export const queryOptionOrderList = data => post('admin/option/order/page-query', data);
-
-// 永续合约管理=========================================================
 
 // 手续费支取=====================================
 //POST支取手续费
 export const withdrawFeeFunc = data => post('admin/fee/withdraw', data);
 //POST 支取手续费明细
 export const withdrawFeeDetail = data => post('admin/fee/withdraw/page-query', data);
+
+//POST获取 "邀请管理"=>"返佣管理"=>"返佣管理"
+export const queryRewardRecordList = data => post('admin/swap/reward/page-query', data);
+
+//POST获取 "邀请管理"=>"返佣比例"=>"返佣比例"
+export const queryRewardSetList = data => post('admin/swap/reward/rewardSets', data);
+//POST获取 "邀请管理"=>"清除缓存"=>"清除缓存"
+export const clearRewardSet = data => post('admin/swap/reward/clear', data);
+
+
+// 币种协议管理
+export const coinprotocolList = data => post('admin/system/coinprotocol/page-query', data);
+export const coinprotocolSave = data => post('admin/system/coinprotocol/merge', data);
+
+// 币种扩展管理
+export const coinextCoinList = () => fetch('admin/system/coinext/coin-list');
+export const coinextProtocolList = () => fetch('admin/system/coinext/protocol-list');
+export const coinextList = data => post('admin/system/coinext/page-query', data);
+export const coinextSave = data => post('admin/system/coinext/merge', data);
+
+// 归集配置
+export const automainconfigCoinList = () => fetch('admin/system/automainconfig/coin-list');
+export const automainconfigProtocolList = () => fetch('admin/system/automainconfig/protocol-list');
+export const automainconfigList = data => post('admin/system/automainconfig/page-query', data);
+export const automainconfigSave = data => post('admin/system/automainconfig/merge', data);
+export const collectCoin = data => post('admin/system/automainconfig/collectCoin', data);
+export const setPassword = data => post('admin/system/automainconfig/setPassword', data);
+export const updateContract = data => post('admin/system/automainconfig/updateContract', data);
+export const encryptMessage = data => post('admin/system/automainconfig/encrypt', data);
+// 充值记录
+export const rechargeCoinList = () => fetch('admin/finance/recharge/coin-list');
+export const rechargeProtocolList = () => fetch('admin/finance/recharge/protocol-list');
+export const rechargeList = data => post('admin/finance/recharge/page-query', data);
+export const rechargeListOut = data => postOut('admin/finance/recharge/page-query', data);
+
+// 提币审核记录
+export const withdrawCoinList = () => fetch('admin/finance/withdraw/coin-list');
+export const withdrawProtocolList = () => fetch('admin/finance/withdraw/protocol-list');
+export const withdrawList = data => post('admin/finance/withdraw/page-query', data);
+export const withdrawListOut = data => postOut('admin/finance/withdraw/page-query', data);
+export const withdrawSave = data => post('admin/finance/withdraw/merge', data);
+
+

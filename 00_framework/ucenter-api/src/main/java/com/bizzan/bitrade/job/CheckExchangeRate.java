@@ -1,16 +1,15 @@
 package com.bizzan.bitrade.job;
 
+import com.bizzan.bitrade.entity.Coin;
+import com.bizzan.bitrade.service.CoinService;
+import com.bizzan.bitrade.system.CoinExchangeFactory;
+import com.bizzan.bitrade.util.MessageResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-
-import com.bizzan.bitrade.entity.Coin;
-import com.bizzan.bitrade.service.CoinService;
-import com.bizzan.bitrade.system.CoinExchangeFactory;
-import com.bizzan.bitrade.util.MessageResult;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

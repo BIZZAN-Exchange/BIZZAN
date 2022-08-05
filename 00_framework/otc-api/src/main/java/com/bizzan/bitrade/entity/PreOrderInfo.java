@@ -9,7 +9,7 @@ import com.bizzan.bitrade.constant.AdvertiseType;
 import com.bizzan.bitrade.constant.BooleanEnum;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年01月16日
  */
 @Builder
@@ -29,6 +29,7 @@ public class PreOrderInfo {
     private BigDecimal maxLimit;
     private int timeLimit;
     private String country;
+    private String currency;
     private AdvertiseType advertiseType;
     private String remark;
 

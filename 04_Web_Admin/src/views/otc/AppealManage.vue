@@ -2,9 +2,8 @@
     <div>
 			<Card>
 				<p slot="title">
-					后台申诉
-					<Button type="primary" size="small" @click="refreshPageManual">
-						<Icon type="refresh"></Icon> 刷新
+					{{ $t('backstageappeal.backstageappeal') }}	<Button type="primary" size="small" @click="refreshPageManual">
+						<Icon type="refresh"></Icon> {{ $t('perpetualcontractcurrencystandardmanagement.refresh') }}
 					</Button>
 				</p>
 
@@ -15,7 +14,7 @@
 						<Poptip trigger="hover" 
 									content="请输入币种搜索" 
 									placement="bottom-start">
-							<Input placeholder="请输入币种搜索" 
+							<Input :placeholder="$t('backstageappeal.pleaseentercurrencysearch')" 
 										v-model="filterSearch.unit"/> 
 							</Input>      
 						</Poptip>
@@ -25,7 +24,7 @@
 						<Poptip trigger="hover" 
 									content="请输入申诉者搜索" 
 									placement="bottom-start">
-						<Input placeholder="请输入申诉者搜索" 
+						<Input :placeholder="$t('backstageappeal.pleaseenterthecomplainantsearch')" 
 										v-model="filterSearch.negotiant"/> 
 						</Input>      
 						</Poptip>
@@ -35,14 +34,14 @@
 						<Poptip trigger="hover" 
 										content="请输入广告主搜索" 
 										placement="bottom-start">
-							<Input placeholder="请输入广告主搜索" 
+							<Input :placeholder="$t('backstageappeal.pleaseenteradvertisersearch')" 
 										v-model="filterSearch.complainant"/> 
 							</Input>      
 						</Poptip>
 					</div>
 
 						<div class="poptip">
-							<span>广告类型：</span>
+							<span>{{ $t('backstageappeal.advertisingtype') }}</span>
 							<Select v-model="filterSearch.advertiseType">
 								<Option v-for="item in orderTypeArr" 
 											:value="item.status" 
@@ -51,7 +50,7 @@
 					</div>
 
 					<div class="poptip">
-						<span>订单状态：</span>
+						<span>{{ $t('transactiondetailsinlegalcurrency.orderstatus') }}</span>
 						<Select v-model="filterSearch.success">
 							<Option v-for="item in orderStatusArr" 
 										:value="item.status" 
@@ -60,7 +59,7 @@
 					</div>
 
 					<div class="btns">
-						<Button type="info" size="small" @click="searchByFilter">搜索</Button>
+						<Button type="info" size="small" @click="searchByFilter">{{ $t('positionmanagementcontractassetmanagement.search') }}</Button>
 					</div>
 
 					</div>
@@ -84,18 +83,18 @@
 				<Modal v-model="showEditModal" 
 							 width="400"
 							 class="modelInfo">
-					<h3 slot="header">申诉信息</h3>
+					<h3 slot="header">{{ $t('backstageappeal.grievanceinformation') }}</h3>
 					<ul>
-						<li><span>广告主：</span>{{ `${modelInner.advertiseCreaterName}(${modelInner.advertiseCreaterUserName})` }}</li>
-						<li><span>承接人：</span>{{`${modelInner.customerUserName}(${modelInner.customerName})`  }}</li>
-						<li><span>订单号：</span>{{ modelInner.orderSn }}</li>
-						<li><span>申诉时间：</span>{{ modelInner.createTime }}</li>
-						<li><span>申诉备注：</span>{{ modelInner.remark }}</li>
-						<li><span>禁用违规方账号：</span><Checkbox v-model="forbidden">禁用</Checkbox></li>
+						<li><span>{{ $t('orderdetails.advertiser') }}</span>{{ `${modelInner.advertiseCreaterName}(${modelInner.advertiseCreaterUserName})` }}</li>
+						<li><span>{{ $t('backstageappeal.undertaker') }}</span>{{`${modelInner.customerUserName}(${modelInner.customerName})`  }}</li>
+						<li><span>{{ $t('backstageappeal.ordernumber') }}</span>{{ modelInner.orderSn }}</li>
+						<li><span>{{ $t('backstageappeal.appealtime') }}</span>{{ modelInner.createTime }}</li>
+						<li><span>{{ $t('backstageappeal.complaintremarks') }}</span>{{ modelInner.remark }}</li>
+						<li><span>{{ $t('backstageappeal.disabletheaccountoftheviolator') }}</span><Checkbox v-model="forbidden">{{ $t('currencyextensionmanagement.disable') }}</Checkbox></li>
 					</ul>
 					<div slot="footer" align="middle">
-						<Button type="primary" @click="coinOperation(true)">放币</Button>
-						<Button type="error" @click="coinOperation(false)">取消订单</Button>
+						<Button type="primary" @click="coinOperation(true)">{{ $t('backstageappeal.putmoney') }}</Button>
+						<Button type="error" @click="coinOperation(false)">{{ $t('backstageappeal.cancellationoforder') }}</Button>
 					</div>
 				</Modal>
 
@@ -115,9 +114,9 @@ export default {
   data() {
     return {
 			orderTypeArr: [
-				{ status: 0, text: '买入' },
-				{ status: 1, text: '卖出' },
-				{ status: '', text: '全部' }
+				{ status: 0, text: this.$t('transactiondetailsinlegalcurrency.buy') },
+				{ status: 1, text: this.$t('transactiondetailsinlegalcurrency.sell') },
+				{ status: '', text: this.$t('transactiondetailsinlegalcurrency.all') }
 			],
 			sortSearch: {
 				direction: [],
@@ -132,28 +131,28 @@ export default {
 				success: ""
       },
       orderStatusArr: [
-        { status: 0, text: "败诉" },
-        { status: 1, text: "胜诉" },
-        { status: "", text: "全部" }
+        { status: 0, text: this.$t('backstageappeal.lost') },
+        { status: 1, text: this.$t('backstageappeal.win') },
+        { status: "", text: this.$t('transactiondetailsinlegalcurrency.all') }
       ],
       showEditModal: false,
       forbidden: false,
       columnsList: [
         {
-          title: "订单编号",
+          title: this.$t('transactiondetailsinlegalcurrency.orderno'),
           width: 108,
           key: "orderSn"
         },
         {
-          title: "广告类型",
+          title: this.$t('backstageappeal.adtype'),
           key: "advertiseType",
           render(h, obj) {
             let advertiseType = obj.row.advertiseType;
-            return h("span", {}, !advertiseType ? "买入" : "卖出");
+            return h("span", {}, !advertiseType ? this.$t('transactiondetailsinlegalcurrency.buy') : this.$t('transactiondetailsinlegalcurrency.sell'));
           }
         },
         {
-          title: "广告主",
+          title: this.$t('backstageappeal.advertiser'),
           key: "advertiseCreaterName",
           render(h, obj) {
             let userName = obj.row.advertiseCreaterUserName;
@@ -162,7 +161,7 @@ export default {
           }
         },
         {
-          title: "承接人",
+          title: this.$t('backstageappeal.successor'),
           key: "customerUsername",
           render(h, obj) {
             let userName = obj.row.customerUserName;
@@ -171,31 +170,31 @@ export default {
           }
         },
         {
-          title: "申诉者",
+          title: this.$t('backstageappeal.complainant'),
           key: "initiatorName"
 				},
         {
-          title: "币种",
+          title: this.$t('transactiondetailsinlegalcurrency.currency'),
           key: "coinName"
 				},
 				
         {
-          title: "申诉时间",
+          title: this.$t('backstageappeal.appealtime1'),
           key: "createTime",
 					width: 108,
 					sortable: 'custom'
         },
         {
-          title: "订单数",
+          title: this.$t('backstageappeal.numberoforders'),
           key: "number",
           render(h, obj) {
             return h(
-              "Tooltip",
+              this.$t('tooltip'),
               {
                 props: {
                   trigger: "hover",
                   placement: "top",
-                  content: `手续费:${obj.row.fee}${obj.row.coinName}`
+                  content: this.$t('shou-xu-fei-objrowfeeobjrowcoinname', [obj.row.fee, obj.row.coinName])
                 },
                 style: {
                   cursor: "pointer"
@@ -206,23 +205,23 @@ export default {
           }
         },
         {
-          title: "订单金额(元)",
+          title: this.$t('backstageappeal.orderamountyuan'),
           key: "money"
         },
         {
-          title: "支付方式",
+          title: this.$t('transactiondetailsinlegalcurrency.paymentmethod'),
           key: "payMode"
 				},
 				{
-          title: "订单状态",
+          title: this.$t('essentialinformation.orderstatus'),
 					key: "result",
 					render: (h, obj) => {
-						let text = '未处理';
+						let text = this.$t('backstageappeal.notprocessed');
 						if(!obj.row.dealWithTime){
-							text = '未处理';
+							text = this.$t('backstageappeal.notprocessed');
 						}else{
-							if(!obj.row.isSuccess) text = '申诉失败';
-							else text = '申诉成功';
+							if(!obj.row.isSuccess) text = this.$t('backstageappeal.appealfailed');
+							else text = this.$t('backstageappeal.appealsuccessful');
 						}
 						return h("span", {}, text);
 					}	
@@ -243,7 +242,7 @@ export default {
         //   }
         // },
         {
-          title: "操作",
+          title: this.$t('perpetualcontractcurrencystandardmanagement.operation'),
           key: "isSuccess",
           render: (h, obj) => {
             let ifSuccess = obj.row.isSuccess;
@@ -252,14 +251,14 @@ export default {
             let inner = "";
             let btnType = "primary";
             if (!!ifDealTime && !ifSuccess) {
-              inner = "查看";
+              inner = this.$t('transactiondetailsinlegalcurrency.view');
 							btnType = "error";
             } else if (!!ifDealTime && ifSuccess === 1) {
-              inner = "查看";
+              inner = this.$t('transactiondetailsinlegalcurrency.view');
               btnType = "success";
             } else if (!ifDealTime) {
               btnType = "primary";
-              inner = "处理";
+              inner = this.$t('backstageappeal.processing');
             }
             return h(
               "Button",
@@ -272,7 +271,7 @@ export default {
                   click: () => {
                     if (ifDealTime === null) {
                       this.modelInnerFn(obj);
-                    }else if (inner === "查看") {
+                    }else if (inner === this.$t('transactiondetailsinlegalcurrency.view')) {
 											this.$router.push({path: '/otc/appealmanage/appealdetail', query: { id: obj.row.appealId }})
 										}
                   }
@@ -307,12 +306,12 @@ export default {
 			let title = '';
 			let content = '';
 			if(bol){
-				title = '确认放币';
-				content = '是否放币？'
+				title = this.$t('backstageappeal.confirmcashrelease');
+				content = this.$t('backstageappeal.cashin')
 				subFn = releaseAppealCoin;
 			} else {
-				title = '取消订单';
-				content = '是否取消订单？'
+				title = this.$t('backstageappeal.cancellationoforder');
+				content = this.$t('backstageappeal.cancelorder')
 				subFn = cancelAppealOrder;
 			}
 			
@@ -336,7 +335,7 @@ export default {
 					.catch( err => console.log(err))
 				},
 				onCancel: () => {
-					this.$Message.info('您取消了操作！');
+					this.$Message.info(this.$t('backstageappeal.youcanceledtheoperation'));
 				}
 			});
 		},

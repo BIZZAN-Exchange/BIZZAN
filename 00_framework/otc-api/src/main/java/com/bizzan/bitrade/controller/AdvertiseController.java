@@ -4,6 +4,7 @@ package com.bizzan.bitrade.controller;
 import com.bizzan.bitrade.coin.CoinExchangeFactory;
 import com.bizzan.bitrade.constant.*;
 import com.bizzan.bitrade.controller.BaseController;
+import com.bizzan.bitrade.core.DataException;
 import com.bizzan.bitrade.entity.*;
 import com.bizzan.bitrade.entity.transform.*;
 import com.bizzan.bitrade.exception.InformationExpiredException;
@@ -15,7 +16,6 @@ import com.bizzan.bitrade.util.Md5;
 import com.bizzan.bitrade.util.MessageResult;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import  com.bizzan.bitrade.core.DataException;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
@@ -33,12 +33,13 @@ import static com.bizzan.bitrade.constant.PayMode.*;
 import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
 import static com.bizzan.bitrade.util.BigDecimalUtils.compare;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.*;
 
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年12月08日
  */
 @RestController
@@ -58,6 +59,10 @@ public class AdvertiseController extends BaseController {
     private CoinExchangeFactory coins;
     @Autowired
     private LocaleMessageSourceService msService;
+    @Autowired
+    private PaymentTypeRecordService paymentTypeRecordService;
+    @Autowired
+    private PaymentTypeService paymentTypeService;
     @Autowired
     private CountryService countryService;
     @Value("${spark.system.advertise:1}")
@@ -84,7 +89,7 @@ public class AdvertiseController extends BaseController {
         Member member1 = memberService.findOne(member.getId());
         Assert.isTrue(member1.getIdNumber() != null, msService.getMessage("NO_REALNAME"));
 //        if (allow == 1) {
-            //allow是1的时候，必须是认证商家才能发布广告
+        //allow是1的时候，必须是认证商家才能发布广告
         Assert.isTrue(member1.getMemberLevel().equals(MemberLevelEnum.IDENTIFICATION), msService.getMessage("NO_BUSINESS"));
 //        }
         String mbPassword = member1.getJyPassword();
@@ -153,7 +158,7 @@ public class AdvertiseController extends BaseController {
     @RequestMapping(value = "detail")
     public MessageResult detail(Long id, @SessionAttribute(SESSION_MEMBER) AuthMember shiroUser) {
         MemberAdvertiseDetail advertise = advertiseService.findOne(id, shiroUser.getId());
-        advertise.setMarketPrice(coins.get(advertise.getCoinUnit()));
+        advertise.setMarketPrice(coins.get(advertise.getCoinUnit(),advertise.getCountry().getLocalCurrency()));
         MessageResult result = MessageResult.success();
         result.setData(advertise);
         return result;
@@ -288,13 +293,14 @@ public class AdvertiseController extends BaseController {
      * @return
      */
     @RequestMapping(value = "excellent")
-    public MessageResult allExcellentAdvertise(AdvertiseType advertiseType) throws Exception {
+    public MessageResult allExcellentAdvertise( @RequestParam(value = "currency", defaultValue = "CNY") String currency,
+                                                AdvertiseType advertiseType) throws Exception {
         List<Map<String, String>> marketPrices = new ArrayList<>();
         List<Map<String, String>> otcCoins = otcCoinService.getAllNormalCoin();
         otcCoins.stream().forEachOrdered(x -> {
             Map<String, String> map = new HashMap<>(2);
             map.put("name", x.get("unit"));
-            map.put("price", coins.get(x.get("unit")).toString());
+            map.put("price", coins.get(x.get("unit"),currency).toString());
             marketPrices.add(map);
         });
         List<ScanAdvertise> list = advertiseService.getAllExcellentAdvertise(advertiseType, marketPrices);
@@ -313,11 +319,13 @@ public class AdvertiseController extends BaseController {
     @RequestMapping(value = "page")
     public MessageResult queryPageAdvertise(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
                                             @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+                                            @RequestParam(value = "country", defaultValue = "中国") String country,
                                             Long id, AdvertiseType advertiseType,
                                             @RequestParam(value = "isCertified", defaultValue = "0") Integer isCertified) throws SQLException, DataException {
         OtcCoin otcCoin = otcCoinService.findOne(id);
-        double marketPrice = coins.get(otcCoin.getUnit()).doubleValue();
-        SpecialPage<ScanAdvertise> page = advertiseService.paginationAdvertise(pageNo, pageSize, otcCoin, advertiseType, marketPrice, isCertified);
+        Country country1 = countryService.findOne(country);
+        double marketPrice = coins.get(otcCoin.getUnit(),country1.getLocalCurrency()).doubleValue();
+        SpecialPage<ScanAdvertise> page = advertiseService.paginationAdvertise(pageNo, pageSize,country, otcCoin, advertiseType, marketPrice, isCertified);
         MessageResult messageResult = MessageResult.success();
         messageResult.setData(page);
         return messageResult;
@@ -326,12 +334,15 @@ public class AdvertiseController extends BaseController {
     @RequestMapping(value = "page-by-unit")
     public MessageResult queryPageAdvertiseByUnit(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
                                                   @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+                                                  @RequestParam(value = "country", defaultValue = "中国") String country,
                                                   String unit, AdvertiseType advertiseType,
-                                                  @RequestParam(value = "isCertified", defaultValue = "0") Integer isCertified) throws SQLException, DataException {
+                                                  @RequestParam(value = "isCertified", defaultValue = "0") Integer isCertified) throws SQLException ,DataException{
         OtcCoin otcCoin = otcCoinService.findByUnit(unit);
         Assert.notNull(otcCoin, "validate otcCoin unit!");
-        double marketPrice = coins.get(otcCoin.getUnit()).doubleValue();
-        SpecialPage<ScanAdvertise> page = advertiseService.paginationAdvertise(pageNo, pageSize, otcCoin, advertiseType, marketPrice, isCertified);
+        Country country1 = countryService.findOne(country);
+        BigDecimal price = coins.get(otcCoin.getUnit(), country1.getLocalCurrency());
+        double marketPrice = price==null?0:price.doubleValue();
+        SpecialPage<ScanAdvertise> page = advertiseService.paginationAdvertise(pageNo, pageSize, country,otcCoin, advertiseType, marketPrice, isCertified);
         MessageResult messageResult = MessageResult.success();
         messageResult.setData(page);
         return messageResult;
@@ -351,16 +362,28 @@ public class AdvertiseController extends BaseController {
     }
 
     private StringBuffer checkPayMode(String[] pay, AdvertiseType advertiseType, Member member) {
+        //获取用户收款信息
+        List<PaymentTypeRecord> records = paymentTypeRecordService.getRecordsByUserId(member.getId());
+        if(records==null || records.size()==0){
+            throw new IllegalArgumentException("pay parameter error");
+        }
+        for (PaymentTypeRecord record : records) {
+            PaymentType type = paymentTypeService.findPaymentTypeById(record.getType());
+            record.setTypeName(type.getCode());
+        }
         StringBuffer payMode = new StringBuffer();
         Arrays.stream(pay).forEach(x -> {
             if (advertiseType.equals(AdvertiseType.SELL)) {
-                if (ALI.getCnName().equals(x)) {
-                    Assert.isTrue(member.getAlipay() != null, msService.getMessage("NO_ALI"));
-                } else if (WECHAT.getCnName().equals(x)) {
-                    Assert.isTrue(member.getWechatPay() != null, msService.getMessage("NO_WECHAT"));
-                } else if (BANK.getCnName().equals(x)) {
-                    Assert.isTrue(member.getBankInfo() != null, msService.getMessage("NO_BANK"));
-                } else {
+                //验证是否存在收款信息
+                boolean isEx = false;
+                for (PaymentTypeRecord record : records) {
+
+                    if(record.getTypeName().equals(x)){
+                        isEx = true;
+                        break;
+                    }
+                }
+                if(!isEx){
                     throw new IllegalArgumentException("pay parameter error");
                 }
             }
@@ -384,7 +407,7 @@ public class AdvertiseController extends BaseController {
      * TODO 查询提速
      */
     @RequestMapping(value = "newest")
-    public MessageResult queryNewest() throws Exception {
+    public MessageResult queryNewest(@RequestParam(value = "currency", defaultValue = "CNY") String currency) throws Exception {
         Special<ScanAdvertise> list = advertiseService.getLatestAdvertise();
         OtcCoin otcCoin;
         double finalPrice;
@@ -400,7 +423,7 @@ public class AdvertiseController extends BaseController {
                 if(null == otcCoin){
                     continue;
                 }
-                finalPrice = coins.get(otcCoin.getUnit()).doubleValue();
+                finalPrice = coins.get(otcCoin.getUnit(),currency).doubleValue();
                 if(null != adv.getPremiseRate()){
                     //pricetype = 0 ? price : 计算价格
                     adv.setPrice(BigDecimalUtils.round(((adv.getPremiseRate().doubleValue() + 100) / 100) * finalPrice,2));

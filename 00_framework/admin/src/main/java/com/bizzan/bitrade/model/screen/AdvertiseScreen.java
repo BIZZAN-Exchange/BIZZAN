@@ -2,7 +2,6 @@ package com.bizzan.bitrade.model.screen;
 
 import com.bizzan.bitrade.constant.AdvertiseControlStatus;
 import com.bizzan.bitrade.constant.AdvertiseType;
-
 import lombok.Data;
 
 @Data

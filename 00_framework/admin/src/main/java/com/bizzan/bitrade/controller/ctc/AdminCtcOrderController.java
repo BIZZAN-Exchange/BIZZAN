@@ -1,11 +1,17 @@
 package com.bizzan.bitrade.controller.ctc;
 
-import static org.springframework.util.Assert.notNull;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.bizzan.bitrade.annotation.AccessLog;
+import com.bizzan.bitrade.constant.AdminModule;
+import com.bizzan.bitrade.constant.PageModel;
+import com.bizzan.bitrade.constant.SysConstant;
+import com.bizzan.bitrade.constant.TransactionType;
+import com.bizzan.bitrade.controller.BaseController;
+import com.bizzan.bitrade.entity.*;
+import com.bizzan.bitrade.service.*;
+import com.bizzan.bitrade.util.DateUtil;
+import com.bizzan.bitrade.util.MessageResult;
+import com.bizzan.bitrade.vendor.provider.SMSProvider;
+import com.bizzan.bitrade.core.Encrypt;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,36 +19,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 
-import com.bizzan.bitrade.annotation.AccessLog;
-import com.bizzan.bitrade.constant.AdminModule;
-import com.bizzan.bitrade.constant.PageModel;
-import com.bizzan.bitrade.constant.SysConstant;
-import com.bizzan.bitrade.constant.TransactionType;
-import com.bizzan.bitrade.controller.BaseController;
-import com.bizzan.bitrade.entity.Admin;
-import com.bizzan.bitrade.entity.CtcAcceptor;
-import com.bizzan.bitrade.entity.CtcOrder;
-import com.bizzan.bitrade.entity.Member;
-import com.bizzan.bitrade.entity.MemberTransaction;
-import com.bizzan.bitrade.entity.MemberWallet;
-import com.bizzan.bitrade.service.CtcAcceptorService;
-import com.bizzan.bitrade.service.CtcOrderService;
-import com.bizzan.bitrade.service.LocaleMessageSourceService;
-import com.bizzan.bitrade.service.MemberService;
-import com.bizzan.bitrade.service.MemberTransactionService;
-import com.bizzan.bitrade.service.MemberWalletService;
-import com.bizzan.bitrade.util.DateUtil;
-import com.bizzan.bitrade.util.MessageResult;
-import com.bizzan.bitrade.vendor.provider.SMSProvider;
-import com.bizzan.bitrade.core.Encrypt;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.springframework.util.Assert.notNull;
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @description otc币种
  * @date 2019/1/11 13:35
  */

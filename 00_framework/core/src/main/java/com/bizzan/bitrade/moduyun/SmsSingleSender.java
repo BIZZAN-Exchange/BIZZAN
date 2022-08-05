@@ -1,15 +1,12 @@
 package com.bizzan.bitrade.moduyun;
 
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
 import java.util.List;
-
-// org.json 第三方库请自行下载编译，或者在以下链接下载使用 jdk 1.7 的版本
-// http://share.weiyun.com/630a8c65e9fd497f3687b3546d0b839e
-import org.json.JSONObject;
  
 public class SmsSingleSender {
 	String accesskey;

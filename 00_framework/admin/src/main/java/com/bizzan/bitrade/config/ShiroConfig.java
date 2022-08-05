@@ -1,31 +1,27 @@
 package com.bizzan.bitrade.config;
 
+import com.bizzan.bitrade.core.AdminRealm;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
-import org.apache.shiro.web.filter.mgt.DefaultFilter;
-import org.apache.shiro.web.filter.mgt.DefaultFilterChainManager;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.web.filter.DelegatingFilterProxy;
-
-import com.bizzan.bitrade.core.AdminRealm;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年12月19日
  */
 @Slf4j
@@ -48,6 +44,7 @@ public class ShiroConfig {
         //拦截器.
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         filterChainDefinitionMap.put("/captcha", "anon");
+        filterChainDefinitionMap.put("/admin/employee/login", "anon");
         filterChainDefinitionMap.put("/admin/code/**", "anon");
         filterChainDefinitionMap.put("admin/**/page-query", "user");
         filterChainDefinitionMap.put("/admin/employee/logout", "logout");
@@ -149,8 +146,15 @@ public class ShiroConfig {
         //设置realm.
         defaultWebSecurityManager.setRealm(realm);
         defaultWebSecurityManager.setCacheManager(ehCacheManager);
+        defaultWebSecurityManager.setSessionManager(sessionManager());
         defaultWebSecurityManager.setRememberMeManager(cookieRememberMeManager);
         return defaultWebSecurityManager;
+    }
+    @Bean
+    public ShiroSession sessionManager(){
+        ShiroSession shiroSession = new ShiroSession();
+        shiroSession.setSessionDAO(new EnterpriseCacheSessionDAO());
+        return shiroSession;
     }
 
     /**

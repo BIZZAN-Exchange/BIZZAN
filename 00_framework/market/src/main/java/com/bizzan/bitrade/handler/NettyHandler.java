@@ -9,7 +9,6 @@ import com.bizzan.aqmd.netty.push.HawkPushServiceApi;
 import com.bizzan.bitrade.constant.NettyCommand;
 import com.bizzan.bitrade.entity.*;
 import com.bizzan.bitrade.netty.QuoteMessage;
-
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -53,6 +52,12 @@ public class NettyHandler implements MarketHandler {
         NettyCacheUtils.keyChannelCache.remove(channel);
     }
 
+    @HawkMethod(cmd = NettyCommand.EXCHANGE_HEART_BEAT,version = NettyCommand.COMMANDS_VERSION)
+    public QuoteMessage.SimpleResponse exchangeHeartBeat(byte[] body, ChannelHandlerContext ctx){
+        QuoteMessage.SimpleResponse.Builder response = QuoteMessage.SimpleResponse.newBuilder();
+        response.setCode(0).setMessage("心跳成功");
+        return response.build();
+    }
     @HawkMethod(cmd = NettyCommand.SUBSCRIBE_SYMBOL_THUMB,version = NettyCommand.COMMANDS_VERSION)
     public QuoteMessage.SimpleResponse subscribeSymbolThumb(byte[] body, ChannelHandlerContext ctx){
         QuoteMessage.SimpleResponse.Builder response = QuoteMessage.SimpleResponse.newBuilder();

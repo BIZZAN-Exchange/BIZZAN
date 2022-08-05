@@ -1,7 +1,6 @@
 package com.bizzan.bc.wallet.entity;
 
 import lombok.Data;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;

@@ -1,8 +1,15 @@
 package com.bizzan.bitrade.service;
 
-import java.math.BigDecimal;
-import java.util.List;
-
+import com.bizzan.bitrade.constant.BooleanEnum;
+import com.bizzan.bitrade.dao.ActivityOrderDao;
+import com.bizzan.bitrade.entity.Activity;
+import com.bizzan.bitrade.entity.ActivityOrder;
+import com.bizzan.bitrade.entity.MemberWallet;
+import com.bizzan.bitrade.pagination.Criteria;
+import com.bizzan.bitrade.pagination.Restrictions;
+import com.bizzan.bitrade.service.Base.BaseService;
+import com.bizzan.bitrade.util.MessageResult;
+import com.querydsl.core.types.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,17 +18,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bizzan.bitrade.constant.BooleanEnum;
-import com.bizzan.bitrade.dao.ActivityOrderDao;
-import com.bizzan.bitrade.entity.Activity;
-import com.bizzan.bitrade.entity.ActivityOrder;
-import com.bizzan.bitrade.entity.MemberWallet;
-import com.bizzan.bitrade.entity.MiningOrder;
-import com.bizzan.bitrade.pagination.Criteria;
-import com.bizzan.bitrade.pagination.Restrictions;
-import com.bizzan.bitrade.service.Base.BaseService;
-import com.bizzan.bitrade.util.MessageResult;
-import com.querydsl.core.types.Predicate;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class ActivityOrderService extends BaseService {

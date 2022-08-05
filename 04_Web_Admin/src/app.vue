@@ -9,7 +9,7 @@
 				<div class="loadingMask" v-show="loading">
 					<div class="wrapper">
 						<Icon type="load-c" class="loadingIcon"></Icon>
-						<p>加载中...</p>
+						<p>{{$t('common.loading')}}</p>
 					</div>
 				</div>
 			</transition>
@@ -17,35 +17,35 @@
 				<div class="memberCheckMask" v-show="memberCheckMask">
 					<div class="wrapper">
 						<Steps :current="imgIndex">
-								<Step title="" content="身份证正面"></Step>
-								<Step title="" content="身份证手持"></Step>
-								<Step title="" content="身份证反面"></Step>
+								<Step title="" :content="$t('common.idcardfront')"></Step>
+								<Step title="" :content="$t('common.idcardinhand')"></Step>
+								<Step title="" :content="$t('common.idcardback')"></Step>
 						</Steps>
 						<Row class="img">
 							<Spin size="large" v-if="!memberCheckImgInfo.imgArr"></Spin>
 							<img :src="!memberCheckImgInfo.imgArr ? '' : Object.values(memberCheckImgInfo.imgArr[imgIndex])" alt="">
-							<span class="preStep" v-show="!!imgIndex"  @click="imgIndex--">上一步 < </span>
-							<span class="nextStep" v-show="!(imgIndex===2)" @click="imgIndex++"> > 下一步</span>
+							<span class="preStep" v-show="!!imgIndex"  @click="imgIndex--">{{$t('common.previous')}}</span>
+							<span class="nextStep" v-show="!(imgIndex===2)" @click="imgIndex++">{{$t('common.next')}}</span>
 						</Row>
 						<Row class="btns">
 							<Row v-show="imgIndex!==2">
 								<Col span="4" offset="10" >
-									<Button type="primary" long @click="cancelMemberCheck">取消</Button>
+									<Button type="primary" long @click="cancelMemberCheck">{{$t('common.cancel')}}</Button>
 								</Col>
 							</Row>
 
 							<Row v-show="imgIndex===2">
 								<Col span="4" offset="7" >
-									<Button type="info" long @click="memberPass(true)">审核通过</Button>
+									<Button type="info" long @click="memberPass(true)">{{$t('common.examinationpassed')}}</Button>
 								</Col>
 								<Col span="4" offset="2" >
-									<Button type="error" long @click="memberPass(false)">审核不通过</Button>
+									<Button type="error" long @click="memberPass(false)">{{$t('common.auditnotpassed')}}</Button>
 								</Col>
 							</Row>
 							<Modal
 								v-model="rejectModel"
 								:width="450"
-								title="请备注失败原因(选填)"
+								:title="$t('common.auditnote')"
 								@on-ok="noPass"
 								@on-cancel="cancelMemberCheck">
 								<Input type="textarea" v-model="rejectReason"></Input>
@@ -61,43 +61,43 @@
 								<Step title="" content="数字资产交易证明"></Step>
 						</Steps> -->
 						<Row class="title">
-							<Col span="12" :class="{ active: !authImgIndex}">① 个人数字资产证明</Col>
-							<Col span="12" :class="{ active: !!authImgIndex}">② 数字资产交易证明</Col>
+							<Col span="12" :class="{ active: !authImgIndex}">{{$t('common.proofofpersonaldigitalassets')}}</Col>
+							<Col span="12" :class="{ active: !!authImgIndex}">{{$t('common.proofofdigitalassettransaction')}}</Col>
 						</Row>
 						<Row class="businessInfo">
-							<Col span="8">手机号：{{ businessCheckInfo.telno  }}</Col>
-							<Col span="8">微信号：{{ businessCheckInfo.wechat }}</Col>
-							<Col span="8">QQ号：{{ businessCheckInfo.qq }}</Col>
-							<Col span="8">保证金：{{ `${businessCheckInfo.amount}${businessCheckInfo.coinSymbol}` }}</Col>
+							<Col span="8">{{$t('common.tel')}}{{ businessCheckInfo.telno  }}</Col>
+							<Col span="8">{{$t('common.wechat')}}{{ businessCheckInfo.wechat }}</Col>
+							<Col span="8">{{$t('common.qq')}}{{ businessCheckInfo.qq }}</Col>
+							<Col span="8">{{$t('common.margin')}}{{ `${businessCheckInfo.amount}${businessCheckInfo.coinSymbol}` }}</Col>
 							<!-- businessCheckInfo.assetData -->
 							<!-- businessCheckInfo.tradeData -->
 						</Row>
 						<Row class="img">
 							<Spin size="large" v-if="!authImg.length"></Spin>
 							<img :src="authImg" >
-							<span class="preStep" v-show="!authImgStep"  @click="switchAuthImg(true)">上一步 < </span>
-							<span class="nextStep" v-show="authImgStep" @click="switchAuthImg(false)"> > 下一步</span>
+							<span class="preStep" v-show="!authImgStep"  @click="switchAuthImg(true)">{{$t('common.previous')}}</span>
+							<span class="nextStep" v-show="authImgStep" @click="switchAuthImg(false)">{{$t('common.next')}}</span>
 						</Row>
 
 						<Row class="btns">
 							<Row v-show="authImgStep">
 								<Col span="4" offset="10" >
-									<Button type="primary" long @click="cancelBusinessCheck">取消</Button>
+									<Button type="primary" long @click="cancelBusinessCheck">{{$t('common.cancel')}}</Button>
 								</Col>
 							</Row>
 
 							<Row v-show="!authImgStep">
 								<Col span="4" offset="7" >
-									<Button type="info" long @click="businessPass(true)">审核通过</Button>
+									<Button type="info" long @click="businessPass(true)">{{$t('common.examinationpassed')}}</Button>
 								</Col>
 								<Col span="4" offset="2" >
-									<Button type="error" long @click="businessPass(false)">审核不通过</Button>
+									<Button type="error" long @click="businessPass(false)">{{$t('common.auditnotpassed')}}</Button>
 								</Col>
 							</Row>
 							<Modal
 								v-model="rejectBusinessModel"
 								:width="450"
-								title="请备注失败原因(选填)"
+								:title="$t('common.auditnote')"
 								@on-ok="businessNoPass"
 								@on-cancel="cancelBusinessCheck">
 								<Input type="textarea" v-model="rejectBusinessReason"></Input>

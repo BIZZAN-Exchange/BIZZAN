@@ -1,13 +1,5 @@
 package com.bizzan.bitrade.controller;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.*;
-
 import com.bizzan.bitrade.constant.SysConstant;
 import com.bizzan.bitrade.entity.Country;
 import com.bizzan.bitrade.entity.Member;
@@ -17,19 +9,26 @@ import com.bizzan.bitrade.service.LocaleMessageSourceService;
 import com.bizzan.bitrade.service.MemberService;
 import com.bizzan.bitrade.util.*;
 import com.bizzan.bitrade.vendor.provider.SMSProvider;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
 import static com.bizzan.bitrade.util.MessageResult.error;
 import static com.bizzan.bitrade.util.MessageResult.success;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年01月08日
  */
 @Slf4j
@@ -47,6 +46,8 @@ public class SmsController {
     private LocaleMessageSourceService localeMessageSourceService;
     @Autowired
     private CountryService countryService;
+    @Value("${sms.sign}")
+    private String smsSign;
 
     /**
      * 注册验证码发送
@@ -70,11 +71,12 @@ public class SmsController {
         }
         String randomCode = String.valueOf(GeneratorUtil.getRandomNumber(100000, 999999));
         MessageResult result;
+        String content = "["+smsSign+"] Your verfification code is " + randomCode;
         if ("86".equals(country1.getAreaCode())) {
             Assert.isTrue(ValidateUtil.isMobilePhone(phone.trim()), localeMessageSourceService.getMessage("PHONE_EMPTY_OR_INCORRECT"));
-            result = smsProvider.sendVerifyMessage(phone, randomCode);
+            result = smsProvider.sendVerifyMessage(phone, content);
         } else {
-            result = smsProvider.sendInternationalMessage(randomCode, country1.getAreaCode() + phone);
+            result = smsProvider.sendInternationalMessage(content, country1.getAreaCode() + phone);
         }
         if (result.getCode() == 0) {
             valueOperations.getOperations().delete(key);
@@ -100,10 +102,12 @@ public class SmsController {
         Assert.hasText(member.getMobilePhone(), localeMessageSourceService.getMessage("NOT_BIND_PHONE"));
         String randomCode = String.valueOf(GeneratorUtil.getRandomNumber(100000, 999999));
         MessageResult result;
+        String content = "["+smsSign+"] Your verfification code is " + randomCode;
         if ("86".equals(member.getCountry().getAreaCode())) {
-            result = smsProvider.sendVerifyMessage(member.getMobilePhone(), randomCode);
+            Assert.isTrue(ValidateUtil.isMobilePhone(member.getMobilePhone().trim()), localeMessageSourceService.getMessage("PHONE_EMPTY_OR_INCORRECT"));
+            result = smsProvider.sendVerifyMessage(member.getMobilePhone(), content);
         } else {
-            result = smsProvider.sendInternationalMessage(randomCode, member.getCountry().getAreaCode() + member.getMobilePhone());
+            result = smsProvider.sendInternationalMessage(content, member.getCountry().getAreaCode() + member.getMobilePhone());
         }
         if (result.getCode() == 0) {
             ValueOperations valueOperations = redisTemplate.opsForValue();
@@ -139,16 +143,14 @@ public class SmsController {
                 memberService.saveAndFlush(member);
             }
         }
-
-
+        String content = "["+smsSign+"] Your verfification code is " + randomCode;
         if ("86".equals(member.getCountry().getAreaCode())) {
-            if (!ValidateUtil.isMobilePhone(phone.trim())) {
-                return error(localeMessageSourceService.getMessage("PHONE_EMPTY_OR_INCORRECT"));
-            }
-            result = smsProvider.sendVerifyMessage(phone, randomCode);
+            Assert.isTrue(ValidateUtil.isMobilePhone(member.getMobilePhone().trim()), localeMessageSourceService.getMessage("PHONE_EMPTY_OR_INCORRECT"));
+            result = smsProvider.sendVerifyMessage(member.getMobilePhone(), content);
         } else {
-            result = smsProvider.sendInternationalMessage(randomCode, member.getCountry().getAreaCode() + phone);
+            result = smsProvider.sendInternationalMessage(content, member.getCountry().getAreaCode() + member.getMobilePhone());
         }
+
         if (result.getCode() == 0) {
             ValueOperations valueOperations = redisTemplate.opsForValue();
             String key = SysConstant.PHONE_BIND_CODE_PREFIX + phone;
@@ -182,10 +184,12 @@ public class SmsController {
         }
         MessageResult result;
         String randomCode = String.valueOf(GeneratorUtil.getRandomNumber(100000, 999999));
+        String content = "["+smsSign+"] Your verfification code is " + randomCode;
         if ("86".equals(member.getCountry().getAreaCode())) {
-            result = smsProvider.sendVerifyMessage(member.getMobilePhone(), randomCode);
+            Assert.isTrue(ValidateUtil.isMobilePhone(member.getMobilePhone().trim()), localeMessageSourceService.getMessage("PHONE_EMPTY_OR_INCORRECT"));
+            result = smsProvider.sendVerifyMessage(member.getMobilePhone(), content);
         } else {
-            result = smsProvider.sendInternationalMessage(randomCode, member.getCountry().getAreaCode() + member.getMobilePhone());
+            result = smsProvider.sendInternationalMessage(content, member.getCountry().getAreaCode() + member.getMobilePhone());
         }
         if (result.getCode() == 0) {
             valueOperations.getOperations().delete(key);
@@ -228,10 +232,12 @@ public class SmsController {
         Assert.hasText(member.getMobilePhone(), localeMessageSourceService.getMessage("NOT_BIND_PHONE"));
         MessageResult result;
         String randomCode = String.valueOf(GeneratorUtil.getRandomNumber(100000, 999999));
+        String content = "["+smsSign+"] Your verfification code is " + randomCode;
         if ("86".equals(member.getCountry().getAreaCode())) {
-            result = smsProvider.sendVerifyMessage(member.getMobilePhone(), randomCode);
+            Assert.isTrue(ValidateUtil.isMobilePhone(member.getMobilePhone().trim()), localeMessageSourceService.getMessage("PHONE_EMPTY_OR_INCORRECT"));
+            result = smsProvider.sendVerifyMessage(member.getMobilePhone(), content);
         } else {
-            result = smsProvider.sendInternationalMessage(randomCode, member.getCountry().getAreaCode() + member.getMobilePhone());
+            result = smsProvider.sendInternationalMessage(content, member.getCountry().getAreaCode() + member.getMobilePhone());
         }
         if (result.getCode() == 0) {
             ValueOperations valueOperations = redisTemplate.opsForValue();
@@ -252,10 +258,12 @@ public class SmsController {
         MessageResult result;
         log.info("===提币验证码发送===mobile："+member.getMobilePhone());
         String randomCode = String.valueOf(GeneratorUtil.getRandomNumber(100000, 999999));
+        String content = "["+smsSign+"] Your verfification code is " + randomCode;
         if ("86".equals(member.getCountry().getAreaCode())) {
-            result = smsProvider.sendVerifyMessage(member.getMobilePhone(), randomCode);
+            Assert.isTrue(ValidateUtil.isMobilePhone(member.getMobilePhone().trim()), localeMessageSourceService.getMessage("PHONE_EMPTY_OR_INCORRECT"));
+            result = smsProvider.sendVerifyMessage(member.getMobilePhone(), content);
         } else {
-            result = smsProvider.sendInternationalMessage(randomCode, member.getCountry().getAreaCode() + member.getMobilePhone());
+            result = smsProvider.sendInternationalMessage(content, member.getCountry().getAreaCode() + member.getMobilePhone());
         }
         if (result.getCode() == 0) {
             ValueOperations valueOperations = redisTemplate.opsForValue();
@@ -276,10 +284,12 @@ public class SmsController {
         MessageResult result;
         log.info("===C2C验证码发送===mobile："+member.getMobilePhone());
         String randomCode = String.valueOf(GeneratorUtil.getRandomNumber(100000, 999999));
+        String content = "["+smsSign+"] Your verfification code is " + randomCode;
         if ("86".equals(member.getCountry().getAreaCode())) {
-            result = smsProvider.sendVerifyMessage(member.getMobilePhone(), randomCode);
+            Assert.isTrue(ValidateUtil.isMobilePhone(member.getMobilePhone().trim()), localeMessageSourceService.getMessage("PHONE_EMPTY_OR_INCORRECT"));
+            result = smsProvider.sendVerifyMessage(member.getMobilePhone(), content);
         } else {
-            result = smsProvider.sendInternationalMessage(randomCode, member.getCountry().getAreaCode() + member.getMobilePhone());
+            result = smsProvider.sendInternationalMessage(content, member.getCountry().getAreaCode() + member.getMobilePhone());
         }
         if (result.getCode() == 0) {
             ValueOperations valueOperations = redisTemplate.opsForValue();
@@ -302,10 +312,12 @@ public class SmsController {
         Assert.notNull(member, localeMessageSourceService.getMessage("MEMBER_NOT_EXISTS"));
         MessageResult result;
         String randomCode = String.valueOf(GeneratorUtil.getRandomNumber(100000, 999999));
+        String content = "["+smsSign+"] Your verfification code is " + randomCode;
         if ("86".equals(member.getCountry().getAreaCode())) {
-            result = smsProvider.sendVerifyMessage(member.getMobilePhone(), randomCode);
+            Assert.isTrue(ValidateUtil.isMobilePhone(member.getMobilePhone().trim()), localeMessageSourceService.getMessage("PHONE_EMPTY_OR_INCORRECT"));
+            result = smsProvider.sendVerifyMessage(member.getMobilePhone(), content);
         } else {
-            result = smsProvider.sendInternationalMessage(randomCode, member.getCountry().getAreaCode() + member.getMobilePhone());
+            result = smsProvider.sendInternationalMessage(content, member.getCountry().getAreaCode() + member.getMobilePhone());
         }
         if (result.getCode() == 0) {
             ValueOperations valueOperations = redisTemplate.opsForValue();
@@ -328,10 +340,12 @@ public class SmsController {
         Assert.hasText(member.getMobilePhone(), localeMessageSourceService.getMessage("NOT_BIND_PHONE"));
         MessageResult result;
         String randomCode = String.valueOf(GeneratorUtil.getRandomNumber(100000, 999999));
+        String content = "["+smsSign+"] Your verfification code is " + randomCode;
         if ("86".equals(member.getCountry().getAreaCode())) {
-            result = smsProvider.sendVerifyMessage(member.getMobilePhone(), randomCode);
+            Assert.isTrue(ValidateUtil.isMobilePhone(member.getMobilePhone().trim()), localeMessageSourceService.getMessage("PHONE_EMPTY_OR_INCORRECT"));
+            result = smsProvider.sendVerifyMessage(member.getMobilePhone(), content);
         } else {
-            result = smsProvider.sendInternationalMessage(randomCode, member.getCountry().getAreaCode() + member.getMobilePhone());
+            result = smsProvider.sendInternationalMessage(content, member.getCountry().getAreaCode() + member.getMobilePhone());
         }
         if (result.getCode() == 0) {
             ValueOperations valueOperations = redisTemplate.opsForValue();
@@ -358,10 +372,12 @@ public class SmsController {
         MessageResult result;
         log.info("===API密钥验证码发送===mobile："+member.getMobilePhone());
         String randomCode = String.valueOf(GeneratorUtil.getRandomNumber(100000, 999999));
+        String content = "["+smsSign+"] Your verfification code is " + randomCode;
         if ("86".equals(member.getCountry().getAreaCode())) {
-            result = smsProvider.sendVerifyMessage(member.getMobilePhone(), randomCode);
+            Assert.isTrue(ValidateUtil.isMobilePhone(member.getMobilePhone().trim()), localeMessageSourceService.getMessage("PHONE_EMPTY_OR_INCORRECT"));
+            result = smsProvider.sendVerifyMessage(member.getMobilePhone(), content);
         } else {
-            result = smsProvider.sendInternationalMessage(randomCode, member.getCountry().getAreaCode() + member.getMobilePhone());
+            result = smsProvider.sendInternationalMessage(content, member.getCountry().getAreaCode() + member.getMobilePhone());
         }
         if (result.getCode() == 0) {
             ValueOperations valueOperations = redisTemplate.opsForValue();

@@ -10,17 +10,14 @@ import com.bizzan.bitrade.service.MemberInviteStasticService;
 import com.bizzan.bitrade.util.MessageResult;
 import com.bizzan.bitrade.vo.InviteManagementVO;
 import com.bizzan.bitrade.vo.MemberInviteStasticVO;
-
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
-
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j

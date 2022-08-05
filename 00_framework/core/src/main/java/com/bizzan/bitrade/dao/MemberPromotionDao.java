@@ -1,18 +1,16 @@
 package com.bizzan.bitrade.dao;
 
-import java.util.Date;
-import java.util.List;
-
+import com.bizzan.bitrade.dao.base.BaseDao;
+import com.bizzan.bitrade.entity.MemberPromotion;
+import com.bizzan.bitrade.vo.MemberPromotionStasticVO;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.bizzan.bitrade.dao.base.BaseDao;
-import com.bizzan.bitrade.entity.MemberInviteStasticRank;
-import com.bizzan.bitrade.entity.MemberPromotion;
-import com.bizzan.bitrade.vo.MemberPromotionStasticVO;
+import java.util.Date;
+import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年03月08日
  */
 public interface MemberPromotionDao extends BaseDao<MemberPromotion> {

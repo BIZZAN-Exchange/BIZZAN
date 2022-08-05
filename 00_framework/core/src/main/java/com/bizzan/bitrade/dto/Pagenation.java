@@ -1,7 +1,6 @@
 package com.bizzan.bitrade.dto;
 
 import lombok.Data;
-import org.springframework.data.domain.Sort;
 
 import java.util.List;
 

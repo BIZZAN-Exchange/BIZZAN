@@ -50,12 +50,12 @@
               <p class="msg" v-show="form.fixed">{{$t('otc.publishad.usetip')}}</p>
               <FormItem :label="$t('otc.publishad.premiseprice')" prop="premisePrice" v-show="!form.fixed" class="ivu-form-item-required">
                 <Input v-model="form.premisePrice" :placeholder="$t('otc.publishad.premisepricetip')">
-                <span slot="append">%</span>
+                  <span slot="append">%</span>
                 </Input>
               </FormItem>
               <FormItem :label="$t('otc.publishad.fixedprice')" prop="fixedPrice" v-show="form.fixed" class="ivu-form-item-required">
                 <Input v-model="form.fixedPrice" :placeholder="$t('otc.publishad.fixedpricetip')">
-                <span slot="append">{{form.rmb}}</span>
+                  <span slot="append">{{form.rmb}}</span>
                 </Input>
               </FormItem>
               <!-- 1 -->
@@ -67,7 +67,7 @@
                 <label class="ivu-form-item-label" style="width: 90px;">{{$t('otc.publishad.exchangeprice')}}</label>
                 <div class="ivu-form-item-content" style="margin-left: 90px;">
                   <div class="ivu-input-wrapper ivu-input-type" id="price">
-                    {{price}}&nbsp;CNY/{{symbol}}
+                    {{price}}&nbsp;{{form.rmb}}/{{symbol}}
                   </div>
                 </div>
               </div>
@@ -75,12 +75,12 @@
               <FormItem :label="wantstyle+$t('otc.publishad.num')" prop="number">
                 <Input v-model="form.number" :placeholder="$t('otc.publishad.num_text1')+wantstyle+$t('otc.publishad.num_text2')"></Input>
               </FormItem>
-              <FormItem :label="$t('otc.publishad.exchangeperiod')" prop="timeLimit">
-                <Input v-model="form.timeLimit" :placeholder="$t('otc.publishad.exchangeperiod_text1')+'('+wantTime+$t('otc.publishad.minute')+')'">
-                <span slot="append">{{$t('otc.publishad.minute')}}</span>
-                </Input>
-              </FormItem>
-              <p class="msg">{{$t('otc.publishad.tip1')}} </p>
+<!--              <FormItem :label="$t('otc.publishad.exchangeperiod')" prop="timeLimit">-->
+<!--                <Input v-model="form.timeLimit" :placeholder="$t('otc.publishad.exchangeperiod_text1')+'('+wantTime+$t('otc.publishad.minute')+')'">-->
+<!--                  <span slot="append">{{$t('otc.publishad.minute')}}</span>-->
+<!--                </Input>-->
+<!--              </FormItem>-->
+<!--              <p class="msg">{{$t('otc.publishad.tip1')}} </p>-->
 
               <router-link to="/uc/account" style="padding-left: 90px;color:#f0ac19;">{{$t('otc.publishad.tip2')}}</router-link>
               <FormItem :label="$t('otc.publishad.paymode')" prop="payMode">
@@ -91,12 +91,12 @@
 
               <FormItem :label="$t('otc.publishad.minlimit')" prop="minLimit">
                 <Input v-model="form.minLimit" :placeholder="$t('otc.publishad.tip3')">
-                <span slot="append">CNY</span>
+                  <span slot="append">{{ form.rmb }}</span>
                 </Input>
               </FormItem>
               <FormItem :label="$t('otc.publishad.maxlimit')" prop="maxLimit">
                 <Input v-model="form.maxLimit" :placeholder="$t('otc.publishad.tip4')">
-                <span slot="append">CNY</span>
+                  <span slot="append">{{ form.rmb }}</span>
                 </Input>
               </FormItem>
               <FormItem :label="$t('otc.publishad.remark')" prop="remark">
@@ -168,7 +168,7 @@ export default {
     };
     const maxCheck = (rule, value, callback) => {
       let priceNow =
-        (this.price + "").replace(/,/g, "").replace(/[^\d|.]/g, "") - 0;
+          (this.price + "").replace(/,/g, "").replace(/[^\d|.]/g, "") - 0;
       priceNow = this.round(this.mul(priceNow, this.form.number), 8);
 
       if (!value || value == 0) {
@@ -179,7 +179,7 @@ export default {
         callback(new Error(this.$t("otc.publishad.warning5")));
       } else if (parseFloat(value) > parseFloat(priceNow)) {
         callback(
-          new Error(this.$t("otc.publishad.warning6") + priceNow + "CNY！")
+            new Error(this.$t("otc.publishad.warning6") + priceNow + "CNY！")
         );
       } else {
         callback();
@@ -194,9 +194,9 @@ export default {
         callback(new Error(this.$t("otc.publishad.warning8")));
       }
       if (
-        this.form.maxLimit &&
-        this.form.maxLimit != 0 &&
-        parseFloat(value) > this.form.maxLimit - 0
+          this.form.maxLimit &&
+          this.form.maxLimit != 0 &&
+          parseFloat(value) > this.form.maxLimit - 0
       ) {
         // console.log(this.form.maxLimit)
         callback(new Error(this.$t("otc.publishad.warning9")));
@@ -308,14 +308,14 @@ export default {
             trigger: "blur"
           }
         ],
-        timeLimit: [
-          {
-            required: true,
-            validator: timeLimitCheck,
-            message: this.$t("otc.publishad.inputtip6"),
-            trigger: "blur"
-          }
-        ],
+        // timeLimit: [
+        //   {
+        //     required: true,
+        //     validator: timeLimitCheck,
+        //     message: this.$t("otc.publishad.inputtip6"),
+        //     trigger: "blur"
+        //   }
+        // ],
         payMode: [
           {
             required: true,
@@ -336,40 +336,108 @@ export default {
         ]
       },
       payModeList: [
-        {
-          value: this.$t("otc.publishad.zfb"),
-          label: this.$t("otc.publishad.zfb"),
-          isOpen: true
-        },
-        {
-          value: this.$t("otc.publishad.wx"),
-          label: this.$t("otc.publishad.wx"),
-          isOpen: true
-        },
-        {
-          value: this.$t("otc.publishad.unionpay"),
-          label: this.$t("otc.publishad.unionpay"),
-          isOpen: true
-        }
+        // {
+        //   value: this.$t("otc.publishad.zfb"),
+        //   label: this.$t("otc.publishad.zfb"),
+        //   isOpen: true
+        // },
+        // {
+        //   value: this.$t("otc.publishad.wx"),
+        //   label: this.$t("otc.publishad.wx"),
+        //   isOpen: true
+        // },
+        // {
+        //   value: this.$t("otc.publishad.unionpay"),
+        //   label: this.$t("otc.publishad.unionpay"),
+        //   isOpen: true
+        // }
       ]
     };
   },
   methods: {
+    getAllType() {
+      this.$http.get(this.host + '/uc/payment/list').then(response => {
+        var resp = response.body;
+        if (resp.code == 0) {
+          let types=resp.data;
+          this.payModeList = [];
+          for(let i=0;i<types.length;i++){
+            let payMode = {};
+            payMode['value']=types[i].code;
+            payMode['label']=types[i].code;
+            payMode['isOpen']=true;
+            this.payModeList.push(payMode);
+          }
+        } else {
+          this.$Message.error(resp.message);
+        }
+      })
+    },
+    getAccount() {
+      //初始化支付方式
+      this.getAllType();
+      //获取个人账户信息
+      this.$http.post(this.host + '/uc/payment/getRecords').then(response => {
+        var resp = response.body;
+        // console.log(resp);
+        if (resp.code == 0) {
+          let records=resp.data;
+
+          for(let i=0;i<records.length;i++){
+            for(let j=0;j<this.payModeList.length;j++){
+              if(records[i].typeName==this.payModeList[j].value){
+                this.payModeList[j].isOpen=false;
+              }
+            }
+          }
+        } else {
+          this.msg = resp.message;
+          //this.$Message.error(resp.message)
+          this.$Notice.error({
+            title: this.$t("common.tip"),
+            desc: resp.message
+          });
+          this.$router.push("/uc/safe");
+        }
+      })
+    },
+    getAllMarketPrice(){
+      let lv = (1 + this.form.premisePrice / 100).toFixed(4);
+      //获取币种
+      let params = {};
+      params.currency = this.form.rmb?this.form.rmb:"CNY";
+      this.$http.post(this.host + "/otc/coin/all",params).then(response => {
+        var resp = response.body;
+        if (resp.code == 0) {
+          this.coinList = resp.data;
+          this.form.coin = resp.data[0].id;
+          this.cankao = resp.data[0].marketPrice + "";
+          let cankoNew =
+              this.cankao.replace(/,/g, "").replace(/[^\d|.]/g, "") - 0;
+          // this.price = (cankoNew * lv).toLocaleString() + ' CNY/' + this.findCoin(this.form.coin);
+          this.price = (cankoNew * lv).toLocaleString();
+          this.symbol = resp.data[0].unit;
+        } else {
+          this.$Message.error(resp.message);
+        }
+
+      });
+    },
     changeCoin() {
       let coinItem = this.getCoin(this.form.coin);
       if (coinItem != null) {
         this.cankao = coinItem.marketPrice + "";
         let lv = (1 + this.form.premisePrice / 100).toFixed(4);
         let cankoNew =
-          this.cankao.replace(/,/g, "").replace(/[^\d|.]/g, "") - 0;
+            this.cankao.replace(/,/g, "").replace(/[^\d|.]/g, "") - 0;
         this.price = (cankoNew * lv).toLocaleString(); // + ' CNY/' + coinItem.unit;
         this.symbol = coinItem.unit;
       }
     },
     mul(a, b) {
       var c = 0,
-        d = a.toString(),
-        e = b.toString();
+          d = a.toString(),
+          e = b.toString();
       try {
         c += d.split(".")[1].length;
       } catch (f) {}
@@ -377,16 +445,16 @@ export default {
         c += e.split(".")[1].length;
       } catch (f) {}
       return (
-        Number(d.replace(".", "")) *
-        Number(e.replace(".", "")) /
-        Math.pow(10, c)
+          Number(d.replace(".", "")) *
+          Number(e.replace(".", "")) /
+          Math.pow(10, c)
       );
     },
     div(a, b) {
       var c,
-        d,
-        e = 0,
-        f = 0;
+          d,
+          e = 0,
+          f = 0;
       try {
         e = a.toString().split(".")[1].length;
       } catch (g) {}
@@ -394,9 +462,9 @@ export default {
         f = b.toString().split(".")[1].length;
       } catch (g) {}
       return (
-        (c = Number(a.toString().replace(".", ""))),
-        (d = Number(b.toString().replace(".", ""))),
-        this.mul(c / d, Math.pow(10, f - e))
+          (c = Number(a.toString().replace(".", ""))),
+              (d = Number(b.toString().replace(".", ""))),
+              this.mul(c / d, Math.pow(10, f - e))
       );
     },
     round(v, e) {
@@ -463,40 +531,40 @@ export default {
           isIdparams["autoword"] = this.form.autoword;
           if (this.isId) {
             this.$http
-              .post(this.host + "/otc/advertise/update", isIdparams)
-              .then(response => {
-                var resp = response.body;
-                if (resp.code == 0) {
-                  this.$Message.success(resp.message);
-                  var that = this;
-                  setTimeout(() => {
-                    that.$router.push("/uc/ad");
-                  }, 3000);
-                } else {
-                  this.$Message.error(resp.message);
-                  this.disAllowBtn = false;
-                }
-                //  this.disAllowBtn=false
-              });
+                .post(this.host + "/otc/advertise/update", isIdparams)
+                .then(response => {
+                  var resp = response.body;
+                  if (resp.code == 0) {
+                    this.$Message.success(resp.message);
+                    var that = this;
+                    setTimeout(() => {
+                      that.$router.push("/uc/ad");
+                    }, 3000);
+                  } else {
+                    this.$Message.error(resp.message);
+                    this.disAllowBtn = false;
+                  }
+                  //  this.disAllowBtn=false
+                });
           } else {
             //创建
             this.$http
-              .post(this.host + "/otc/advertise/create", params)
-              .then(response => {
-                var resp = response.body;
-                if (resp.code == 0) {
-                  debugger;
-                  this.$Message.success(resp.message);
-                  var that = this;
-                  setTimeout(() => {
-                    that.$router.push("/uc/ad");
-                  }, 3000);
-                } else {
-                  this.$Message.error(resp.message);
-                  this.disAllowBtn = false;
-                }
-                // this.disAllowBtn=false
-              });
+                .post(this.host + "/otc/advertise/create", params)
+                .then(response => {
+                  var resp = response.body;
+                  if (resp.code == 0) {
+                    debugger;
+                    this.$Message.success(resp.message);
+                    var that = this;
+                    setTimeout(() => {
+                      that.$router.push("/uc/ad");
+                    }, 3000);
+                  } else {
+                    this.$Message.error(resp.message);
+                    this.disAllowBtn = false;
+                  }
+                  // this.disAllowBtn=false
+                });
           }
         } else {
           this.disAllowBtn = false;
@@ -513,6 +581,8 @@ export default {
           this.form.rmb = this.areas[i].localCurrency;
         }
       }
+      this.getAllMarketPrice();
+      // this.getAllMarketPrice();
     },
     findCoin(coinId) {
       for (let i = 0; i < this.coinList.length; i++) {
@@ -570,76 +640,77 @@ export default {
       //     }
       // })
     },
-    getAccount() {
-      //获取个人账户信息
-      let self = this;
-      this.$http
-        .post(this.host + "/uc/approve/account/setting")
-        .then(response => {
-          var resp = response.body;
-          if (resp.code == 0) {
-            if (
-              resp.data.bankVerified == 0 &&
-              resp.data.aliVerified == 0 &&
-              resp.data.wechatVerified == 0
-            ) {
-              this.$Message.success(this.$t("otc.publishad.submittip4"));
-              self.$router.push("/uc/account");
-            }
-            if (resp.data.aliVerified == 1) {
-              this.payModeList[0].isOpen = false;
-            }
-            if (resp.data.wechatVerified == 1) {
-              this.payModeList[1].isOpen = false;
-            }
-            if (resp.data.bankVerified == 1) {
-              this.payModeList[2].isOpen = false;
-            }
-          } else {
-            this.msg = resp.message;
-            this.$Message.error(resp.message);
-          }
-        });
-    },
+    // getAccount() {
+    //   //获取个人账户信息
+    //   let self = this;
+    //   this.$http
+    //       .post(this.host + "/uc/approve/account/setting")
+    //       .then(response => {
+    //         var resp = response.body;
+    //         if (resp.code == 0) {
+    //           if (
+    //               resp.data.bankVerified == 0 &&
+    //               resp.data.aliVerified == 0 &&
+    //               resp.data.wechatVerified == 0
+    //           ) {
+    //             this.$Message.success(this.$t("otc.publishad.submittip4"));
+    //             self.$router.push("/uc/account");
+    //           }
+    //           if (resp.data.aliVerified == 1) {
+    //             this.payModeList[0].isOpen = false;
+    //           }
+    //           if (resp.data.wechatVerified == 1) {
+    //             this.payModeList[1].isOpen = false;
+    //           }
+    //           if (resp.data.bankVerified == 1) {
+    //             this.payModeList[2].isOpen = false;
+    //           }
+    //         } else {
+    //           this.msg = resp.message;
+    //           this.$Message.error(resp.message);
+    //         }
+    //       });
+    // },
     getDetailAd() {
       this.isId = true;
       this.$http
-        .post(this.host + "/otc/advertise/detail", { id: this.$route.query.id })
-        .then(response => {
-          var resp = response.body;
-          if (resp.code == 0) {
-            this.form.coin = resp.data.coinId + "";
-            this.form.country = resp.data.country.zhName;
-            this.cankao = resp.data.marketPrice + "";
-            if (resp.data.priceType == 0) {
-              this.form.fixed = true;
-              this.form.fixedPrice = resp.data.price;
-            } else if (resp.data.priceType == 1) {
-              this.form.fixed = false;
+          .post(this.host + "/otc/advertise/detail", { id: this.$route.query.id })
+          .then(response => {
+            var resp = response.body;
+            if (resp.code == 0) {
+              this.form.coin = resp.data.coinId + "";
+              this.form.country = resp.data.country.zhName;
+              this.form.rmb = resp.data.country.localCurrency;
+              this.cankao = resp.data.marketPrice + "";
+              if (resp.data.priceType == 0) {
+                this.form.fixed = true;
+                this.form.fixedPrice = resp.data.price;
+              } else if (resp.data.priceType == 1) {
+                this.form.fixed = false;
+              }
+              this.price = resp.data.price;
+              this.symbol = resp.data.coinUnit;
+              // this.price = resp.data.price + ' CNY/' + resp.data.coinUnit;
+              this.form.advertiseType = resp.data.advertiseType + "";
+              this.form.minLimit = resp.data.minLimit;
+              this.form.maxLimit = resp.data.maxLimit;
+              this.form.remark = resp.data.remark;
+              this.form.timeLimit = resp.data.timeLimit;
+              this.form.premisePrice = resp.data.premiseRate;
+              this.form.payMode = (resp.data.payMode + "").split(",");
+              // console.log(this.form.payMode)
+              this.form.number = resp.data.number;
+              if (resp.data.auto == 1) {
+                this.form.autoReply = true;
+              } else if (resp.data.auto == 0) {
+                this.form.autoReply = false;
+              }
+              this.form.autoword = resp.data.autoword;
+            } else {
+              this.$Message.error(resp.message);
             }
-            this.price = resp.data.price;
-            this.symbol = resp.data.coinUnit;
-            // this.price = resp.data.price + ' CNY/' + resp.data.coinUnit;
-            this.form.advertiseType = resp.data.advertiseType + "";
-            this.form.minLimit = resp.data.minLimit;
-            this.form.maxLimit = resp.data.maxLimit;
-            this.form.remark = resp.data.remark;
-            this.form.timeLimit = resp.data.timeLimit;
-            this.form.premisePrice = resp.data.premiseRate;
-            this.form.payMode = (resp.data.payMode + "").split(",");
-            // console.log(this.form.payMode)
-            this.form.number = resp.data.number;
-            if (resp.data.auto == 1) {
-              this.form.autoReply = true;
-            } else if (resp.data.auto == 0) {
-              this.form.autoReply = false;
-            }
-            this.form.autoword = resp.data.autoword;
-          } else {
-            this.$Message.error(resp.message);
-          }
-          this.isSpinShow = false;
-        });
+            this.isSpinShow = false;
+          });
     }
   },
   mounted() {},
@@ -680,29 +751,13 @@ export default {
   created() {
     this.getMember();
     this.getAreas();
-    let lv = (1 + this.form.premisePrice / 100).toFixed(4);
-    //获取币种
-    this.$http.post(this.host + "/otc/coin/all").then(response => {
-      var resp = response.body;
-      if (resp.code == 0) {
-        this.coinList = resp.data;
-        this.form.coin = resp.data[0].id;
-        this.cankao = resp.data[0].marketPrice + "";
-        let cankoNew =
-          this.cankao.replace(/,/g, "").replace(/[^\d|.]/g, "") - 0;
-        // this.price = (cankoNew * lv).toLocaleString() + ' CNY/' + this.findCoin(this.form.coin);
-        this.price = (cankoNew * lv).toLocaleString();
-        this.symbol = resp.data[0].unit;
-      } else {
-        this.$Message.error(resp.message);
-      }
-      //修改
-      if (this.$route.query.id) {
-        this.getDetailAd();
-      } else {
-        this.isSpinShow = false;
-      }
-    });
+    this.getAllMarketPrice();
+    //修改
+    if (this.$route.query.id) {
+      this.getDetailAd();
+    } else {
+      this.isSpinShow = false;
+    }
   }
 };
 </script>

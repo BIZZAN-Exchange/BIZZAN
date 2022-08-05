@@ -4,7 +4,7 @@ export default [
     { path: '/login', component: resolve=>(require(["../pages/uc/login"],resolve)) },
     { path: '/login/returnUrl/:returnUrl', component: resolve=>(require(["../pages/uc/login"],resolve)) },
     { path: '/register', component: resolve=>(require(["../pages/uc/register"],resolve)) },
-    { path: '/reg', component: resolve=>(require(["../pages/uc/MobileRegister"],resolve)) },
+    { path: '/reg', component: resolve=>(require(["../pages/uc/register"],resolve)) },
     { path: '/app', component: resolve=>(require(["../pages/uc/AppDownload"],resolve)) },
     { path: '/findPwd', component: resolve=>(require(["../pages/uc/findpwd"],resolve)) },
     { path: '/exchange', component: resolve=>(require(["../pages/exchange/exchange"],resolve)) },
@@ -51,6 +51,14 @@ export default [
             {
                 path: 'money',
                 component: resolve=>(require(["../components/uc/MoneyIndex"],resolve))
+            },
+            {
+                path: 'financeAssets',
+                component: resolve=>(require(["../components/uc/FinanceAssets"],resolve))
+            },
+            {
+                path: 'financeOrders',
+                component: resolve=>(require(["../components/uc/FinanceOrder"],resolve))
             },
             {
                 path: 'record',

@@ -3,7 +3,6 @@ package com.bizzan.bitrade.model.vo;
 import com.bizzan.bitrade.constant.SignStatus;
 import com.bizzan.bitrade.entity.Sign;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.Builder;
 import lombok.Data;
 
@@ -11,7 +10,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @Title: ${file_name}
  * @Description:
  * @date 2019/5/715:12

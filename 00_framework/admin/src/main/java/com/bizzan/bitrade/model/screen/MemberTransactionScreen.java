@@ -2,7 +2,6 @@ package com.bizzan.bitrade.model.screen;
 
 import com.bizzan.bitrade.constant.TransactionType;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -50,4 +49,10 @@ public class MemberTransactionScreen extends AccountScreen{
 
     private Long memberId ;
 
+
+    // 类型（0：交易明细，1：手续费明细）
+    Integer outType;
+
+    // 是否导出（0：否，1：是）
+    Integer isOut;
 }

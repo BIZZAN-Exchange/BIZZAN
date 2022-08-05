@@ -2,60 +2,58 @@
   <div>
     <Card>
       <p slot="title">
-        审核详情
-        <Button type="primary" size="small" @click="reset">
+        {{ $t('auditdetails.auditdetails') }} <Button type="primary" size="small" @click="reset">
           <Icon type="refresh"></Icon>
-          刷新
-        </Button>
+          {{ $t('perpetualcontractcurrencystandardmanagement.refresh') }} </Button>
       </p>
 
       <div class="stepWrapper">
         <Steps :current="status">
-          <Step title="已审核" v-if="!!status"></Step>
-          <Step title="待审核" v-if="!status"></Step>
-          <Step title="转账中"></Step>
-          <Step title="交易失败" v-if="status===2"></Step>
-          <Step title="交易成功" v-if="status!==2"></Step>
+          <Step :title="$t('auditdetails.reviewed')" v-if="!!status"></Step>
+          <Step :title="$t('currencywithdrawalapproval.pendingreview')" v-if="!status"></Step>
+          <Step :title="$t('auditdetails.transferring')"></Step>
+          <Step :title="$t('auditdetails.transactionfailed')" v-if="status===2"></Step>
+          <Step :title="$t('auditdetails.successfultrade')" v-if="status!==2"></Step>
         </Steps>
       </div>
       <Row class="userDetails">
 
-        <span>用户名：
+        <span>{{ $t('auditdetails.username') }}
           <i>{{ userInfo.memberUsername }}</i>
         </span>
-        <span>真实姓名：
+        <span>{{ $t('auditdetails.realname') }}
           <i>{{ userInfo.memberRealName }}</i>
         </span>
-        <span>到账数量：
+        <span>{{ $t('currencywithdrawalauditmanagement.quantityreceived') }}
           <i>{{ userInfo.arrivedAmount }}</i>
         </span>
-        <span>提现地址：
+        <span>{{ $t('currencywithdrawalauditmanagement.withdrawaladdress') }}
           <i>{{ userInfo.address }}</i>
         </span>
 
         <br>
-        <span>提现币种：
+        <span>{{ $t('auditdetails.withdrawalcurrency') }}
           <i>{{ userInfo.unit }}</i>
         </span>
 
-        <span>手续费：
+        <span>{{ $t('transactiondetailsinlegalcurrency.servicecharge') }}
           <i>{{ userInfo.fee }}</i>
         </span>
-        <span>提现数量：
+        <span>{{ $t('auditdetails.withdrawalquantity') }}
           <i>{{ userInfo.totalAmount }}</i>
         </span>
-        <span>申请时间：
+        <span>{{ $t('auditdetails.applicationtime') }}
           <i>{{ userInfo.createTime }}</i>
         </span>
 
         <div class="passCoinWrapper" v-if="status===1&&isAuto===0">
-          <Button type="error" size="large" @click=" ifPassCoin = true ">开始放币</Button>
+          <Button type="error" size="large" @click=" ifPassCoin = true ">{{ $t('auditdetails.starttoputmoney') }}</Button>
         </div>
 
       </Row>
 
       <Modal class="passCoinModal" width="400" v-model="ifPassCoin" @on-ok="confrimPass">
-        <div>请输入流水号：
+        <div>{{ $t('auditdetails.pleaseentertheserialnumber') }}
           <p>
             <Input type="textarea" v-model="transactionNum"></Input>
           </p>
@@ -63,24 +61,24 @@
       </Modal>
 
       <Row class="tradeRecord">
-        <h3>交易记录</h3>
+        <h3>{{ $t('detailsofcurrencyentrustment.transactions') }}</h3>
         <div class="tableWrapper">
           <div class="poptip" style="display:flex;flex-direction:row;margin-bottom: 10px;">
-            <div style="width:100px;">交易类型：</div>
+            <div style="width:100px;">{{ $t('servicechargewithdrawaldetails.transactiontype') }}</div>
             <Select v-model="tradeType" style="width:100px;margin-right:20px;">
               <Option v-for="(item, index) in tradeTypeArr"
                     :value="index"
                     :key="item">{{ item }}</Option>
             </Select>
-            <Button type="info" size="small" @click="searchByFilter" style="padding: 5px 20px;">搜索</Button>
+            <Button type="info" size="small" @click="searchByFilter" style="padding: 5px 20px;">{{ $t('positionmanagementcontractassetmanagement.search') }}</Button>
           </div>
           <Table :columns="columns_first" :data="trade_data"></Table>
           <Page :total="totalNum" :page-size=10  @on-change="changePage"></Page>
         </div>
         <p class="line"></p>
         <div class="btnContainer" v-if="!status">
-          <Button type="error" size="large" @click="ifPass(false)">不通过</Button>
-          <Button type="success" size="large" @click="ifPass(true)">通过</Button>
+          <Button type="error" size="large" @click="ifPass(false)">{{ $t('auditdetails.fail') }}</Button>
+          <Button type="success" size="large" @click="ifPass(true)">{{ $t('auditdetails.adopt') }}</Button>
         </div>
       </Row>
 
@@ -110,37 +108,37 @@ export default {
       totalNum: null,
       status: null,
       tradeType: null,
-      tradeTypeArr: [ '充值', '提现', '转账', '币币交易', '法币买入', '法币卖出', '活动奖励', '推广奖励', '分红', '投票', '人工充值', '配对', '活动兑换' ],
+      tradeTypeArr: [ this.$t('handlingchargemanagement.recharge'), this.$t('handlingchargemanagement.withdrawal'), this.$t('handlingchargemanagement.transfer'), this.$t('servicechargewithdrawaldetails.currencytransaction'), this.$t('handlingchargemanagement.purchaseinlegalcurrency'), this.$t('handlingchargemanagement.sellinginlegalcurrency'), this.$t('handlingchargemanagement.activityrewards'), this.$t('handlingchargemanagement.promotionreward'), this.$t('handlingchargemanagement.dividends'), this.$t('handlingchargemanagement.vote'), this.$t('handlingchargemanagement.manualrecharge'), this.$t('handlingchargemanagement.pairing'), this.$t('handlingchargemanagement.eventredemption') ],
       columns_first: [
         {
-          title: "会员ID",
+          title: this.$t('realnamemanagement.memberid'),
           key:"memberId"
         },
         {
-          title: "交易方式",
+          title: this.$t('auditdetails.transactionmethod'),
           key: "type",
           render: (h, obj) => {
             let type = obj.row.type;
             let arr = [
-              "充值",
-              "提现",
-              "转账",
-              "币币交易",
-              "法币买入",
-              "法币卖出",
-              "活动奖励",
-              "推广奖励",
-              "分红",
-              "投票",
-              "人工充值",
-              "配对",
-              "活动兑换"
+              this.$t('handlingchargemanagement.recharge'),
+              this.$t('handlingchargemanagement.withdrawal'),
+              this.$t('handlingchargemanagement.transfer'),
+              this.$t('servicechargewithdrawaldetails.currencytransaction'),
+              this.$t('handlingchargemanagement.purchaseinlegalcurrency'),
+              this.$t('handlingchargemanagement.sellinginlegalcurrency'),
+              this.$t('handlingchargemanagement.activityrewards'),
+              this.$t('handlingchargemanagement.promotionreward'),
+              this.$t('handlingchargemanagement.dividends'),
+              this.$t('handlingchargemanagement.vote'),
+              this.$t('handlingchargemanagement.manualrecharge'),
+              this.$t('handlingchargemanagement.pairing'),
+              this.$t('handlingchargemanagement.eventredemption')
             ];
             return h("span", {}, arr[type]);
           }
         },
         {
-          title: "交易金额",
+          title: this.$t('transactiondetails.transactionamount'),
           render: (h, obj) => {
             let amount = obj.row.amount;
             let symbol = obj.row.symbol;
@@ -148,11 +146,11 @@ export default {
           }
         },
         {
-          title: "交易手续费",
+          title: this.$t('handlingchargemanagement.transactionhandlingfee'),
           key:"fee"
         },
         {
-          title: "交易时间",
+          title: this.$t('transactiondetailsinlegalcurrency.transactiontime'),
           key:"createTime"
         }
       ],
@@ -162,7 +160,7 @@ export default {
   methods: {
     confrimPass() {
       if (!this.transactionNum) {
-        this.$Message.warning("请填写流水号！");
+        this.$Message.warning(this.$t('auditdetails.pleasefillintheserialnumber'));
       } else {
         let obj = {
           id: this.userInfo.id,
@@ -171,7 +169,7 @@ export default {
 
         passCoinByOne(obj).then(res => {
           if (!res.code) {
-            this.$Message.success("操作成功！");
+            this.$Message.success(this.$t('perpetualcontractcurrencystandardmanagement.operationsucceeded'));
             this.$router.push("/finance/userwithdrawals");
           } else this.$Message.error(res.message);
         });
@@ -202,7 +200,7 @@ export default {
         if (!res.code) {
           this.$Message.success(res.message);
         } else {
-          this.$Message.error("请求异常!");
+          this.$Message.error(this.$t('auditdetails.requestexception'));
         }
 
         this.$router.push({ path: "/finance/userwithdrawals" });

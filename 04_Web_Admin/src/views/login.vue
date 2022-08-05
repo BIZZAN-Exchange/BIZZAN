@@ -5,14 +5,14 @@
 <template>
 	<div class="login" @keydown.enter="handle">
 		<div class="login-con">
-			<Card :bordered="true">
+			<Card :bordered="false">
 				<p slot="title">
-					<Icon type="log-in"></Icon> 欢迎登录
+					<Icon type="log-in"></Icon> {{$t('login.welcometologin')}}
 				</p>
 				<div class="form-con" v-if="!phoneNum">
 					<Form ref="loginForm" :model="form" :rules="rules">
 						<FormItem prop="username">
-							<Input v-model="form.username" :disabled="btnDisable" placeholder="请输入用户名">
+							<Input v-model="form.username" :disabled="btnDisable" :placeholder="$t('login.usernameplaceholder')">
 								<span slot="prepend">
 									<Icon :size="16" type="person"></Icon>
 								</span>
@@ -20,16 +20,16 @@
 						</FormItem>
 
 						<FormItem prop="password">
-							<Input type="password" v-model="form.password" :disabled="btnDisable" placeholder="请输入密码">
+							<Input type="password" v-model="form.password" :disabled="btnDisable" :placeholder="$t('login.captchapplaceholder')">
 								<span slot="prepend">
 									<Icon :size="14" type="locked"></Icon>
 								</span>
 							</Input>
 						</FormItem prop="captcha">
 
-						<Row v-show="!phoneNum">
+						<Row v-show="false">
 							<Col span="12">
-								<Input v-model="form.captcha" placeholder="验证码" >
+								<Input v-model="form.captcha" :placeholder="$t('login.captchap')" >
 								<span slot="prepend">
 									<Icon :size="14" type="locked"></Icon>
 								</span></Input>
@@ -40,7 +40,7 @@
 						</Row>
 
 						<FormItem style='margin-top:40px'>
-							<Button @click="handle" type="warning" long>登录</Button>
+							<Button @click="handle" type="warning" long>{{$t('common.login')}}</Button>
 						</FormItem>
 
 						<p style='color:red;text-align:center' v-if="messshow">{{errormessage}}</p>
@@ -48,22 +48,22 @@
 				</div>
 				<div v-if="!!phoneNum">
 					<Form>
-<!-- 						<FormItem>
+ 						<FormItem>
 							<p class="phone-num">{{ phoneNum | hidePhoneNum }}</p>
 						</FormItem>
 						<FormItem>
-							<Input placeholder="请输入验证码" v-model="code" :class="{appendBtn: count===0}">
-							 	<Button slot="append" v-if="count>0" :disabled="count>0">{{count}}s后重新获取</Button>
-							 	<Button slot="append" v-else-if="count===0" type="success" @click="getCodeTwice">获取验证码</Button>
+							<Input :placeholder="$t('login.captchapplaceholder')" v-model="code" :class="{appendBtn: count===0}">
+							 	<Button slot="append" v-if="count>0" :disabled="count>0">{{count}}s{{$t('login.getcaptchaps')}}</Button>
+							 	<Button slot="append" v-else-if="count===0" type="success" @click="getCodeTwice">{{$t('login.getcaptchap')}}</Button>
 							</Input>
-						</FormItem> -->
+						</FormItem>
 						<FormItem>
 							<Row>
 								<Col span="11">
-									<Button @click="handle" type="warning" long>登录</Button>
+									<Button @click="handle" type="warning" long>{{$t('common.login')}}</Button>
 								</Col>
 								<Col span="11" offset="2">
-									<Button @click="cancelSignIn" long>取消</Button>
+									<Button @click="cancelSignIn" long>{{$t('common.cancel')}}</Button>
 								</Col>
 							</Row>
 						</FormItem>
@@ -72,7 +72,7 @@
 				</div>
 			</Card>
 		</div>
-		<div style="position:absolute;top: 10px;font-size: 14px;margin-top: 10px;margin-left: 30px;color:rgb(255 238 211);text-shadow: 1px 0px 2px #000;width: 400px;text-align: left;border-radius: 5px;padding: 5px 0;">购买商用稳定版请添加QQ：390330302</div>
+		<div style="position:absolute;top: 10px;font-size: 14px;margin-top: 10px;margin-left: 30px;color:rgb(255 238 211);text-shadow: 1px 0px 2px #000;width: 400px;text-align: left;border-radius: 5px;padding: 5px 0;">{{ $t('common.connect') }}</div>
 	</div>
 </template>
 
@@ -85,9 +85,9 @@
 import Cookies from "js-cookie";
 import store from "../store";
 
-import { setStore, getStore, removeStore } from "../config/storage";
-import { otherRouter, appRouter } from "../router/router.js";
-import { BASICURL, getLoginCode, signIn, getCodeAgain } from "../service/getData";
+import { setStore, getStore, removeStore } from "@/config/storage";
+import { otherRouter, appRouter } from "@/router/router.js";
+import { BASICURL, login, signIn, getCodeAgain } from "@/service/getData";
 
 export default {
   data() {
@@ -106,9 +106,9 @@ export default {
       errormessage: null,
       logimg: `${BASICURL}/admin/captcha?cid=ADMIN_LOGIN`,
       rules: {
-        username: [{ required: true, message: "不能为空", trigger: "blur" }],
-        captcha: [{ required: true, message: "不能为空", trigger: "blur" }],
-        password: [{ required: true, message: "不能为空", trigger: "blur" }]
+        username: [{ required: true, message: this.$t('common.notblank'), trigger: "blur" }],
+        captcha: [{ required: true, message: this.$t('common.notblank'), trigger: "blur" }],
+        password: [{ required: true, message: this.$t('common.notblank'), trigger: "blur" }]
       },
       permissions: {}
     };
@@ -139,26 +139,17 @@ export default {
       }
 		},
     handle() {
-			if(!!this.phoneNum) {
-				signIn({code: this.code})
+		login(this.form)
 				 .then(res => {
 					  if (!res.code) {
 							Cookies.set('user', res.data.admin.username, { expires: 7 });
 							Cookies.set('userInfo', res.data.admin, { expires: 7 });
 							setStore("leftSidebarList", res.data.permissions);
+							localStorage.setItem("admin-auth-token", res.data.authToken);
 							this.$router.push({ name: "home_index" });
                   	   } else this.$Message.error(res.message);
-        			}).catch(err => {console.log(err)} );
-			}else{
-				getLoginCode(this.form)
-					.then(res => {
-						if (!res.code) {
-							this.phoneNum = res.data;
-							Cookies.set('userPhone', this.phoneNum);
-						} else this.$Message.error(res.message)
 					})
 					.catch(err => console.log(err));
-			}
     }
   },
   beforeRouteLeave(to, from, next) {

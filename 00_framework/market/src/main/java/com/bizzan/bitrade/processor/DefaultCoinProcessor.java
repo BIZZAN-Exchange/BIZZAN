@@ -8,7 +8,6 @@ import com.bizzan.bitrade.entity.ExchangeTrade;
 import com.bizzan.bitrade.entity.KLine;
 import com.bizzan.bitrade.handler.MarketHandler;
 import com.bizzan.bitrade.service.MarketService;
-
 import lombok.ToString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,8 +87,8 @@ public class DefaultCoinProcessor implements CoinProcessor {
             }
             coinThumb.setChange(coinThumb.getClose().subtract(coinThumb.getOpen()));
             // 此处计算涨幅并没有以开盘价为标准，而是以最低价
-            if (coinThumb.getLow().compareTo(BigDecimal.ZERO) > 0) {
-                coinThumb.setChg(coinThumb.getChange().divide(coinThumb.getLow(), 4, RoundingMode.UP));
+            if (coinThumb.getOpen().compareTo(BigDecimal.ZERO) > 0) {
+                coinThumb.setChg(coinThumb.getChange().divide(coinThumb.getOpen(), 4, RoundingMode.UP));
             }
         }
     }
@@ -151,16 +150,45 @@ public class DefaultCoinProcessor implements CoinProcessor {
         BigDecimal baseUsdRate = coinExchangeRate.getUsdRate(baseCoin);
         coinThumb.setBaseUsdRate(baseUsdRate);
         //logger.info("setBaseUsdRate = ",baseUsdRate);
+        logger.info("initializeUsdRate: {}", coinThumb.getClose());
+        logger.info("initializeUsdRate: {}", coinExchangeRate.getUsdRate(baseCoin));
         BigDecimal multiply = coinThumb.getClose().multiply(coinExchangeRate.getUsdRate(baseCoin));
         //logger.info("setUsdRate = ",multiply);
         coinThumb.setUsdRate(multiply);
+    }
+
+    @Override
+    public void generateKLine(long time, int minute, int hour) {
+        logger.info("生成{}分钟k线", symbol);
+		long ml = System.currentTimeMillis();
+		//生成1分钟K线
+		this.autoGenerate();
+		this.generateKLine1min(1,Calendar.MINUTE, time);
+		//更新24H成交量
+		this.update24HVolume(time);
+		if(minute %5 == 0) {
+			this.generateKLine(5, Calendar.MINUTE, time);
+		}
+		if(minute %10 == 0){
+            this.generateKLine(10, Calendar.MINUTE, time);
+		}
+		if(minute %15 == 0){
+            this.generateKLine(15, Calendar.MINUTE, time);
+		}
+		if(minute %30 == 0){
+            this.generateKLine(30, Calendar.MINUTE, time);
+		}
+		if(hour == 0 && minute == 0){
+            this.resetThumb();
+		}
+		logger.info("耗时"+(System.currentTimeMillis()-ml)+"ms ,完成{}k线生成",symbol);
     }
 
 
     @Override
     public void autoGenerate() {
         DateFormat df = new SimpleDateFormat("HH:mm:ss");
-        //logger.info("auto generate 1min kline in {},data={}", df.format(new Date(currentKLine.getTime())), JSON.toJSONString(currentKLine));
+        logger.info("auto generate 1min kline in {},data={}", df.format(new Date(currentKLine.getTime())), JSON.toJSONString(currentKLine));
         if(coinThumb != null) {
             synchronized (currentKLine) {
                 //没有成交价时存储上一笔成交价
@@ -174,11 +202,66 @@ public class DefaultCoinProcessor implements CoinProcessor {
                 calendar.set(Calendar.SECOND, 0);
                 calendar.set(Calendar.MILLISECOND, 0);
                 currentKLine.setTime(calendar.getTimeInMillis());
-                handleKLineStorage(currentKLine);
+                //handleKLineStorage(currentKLine);
                 createNewKLine();
             }
         }
     }
+
+    @Override
+    public void generateKLine1min(int range, int field, long time) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        long endTick = calendar.getTimeInMillis();
+        String endTime = df.format(calendar.getTime());
+        //往前推range个时间单位
+        calendar.add(field, -range);
+        String fromTime = df.format(calendar.getTime());
+        long startTick = calendar.getTimeInMillis();
+        System.out.println("time range from " + fromTime + " to " + endTime);
+
+
+        KLine kLine = new KLine();
+        kLine.setTime(endTick);
+        String rangeUnit = "";
+        if (field == Calendar.MINUTE) {
+            rangeUnit = "min";
+        } else if (field == Calendar.HOUR_OF_DAY) {
+            rangeUnit = "hour";
+        } else if (field == Calendar.DAY_OF_WEEK) {
+            rangeUnit = "week";
+        } else if (field == Calendar.DAY_OF_YEAR) {
+            rangeUnit = "day";
+        } else if (field == Calendar.DAY_OF_MONTH) {
+            rangeUnit = "month";
+        }
+        kLine.setPeriod(range + rangeUnit);
+
+        List<ExchangeTrade> exchangeTrades = null;
+        // 分钟线、日线，直接查询时间周期内的订单成交详情
+        if(field == Calendar.MINUTE || field == Calendar.HOUR_OF_DAY || field == Calendar.DAY_OF_YEAR){
+            exchangeTrades = service.findTradeByTimeRange(this.symbol, startTick, endTick);
+            // 处理K线信息
+            for (ExchangeTrade exchangeTrade : exchangeTrades) {
+                processTrade(kLine, exchangeTrade);
+            }
+        }else{ // 周线和月线的处理方法
+            processKline(kLine, startTick, endTick, field);
+        }
+
+        // 如果开盘价为0，则设置为前一个价格
+        if(kLine.getOpenPrice().compareTo(BigDecimal.ZERO) == 0) {
+            kLine.setOpenPrice(coinThumb.getClose());
+            kLine.setClosePrice(coinThumb.getClose());
+            kLine.setLowestPrice(coinThumb.getClose());
+            kLine.setHighestPrice(coinThumb.getClose());
+        }
+        logger.info("{} Kline generate " + range + rangeUnit + " kline in {},data={}",this.symbol, df.format(new Date(kLine.getTime())), JSON.toJSONString(kLine));
+        handleKLineStorage(kLine);
+//        return kLine;
+    }
+
 
     @Override
     public void setIsHalt(boolean status) {
@@ -254,8 +337,8 @@ public class DefaultCoinProcessor implements CoinProcessor {
             coinThumb.setTurnover(coinThumb.getTurnover().add(turnover));
             BigDecimal change = coinThumb.getClose().subtract(coinThumb.getOpen());
             coinThumb.setChange(change);
-            if (coinThumb.getLow().compareTo(BigDecimal.ZERO) > 0) {
-                coinThumb.setChg(change.divide(coinThumb.getLow(), 4, BigDecimal.ROUND_UP));
+            if (coinThumb.getOpen().compareTo(BigDecimal.ZERO) > 0) {
+                coinThumb.setChg(change.divide(coinThumb.getOpen(), 4, BigDecimal.ROUND_UP));
             }
             if ("USDT".equalsIgnoreCase(baseCoin)) {
                 logger.info("setUsdRate", exchangeTrade.getPrice());

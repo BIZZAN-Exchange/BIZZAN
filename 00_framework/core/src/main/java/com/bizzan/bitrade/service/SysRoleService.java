@@ -10,7 +10,6 @@ import com.bizzan.bitrade.entity.SysRole;
 import com.bizzan.bitrade.service.Base.TopBaseService;
 import com.bizzan.bitrade.util.MessageResult;
 import com.querydsl.core.types.Predicate;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @date 2020年12月18日
  */
 @Service
@@ -87,6 +86,7 @@ public class SysRoleService extends TopBaseService<SysRole, SysRoleDao> {
                                 .parentId(x.getParentId())
                                 .sort(x.getSort())
                                 .title(x.getTitle())
+                                .titleKey(x.getTitleKey())
                                 .description(x.getDescription())
                                 .subMenu(toMenus(sysPermissions, x.getId()))
                                 .build()

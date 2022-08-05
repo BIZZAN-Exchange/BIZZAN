@@ -2,11 +2,8 @@ package com.bizzan.bitrade.config;
 
 
 import org.springframework.context.annotation.Bean;
-
 import org.springframework.context.annotation.Configuration;
-
 import org.springframework.util.StringUtils;
-
 import org.springframework.web.servlet.LocaleResolver;
 
 import javax.annotation.Nullable;

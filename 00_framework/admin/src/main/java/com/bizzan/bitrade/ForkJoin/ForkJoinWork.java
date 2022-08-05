@@ -1,10 +1,5 @@
 package com.bizzan.bitrade.ForkJoin;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
-
 import com.bizzan.bitrade.constant.BooleanEnum;
 import com.bizzan.bitrade.entity.Coin;
 import com.bizzan.bitrade.entity.Member;
@@ -12,6 +7,10 @@ import com.bizzan.bitrade.entity.MemberWallet;
 import com.bizzan.bitrade.service.CoinService;
 import com.bizzan.bitrade.service.MemberWalletService;
 import com.bizzan.bitrade.util.MessageResult;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -19,7 +18,7 @@ import java.util.concurrent.RecursiveTask;
 
 /**
  * @Description:
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @Date: 2019/8/1 下午4:27
  */
 @Slf4j

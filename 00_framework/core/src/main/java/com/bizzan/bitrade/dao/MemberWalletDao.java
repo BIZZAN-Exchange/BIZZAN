@@ -1,16 +1,14 @@
 package com.bizzan.bitrade.dao;
 
+import com.bizzan.bitrade.dao.base.BaseDao;
+import com.bizzan.bitrade.entity.Coin;
+import com.bizzan.bitrade.entity.MemberWallet;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bizzan.bitrade.dao.base.BaseDao;
-import com.bizzan.bitrade.entity.Coin;
-import com.bizzan.bitrade.entity.MemberWallet;
-
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 public interface MemberWalletDao extends BaseDao<MemberWallet> {
@@ -78,6 +76,9 @@ public interface MemberWalletDao extends BaseDao<MemberWallet> {
     MemberWallet findByCoinAndAddress(Coin coin, String address);
 
     MemberWallet findByCoinAndMemberId(Coin coin, Long memberId);
+
+    @Query(value="select a.balance from member_wallet a where a.member_id = :memberId and a.coin_id = :coinName",nativeQuery = true)
+    BigDecimal getBalance(@Param("memberId") Long memberId, @Param("coinName") String coinName);
 
     List<MemberWallet> findAllByMemberId(Long memberId);
 
@@ -227,4 +228,26 @@ public interface MemberWalletDao extends BaseDao<MemberWallet> {
     @Modifying
     @Query("update MemberWallet wallet set wallet.toReleased=wallet.toReleased - :amount where wallet.id = :walletId")
     int decreaseToRelease(@Param("walletId") Long walletId, @Param("amount") BigDecimal amount);
+
+    /**
+     * 冻结钱包余额
+     *
+     * @param memberId
+     * @param amount
+     * @return
+     */
+    @Modifying
+    @Query("update MemberWallet wallet set wallet.balance = wallet.balance - :amount,wallet.frozenBalance=wallet.frozenBalance + :amount where wallet.memberId = :memberId and wallet.coin=:coin and wallet.balance >= :amount")
+    int freezeBalanceByMemberId(@Param("memberId") long memberId, @Param("coin") Coin coin, @Param("amount") BigDecimal amount);
+
+    /**
+     * 冻结钱包余额
+     *
+     * @param memberId
+     * @param amount
+     * @return
+     */
+    @Modifying
+    @Query("update MemberWallet wallet set wallet.balance = wallet.balance + :amount,wallet.frozenBalance=wallet.frozenBalance - :amount where wallet.memberId = :memberId and wallet.coin=:coin and wallet.frozenBalance >= :amount")
+    int unfreezeBalanceByMemberId(@Param("memberId") long memberId, @Param("coin") Coin coin, @Param("amount") BigDecimal amount);
 }

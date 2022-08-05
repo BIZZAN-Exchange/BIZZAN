@@ -3,15 +3,13 @@
   <div>
     <Card>
       <p slot="title">
-        系统信息维护
-        <Button type="primary" size="small" @click="refreshPageManual">
+        {{ $t('systeminformationmaintenance.systeminformationmaintenance') }} <Button type="primary" size="small" @click="refreshPageManual">
           <Icon type="refresh"></Icon>
-          刷新
-        </Button>
+          {{ $t('perpetualcontractcurrencystandardmanagement.refresh') }} </Button>
       </p>
 			<Row class="functionWrapper">
 				<div class="btnsWrapper clearfix ">
-					<Button type="primary" @click="addNew">新增</Button>
+					<Button type="primary" @click="addNew">{{ $t('collectionconfigurationmanagement.new') }}</Button>
 				</div>
 			</Row>		
       <Row>
@@ -33,7 +31,7 @@
 
 			<Modal 
 				v-model="subModal"
-				title="创建字典"
+				:title="$t('systeminformationmaintenance.createdictionary')"
 				@on-ok="comfirmSub"
 				@on-cancel="cancelSub"
 				:closable='false'
@@ -45,13 +43,13 @@
 				label-position="right" 
 				:label-width="50" 
 				:rules="validateForm">
-				<FormItem label="键：" prop="bond">
+				<FormItem :label="$t('systeminformationmaintenance.key')" prop="bond">
 					<Input v-model="formObj.bond"></Input>
 				</FormItem>
-				<FormItem label="值：" prop="value">
+				<FormItem :label="$t('systeminformationmaintenance.value')" prop="value">
 					<Input v-model="formObj.value"></Input>
 				</FormItem>
-				<FormItem label="备注：">
+				<FormItem :label="$t('orderdetails.remarks')">
 					<Input type="textarea" v-model="formObj.comment"></Input>
 				</FormItem>
 			</Form>
@@ -73,10 +71,10 @@ export default {
     return {
 			validateForm: {
 				bond: [
-					{ required: true, message: '请填写信息', type: 'string', trigger: 'blur' }
+					{ required: true, message: this.$t('systeminformationmaintenance.pleasefillintheinformation'), type: 'string', trigger: 'blur' }
 				],
 				value: [
-					{ required: true, message: '请填写信息', type: 'string', trigger: 'blur' }
+					{ required: true, message: this.$t('systeminformationmaintenance.pleasefillintheinformation'), type: 'string', trigger: 'blur' }
 				]
 			},
 			isCreateNew: true,
@@ -101,27 +99,27 @@ export default {
 					key: 'id'
         },
         {
-          title: "键",
+          title: this.$t('systeminformationmaintenance.key1'),
           key: "bond"
         },
         {
-          title: "值",
+          title: this.$t('systeminformationmaintenance.value1'),
           key: "value"
         },
 				{
-          title: "备注",
+          title: this.$t('systeminformationmaintenance.remarks1'),
           key: "comment"
         },
         {
-					title: "创建时间",
+					title: this.$t('secondcontractcompensationsetting.creationtime'),
 					key: 'creationTime'
         },
         {
-          title: "更新时间",
+          title: this.$t('systeminformationmaintenance.updatetime'),
           key: "updateTime"
 				},
 				{
-					title: '操作',
+					title: this.$t('perpetualcontractcurrencystandardmanagement.operation'),
 					key: 'opration',
 					render: (h, obj) =>{
 						return h('Button',{
@@ -138,7 +136,7 @@ export default {
 									}
 								}
 							}
-						},'修改')
+						},this.$t('perpetualcontractcurrencystandardmanagement.modify'))
 					}
 				}
       ],
@@ -152,7 +150,7 @@ export default {
 		comfirmSub() {
 			if(!String(this.formObj.value).trim().length 
 			|| !String(this.formObj.bond).trim().length) 
-			{return this.$Message.warning('请完善信息！');}
+			{return this.$Message.warning(this.$t('systeminformationmaintenance.pleaseimprovetheinformation'));}
 			let fn = Object;
 			if(this.isCreateNew) {
 				fn = createDictionary(this.formObj);

@@ -2,27 +2,25 @@
     <div>
         <Card>
             <p slot="title">
-                排名管理
-                <Button type="primary" size="small" @click="refreshPageManual">
+                {{ $t('rankingmanagement.rankingmanagement') }} <Button type="primary" size="small" @click="refreshPageManual">
                     <Icon type="refresh"></Icon>
-                    刷新
-                </Button>
+                    {{ $t('perpetualcontractcurrencystandardmanagement.refresh') }} </Button>
             </p>
             <Row class="functionWrapper">
                 <div class="searchWrapper">
                     <div class="poptip">
-                        手机号：<Input placeholder="手机号" v-model="mobilePhone" />
+                        {{ $t('currencywithdrawalauditmanagement.cellphonenumber') }}：<Input :placeholder="$t('memberinvitationlist.cellphonenumber')" v-model="mobilePhone" />
                         </Input>
                     </div>
                     <div class="poptip">
-                        <span>排序类型：</span>
+                        <span>{{ $t('rankingmanagement.sorttype') }}</span>
                         <Select v-model="rankType">
-                            <Option value="0" key="0">人数排名</Option>
-                            <Option value="1" key="1">返佣排名</Option>
+                            <Option value="0" key="0">{{ $t('rankingmanagement.numberranking') }}</Option>
+                            <Option value="1" key="1">{{ $t('rankingmanagement.rebateranking') }}</Option>
                         </Select>
                     </div>
                     <div class="btns">
-                        <Button type="info" @click="search">搜索</Button>
+                        <Button type="info" @click="search">{{ $t('positionmanagementcontractassetmanagement.search') }}</Button>
                     </div>
                 </div>
             </Row>
@@ -38,7 +36,7 @@
         <Modal
           class="auditModel"
           v-model="detailModel"
-          title="修改参数"
+          :title="$t('rankingmanagement.modifyparameters')"
           @on-ok="alterRankDetail">
           <ul>
             <li><span><i>*</i>ID：</span>
@@ -48,19 +46,19 @@
               </p>
             </li>
             <li>
-                <span><i>*</i>返佣折合USDT：</span>
+                <span><i>*</i>{{ $t('rankingmanagement.rebateequivalenttousdt') }}</span>
                 <p> <Input v-model="detailRank.estimatedReward"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>额外奖励(USDT)：</span>
+                <span><i>*</i>{{ $t('rankingmanagement.note1') }}</span>
                 <p> <Input v-model="detailRank.extraReward"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>一级邀请人数：</span>
+                <span><i>*</i>{{ $t('rankingmanagement.numberoffirstlevelinvitees') }}</span>
                 <p> <Input v-model="detailRank.levelOne"></Input> </p>
             </li>
             <li>
-                <span><i>*</i>二级邀请人数：</span>
+                <span><i>*</i>{{ $t('rankingmanagement.numberofsecondaryinvitees') }}</span>
                 <p> <Input v-model="detailRank.levelTwo"></Input> </p>
             </li>
           </ul>
@@ -102,31 +100,31 @@ export default {
                     key: "id"
                 },
                 {
-                    title: '用户ID',
+                    title: this.$t('positionmanagement.userid'),
                     key: 'memberId'
                 },
                 {
-                    title: '手机号',
+                    title: this.$t('memberinvitationlist.cellphonenumber'),
                     key: 'userIdentify'
                 },
                 {
-                    title: '一级邀请',
+                    title: this.$t('memberinvitationlist.firstlevelinvitation'),
                     key: 'levelOne'
                 },
                 {
-                    title: '二级邀请',
+                    title: this.$t('memberinvitationlist.secondaryinvitation'),
                     key: 'levelTwo'
                 },
                 {
-                    title: '返佣折合',
+                    title: this.$t('rankingmanagement.rebateconversion'),
                     key: 'estimatedReward'
                 },
                 {
-                    title: '额外奖励',
+                    title: this.$t('rankingmanagement.bonus'),
                     key: 'extraReward'
                 },
                 {
-                  title: "操作",
+                  title: this.$t('perpetualcontractcurrencystandardmanagement.operation'),
                   key: "age",
                   width: 150,
                   render: (h, obj) => {
@@ -147,7 +145,7 @@ export default {
                             }
                           }
                         },
-                        "详情"
+                        this.$t('backstageadvertising.details')
                       )
                     ]);
                   }
@@ -192,7 +190,7 @@ export default {
             };
             alterRank(params).then(res => {
                 if (!res.code) {
-                    this.$Message.success("修改成功！");
+                    this.$Message.success(this.$t('perpetualcontractcurrencystandardmanagement.modificationsucceeded'));
                     this.refreshPageManual();
                 } else {
                     this.$Message.error(res.message);

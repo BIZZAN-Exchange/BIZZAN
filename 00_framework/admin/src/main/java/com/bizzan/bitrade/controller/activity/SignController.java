@@ -1,12 +1,5 @@
 package com.bizzan.bitrade.controller.activity;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.util.Assert;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-
 import com.bizzan.bitrade.constant.PageModel;
 import com.bizzan.bitrade.constant.SignStatus;
 import com.bizzan.bitrade.controller.common.BaseAdminController;
@@ -19,11 +12,17 @@ import com.bizzan.bitrade.service.CoinService;
 import com.bizzan.bitrade.service.SignService;
 import com.bizzan.bitrade.util.BindingResultUtil;
 import com.bizzan.bitrade.util.MessageResult;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 /**
- * @author Hevin QQ:390330302 E-mail:xunibidev@gmail.com
+ * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
  * @Description:
  * @date 2019/5/3
  */

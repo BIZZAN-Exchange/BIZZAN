@@ -2,34 +2,32 @@
   <div>
     <Card>
       <p slot="title">
-        帮助管理
-        <Button type="primary" size="small" @click="refreshPageManual">
+        {{ $t('helpmanage.helpmanage') }} <Button type="primary" size="small" @click="refreshPageManual">
           <Icon type="refresh"></Icon>
-          刷新
-        </Button>
+          {{ $t('perpetualcontractcurrencystandardmanagement.refresh') }} </Button>
       </p>
 
       <Row class="manageRow clearfix">
         <div class="manageWrapper">
-          <Button type="error" @click="delManage">删除</Button>
-          <Button type="info" @click="addManage">添加</Button>
+          <Button type="error" @click="delManage">{{ $t('secondcontractcompensationsetting.delete') }}</Button>
+          <Button type="info" @click="addManage">{{ $t('announcementmanagement.addto') }}</Button>
         </div>
       </Row>
 
       <Modal
       class="manageModal"
       v-model="manageModal"
-      title="添加管理"
+      :title="$t('helpmanage.addmanagement')"
       width="430">
         <p slot="header" style="color:#5cadff;text-align:center">
           <Icon type="information-circled"></Icon>
-          <span style="padding-left: 5px;" >添加管理</span>
+          <span style="padding-left: 5px;" >{{ $t('helpmanage.addmanagement') }}</span>
         </p>
 
-        <p> <span>标题<i>*</i>：</span>
+        <p> <span>{{ $t('announcementmanagement.title') }}<i>*</i>{{ $t('key') }}</span>
           <Input v-model="manageTitle" ></Input>
         </p>
-        <div><span>分类<i>*</i>：</span>
+        <div><span>{{ $t('helpmanage.classification') }}<i>*</i>{{ $t('key-0') }}</span>
           <Select v-model="manageClass" style="width:200px">
             <Option v-for=" item in manageClassArr" v-model="item.status" :key="item.status">
               {{ item.klassName }}
@@ -37,51 +35,51 @@
           </Select>
         </div>
 
-        <p><span>图片地址<i>*</i>：</span>
+        <p><span>{{ $t('helpmanage.pictureaddress') }}<i>*</i>{{ $t('key-1') }}</span>
           <Input v-model="imgUrl" ></Input>
         </p>
-        <p><span>排序：</span>
+        <p><span>{{ $t('perpetualcontractcurrencystandardmanagement.sort') }}</span>
           <Input v-model="sort" ></Input>
         </p>
-        <div>语言：
+        <div>{{ $t('editannouncement.language') }}
           <RadioGroup v-model="lang">
             <Radio label="zh_CN">
-              <span>中文</span>
+              <span>{{ $t('announcementmanagement.chinese') }}</span>
             </Radio>
             <Radio label="en_US">
               <span>English</span>
             </Radio>
             <Radio label="ja_JP">
-              <span>日语</span>
+              <span>{{ $t('announcementmanagement.japanese') }}</span>
             </Radio>
             <Radio label="ko_KR">
-              <span>韩语</span>
+              <span>{{ $t('announcementmanagement.korean') }}</span>
             </Radio>
             <Radio label="de_DE">
-              <span>德语</span>
+              <span>{{ $t('announcementmanagement.german') }}</span>
             </Radio>
             <Radio label="fr_FR">
-              <span>法语</span>
+              <span>{{ $t('announcementmanagement.french') }}</span>
             </Radio>
             <Radio label="it_IT">
-              <span>意大利</span>
+              <span>{{ $t('announcementmanagement.italy') }}</span>
             </Radio>
             <Radio label="es_ES">
-              <span>西班牙</span>
+              <span>{{ $t('announcementmanagement.spain') }}</span>
             </Radio>
             <Radio label="zh_HK">
-              <span>繁体</span>
+              <span>{{ $t('advertisingmanagement.traditionalchinesecharacter') }}</span>
             </Radio>
           </RadioGroup>
         </div>
-        <div><span>发布时间<i>*</i>：</span>
+        <div><span>{{ $t('announcementmanagement.releasetime') }}<i>*</i>{{ $t('key-2') }}</span>
           <DatePicker v-model="createTime"
                       type="date" format="yyyy-MM-dd HH:mm:ss"
-                      placeholder="请选择时间" style="width: 200px">
+                      placeholder="$t('advertisingmanagement.pleaseselectatime')" style="width: 200px">
           </DatePicker>
         </div>
 
-        <div><span>是否显示<i>*</i>：</span>
+        <div><span>{{ $t('helpmanage.whethertodisplay') }}<i>*</i>{{ $t('key-3') }}</span>
           <Select v-model="ifSHow" style="width:200px">
             <Option v-for=" item in ifShowArr" v-model="item.status" :key="item.status">
               {{ item.klassName }}
@@ -91,13 +89,13 @@
 
         <div slot="footer" style="color:#5cadff;text-align:right">
           <div v-if="!ifUpdateBtn">
-            <Button type="text" @click="cancelAdd">取消</Button>
-            <Button type="info" @click="addManage">确认</Button>
+            <Button type="text" @click="cancelAdd">{{ $t('currencywithdrawalauditmanagement.cancel') }}</Button>
+            <Button type="info" @click="addManage">{{ $t('advertisingmanagement.confirm') }}</Button>
           </div>
 
           <div v-if="ifUpdateBtn">
-            <Button type="text" @click="cancelAdd">取消</Button>
-            <Button type="info" @click="updateManage">更新</Button>
+            <Button type="text" @click="cancelAdd">{{ $t('currencywithdrawalauditmanagement.cancel') }}</Button>
+            <Button type="info" @click="updateManage">{{ $t('advertisingmanagement.toupdate') }}</Button>
           </div>
         </div>
 
@@ -125,10 +123,10 @@
       <!-- 是否删除 -->
       <Modal
         v-model="ifDelete"
-        title="删除"
+        title="$t('secondcontractcompensationsetting.delete')"
         @on-ok="confirmDel"
         @on-cancel="cancelDel">
-        <p>是否删除已选择的{{ selectedArr.length }}项</p>
+        <p>{{ $t('shi-fou-shan-chu-yi-xuan-ze-de-selectedarrlength-xiang', [selectedArr.length]) }}</p>
       </Modal>
 
 
@@ -161,10 +159,10 @@ import { setStore, removeStore } from '@/config/storage';
         manageTitle: null,
         manageClass: null,
         manageClassArr: [
-          { status: 0,  klassName: '新手指南' },
-          { status: 1,  klassName: '常见问题' },
-          { status: 2,  klassName: '充值指南' },
-          { status: 3,  klassName: '交易指南' }
+          { status: 0,  klassName: this.$t('systemhelp.beginnersguide') },
+          { status: 1,  klassName: this.$t('systemhelp.frequentlyaskedquestions') },
+          { status: 2,  klassName: this.$t('helpmanage.rechargeguide') },
+          { status: 3,  klassName: this.$t('systemhelp.transactionguide') }
         ],
         imgUrl: null,
         createTime: null,
@@ -172,8 +170,8 @@ import { setStore, removeStore } from '@/config/storage';
         sort: null,
         ifSHow: null,
         ifShowArr: [
-          { status: 0,  klassName: '显示' },
-          { status: 1,  klassName: '不显示' },
+          { status: 0,  klassName: this.$t('perpetualcontractcurrencystandardmanagement.display') },
+          { status: 1,  klassName: this.$t('announcementmanagement.dontshow') },
         ],
         columns_first: [
           {
@@ -181,71 +179,71 @@ import { setStore, removeStore } from '@/config/storage';
             width: 60
           },
           {
-           	title: '编号',
+           	title: this.$t('announcementmanagement.no'),
             key: 'id',
             width: 60
           },
           {
-           	title: '标题',
+           	title: this.$t('announcementmanagement.title'),
 						key: 'title',
           },
            {
-           	title: '分类',
+           	title: this.$t('helpmanage.classification'),
             render: (h, obj) => {
               let text = null;
               let status = obj.row.sysHelpClassification*1;
-              if (status === 0) text = '新手指南';
-              else if (status === 1) text = '常见问题';
-              else if (status === 2) text = '交易指南';
-              else if (status === 3) text = '币种资料';
-              else if (status === 4) text = '行情技术';
-              else if (status === 5) text = '条款协议';
-              else if (status === 6) text = '其他';
+              if (status === 0) text = this.$t('systemhelp.beginnersguide');
+              else if (status === 1) text = this.$t('systemhelp.frequentlyaskedquestions');
+              else if (status === 2) text = this.$t('systemhelp.transactionguide');
+              else if (status === 3) text = this.$t('systemhelp.currencydata');
+              else if (status === 4) text = this.$t('systemhelp.markettechnology');
+              else if (status === 5) text = this.$t('systemhelp.termagreement');
+              else if (status === 6) text = this.$t('editannouncement.other');
 
               return h ( 'span', {
               }, text)
             }
           },
           {
-            title: '语言',
+            title: this.$t('announcementmanagement.language'),
             key: 'lang',
             width: 60
           },
           {
-            title: '排序',
+            title: this.$t('helpmanage.sort'),
             key: 'sort',
             width: 60
           },
            {
-           	title: '显示',
+           	title: this.$t('perpetualcontractcurrencystandardmanagement.display'),
             key: 'status',
             width:60,
             render: (h, obj) => {
               let text = null;
-              if (obj.row.status===0) text = '是';
-              else text = '否';
+              if (obj.row.status===0) text = this.$t('perpetualcontractcurrencystandardmanagement.yes');
+              else text = this.$t('perpetualcontractcurrencystandardmanagement.no');
               return h ( 'span', {
               }, text)
             }
           },
            {
-           	title: '置顶',
+           	title: this.$t('announcementmanagement.top'),
             // key: 'isTop',
             width:60,
             render: (h, obj) => {
               let text = null;
-              if (obj.row.isTop==="0") text = '是';
-              else text = '否';
+              if (obj.row.isTop==="0") text = this.$t('perpetualcontractcurrencystandardmanagement.yes');
+              else text = this.$t('perpetualcontractcurrencystandardmanagement.no');
               return h ( 'span', {
               }, text)
             }
           },
           {
-            title: '发布时间',
+            title: this.$t('announcementmanagement.releasetime'),
             key: 'createTime',
           },
 					{
-           	title: '操作',
+           	title: this.$t('perpetualcontractcurrencystandardmanagement.operation'),
             	render: (h, obj) => {
                 return h ('div',[
                     h('Button', {
@@ -263,7 +261,7 @@ import { setStore, removeStore } from '@/config/storage';
                           this.$router.push('/content/helpManage/addhelpmanage');
                         }
                       }
-										},'查看 / 编辑'),
+										},this.$t('usermanagement.viewedit')),
 										h('Button', {
                       props: {
                         type: 'error',
@@ -281,7 +279,7 @@ import { setStore, removeStore } from '@/config/storage';
 													.catch(err => console.log(err))
                         }
                       }
-                    },'置顶'),
+                    },this.$t('announcementmanagement.top')),
 										h('Button', {
                       props: {
                         type: 'error',
@@ -302,7 +300,7 @@ import { setStore, removeStore } from '@/config/storage';
 													.catch(err => console.log(err))
                         }
                       }
-                    },'取消置顶')
+                    },this.$t('announcementmanagement.canceltopping'))
 
 
 
@@ -329,14 +327,14 @@ import { setStore, removeStore } from '@/config/storage';
           this.ifDelete = false;
           if(!res.code) {
             this.refreshPage({ pageNo: 1, pageSize: 10 });
-            this.$Message.success('删除成功!');
+            this.$Message.success(this.$t('secondcontractcompensationsetting.deletesuccessfully'));
           }else{
-            this.$Message.error('删除失败!');
+            this.$Message.error(this.$t('secondcontractcompensationsetting.deletionfailed'));
           }
         })
       },
       cancelDel() {
-        this.$Message.success('已取消!');
+        this.$Message.success(this.$t('advertisingmanagement.cancelled'));
       },
       updateManage() {
 
@@ -356,17 +354,17 @@ import { setStore, removeStore } from '@/config/storage';
         .then(res => {
           if (!res.code) {
             this.manageModal = false;
-            this.$Message.success('更新成功!');
+            this.$Message.success(this.$t('announcementmanagement.updatesucceeded'));
             this.refreshPage();
           }else{
-             this.$Message.error('出现异常!');
+             this.$Message.error(this.$t('announcementmanagement.exceptionoccurred'));
           }
         })
       },
       delManage() {
         if(!!this.selectedArr.length) {
           this.ifDelete = true;
-        }else this.$Message.warning("请选择要删除的内容！")
+        }else this.$Message.warning(this.$t('helpmanage.pleaseselectthecontenttodelete'))
       },
       cancelAdd() {
         this.manageModal = false;

@@ -1,5 +1,6 @@
 package com.bizzan.bitrade.consumer;
 
+import com.bizzan.bitrade.constant.SysConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +8,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
-
-import com.bizzan.bitrade.constant.SysConstant;
 
 import java.util.List;
 

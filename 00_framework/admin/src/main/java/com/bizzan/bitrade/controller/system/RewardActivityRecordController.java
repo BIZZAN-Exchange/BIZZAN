@@ -10,7 +10,6 @@ import com.bizzan.bitrade.entity.RewardActivitySetting;
 import com.bizzan.bitrade.service.RewardActivitySettingService;
 import com.bizzan.bitrade.util.MessageResult;
 import com.querydsl.core.types.dsl.BooleanExpression;
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
