@@ -17,10 +17,10 @@ BIZZAN 开源数字货币交易系统
 
 # 捐赠：
 #### 您的捐赠是我们开源最大的动力
-- BTC/USDT(比特币/USDT)：1FCLDUqPaRCbVAf28NMQPuRTqBpkRF3ktX
-- ETH/USDT(以太坊/USDT)：0xdbD24251916D6172A2c1c127035B193e9232F1a5
-- TRX/USDT(波场/USDT)：TJe9eieckNGZDfXfgRp43vXd31BMKybEYr
-- BNB/USDT（币安币/USDT）：0xdbD24251916D6172A2c1c127035B193e9232F1a5
+- BTC/USDT(比特币/USDT)：bc1qz2upj7qnw6wftpqsc5t53uexeczzdsfcxml49d
+- ETH/USDT(以太坊/USDT)：0x07f8dea7297651f3c9720f06d856fa99ed9aa320
+- TRX/USDT(波场/USDT)：TWbZvpU6GAPsZq227hjycuXMGzkfHWq8Sd
+- BNB/USDT（币安币/USDT）：0x07f8dea7297651f3c9720f06d856fa99ed9aa320
 
 #### BIZZAN是一个免费的、开源的数字货币交易系统，她使用目前最流行的Java框架和相关技术开发而成。
 

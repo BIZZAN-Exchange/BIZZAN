@@ -13,10 +13,10 @@ This source code is limited to exchange and study, where it involves legal issue
 
 # Donate:
 #### Your donation is our biggest motivation for open source
-- BTC/USDT(BTC/USDT)：1FCLDUqPaRCbVAf28NMQPuRTqBpkRF3ktX
-- ETH/USDT(ETH/USDT)：0xdbD24251916D6172A2c1c127035B193e9232F1a5
-- TRX/USDT(TRX/USDT)：TJe9eieckNGZDfXfgRp43vXd31BMKybEYr
-- BNB/USDT（BNB/USDT）：0xdbD24251916D6172A2c1c127035B193e9232F1a5
+- BTC/USDT(BTC/USDT)：bc1qz2upj7qnw6wftpqsc5t53uexeczzdsfcxml49d
+- ETH/USDT(ETH/USDT)：0x07f8dea7297651f3c9720f06d856fa99ed9aa320
+- TRX/USDT(TRX/USDT)：TWbZvpU6GAPsZq227hjycuXMGzkfHWq8Sd
+- BNB/USDT（BNB/USDT）：0x07f8dea7297651f3c9720f06d856fa99ed9aa320
 #### BIZZAN is a free and open source digital currency trading system, which is developed using the most popular Java framework and related technologies.
 
 # Vision
