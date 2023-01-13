@@ -11,7 +11,7 @@ BIZZAN 开源数字货币交易系统
 - 使用Issuse，我们会及时跟进解答。
 - 加入交流群：区块链交易所技术知识交流群【QQ群:735446452】【QQ:390330302】
 - Telegram:https://t.me/bizzanhevin
-- E-mail:xunibidev@gmail.com
+- E-mail:bizzanhevin@gmail.com
 
 # 关于Q类的问题，请看往下看 服务部署准备
 

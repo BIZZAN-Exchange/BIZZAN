@@ -9,7 +9,7 @@ This source code is limited to exchange and study, where it involves legal issue
 - Using Issuse, we will follow up and answer in time.
 - Join the exchange group: Blockchain exchange technology knowledge exchange group [QQ group: 735446452][QQ:390330302]
 - Telegram:https://t.me/bizzanhevin
-- E-mail: xunibidev@gmail.com
+- E-mail: bizzanhevin@gmail.com
 
 # Donate:
 #### Your donation is our biggest motivation for open source
