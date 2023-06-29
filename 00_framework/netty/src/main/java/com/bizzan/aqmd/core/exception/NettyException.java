@@ -4,7 +4,7 @@
  * <p>FileName: NettyException.java</p>
  * 
  * Description: 
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月18日
  * @version 1.0
  * History:
@@ -18,7 +18,7 @@ import com.bizzan.aqmd.core.common.constant.NettyResponseBean;
 /**
  * <p>Title: NettyException</p>
  * <p>Description: </p>
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月18日
  */
 public class NettyException extends BaseException {

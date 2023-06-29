@@ -7,13 +7,13 @@
 			<div class="baseInfo">
 				<Row>
 					<Col span="6">
-						<p>{{ $t('currencywithdrawalauditmanagement.status') }}<span class="status">{{ !cbData.isSuccess ? '败诉' : '胜诉' }}</span></p>
+						<p>{{ $t('currencywithdrawalauditmanagement.status') }}<span class="status">{{ !cbData.isSuccess ?  $t('backstageappeal.lost') : $t('backstageappeal.win') }}</span></p>
 					</Col>
 					<Col span="6">
-						<p>{{ $t('essentialinformation.transactioncurrency') }}<span>{{ cbData.coinName }}</span></p>
+						<p>{{ $t('essentialinformation1.transactioncurrency') }}<span>{{ cbData.coinName }}</span></p>
 					</Col>
 					<Col span="6">
-						<p>{{ $t('servicechargewithdrawaldetails.transactiontype') }}<span>{{ !cbData.advertiseType ? '买入' : '卖出' }}</span></p>
+						<p>{{ $t('servicechargewithdrawaldetails.transactiontype') }}<span>{{ !cbData.advertiseType ? $t('backstageadvertising.buy') : $t('backstageadvertising.sell') }}</span></p>
 					</Col>
 					<Col span="6">
 						<p>{{ $t('orderdetails.paymentmethod') }}<span>{{ cbData.payMode }}</span></p>

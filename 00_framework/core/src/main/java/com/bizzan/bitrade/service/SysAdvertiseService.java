@@ -21,7 +21,7 @@ import java.util.List;
 import static com.bizzan.bitrade.entity.QSysAdvertise.sysAdvertise;
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @description 系统广告service
  * @date 2019/1/6 16:45
  */

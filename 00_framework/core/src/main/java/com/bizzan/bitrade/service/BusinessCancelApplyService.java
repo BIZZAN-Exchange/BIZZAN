@@ -9,6 +9,7 @@ import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +44,13 @@ public class BusinessCancelApplyService extends TopBaseService<BusinessCancelApp
     }
 
     public Map<String,Object> getBusinessOrderStatistics(Long memberId) {
-       return orderDao.getBusinessStatistics(memberId);
+        Map<String,Object> result = new HashMap<>();
+       List<Object[]> list = orderDao.getBusinessStatistics(memberId);
+       if(list!=null && list.size()>0){
+           result.put("fee",list.get(0)[0]);
+           result.put("money",list.get(0)[1]);
+       }
+       return result;
     }
 
     public  Map<String,Object> getBusinessAppealStatistics(Long memberId){

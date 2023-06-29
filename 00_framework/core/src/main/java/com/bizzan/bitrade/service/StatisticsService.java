@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @description 统计service
  * @date 2019/1/8 16:21
  */
@@ -31,7 +31,7 @@ public class StatisticsService extends BaseService {
     private OrderDao orderDao;
     /**
      * @param sql 需要包含startTime endTime 两个占位符
-     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+     * @author Hevin  E-mail:bizzanhevin@gmail.com
      * @description 获取统计数据
      * @date 2019/1/9 15:25
      */

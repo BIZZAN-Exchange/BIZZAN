@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年02月23日
  */
 @Configuration

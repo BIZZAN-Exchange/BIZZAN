@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年03月22日
  */
 @RunWith(SpringRunner.class)

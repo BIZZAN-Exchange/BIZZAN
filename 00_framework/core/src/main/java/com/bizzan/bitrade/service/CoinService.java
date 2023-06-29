@@ -33,7 +33,7 @@ import static com.bizzan.bitrade.constant.BooleanEnum.IS_FALSE;
 import static com.bizzan.bitrade.constant.BooleanEnum.IS_TRUE;
 
 /**
- * @author Hevin E-Mali:390330302@qq.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @description
  * @date 2021/12/29 14:50
  */
@@ -152,7 +152,7 @@ public class CoinService extends BaseService {
 
     /**
      * @Description: 查询所有合法币种
-     * @author Hevin E-Mali:390330302@qq.com
+     * @author Hevin  E-mail:bizzanhevin@gmail.com
      */
     public List<Coin> findLegalAll() {
         return (List<Coin>) coinDao.findAll(QCoin.coin.hasLegal.eq(true));

@@ -212,6 +212,62 @@
           {
             value: 30,
             label: this.$t("uc.finance.record.financereward")
+          },
+          {
+            value: 31,
+            label: this.$t("uc.finance.record.payChargeFee")
+          },
+          {
+            value: 32,
+            label: this.$t("uc.finance.record.getChargeFee")
+          },
+          {
+            value: 33,
+            label: this.$t("uc.finance.record.autoInvestBuy")
+          },
+          {
+            value: 34,
+            label: this.$t("uc.finance.record.autoInvestSell")
+          },
+          {
+            value: 35,
+            label: this.$t("uc.finance.record.lockedSavingBuy")
+          },
+          {
+            value: 36,
+            label: this.$t("uc.finance.record.lockedSavingSell")
+          },
+          {
+            value: 37,
+            label: this.$t("uc.finance.record.transfer_in_coin")
+          },
+          {
+            value: 38,
+            label: this.$t("uc.finance.record.transfer_out_coin")
+          },
+          {
+            value: 39,
+            label: this.$t("uc.finance.record.transfer_in_usdt")
+          },
+          {
+            value: 40,
+            label: this.$t("uc.finance.record.transfer_out_usdt")
+          },
+          {
+            value: 41,
+            label: this.$t("uc.finance.record.transfer_in_second")
+          },
+          {
+            value: 42,
+            label: this.$t("uc.finance.record.transfer_out_second")
+          },
+          {
+            value: 43,
+            label: this.$t("uc.finance.record.transfer_in")
+          },
+          {
+            value: 44,
+            label: this.$t("uc.finance.record.transfer_out")
           }
         ],
         coinList: [],
@@ -417,6 +473,18 @@
               str = that.$t("uc.finance.record.secondreward");
             } else if (type == 30) {
               str = that.$t("uc.finance.record.financereward");
+            }else if (type == 31) {
+              str = that.$t("uc.finance.record.payChargeFee");
+            }else if (type == 32) {
+              str = that.$t("uc.finance.record.getChargeFee");
+            }else if (type == 33) {
+              str = that.$t("uc.finance.record.autoInvestBuy");
+            }else if (type == 34) {
+              str = that.$t("uc.finance.record.autoInvestSell");
+            }else if (type == 35) {
+              str = that.$t("uc.finance.record.lockedSavingBuy");
+            }else if (type == 36) {
+              str = that.$t("uc.finance.record.lockedSavingSell");
             } else {
               str = that.$t("uc.finance.record.other");
             }

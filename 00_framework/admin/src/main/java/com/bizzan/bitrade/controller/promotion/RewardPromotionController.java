@@ -27,7 +27,7 @@ import javax.validation.Valid;
 
 /**
  * 邀请交易佣金奖励设置
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  *
  */
 @RestController

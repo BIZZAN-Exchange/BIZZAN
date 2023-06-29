@@ -1,7 +1,9 @@
 <template>
   <div>
     <div id="fullpage">
-      <div style="background-image: linear-gradient( 135deg, #F0A70A 10%, #0D25B9 100%);text-align: center;height:30px;line-height:30px;letter-spacing: 1px;">这只是一个测试站！购买商用系统请联系 技术QQ:390330302 技术Telegram①:@bizzanhevin 技术Telegram②:@bizzancom 技术Telegram③:@bzengineer（唯一渠道，谨防被骗）</div>
+      <div style="background-image: linear-gradient( 135deg, #F0A70A 10%, #0D25B9 100%);text-align: center;height:40px;line-height:40px;letter-spacing: 1px;"><a href="https://t.me/bizzanhevin" target="_blank" style="color: #ddd;text-decoration: none;">{{$t('common.testText1')}} </a><a href="https://t.me/bizzancom" target="_blank" style="color: #ddd;text-decoration: none;">{{$t('common.testText2')}} </a><a href="https://t.me/bzengineer" target="_blank" style="color: #ddd;text-decoration: none;">{{$t('common.testText3')}} </a></div>
+      <div style="background-image: linear-gradient( 135deg, rgb(133,16,239) 10%, #ff9500 100%);text-align: center;height:40px;line-height:40px;letter-spacing: 1px;"><a href="https://www.bizzan.net" target="_blank" style="color: #ddd;text-decoration: none;">www.bizzan.net{{$t('common.chonggou')}}</a></div>
+
       <!-- banner &&& 轮播图 -->
       <div class="spin-wrap banner-panel">
         <p class="slogan">
@@ -57,7 +59,7 @@
                   <img v-else-if="langPram == 'CN'" src="../../assets/images/new_1cny.png" /> -->
                   <img src="../../assets/images/new_1cny.png" alt="" />
                 </div>
-                <router-link to="/helpdetail?cate=0&id=20&cateTitle=新手指南" target="_blank">
+                <router-link to="/exchange" >
                   <div class="agent-detail">
                     <p class="agent-name">{{ $t('sectionPage.oneminutebuy') }}</p>
                     <p class="agent-count">{{ $t('sectionPage.oneminutebuytips') }}</p>
@@ -68,7 +70,7 @@
                 <div class="agent-img">
                   <img src="../../assets/images/new_3.png" />
                 </div>
-                <router-link to="/helplist?cate=2&cateTitle=交易指南" target="_blank">
+                <router-link to="/option" >
                   <div class="agent-detail">
                     <p class="agent-name">{{ $t('sectionPage.baseexchange') }}</p>
                     <p class="agent-count">{{ $t('sectionPage.baseexchangetips') }}</p>
@@ -79,7 +81,7 @@
                 <div class="agent-img">
                   <img src="../../assets/images/new_2.png" />
                 </div>
-                <router-link to="/helplist?cate=6&cateTitle=基础入门" target="_blank">
+                <router-link to="/second" >
                   <div class="agent-detail">
                     <p class="agent-name">{{ $t('sectionPage.baseknow') }}</p>
                     <p class="agent-count">{{ $t('sectionPage.baseknowtips') }}</p>
@@ -90,7 +92,7 @@
                 <div class="agent-img">
                   <img src="../../assets/images/new_4.png" />
                 </div>
-                <router-link to="/helpdetail?cate=0&id=28&cateTitle=新手指南" target="_blank">
+                <router-link to="/cexchange" >
                   <div class="agent-detail">
                     <p class="agent-name">{{ $t('sectionPage.usersocial') }}</p>
                     <p class="agent-count">{{ $t('sectionPage.usersocialtips') }}</p>

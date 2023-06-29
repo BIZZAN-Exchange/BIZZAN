@@ -15,6 +15,16 @@ public class MarketEngineFactory {
 	
 	private ConcurrentHashMap<String, MarketEngine> engineMap;
 
+	private List<String> engineOrders = new ArrayList<String>(){
+		{
+			add("Huobi");
+			add("Binance");
+			add("Okex");
+			add("Zb");
+		}
+	};
+
+
     public MarketEngineFactory() {
     	engineMap = new ConcurrentHashMap<>();
     }
@@ -56,13 +66,17 @@ public class MarketEngineFactory {
     public CoinThumb getThumbByPair(String pair){
     	List<CoinThumb> thumbs = new ArrayList<CoinThumb>();
     	Long currentTime = System.currentTimeMillis();
-    	engineMap.forEach((engineName, engine)->{
-    		CoinThumb tem = engine.getCoinThumb(pair);
-    		// 最后更新时间不超过3分钟
-    		if(tem != null && (currentTime - tem.getLastUpdate() < 180000)) {
-    			thumbs.add(tem);
-    		}
-    	});
+		//按照顺序获取
+		for (String engineName : engineOrders) {
+			MarketEngine engine = engineMap.get(engineName);
+			CoinThumb tem = engine.getCoinThumb(pair);
+			if(tem!=null){
+				if(tem != null && (currentTime - tem.getLastUpdate() < 180000)) {
+					thumbs.add(tem);
+				}
+				break;
+			}
+		}
     	// 从各大交易所获取的价格进行过滤
     	if(thumbs.size() > 0) {
     		CoinThumb thumb = null;
@@ -81,23 +95,23 @@ public class MarketEngineFactory {
     			}
     		}
     		// 检查最后获得的价格是否与其他价格相差太大(10%为标准)，只有数量超过2的时候才有可比性
-    		if(thumbs.size() > 2) {
-    			int count = 0;
-    			int newIndex = 0;
-	    		for(int j = 0; j < thumbs.size(); j++) {
-	    			if( j != index) {
-	    				BigDecimal percent = thumbs.get(j).getPrice().subtract(thumb.getPrice()).abs().divide(thumb.getPrice(), 3, BigDecimal.ROUND_HALF_DOWN);
-	    				if(percent.compareTo(BigDecimal.valueOf(0.1)) > 0) {
-	    					count++;
-	    					newIndex = j;
-	    				}
-	    			}
-	    		}
-	    		// 价差超10%的存在两个以上
-	    		if(count > 1) {
-	    			thumb = thumbs.get(newIndex);
-	    		}
-    		}
+//    		if(thumbs.size() > 2) {
+//    			int count = 0;
+//    			int newIndex = 0;
+//	    		for(int j = 0; j < thumbs.size(); j++) {
+//	    			if( j != index) {
+//	    				BigDecimal percent = thumbs.get(j).getPrice().subtract(thumb.getPrice()).abs().divide(thumb.getPrice(), 3, BigDecimal.ROUND_HALF_DOWN);
+//	    				if(percent.compareTo(BigDecimal.valueOf(0.1)) > 0) {
+//	    					count++;
+//	    					newIndex = j;
+//	    				}
+//	    			}
+//	    		}
+//	    		// 价差超10%的存在两个以上
+//	    		if(count > 1) {
+//	    			thumb = thumbs.get(newIndex);
+//	    		}
+//    		}
     		return thumb;
     	}
     	return null;

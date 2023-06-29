@@ -3,7 +3,7 @@ package com.bizzan.bitrade.constant;
 /**
  * 系统常量
  *
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年12月18日
  */
 public class SysConstant {
@@ -23,7 +23,7 @@ public class SysConstant {
     public static final String EMAIL_UP_PWD_CODE_PREFIX = "EMAIL_UP_PWD_CODE_";
     public static final String EMAIL_TRANSACTION_CODE_PREFIX = "EMAIL_TRANSACTION_CODE_";
     public static final String PHONE_CTC_TRADE_CODE_PREFIX = "PHONE_CTC_TRADE_CODE_PREFIX_";
-    
+
     public static final String PHONE_REG_CODE_PREFIX = "PHONE_REG_CODE_";
     public static final String EMAIL_REG_CODE_PREFIX = "EMAIL_REG_CODE_";
 
@@ -34,17 +34,18 @@ public class SysConstant {
     public static final String PHONE_UPDATE_PASSWORD_PREFIX = "PHONE_UPDATE_PASSWORD_";
 
     public static final String PHONE_ADD_ADDRESS_PREFIX = "PHONE_ADD_ADDRESS_";
-    
+
     public static final String PHONE_RECEIVE_ENVELOPE_PREFIX = "PHONE_RECEIVE_ENVELOPE_PREFIX"; // 领取红包
 
     public static final String PHONE_ATTEND_ACTIVITY_PREFIX = "PHONE_ADD_ADDRESS_";
-    
+    public static final String EMAIL_ATTEND_ACTIVITY_PREFIX = "EMAIL_ADD_ADDRESS_";
+
     public static final String EMAIL_BIND_CODE_PREFIX = "EMAIL_BIND_CODE_";
 
 	public static final String EMAIL_UNTIE_CODE_PREFIX = "EMAIL_UNTIE_CODE_";
-	
+
 	public static final String EMAIL_UPDATE_CODE_PREFIX = "EMAIL_UPDATE_CODE_";
-	
+
     public static final String ADD_ADDRESS_CODE_PREFIX = "ADD_ADDRESS_CODE_";
     public static final String RESET_PASSWORD_CODE_PREFIX = "RESET_PASSWORD_CODE_";
     public static final String PHONE_CHANGE_CODE_PREFIX = "PHONE_CHANGE_CODE_";
@@ -139,7 +140,7 @@ public class SysConstant {
      */
     public static final String USER_ADD_EXCHANGE_ORDER_TIME_LIMIT= "USER_ADD_EXCHANGE_ORDER_TIME_LIMIT_";
     public static final int USER_ADD_EXCHANGE_ORDER_TIME_LIMIT_EXPIRE_TIME= 20;
-    
+
     /**
      * 邀请人数排行榜
      */

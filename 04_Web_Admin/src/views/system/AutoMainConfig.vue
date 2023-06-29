@@ -55,12 +55,12 @@
             </Select>
           </FormItem>
           <FormItem :label="$t('collectionconfigurationmanagement.minimumcollectionquantity')" prop="minnum">
-            <Input v-model="formData.minnum" placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
+            <Input v-model="formData.minnum" :placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
           </FormItem>
           <FormItem :label="$t('collectionconfigurationmanagement.collectionaddress')" prop="address">
             <br/>
 <!--            <div style="color: red;">请使用加密工具加密后填写</div>-->
-            <Input v-model="formData.address" placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
+            <Input v-model="formData.address" :placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
           </FormItem>
         </Form>
         <div slot="footer">
@@ -148,7 +148,7 @@
       </Modal>
 
       <Modal
-          title="$t('collectionconfigurationmanagement.encryptiontool')"
+          :title="$t('collectionconfigurationmanagement.encryptiontool')"
           v-model="encryptVisible"
           :mask-closable="false"
       >

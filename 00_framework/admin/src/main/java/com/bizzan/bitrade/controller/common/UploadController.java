@@ -3,11 +3,19 @@ package com.bizzan.bitrade.controller.common;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.OSSException;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.*;
 import com.bizzan.bitrade.annotation.AccessLog;
 import com.bizzan.bitrade.config.AliyunConfig;
+import com.bizzan.bitrade.config.S3Config;
 import com.bizzan.bitrade.constant.AdminModule;
 import com.bizzan.bitrade.controller.BaseController;
 import com.bizzan.bitrade.service.LocaleMessageSourceService;
+import com.bizzan.bitrade.util.FileUtil;
 import com.bizzan.bitrade.util.GeneratorUtil;
 import com.bizzan.bitrade.util.MessageResult;
 import com.bizzan.bitrade.util.UploadFileUtil;
@@ -18,6 +26,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.util.Base64Utils;
@@ -50,6 +59,12 @@ public class UploadController extends BaseController {
     @Autowired
     private AliyunConfig aliyunConfig;
 
+    @Autowired
+    private S3Config s3Config;
+
+    @Value("${oss.name}")
+    private String ossName;
+
     @RequestMapping(value = "/oss/image", method = RequestMethod.POST)
     @ResponseBody
     @AccessLog(module = AdminModule.COMMON, operation = "上传oss图片")
@@ -68,29 +83,11 @@ public class UploadController extends BaseController {
         }
 
         String directory = new SimpleDateFormat("yyyy/MM/dd/").format(new Date());
+        String fileName = file.getOriginalFilename();
+        String suffix = fileName.substring(fileName.lastIndexOf("."), fileName.length());
+        String key = directory + GeneratorUtil.getUUID() + suffix;
 
-        OSSClient ossClient = new OSSClient(aliyunConfig.getOssEndpoint(), aliyunConfig.getAccessKeyId(), aliyunConfig.getAccessKeySecret());
-        try {
-            String fileName = file.getOriginalFilename();
-            String suffix = fileName.substring(fileName.lastIndexOf("."), fileName.length());
-            String key = directory + GeneratorUtil.getUUID() + suffix;
-            System.out.println(key);
-            ossClient.putObject(aliyunConfig.getOssBucketName(), key, file.getInputStream());
-            String uri = aliyunConfig.toUrl(key);
-            MessageResult mr = new MessageResult(0, sourceService.getMessage("SUCCESS"));
-            mr.setData(uri);
-            return mr.toString();
-        } catch (OSSException oe) {
-            return MessageResult.error(500, oe.getErrorMessage()).toString();
-        } catch (ClientException ce) {
-            System.out.println("Error Message: " + ce.getMessage());
-            return MessageResult.error(500, ce.getErrorMessage()).toString();
-        } catch (Throwable e) {
-            e.printStackTrace();
-            return MessageResult.error(500, sourceService.getMessage("REQUEST_FAILED")).toString();
-        } finally {
-            ossClient.shutdown();
-        }
+        return doUpload(file, key);
     }
 
     @RequestMapping(value = "/local/image", method = RequestMethod.POST)
@@ -119,6 +116,32 @@ public class UploadController extends BaseController {
             mr.setData(result);
             return mr.toString();
         }
+    }
+
+
+    @RequestMapping(value = "/oss/app", method = RequestMethod.POST)
+    @ResponseBody
+    @AccessLog(module = AdminModule.COMMON, operation = "上传oss包")
+    public String uploadOssApp(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @RequestParam("file") MultipartFile file) throws IOException {
+        log.info(request.getSession().getServletContext().getResource("/"));
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+        if (!ServletFileUpload.isMultipartContent(request)) {
+            return MessageResult.error(500, sourceService.getMessage("FORMAT_NOT_SUPPORTED")).toString();
+        }
+        if (file == null) {
+            return MessageResult.error(500, sourceService.getMessage("FILE_NOT_FOUND")).toString();
+        }
+
+        String directory = "appdownload/";
+        String fileName = file.getOriginalFilename();
+//        String suffix = fileName.substring(fileName.lastIndexOf("."), fileName.length());
+        String key = directory + fileName;
+
+        return doUpload(file, key);
     }
 
     @RequiresPermissions("common:upload:oss:base64")
@@ -163,26 +186,131 @@ public class UploadController extends BaseController {
 
             //因为BASE64Decoder的jar问题，此处使用spring框架提供的工具包
             byte[] bs = Base64Utils.decodeFromString(data);
-            OSSClient ossClient = new OSSClient(aliyunConfig.getOssEndpoint(), aliyunConfig.getAccessKeyId(), aliyunConfig.getAccessKeySecret());
-            try {
-                //使用apache提供的工具类操作流
-                InputStream is = new ByteArrayInputStream(bs);
-                //FileUtils.writeByteArrayToFile(new File(Global.getConfig(UPLOAD_FILE_PAHT), tempFileName), bs);
-                ossClient.putObject(aliyunConfig.getOssBucketName(), key, is);
-                String uri = aliyunConfig.toUrl(key);
-                MessageResult mr = new MessageResult(0, "上传成功");
-                mr.setData(uri);
-                logger.debug("上传成功,key:{}", key);
-                return mr;
-            } catch (Exception ee) {
-                throw new Exception("上传失败，写入文件失败，" + ee.getMessage());
-            }
+            return doUpload(key, bs);
         } catch (Exception e) {
             logger.debug("上传失败," + e.getMessage());
             result.setCode(500);
             result.setMessage("上传失败," + e.getMessage());
         }
         return result;
+    }
+
+    private String doUpload(MultipartFile file, String key) {
+        if("s3".equals(ossName)){
+            return s3Upload(file,key);
+        }else {
+            return ossUpload(file,key);
+        }
+    }
+
+    private MessageResult doUpload(String key, byte[] bs) {
+        if("s3".equals(ossName)){
+            return s3Upload(key,bs);
+        }else {
+            return ossUpload(key,bs);
+        }
+    }
+
+    private String s3Upload(MultipartFile file, String key) {
+        String[] split =s3Config.getRegionsName().split("-");
+        String regionName = "";
+        for (String s : split) {
+            regionName = regionName + s.toUpperCase()+"_";
+        }
+        regionName = regionName.substring(0,regionName.length()-1);
+        BasicAWSCredentials awsCreds= new BasicAWSCredentials(s3Config.getAccessKeyId(), s3Config.getAccessKeySecret());
+        AmazonS3 s3 = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(awsCreds))
+                .withRegion(Regions.valueOf(regionName)).build();
+
+        PutObjectRequest putRequest = null;
+        try {
+            putRequest = new PutObjectRequest(s3Config.getBucketName(), key, FileUtil.multipartFileToFile(file));
+//            AccessControlList acl = new AccessControlList();
+//            acl.grantPermission(GroupGrantee.AllUsers, Permission.Read);
+//            putRequest.setAccessControlList(acl);
+            s3.putObject(putRequest);
+            String uri = s3Config.toUrl(key);
+            MessageResult mr = new MessageResult(0, sourceService.getMessage("UPLOAD_SUCCESS"));
+            mr.setData(uri);
+            System.out.println("上传成功...");
+            return mr.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return MessageResult.error(500, sourceService.getMessage("REQUEST_FAILED")).toString();
+        }
+
+    }
+
+    private MessageResult s3Upload(String key, byte[] bs) {
+        String[] split =s3Config.getRegionsName().split("-");
+        String regionName = "";
+        for (String s : split) {
+            regionName = regionName + s.toUpperCase()+"_";
+        }
+        regionName = regionName.substring(0,regionName.length()-1);
+        BasicAWSCredentials awsCreds= new BasicAWSCredentials(s3Config.getAccessKeyId(), s3Config.getAccessKeySecret());
+        AmazonS3 s3 = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(awsCreds))
+                .withRegion(Regions.valueOf(regionName)).build();
+
+        PutObjectRequest putRequest = null;
+        try {
+            InputStream is = new ByteArrayInputStream(bs);
+            putRequest = new PutObjectRequest(s3Config.getBucketName(), key, is,new ObjectMetadata());
+//            AccessControlList acl = new AccessControlList();
+//            acl.grantPermission(GroupGrantee.AllUsers, Permission.Read);
+//            putRequest.setAccessControlList(acl);
+            s3.putObject(putRequest);
+            String uri = s3Config.toUrl(key);
+            MessageResult mr = new MessageResult(0, sourceService.getMessage("UPLOAD_SUCCESS"));
+            mr.setData(uri);
+            System.out.println("上传成功...");
+            return mr;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return MessageResult.error(500, sourceService.getMessage("REQUEST_FAILED"));
+        }
+
+    }
+
+    private String ossUpload(MultipartFile file, String key) {
+        OSSClient ossClient = new OSSClient(aliyunConfig.getOssEndpoint(), aliyunConfig.getAccessKeyId(), aliyunConfig.getAccessKeySecret());
+        try {
+            System.out.println(key);
+            ossClient.putObject(aliyunConfig.getOssBucketName(), key, file.getInputStream());
+            String uri = aliyunConfig.toUrl(key);
+            MessageResult mr = new MessageResult(0, sourceService.getMessage("SUCCESS"));
+            mr.setData(uri);
+            return mr.toString();
+        } catch (OSSException oe) {
+            return MessageResult.error(500, oe.getErrorMessage()).toString();
+        } catch (ClientException ce) {
+            System.out.println("Error Message: " + ce.getMessage());
+            return MessageResult.error(500, ce.getErrorMessage()).toString();
+        } catch (Throwable e) {
+            e.printStackTrace();
+            return MessageResult.error(500, sourceService.getMessage("REQUEST_FAILED")).toString();
+        } finally {
+            ossClient.shutdown();
+        }
+    }
+
+    private MessageResult ossUpload(String key, byte[] bs)  {
+        OSSClient ossClient = new OSSClient(aliyunConfig.getOssEndpoint(), aliyunConfig.getAccessKeyId(), aliyunConfig.getAccessKeySecret());
+        try {
+            //使用apache提供的工具类操作流
+            InputStream is = new ByteArrayInputStream(bs);
+            //FileUtils.writeByteArrayToFile(new File(Global.getConfig(UPLOAD_FILE_PAHT), tempFileName), bs);
+            ossClient.putObject(aliyunConfig.getOssBucketName(), key, is);
+            String uri = aliyunConfig.toUrl(key);
+            MessageResult mr = new MessageResult(0, "上传成功");
+            mr.setData(uri);
+            logger.debug("上传成功,key:{}", key);
+            return mr;
+        } catch (Exception ee) {
+            return MessageResult.error(500, sourceService.getMessage("REQUEST_FAILED"));
+        }finally {
+            ossClient.shutdown();
+        }
     }
 
 }

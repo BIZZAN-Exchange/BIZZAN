@@ -83,7 +83,7 @@ export default {
       promotionCode: "",
       hasInviteUser: false,
       inviteUserId: "***********",
-      inviteUserAvatar: "https://bizzan01.oss-cn-hongkong.aliyuncs.com/defaultavatar.png",
+      inviteUserAvatar: "https://bizzantest.oss-cn-hongkong.aliyuncs.com/defaultavatar.png",
       envelopeInfo: {
         id: 0,
         name: "**********",
@@ -93,8 +93,8 @@ export default {
         count: 0,
         invite: 0,
         type: 0,
-        logo: "https://bizzan01.oss-cn-hongkong.aliyuncs.com/applogo.png",
-        bgImage: "https://bizzan01.oss-cn-hongkong.aliyuncs.com/redenvelope.png",
+        logo: "https://bizzantest.oss-cn-hongkong.aliyuncs.com/applogo.png",
+        bgImage: "https://bizzantest.oss-cn-hongkong.aliyuncs.com/redenvelope.png",
         state: 0,
         detail: "留给未来一个暴富的可能"
       },

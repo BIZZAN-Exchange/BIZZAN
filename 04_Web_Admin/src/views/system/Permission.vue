@@ -76,9 +76,9 @@
        <Modal
        class="auditPermissionModal"
         v-model="ifDelete"
-        title="$t('permissionlist.deletepermissions')"
+        :title="$t('permissionlist.deletepermissions')"
         @on-ok="confirmDel">
-        <p>是否删除选中的{{ deleteArr.length }}项</p>
+        <p>{{$t('advertisingmanagement.note4', [deleteArr.length])}}</p>
        </Modal>
 
       </Card> 

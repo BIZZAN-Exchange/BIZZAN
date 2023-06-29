@@ -1,5 +1,6 @@
 package com.bizzan.bitrade.service;
 
+import com.alibaba.fastjson.JSON;
 import com.bizzan.bitrade.constant.CertifiedBusinessStatus;
 import com.bizzan.bitrade.constant.CommonStatus;
 import com.bizzan.bitrade.dao.MemberDao;
@@ -14,9 +15,11 @@ import com.bizzan.bitrade.service.Base.BaseService;
 import com.bizzan.bitrade.util.BigDecimalUtils;
 import com.bizzan.bitrade.util.GoogleAuthenticatorUtil;
 import com.bizzan.bitrade.util.Md5;
+import com.bizzan.bitrade.util.ValidateUtil;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,6 +36,7 @@ import java.util.Map;
 
 import static com.bizzan.bitrade.constant.TransactionType.ACTIVITY_AWARD;
 
+@Slf4j
 @Service
 public class MemberService extends BaseService {
 
@@ -110,8 +114,18 @@ public class MemberService extends BaseService {
         return member;
     }
 
-    public Member loginWithCode(String username, String password,Long code) throws Exception {
+    public Member loginWithCode(String username, String password,Long code,String country) throws Exception {
+
         Member member = memberDao.findMemberByMobilePhoneOrEmail(username, username);
+        log.info("country::{},username:{},member:{}",country,username, JSON.toJSONString(member));
+        if(!ValidateUtil.isEmail(username)){
+            if(!StringUtils.isEmpty(country) && member!=null){
+                if(!member.getCountry().getZhName().equals(country)){
+                    log.info("oooo!!!!!");
+                    throw new AuthenticationException("账号或密码错误");
+                }
+            }
+        }
         if (member == null) {
             throw new AuthenticationException("账号或密码错误");
         } else if (!Md5.md5Digest(password + member.getSalt()).toLowerCase().equals(member.getPassword())) {
@@ -132,7 +146,7 @@ public class MemberService extends BaseService {
         return member;
     }
     /**
-     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+     * @author Hevin  E-mail:bizzanhevin@gmail.com
      * @description
      * @date 2019/12/25 18:42
      */
@@ -141,7 +155,7 @@ public class MemberService extends BaseService {
     }
 
     /**
-     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+     * @author Hevin  E-mail:bizzanhevin@gmail.com
      * @description 查询所有会员
      * @date 2019/12/25 18:43
      */
@@ -153,7 +167,7 @@ public class MemberService extends BaseService {
     public List<Member> findPromotionMember(Long id) {
         return memberDao.findAllByInviterId(id);
     }
-    
+
     public Page<Member> findPromotionMemberPage(Integer pageNo, Integer pageSize,Long id){
         Sort orders = Criteria.sortStatic("id");
         PageRequest pageRequest = new PageRequest(pageNo, pageSize, orders);
@@ -164,7 +178,7 @@ public class MemberService extends BaseService {
     }
 
     /**
-     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+     * @author Hevin  E-mail:bizzanhevin@gmail.com
      * @description 分页
      * @date 2019/1/12 15:35
      */
@@ -178,7 +192,7 @@ public class MemberService extends BaseService {
         specification.add(Restrictions.eq("status", status, false));
         return memberDao.findAll(specification, pageRequest);
     }
-    
+
     public Page<Member> findByPage(Integer pageNo, Integer pageSize) {
         //排序方式 (需要倒序 这样    Criteria.sort("id","createTime.desc") ) //参数实体类为字段名
         Sort orders = Criteria.sortStatic("id");
@@ -256,7 +270,7 @@ public class MemberService extends BaseService {
     public boolean userPromotionCodeIsExist(String promotion) {
         return memberDao.getAllByPromotionCodeEquals(promotion).size() > 0 ? true : false;
     }
-    
+
     public Long getMaxId() {
     	return memberDao.getMaxId();
     }

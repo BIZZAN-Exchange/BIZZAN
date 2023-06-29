@@ -4,7 +4,7 @@
  * <p>FileName: ShiroFilterFactoryBean.java</p>
  * 
  * Description: 
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月25日
  * @version 1.0
  * History:
@@ -37,7 +37,7 @@ import java.util.Map;
  * Description:
  * </p>
  * 
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月25日
  */
 @SuppressWarnings("rawtypes")

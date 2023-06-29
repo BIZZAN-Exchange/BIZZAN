@@ -11,7 +11,7 @@
 	<!--按天生成日志 -->
 	<appender name="logFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-			<FileNamePattern> @logback.path@/er_market/%d{yyyy-MM-dd}/%d{yyyy-MM-dd}.%i.log </FileNamePattern>
+			<FileNamePattern> @logback.path@/er_market/%d{yyyy-MM-dd}/%d{yyyy-MM-dd}.%i.log.gz</FileNamePattern>
 			<maxFileSize>200MB</maxFileSize>
 			<maxHistory>100</maxHistory>
 		</rollingPolicy>

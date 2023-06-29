@@ -1,8 +1,7 @@
 package com.bizzan.bitrade.config;
 
 import com.bizzan.bitrade.vendor.provider.SMSProvider;
-import com.bizzan.bitrade.vendor.provider.support.AliyunSMSGlobeProvider;
-import com.bizzan.bitrade.vendor.provider.support.SaiyouSMSProvider;
+import com.bizzan.bitrade.vendor.provider.support.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +15,9 @@ public class SmsProviderConfig {
     private String username;
     @Value("${sms.password:}")
     private String password;
+    @Value("${sms.account:}")
+    private String account;
+
     @Value("${sms.sign:}")
     private String sign;
     @Value("${sms.internationalGateway:}")
@@ -43,30 +45,24 @@ public class SmsProviderConfig {
 
     @Bean
     public SMSProvider getSMSProvider(@Value("${sms.driver:}") String driverName) {
-
-
-        return new AliyunSMSGlobeProvider(ali_accessKeyId, ali_accessSecret);
-    	//赛邮
-//        return new SaiyouSMSProvider(username, password, sign, gateway);
-        //飞鸽
-        //return new FeigeSMSProvider(sign,username,password);
-        //阿里云短信调用
-//        return new AliyunSMSprovider(ali_Region, ali_accessKeyId, ali_accessSecret, new String(ali_smsSign.getBytes(StandardCharsets.ISO_8859_1),StandardCharsets.UTF_8), ali_smsTemplate);
-
-        //第一短信
-//    	return new DiyiSMSProvider(username, password, sign);
-//        return new ChuangRuiSMSProvider(gateway, username, password, sign,accessKey,accessSecret);
-//        if (StringUtils.isEmpty(driverName)) {
-//            return new ChuangRuiSMSProvider(gateway, username, password, sign,accessKey,accessSecret);
-//        }
-//        if (driverName.equalsIgnoreCase(ChuangRuiSMSProvider.getName())) {
-//            return new ChuangRuiSMSProvider(gateway, username, password, sign,accessKey,accessSecret);
-//        } else if (driverName.equalsIgnoreCase(EmaySMSProvider.getName())) {
-//            return new EmaySMSProvider(gateway, username, password);
-//        }else if (driverName.equalsIgnoreCase(HuaXinSMSProvider.getName())) {
-//            return new HuaXinSMSProvider(gateway, username, password,internationalGateway,internationalUsername,internationalPassword,sign);
-//        }  else {
-//            return null;
-//        }
+        SMSProvider provider = null;
+        switch (driverName){
+            case "aliyun":
+                provider = new AliyunSMSGlobeProvider(ali_accessKeyId, ali_accessSecret);
+                break;
+            case "mxtong":
+                provider = new MxtongSMSProvider(username, password,account,sign);
+                break;
+            case "test":
+                provider = new TestSMSGlobeProvider(ali_accessKeyId, ali_accessSecret);
+                break;
+            case "saiyou":
+                provider = new SaiyouSMSProvider(username, password, sign, gateway);
+                break;
+            case "feige":
+                provider = new FeigeSMSProvider(sign,username,password);
+                break;
+        }
+        return provider;
     }
 }

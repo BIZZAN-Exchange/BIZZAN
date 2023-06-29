@@ -9,6 +9,7 @@ import com.bizzan.bitrade.util.Md5;
 import com.bizzan.bitrade.util.MessageResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,7 +20,7 @@ import java.util.Date;
 
 import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @time 2020.04.09 11:07
  */
 @RestController
@@ -28,10 +29,12 @@ import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
 public class GoogleVerificationController {
     @Autowired
     private MemberService memberService;
+    @Value("${google.host}")
+    private String googleHost;
 
     /**
      * 验证google
-     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+     * @author Hevin  E-mail:bizzanhevin@gmail.com
      * @time 2020.04.09 11:36
      * @param user
      * @param codes
@@ -79,7 +82,7 @@ public class GoogleVerificationController {
         String secret = GoogleAuthenticatorUtil.generateSecretKey();
         log.info("secret完毕 耗时={}",System.currentTimeMillis()-current);
         String qrBarcodeURL = GoogleAuthenticatorUtil.getQRBarcodeURL(member.getId().toString(),
-                "www.bizzan.biz", secret);
+                googleHost, secret);
         log.info("qrBarcodeURL完毕 耗时={}",System.currentTimeMillis()-current);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("link",qrBarcodeURL);
@@ -96,7 +99,7 @@ public class GoogleVerificationController {
 
     /**
      * google解绑
-     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+     * @author Hevin  E-mail:bizzanhevin@gmail.com
      * @time 2020.04.09 12:47
      * @param codes
      * @param user
@@ -146,7 +149,7 @@ public class GoogleVerificationController {
     //ga.setWindowSize(0); // should give 5 * 30 seconds of grace...
     /**
      * 绑定google
-     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+     * @author Hevin  E-mail:bizzanhevin@gmail.com
      * @time 2020.04.09 15:19
      * @param codes
      * @param user

@@ -4,7 +4,7 @@
  * <p>FileName: HeartBeatHandler.java</p>
  * 
  * Description: 
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年8月8日
  * @version 1.0
  * History:
@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  * 否则长连接会被释放，造成频繁的客户端重连，但是也不能设置太短，
  * 否则在当前缺乏统一心跳框架的机制下很容易导致信令风暴（例如微信心跳信令风暴问题）。
  * 具体的心跳周期并没有统一的标准，180S也许是个不错的选择，微信为300S
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @Date 2020年8月8日
  */
 @HawkBean

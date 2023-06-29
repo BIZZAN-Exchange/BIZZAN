@@ -2,7 +2,7 @@
   <div class="nav-right tradeCenter">
     <div style="padding-left: 90%">
       <Select style="width: 100px" v-model="form.country" @on-change="onAreaChange"  :placeholder="$t('common.pleaseselect')">
-        <Option v-for="(area,index) in areas" :value="area.zhName" :key="index">{{area.zhName}}</Option>
+        <Option v-for="(area,index) in areas" :value="area.zhName" :key="index">{{area.name}}</Option>
       </Select>
     </div>
     <section class="list-content">

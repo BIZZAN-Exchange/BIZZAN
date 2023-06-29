@@ -78,7 +78,7 @@
 				</Page>
 			</Row>
 
-			<Modal width="400" title="$t('currencywithdrawalapproval.oneclickcoinrelease')" v-model="ifPassCoin" @on-ok="confrimPass">
+			<Modal width="400" :title="$t('currencywithdrawalapproval.oneclickcoinrelease')" v-model="ifPassCoin" @on-ok="confrimPass">
 				<Row>
 					<p>{{ $t('currencywithdrawalapproval.note1') }}</p>
 				</Row>

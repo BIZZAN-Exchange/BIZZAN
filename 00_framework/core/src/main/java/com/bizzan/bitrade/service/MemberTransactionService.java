@@ -3,14 +3,12 @@ package com.bizzan.bitrade.service;
 import com.bizzan.bitrade.constant.PageModel;
 import com.bizzan.bitrade.constant.TransactionType;
 import com.bizzan.bitrade.dao.MemberTransactionDao;
-import com.bizzan.bitrade.entity.MemberTransaction;
-import com.bizzan.bitrade.entity.MemberWallet;
-import com.bizzan.bitrade.entity.QMember;
-import com.bizzan.bitrade.entity.QMemberTransaction;
+import com.bizzan.bitrade.entity.*;
 import com.bizzan.bitrade.pagination.Criteria;
 import com.bizzan.bitrade.pagination.PageResult;
 import com.bizzan.bitrade.pagination.Restrictions;
 import com.bizzan.bitrade.service.Base.BaseService;
+import com.bizzan.bitrade.util.BigDecimalUtils;
 import com.bizzan.bitrade.util.DateUtil;
 import com.bizzan.bitrade.vo.MemberTransactionVO;
 import com.querydsl.core.types.OrderSpecifier;
@@ -40,6 +38,13 @@ public class MemberTransactionService extends BaseService {
     private MemberTransactionDao transactionDao;
     @Autowired
     private MemberWalletService walletService;
+    @Autowired
+    private MemberWeightUpperService memberWeightUpperService;
+    @Autowired
+    private MemberService memberService;
+    @Autowired
+    private DataDictionaryService dataDictionaryService;
+
 
     /**
      * 条件查询对象 pageNo pageSize 同时传时分页
@@ -104,7 +109,7 @@ public class MemberTransactionService extends BaseService {
                 where(booleanExpressionList.toArray(booleanExpressionList.toArray(new BooleanExpression[booleanExpressionList.size()])))
                 .fetch();
     }
-    
+
     /**
      * 根据用户ID，Type获取所有记录
      * @param uid
@@ -285,7 +290,7 @@ public class MemberTransactionService extends BaseService {
         List<MemberTransactionVO> list = query.fetch();
         return list;
     }
-    
+
     /**
      * 清理机器人交易记录
      * @param beforeTime
@@ -296,5 +301,123 @@ public class MemberTransactionService extends BaseService {
     }
     public int deleteWalletHistory(Date beforeTime) {
     	return transactionDao.deleteWalletHistory(beforeTime);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void sendExchangeReward() {
+        List<MemberTransaction> list = this.findCanRewardMemberTransactions(TransactionType.EXCHANGE);
+        if(list!=null && list.size()>0){
+            for(MemberTransaction transaction:list){
+            }
+        }
+    }
+
+    private void doSendReward(MemberTransaction transaction, BigDecimal amount,int type) {
+        if(transaction==null){
+            return ;
+        }
+        BigDecimal fee = amount;
+
+        //修改返佣状态
+        this.updateReward(transaction.getId(),1);
+        //获取上级关系
+        MemberWeightUpper upper = memberWeightUpperService.findMemberWeightUpperByMemberId(transaction.getMemberId());
+        if(upper==null || upper.getFirstMemberId()==null){
+            //没有邀请人
+            return ;
+        }
+        //源用户
+        Member member = memberService.findOne(transaction.getMemberId());
+        if(member==null){
+            //源用户不存在
+            return;
+        }
+        if(org.apache.commons.lang.StringUtils.isEmpty(upper.getUpper())){
+            //推荐关系不存在
+            return;
+        }
+        //获取所有上级比重
+        List<MemberWeightUpper> uppers = memberWeightUpperService.findAllByUpperIds(upper.getUpper());
+        if(uppers==null || uppers.size()==0){
+            //没有上级
+            return ;
+        }
+
+        DataDictionary commission = dataDictionaryService.findByBond("commission_rate");
+        BigDecimal totalReward = BigDecimal.ZERO;
+        if(commission==null){
+            //未设置比例 默认100%
+            totalReward = fee;
+        }else {
+            totalReward = BigDecimalUtils.mulRound(fee,BigDecimal.valueOf(Double.parseDouble(commission.getValue())), 8);
+        }
+        //当前已返比例
+        int currentRate = 0;
+        for(MemberWeightUpper weightUpper : uppers){
+            //获取用户信息
+            Member upMember = memberService.findOne(weightUpper.getMemberId());
+            if(upMember==null){
+                //不返佣
+                continue;
+            }
+            int userRate = 0;
+            if("1".equals(upMember.getSuperPartner())){
+                userRate=weightUpper.getRate();
+            }
+            //应返比例
+            int releaseRate = userRate-currentRate;
+            if(releaseRate<=0){
+                //不返佣
+                continue;
+            }
+            currentRate=userRate;
+            BigDecimal rate = BigDecimal.valueOf(releaseRate).divide(BigDecimal.valueOf(100),8,BigDecimal.ROUND_DOWN);
+            //返佣
+
+            if(currentRate>=100){
+                //停止
+                break;
+            }
+        }
+    }
+
+    private void updateReward(Long id, int isReward) {
+        transactionDao.updateReward(id,isReward);
+    }
+
+    private List<MemberTransaction> findCanRewardMemberTransactions(TransactionType type) {
+        Criteria<MemberTransaction> specification = new Criteria<MemberTransaction>();
+        specification.add(Restrictions.eq("isReward", 0, false));
+        specification.add(Restrictions.eq("type", type, false));
+        specification.add(Restrictions.ne("memberId", 1, false));
+        return transactionDao.findAll(specification);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void sendOptionReward() {
+        List<MemberTransaction> list = this.findCanRewardMemberTransactions(TransactionType.OPTION_FAIL);
+        List<MemberTransaction> list1 = this.findCanRewardMemberTransactions(TransactionType.OPTION_REWARD);
+        List<MemberTransaction> list2 = this.findCanRewardMemberTransactions(TransactionType.OPTION_FEE);
+        list.addAll(list1);
+        list.addAll(list2);
+        if(list!=null && list.size()>0){
+            for(MemberTransaction transaction:list){
+            }
+        }
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void sendSecondReward() {
+        List<MemberTransaction> list = this.findCanRewardMemberTransactions(TransactionType.SECOND_REWARD);
+        List<MemberTransaction> list1 = this.findCanRewardMemberTransactions(TransactionType.SECOND_FAIL);
+        list.addAll(list1);
+        if(list!=null && list.size()>0){
+            for(MemberTransaction transaction:list){
+            }
+        }
+    }
+    @Transactional(rollbackFor = Exception.class)
+    public void updateRewardRobot() {
+        transactionDao.updateRewardRobot();
     }
 }

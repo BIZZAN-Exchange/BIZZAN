@@ -71,20 +71,20 @@
               <Option v-for="item in protocolList" :value="item.protocol + ''" :key="item.protocol">{{ item.protocolname }}</Option>
             </Select>
           </FormItem>
-          <FormItem :label="$t('currencyextensionmanagement.primaryaddress')" prop="mainaddress">
+         <!-- <FormItem :label="$t('currencyextensionmanagement.primaryaddress')" prop="mainaddress">
             <br/>
             <div style="color: red;">{{ $t('currencyextensionmanagement.note4') }}</div>
-            <Input v-model="formData.mainaddress" placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
-          </FormItem>
+            <Input v-model="formData.mainaddress" :placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
+          </FormItem> -->
           <FormItem :label="$t('currencyextensionmanagement.contractaddress')" prop="ext">
             <br/>
             <div style="color: red;">{{ $t('currencyextensionmanagement.note7') }}</div>
-            <Input v-model="formData.ext" placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
+            <Input v-model="formData.ext" :placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
           </FormItem>
           <FormItem :label="$t('currencyextensionmanagement.currencyaccuracy')" prop="decimals">
             <br/>
             <div style="color: red;">{{ $t('currencyextensionmanagement.note6') }}</div>
-            <Input v-model="formData.decimals" placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
+            <Input v-model="formData.decimals" :placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
           </FormItem>
 
           <div style="font-weight: 600;margin-bottom: 10px">{{ $t('currencyextensionmanagement.rechargesettings') }}</div>
@@ -97,12 +97,12 @@
           <FormItem :label="$t('currencyextensionmanagement.minimumrechargeamount')" prop="minrecharge">
             <br/>
             <div style="color: red;">{{ $t('currencyextensionmanagement.note2') }}</div>
-            <Input v-model="formData.minrecharge" placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
+            <Input v-model="formData.minrecharge" :placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
           </FormItem>
-          <FormItem label="$t('currencyextensionmanagement.rechargeconfirmationnumber')" prop="confirms">
+          <FormItem :label="$t('currencyextensionmanagement.rechargeconfirmationnumber')" prop="confirms">
             <br/>
             <div style="color: red;">{{ $t('currencyextensionmanagement.note8') }}</div>
-            <Input v-model="formData.confirms" placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
+            <Input v-model="formData.confirms" :placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
           </FormItem>
 
           <div style="font-weight: 600;margin-bottom: 10px">{{ $t('currencyextensionmanagement.withdrawalsettings') }}</div>
@@ -121,18 +121,18 @@
           <FormItem :label="$t('currencyextensionmanagement.withdrawalrate')" prop="withdrawfee">
             <br/>
             <div style="color: red;">{{ $t('currencyextensionmanagement.note3') }}</div>
-            <Input v-model="formData.withdrawfee" placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
+            <Input v-model="formData.withdrawfee" :placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
           </FormItem>
           <FormItem :label="$t('currencyextensionmanagement.minimumhandlingcharge')" prop="minwithdrawfee">
             <br/>
             <div style="color: red;">{{ $t('currencyextensionmanagement.note5') }}</div>
-            <Input v-model="formData.minwithdrawfee" placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
+            <Input v-model="formData.minwithdrawfee" :placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
           </FormItem>
           <FormItem :label="$t('currencyextensionmanagement.minimumwithdrawalquantity')" prop="minwithdraw">
-            <Input v-model="formData.minwithdraw" placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
+            <Input v-model="formData.minwithdraw" :placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
           </FormItem>
           <FormItem :label="$t('currencyextensionmanagement.maximumwithdrawalamount')" prop="maxwithdraw">
-            <Input v-model="formData.maxwithdraw" placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
+            <Input v-model="formData.maxwithdraw" :placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
           </FormItem>
           <FormItem :label="$t('currencyextensionmanagement.addressofremarkscoderecharge')" prop="memoaddress">
             <br/>
@@ -160,7 +160,7 @@ const formJson = {
   coinname: "",
   protocol: "",
   protocolname: "",
-  mainaddress: "",
+  //mainaddress: "",
   ext: "",
   decimals: 6,
   status: 1,

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年12月23日
  */
 @ControllerAdvice
@@ -125,7 +125,7 @@ public class ExceptionControllerAdvice {
     /**
      * @param
      * @return
-     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+     * @author Hevin  E-mail:bizzanhevin@gmail.com
      * @description 错误请求方式异常  HttpRequestMethodNotSupportedException
      * @date 2019/2/28 17:32
      */

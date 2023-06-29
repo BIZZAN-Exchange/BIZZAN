@@ -9,7 +9,7 @@
       <Row class="functionWrapper">
         <div class="searchWrapper clearfix">
           <div class="poptip">
-            <Poptip trigger="hover" content="请输入手机号、真实姓名或会员名称搜索" placement="bottom-start">
+            <Poptip trigger="hover" :content="$t('backstageadvertising.note1')" placement="bottom-start">
               <Input :placeholder="$t('backstageadvertising.note1')" 
                     v-model="filterSearch.account"/> 
               </Input>      
@@ -104,7 +104,7 @@ export default {
 					}
         },
 				{
-					title: this.$t('memberinvitationlist.mailbox'),
+					title: this.$t('withdrawaldetails.mailbox'),
 					key: 'email',
 					render: (h, ctx) => {
 						return h('span',{},ctx.row.member.email)
@@ -134,7 +134,7 @@ export default {
             let memberLevel = obj.row.memberLevel;
             let memberLevelTxt = null;
             if (!memberLevel) memberLevelTxt = this.$t('certifiedmerchants.ordinarymember')
-            else if (memberLevel===1) memberLevelTxt = this.$t('c2cordermanagement.realname')
+            else if (memberLevel===1) memberLevelTxt = this.$t('certifiedmerchants.realname')
             else if (memberLevel===2) memberLevelTxt = this.$t('certifiedmerchants.certification')
 
             return h('span',{

@@ -10,7 +10,7 @@ import javax.servlet.ServletResponse;
 import java.io.Serializable;
 
 /**
- * @author Hevin E-Mali:390330302@qq.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * 创建时间： 2021/6/8. 18:08
  * 地点：广州
  * 目的: shiro 的 session 管理

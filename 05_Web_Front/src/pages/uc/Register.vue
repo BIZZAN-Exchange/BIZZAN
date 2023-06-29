@@ -18,163 +18,13 @@
         </FormItem>
         <FormItem prop="user">
           <Input type="text" v-model="formInline.user" :placeholder="key" v-if="changeActive == 0">
-            <Select v-model="country" slot="prepend" style="width: 65px;border-bottom: 1px solid #27313e;">
-           <Option value="美国" label="+1"
-                ><span>+1</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.us') }}</span></Option
+            <Select v-model="country" slot="prepend" style="width: 92px;border-bottom: 1px solid #27313e;" @on-select="changeImage">
+              <template #prefix>
+                <Avatar :src="countryImage" size="14" />
+              </template>
+              <Option v-for="item in areas" :value="item.zhName" :label="'+'+item.areaCode" :key="item"
+              ><img style="width: 12px" :src="item.countryImageUrl"></img><span style="margin-left:10px;color:#ccc">{{ item.name }}</span>  <span>{{ '  +'+item.areaCode }}</span></Option
               >
-           <Option value="日本" label="+81"
-                ><span>+81</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.japan') }}</span></Option
-              >
-           <Option value="德国" label="+49"
-                ><span>+49</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.germany') }}</span></Option
-              >
-           <Option value="英国" label="+44"
-                ><span>+44</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.uk') }}</span></Option
-              >
-           <Option value="印度" label="+91"
-                ><span>+91</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.india') }}</span></Option
-              >
-           <Option value="法国" label="+33"
-                ><span>+33</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.france') }}</span></Option
-              >
-           <Option value="意大利" label="+39"
-                ><span>+39</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.italy') }}</span></Option
-              >
-           <Option value="加拿大" label="+1"
-                ><span>+1</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.canada') }}</span></Option
-              >
-           <Option value="韩国" label="+82"
-                ><span>+82</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.korea') }}</span></Option
-              >
-           <Option value="俄罗斯" label="+7"
-                ><span>+7</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.russia') }}</span></Option
-              >
-           <Option value="澳大利亚" label="+61"
-                ><span>+61</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.australia') }}</span></Option
-              >
-           <Option value="巴西" label="+55"
-                ><span>+55</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.brazil') }}</span></Option
-              >
-           <Option value="中国香港" label="+852"
-                ><span>+852</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.hk') }}</span></Option
-              >
-           <Option value="中国澳门" label="+853"
-                ><span>+853</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.macao') }}</span></Option
-              >
-           <Option value="中国台湾" label="+886"
-                ><span>+886</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.taiwan') }}</span></Option
-              >
-           <Option value="西班牙" label="+34"
-                ><span>+34</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.spain') }}</span></Option
-              >
-           <Option value="墨西哥" label="+52"
-                ><span>+52</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.mexico') }}</span></Option
-              >
-           <Option value="印度尼西亚" label="+62"
-                ><span>+62</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.indonesia') }}</span></Option
-              >
-           <Option value="荷兰" label="+31"
-                ><span>+31</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.netherlands') }}</span></Option
-              >
-           <Option value="瑞士" label="+41"
-                ><span>+41</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.switzerland') }}</span></Option
-              >
-           <Option value="沙特阿拉伯" label="+966"
-                ><span>+966</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.saudiarabia') }}</span></Option
-              >
-           <Option value="土耳其" label="+9"
-                ><span>+9</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.turkey') }}</span></Option
-              >
-           <Option value="伊朗" label="+98"
-                ><span>+98</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.iran') }}</span></Option
-              >
-           <Option value="波兰" label="+48"
-                ><span>+48</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.poland') }}</span></Option
-              >
-           <Option value="瑞典" label="+46"
-                ><span>+46</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.sweden') }}</span></Option
-              >
-           <Option value="比利时" label="+32"
-                ><span>+32</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.belgium') }}</span></Option
-              >
-           <Option value="泰国" label="+66"
-                ><span>+66</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.thailand') }}</span></Option
-              >
-           <Option value="尼日利亚" label="+234"
-                ><span>+234</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.nigeria') }}</span></Option
-              >
-           <Option value="奥地利" label="+43"
-                ><span>+43</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.austria') }}</span></Option
-              >
-           <Option value="爱尔兰" label="+353"
-                ><span>+353</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.ireland') }}</span></Option
-              >
-           <Option value="以色列" label="+972"
-                ><span>+972</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.israel') }}</span></Option
-              >
-           <Option value="挪威" label="+47"
-                ><span>+47</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.norway') }}</span></Option
-              >
-           <Option value="阿根廷" label="+54"
-                ><span>+54</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.argentina') }}</span></Option
-              >
-           <Option value="菲律宾" label="+63"
-                ><span>+63</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.philippines') }}</span></Option
-              >
-           <Option value="阿拉伯" label="+971"
-                ><span>+971</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.arab') }}</span></Option
-              >
-           <Option value="埃及" label="+2"
-                ><span>+2</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.egypt') }}</span></Option
-              >
-           <Option value="丹麦" label="+45"
-                ><span>+45</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.denmark') }}</span></Option
-              >
-           <Option value="马来西亚" label="+6"
-                ><span>+6</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.malaysia') }}</span></Option
-              >
-           <Option value="新加坡" label="+65"
-                ><span>+65</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.singapore') }}</span></Option
-              >
-           <Option value="越南" label="+84"
-                ><span>+84</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.vietnam') }}</span></Option
-              >
-           <Option value="孟加拉国" label="+88"
-                ><span>+88</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.bangladesh') }}</span></Option
-              >
-           <Option value="南非" label="+27"
-                ><span>+27</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.southafrica') }}</span></Option
-              >
-           <Option value="智利" label="+56"
-                ><span>+56</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.chile') }}</span></Option
-              >
-           <Option value="芬兰" label="+358"
-                ><span>+358</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.finland') }}</span></Option
-              >
-           <Option value="哥伦比亚" label="+57"
-                ><span>+57</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.colombia') }}</span></Option
-              >
-           <Option value="罗马尼亚" label="+4"
-                ><span>+4</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.romania') }}</span></Option
-              >
-           <Option value="葡萄牙" label="+351"
-                ><span>+351</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.portugal') }}</span></Option
-              >
-           <Option value="新西兰" label="+64"
-                ><span>+64</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.newzealand') }}</span></Option
-              >
-           <Option value="希腊" label="+3"
-                ><span>+3</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.greece') }}</span></Option
-              >
-           <Option value="卡塔尔" label="+974"
-                ><span>+974</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.qatar') }}</span></Option
-              >
-           <Option value="白俄罗斯" label="+375"
-                ><span>+375</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.belarus') }}</span></Option
-              >
-<!--              <Option value="中国" label="+86"-->
-<!--              ><span>+86</span><span style="margin-left:10px;color:#ccc">{{ $t('uc.regist.china') }}</span></Option-->
-<!--              >-->
             </Select>
           </Input>
           <Input type="text" v-model="formInline.user" :placeholder="key" v-if="changeActive == 1"> </Input>
@@ -185,7 +35,7 @@
           <input id="sendCode" type="Button" shape="circle" :value="sendcodeValue" :disabled="codedisabled" />
         </FormItem>
         <FormItem prop="password" class="password">
-          <Input type="password" v-model="formInline.password" :placeholder="$t('uc.regist.pwd')"> </Input>
+          <Input type="password" v-model="formInline.password" autocomplete="new-password" :placeholder="$t('uc.regist.pwd')"> </Input>
         </FormItem>
         <FormItem prop="repassword" class="password">
           <Input type="password" v-model="formInline.repassword" :placeholder="$t('uc.regist.repwd')"> </Input>
@@ -215,7 +65,7 @@
       <Alert v-else type="warning">
         Coming soon!
         <template slot="desc">
-          BIZZAN.BIZ will open register soon
+          MSKCHAIN.COM will open register soon
         </template>
       </Alert>
     </div>
@@ -370,6 +220,7 @@ export default {
     }
     return {
       country: '美国',
+      countryImage:"",
       codedisabled: false,
       sendcodeValue: this.$t('uc.regist.sendcode'),
       isRegister: false,
@@ -480,6 +331,7 @@ export default {
     init() {
       this.$store.commit('navigate', 'nav-other')
       this.$store.state.HeaderActiveName = '0'
+      this.getAreas();
       if (this.isLogin) {
         this.$router.push('/')
       }
@@ -525,10 +377,14 @@ export default {
         })
       $('#sendCode').click(() => {
         const tel = this.formInline.user,
-          // flagtel = mobilereg.test(tel) || emailReg.test(tel);
-          flagtel = true
-        flagtel && captchaObj.verify()
-        !flagtel && this.$Message.error('请填写正确的手机号或者邮箱号')
+            flagtel = tel!="";
+
+        if(!flagtel){
+          this.$Message.error('请填写正确的手机号或者邮箱号')
+        }else {
+          this.isRegister = true
+          this.success()
+        }
       })
     },
     onAreaChange(value) {
@@ -539,12 +395,20 @@ export default {
       }
     },
     getAreas() {
-      this.$http.post(this.host + this.api.common.area).then(response => {
-        var resp = response.body
-        this.areas = resp.data
-        this.formInline.country = this.areas[0].zhName
-        this.formInline.areaCode = this.areas[0].areaCode
-      })
+      this.$http.post(this.host + "/uc/support/country").then(response => {
+        var resp = response.body;
+        this.areas = resp.data;
+        this.country = this.areas[0].zhName;
+        this.countryImage = this.areas[0].countryImageUrl;
+        this.form.rmb = this.areas[0].localCurrency;
+      });
+    },
+    changeImage(item){
+      for(var i=0;i<this.areas.length;i++){
+        if(this.areas[i].zhName==item.value){
+          this.countryImage = this.areas[i].countryImageUrl;
+        }
+      }
     },
     actives: function(index) {
       this.changeActive = index

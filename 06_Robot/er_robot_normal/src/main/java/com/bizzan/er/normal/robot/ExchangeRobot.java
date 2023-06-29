@@ -12,7 +12,7 @@ import sun.rmi.server.InactiveGroupException;
 
 public interface ExchangeRobot{
 	//设置机器人需要操作的交易所地址
-	public static final String EXCHANGE_GATE_WAY = "http://127.0.0.1:8801";
+	public static final String EXCHANGE_GATE_WAY = "http://172.21.112.247:8801";
 	
 	/**
 	 * 获取外部价格

@@ -15,7 +15,7 @@ import java.net.URLEncoder;
 
 /**
  * 第一信息短信接口（http://www.1xinxi.cn）
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  *
  */
 @Slf4j

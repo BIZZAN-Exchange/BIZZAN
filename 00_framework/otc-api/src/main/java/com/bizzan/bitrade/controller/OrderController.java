@@ -1,5 +1,6 @@
 package com.bizzan.bitrade.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.bizzan.bitrade.coin.CoinExchangeFactory;
 import com.bizzan.bitrade.constant.*;
 import com.bizzan.bitrade.entity.*;
@@ -15,6 +16,7 @@ import com.bizzan.bitrade.util.DateUtil;
 import com.bizzan.bitrade.util.Md5;
 import com.bizzan.bitrade.util.MessageResult;
 import com.bizzan.bitrade.vendor.provider.SMSProvider;
+import com.bizzan.bitrade.vo.PaymentTypeConfig;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +34,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.bizzan.bitrade.constant.BooleanEnum.IS_FALSE;
 import static com.bizzan.bitrade.constant.BooleanEnum.IS_TRUE;
@@ -42,7 +45,7 @@ import static org.springframework.util.Assert.isTrue;
 import static org.springframework.util.Assert.notNull;
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年12月11日
  */
 @RestController
@@ -99,7 +102,7 @@ public class OrderController {
     @Autowired
     private ESUtils esUtils;
 
-
+    private String[] colors = {"#f0a70a","#e5dc2a","#4fbe51","#d07e3b","#0a4bf0","#810af0","#2b9f76"};
     /**
      * 买入，卖出详细信息
      *
@@ -190,8 +193,8 @@ public class OrderController {
         } else {
             isTrue(isEqual(mulRound(amount, price,2), money), msService.getMessage("NUMBER_ERROR"));
         }
-        isTrue(compare(money, advertise.getMinLimit()), msService.getMessage("MONEY_MIN") + advertise.getMinLimit().toString() + " CNY");
-        isTrue(compare(advertise.getMaxLimit(), money), msService.getMessage("MONEY_MAX") + advertise.getMaxLimit().toString() + " CNY");
+        isTrue(compare(money, advertise.getMinLimit()), msService.getMessage("MONEY_MIN") + advertise.getMinLimit().toString() + " " + advertise.getCountry().getLocalCurrency());
+        isTrue(compare(advertise.getMaxLimit(), money), msService.getMessage("MONEY_MAX") + advertise.getMaxLimit().toString() + " " + advertise.getCountry().getLocalCurrency());
 //        String[] pay = advertise.getPayMode().split(",");
         //计算手续费
         //if(advertise.getMember().getCertifiedBusinessStatus()==)
@@ -454,16 +457,24 @@ public class OrderController {
             seller=order.getCustomerId();
         }
         List<PaymentTypeRecord> records = paymentTypeRecordService.getRecordsByUserId(seller);
+
         for (PaymentTypeRecord record : records) {
             PaymentType type = paymentTypeService.findPaymentTypeById(record.getType());
             record.setTypeName(type.getCode());
+            List<PaymentTypeConfig> cList = JSON.parseArray(type.getConfigJson(),PaymentTypeConfig.class);
+            Map<String, String> fieldType = cList.stream().collect(Collectors.toMap(PaymentTypeConfig::getFieldName, PaymentTypeConfig::getType));
+            record.setFieldType(fieldType);
+
         }
         List<PaymentTypeRecord> payInfos = new ArrayList<>();
+        int index = 0;
         if(!StringUtils.isEmpty(payMode)){
             String[] type = payMode.split(",");
             List<String> types = Arrays.asList(type);
             for (PaymentTypeRecord record : records) {
                 if(types.contains(record.getTypeName())){
+                    record.setColor(colors[index%6]);
+                    index++;
                     payInfos.add(record);
                 }
             }

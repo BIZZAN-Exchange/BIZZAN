@@ -4,7 +4,7 @@
  * <p>FileName: HandlerThreadDispatcher.java</p>
  * 
  * Description: 
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年8月8日
  * @version 1.0
  * History:
@@ -32,7 +32,7 @@ import java.util.concurrent.Executors;
  * <p>Title: HandlerThreadDispatcher</p>
  * <p>Description: </p>
  * 接受到客户端发送的请求后，将转码后的对象传递给业务线程，由业务线程进行具体的逻辑处理
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @Date 2020年8月8日
  */
 public class HandlerThreadDispatcher {

@@ -8,37 +8,37 @@
 		<Spin class="loading" v-if="ifLoading" size="large"></Spin>
 		<Row>
 			<Col span="6">
-				{{ $t('realnamemanagement.auditstatus') }}：<span class="status">{{ userInfo.status | filterStatus }}</span>
+				{{ $t('realnamemanagement.auditstatus') }}<span class="status">{{ userInfo.status | filterStatus(statusArrS) }}</span>
 			</Col>
 			<Col span="6">
-				{{ $t('auditdetails.realname') }}：<span>{{ userInfo.member.realName }}</span>
+				{{ $t('auditdetails.realname') }}<span>{{ userInfo.realName }}</span>
 			</Col>
 			<Col span="6">
-				{{ $t('common.margin') }}：<span>{{ userInfo.amount + userInfo.info.coinSymbol }}</span>
+				{{ $t('common.margin') }}<span>{{ userInfo.amount + userInfo.info.coinSymbol }}</span>
 			</Col>
 		</Row>
 		<Row>
 			<Col span="6">
-				{{ $t('currencywithdrawalauditmanagement.cellphonenumber') }}：<span>{{ userInfo.info.areaCode }}{{ userInfo.info.telno }}</span>
+				{{ $t('currencywithdrawalauditmanagement.cellphonenumber') }}<span>{{ userInfo.info.areaCode }}{{ userInfo.info.telno }}</span>
 			</Col>
 			<Col span="6">
-				{{ $t('common.wechat') }}：<span>{{ userInfo.info.wechat }}</span>
+				{{ $t('common.wechat') }}<span>{{ userInfo.info.wechat }}</span>
 			</Col>
 			<Col span="6">
-				{{ $t('common.qq') }}：<span>{{ userInfo.info.qq }}</span>
+				{{ $t('common.qq') }}<span>{{ userInfo.info.qq }}</span>
 			</Col>
 		</Row>
 		<Row>
-			{{ $t('businessinformation.reasonforfailure') }}：<span>{{ !userInfo.detail ? '无' : userInfo.detail }}</span>
+			{{ $t('businessinformation.reasonforfailure') }}<span>{{ !userInfo.detail ? '无' : userInfo.detail }}</span>
 		</Row>
 
 		<Row class="imgs" type="flex" justify="space-around">
 			<Col span="11">
-				<img :src="userInfo.info.assetData" alt="$t('businessinformation.personaldigitalassetcertificate')"><br>
+				<img :src="userInfo.info.assetData" :alt="$t('businessinformation.personaldigitalassetcertificate')"><br>
 				<p style="color:#333">{{ $t('businessinformation.personaldigitalassetcertificate') }}</p>
 			</Col>
 			<Col span="11">
-				<img :src="userInfo.info.tradeData" alt="$t('businessinformation.digitalassettransactioncertificate')"><br>
+				<img :src="userInfo.info.tradeData" :alt="$t('businessinformation.digitalassettransactioncertificate')"><br>
 				<p style="color:#333">{{ $t('businessinformation.digitalassettransactioncertificate') }}</p>
 			</Col>
 
@@ -55,7 +55,8 @@ export default {
 			ifLoading: false,
 			userInfo: {
 				info: {}
-			}
+			},
+      statusArrS:[this.$t('businessinformation.notcertified'), this.$t('businessinformation.certificationpendingapproval'), this.$t('businessinformation.authenticationauditsuccessful'), this.$t('businessinformation.authenticationauditfailed'), this.$t('businessinformation.insufficientmargin')]
 		}
 	},
 	methods: {
@@ -79,8 +80,7 @@ export default {
 		this.refreshPage();
 	},
 	filters: {
-		filterStatus(val) {
-			let arr = [this.$t('businessinformation.notcertified'), this.$t('businessinformation.certificationpendingapproval'), this.$t('businessinformation.authenticationauditsuccessful'), this.$t('businessinformation.authenticationauditfailed'), this.$t('businessinformation.insufficientmargin')];
+		filterStatus(val,arr) {
 			return arr[val];
 		}
 	}

@@ -6,7 +6,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @Title: ${file_name}
  * @Description:
  * @date 2019/4/1214:46

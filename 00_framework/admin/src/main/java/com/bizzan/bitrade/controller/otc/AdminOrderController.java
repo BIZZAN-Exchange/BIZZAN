@@ -29,7 +29,7 @@ import java.util.List;
 import static org.springframework.util.Assert.notNull;
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @description 法币交易订单
  * @date 2019/1/8 15:41
  */

@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 /**
  * 承兑商名单列表
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  *
  */
 @Entity

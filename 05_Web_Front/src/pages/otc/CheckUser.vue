@@ -59,8 +59,8 @@
                 <div class="trade-right-box">
                     <div class="trade-price">
                         <Row class="tit">
-                            <Col span="6">{{$t('otc.checkuser.language')}}: {{$t('otc.checkuser.languagetext')}}</Col>
-                            <Col span="6">{{$t('otc.checkuser.registtime')}}: {{user.createTime}}</Col>
+<!--                            <Col span="6">{{$t('otc.checkuser.language')}}: {{$t('otc.checkuser.languagetext')}}</Col>-->
+                            <Col span="12">{{$t('otc.checkuser.registtime')}}: {{user.createTime}}</Col>
                             <Col span="6">{{$t('otc.checkuser.exchangetimes')}}: {{user.transactions}}</Col>
                         </Row>
                     </div>
@@ -157,7 +157,7 @@ export default {
                   class: "price"
                 }
               },
-              params.row.price + "CNY"
+              params.row.price + params.row.localCurrency
             ),
             h(
               "p",
@@ -166,7 +166,7 @@ export default {
                   class: "price2"
                 }
               },
-              params.row.minLimit + "-" + params.row.maxLimit + "CNY"
+              params.row.minLimit + "-" + params.row.maxLimit + params.row.localCurrency
             )
           ]);
         }
@@ -255,7 +255,7 @@ export default {
                   class: "price"
                 }
               },
-              params.row.price + "CNY"
+              params.row.price + params.row.localCurrency
             ),
             h(
               "p",
@@ -264,7 +264,7 @@ export default {
                   class: "price2"
                 }
               },
-              params.row.minLimit + "-" + params.row.maxLimit + "CNY"
+              params.row.minLimit + "-" + params.row.maxLimit + params.row.localCurrency
             )
           ]);
         }

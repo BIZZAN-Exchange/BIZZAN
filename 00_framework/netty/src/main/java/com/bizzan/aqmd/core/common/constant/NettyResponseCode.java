@@ -4,7 +4,7 @@
  * <p>FileName: NettyResponseCode.java</p>
  * 
  * Description: 
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月19日
  * @version 1.0
  * History:
@@ -27,7 +27,7 @@ package com.bizzan.aqmd.core.common.constant;
  * </li>
  * 	<li>业务错误返回码：对应具体的异常码信息</li>
  * <ol>
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @Date 2020年7月19日
  */
 public class NettyResponseCode {

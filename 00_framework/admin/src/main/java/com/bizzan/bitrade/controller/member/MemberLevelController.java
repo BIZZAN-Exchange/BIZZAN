@@ -20,7 +20,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @description 会员等级管理类
  * @date 2019/12/27 10:16
  */

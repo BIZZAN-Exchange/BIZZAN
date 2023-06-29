@@ -38,11 +38,6 @@
                       <template slot="title" class="lang-title">
                         <span>{{ $t("header.fiatCurrency") }}</span>
                       </template>
-                       <router-link to="/ctc">
-                         <MenuItem name="nav-ctc">{{
-                           $t("header.ctc")
-                         }}</MenuItem>
-                       </router-link>
                         <router-link to="/otc/trade/usdt">
                           <MenuItem name="nav-otc">{{
                             $t("header.otc")
@@ -67,6 +62,7 @@
                             $t("header.exchange")
                           }}</MenuItem>
                       </router-link>
+
                     </Submenu>
                   </Menu>
                 </div>
@@ -77,31 +73,6 @@
                     @on-select="changelanguage"
                     style="height: 50px;line-height:50px;"
                   >
-                    <Submenu name="lang">
-                      <template slot="title" class="lang-title">
-                        <span>{{ $t("header.swapExchange") }}</span>
-                      </template>
-                        <router-link to="/swap">
-                          <MenuItem name="nav-swap">&nbsp;&nbsp;{{
-                            $t("header.swap1")
-                          }}&nbsp;&nbsp;</MenuItem>
-                        </router-link>
-                        <router-link to="/coinswap">
-                          <MenuItem name="nav-coinswap">{{
-                              $t("header.swap2")
-                            }}</MenuItem>
-                        </router-link>
-                        <router-link to="/option">
-                          <MenuItem name="nav-option">{{
-                            $t("header.option")
-                          }}</MenuItem>
-                        </router-link>
-                        <router-link to="/second">
-                          <MenuItem name="nav-second">{{
-                            $t("header.second")
-                          }}</MenuItem>
-                        </router-link>
-                    </Submenu>
                   </Menu>
                 </div>
                 <div style="float:left;margin-left: 10px;">
@@ -115,6 +86,11 @@
                       <template slot="title" class="lang-title">
                         <span>{{ $t("header.finance") }}</span>
                       </template>
+                        <router-link to="/lab">
+                          <MenuItem name="nav-lab">{{
+                            $t("header.lab")
+                          }}</MenuItem>
+                        </router-link>
                         <router-link to="/invite">
                           <MenuItem name="nav-invite">{{
                             $t("header.invite")
@@ -123,6 +99,7 @@
                     </Submenu>
                   </Menu>
                 </div>
+
                 <div style="float:left;margin-left: 10px;">
                   <router-link to="/announcement/0">
                     <MenuItem name="nav-service">{{
@@ -130,6 +107,7 @@
                     }}</MenuItem>
                   </router-link>
                 </div>
+
               </Menu>
             </div>
             <div class="header_nav_mobile_triggle" @click="toggleMemu()">
@@ -146,10 +124,28 @@
                   <template slot="title" class="lang-title">
                     <span>{{ languageValue }}</span>
                     <img class="lang-img" v-if="lang === 'en_US'" src="./assets/images/lang-en.png" alt="">
+                    <img class="lang-img" v-if="lang === 'ja_JP'" src="./assets/images/lang-jp.png" alt="">
+                    <img class="lang-img" v-if="lang === 'ko_KR'" src="./assets/images/lang-ko.png" alt="">
+                    <img class="lang-img" v-if="lang === 'de_DE'" src="./assets/images/lang-de.png" alt="">
+                    <img class="lang-img" v-if="lang === 'fr_FR'" src="./assets/images/lang-fr.png" alt="">
+                    <img class="lang-img" v-if="lang === 'it_IT'" src="./assets/images/lang-it.png" alt="">
+                    <img class="lang-img" v-if="lang === 'es_ES'" src="./assets/images/lang-es.png" alt="">
+                    <img class="lang-img" v-if="lang === 'ru_RU'" src="./assets/images/lang-ru.png" alt="">
+                    <img class="lang-img" v-if="lang === 'hi_IN'" src="./assets/images/lang-in.png" alt="">
+                    <img class="lang-img" v-if="lang === 'zh_HK'" src="./assets/images/lang-hk.png" alt="">
                     <img class="lang-img" v-if="lang === 'zh_CN'" src="./assets/images/lang-zh.png" alt="">
 
                   </template>
                   <MenuItem name="en_US" class="lang-item"><img src="./assets/images/lang-en.png" alt="">English</MenuItem>
+                  <MenuItem name="ja_JP" class="lang-item"><img src="./assets/images/lang-jp.png" alt="">日本語</MenuItem>
+                  <MenuItem name="ko_KR" class="lang-item"><img src="./assets/images/lang-ko.png" alt="">한국어</MenuItem>
+                  <MenuItem name="de_DE" class="lang-item"><img src="./assets/images/lang-de.png" alt="">Deutsche</MenuItem>
+                  <MenuItem name="fr_FR" class="lang-item"><img src="./assets/images/lang-fr.png" alt="">français</MenuItem>
+                  <MenuItem name="it_IT" class="lang-item"><img src="./assets/images/lang-it.png" alt="">italiano</MenuItem>
+                  <MenuItem name="es_ES" class="lang-item"><img src="./assets/images/lang-es.png" alt="">Español</MenuItem>
+                  <MenuItem name="ru_RU" class="lang-item"><img src="./assets/images/lang-ru.png" alt="">русский</MenuItem>
+                  <MenuItem name="hi_IN" class="lang-item"><img src="./assets/images/lang-in.png" alt="">हिंदी</MenuItem>
+                  <MenuItem name="zh_HK" class="lang-item"><img src="./assets/images/lang-hk.png" alt="">繁體中文</MenuItem>
                   <MenuItem name="zh_CN" class="lang-item"><img src="./assets/images/lang-zh.png" alt="">简体中文</MenuItem>
                 </Submenu>
               </Menu>
@@ -179,6 +175,9 @@
               <!-- 判断是否登录 -->
               <!-- 登录 -->
               <div class="login_register isLogin" v-if="isLogin">
+                <!--                <div class="mymsg">-->
+                <!--                  <router-link to="/uc/safe">{{ $t('header.usercenter') }}</router-link>-->
+                <!--                </div>-->
                 <Dropdown>
                   <a href="javascript:void(0)">
                     <Icon type="md-person" size="20" />
@@ -288,6 +287,31 @@
             >{{ $t("header.exchange") }}</MenuItem
           >
         </router-link>
+        <router-link to="/swap">
+          <MenuItem name="nav-swap" style="text-align:left;color:#bdc2ca;">{{
+            $t("header.swap1")
+          }}</MenuItem>
+        </router-link>
+        <router-link to="/coinswap">
+          <MenuItem name="nav-coinswap" style="text-align:left;color:#bdc2ca;">{{
+              $t("header.swap2")
+            }}</MenuItem>
+        </router-link>
+        <router-link to="/option">
+          <MenuItem name="nav-option" style="text-align:left;color:#bdc2ca;">{{
+            $t("header.option")
+          }}</MenuItem>
+        </router-link>
+        <router-link to="/second">
+          <MenuItem name="nav-second" style="text-align:left;color:#bdc2ca;">{{
+            $t("header.second")
+          }}</MenuItem>
+        </router-link>
+        <router-link to="/lab" style="display: none;">
+          <MenuItem name="nav-lab" style="text-align:left;color:#bdc2ca;">{{
+            $t("header.lab")
+          }}</MenuItem>
+        </router-link>
         <router-link to="/invite">
           <MenuItem name="nav-invite" style="text-align:left;color:#bdc2ca;">{{
             $t("header.invite")
@@ -296,6 +320,11 @@
         <router-link to="/news" style="display: none;">
           <MenuItem name="nav-news" style="text-align:left;color:#bdc2ca;">{{
             $t("header.news")
+          }}</MenuItem>
+        </router-link>
+        <router-link to="/lab">
+          <MenuItem name="nav-lab" style="text-align:left;color:#bdc2ca;">{{
+            $t("header.lab")
           }}</MenuItem>
         </router-link>
         <router-link to="/announcement/0">
@@ -349,6 +378,60 @@
             >English</MenuItem
           >
           <MenuItem
+            name="ja_JP"
+            class="lang-item"
+            style="padding-left:20px!important;"
+            >日本語</MenuItem
+          >
+          <MenuItem
+            name="ko_KR"
+            class="lang-item"
+            style="padding-left:20px!important;"
+            >한국어</MenuItem
+          >
+          <MenuItem
+            name="de_DE"
+            class="lang-item"
+            style="padding-left:20px!important;"
+            >Deutsche</MenuItem
+          >
+          <MenuItem
+            name="fr_FR"
+            class="lang-item"
+            style="padding-left:20px!important;"
+            >français</MenuItem
+          >
+          <MenuItem
+            name="it_IT"
+            class="lang-item"
+            style="padding-left:20px!important;"
+            >italiano</MenuItem
+          >
+          <MenuItem
+            name="es_ES"
+            class="lang-item"
+            style="padding-left:20px!important;"
+            >Español</MenuItem
+          >
+          <MenuItem
+            name="ru_RU"
+            class="lang-item"
+            style="padding-left:20px!important;"
+            >русский</MenuItem
+          >
+          <MenuItem
+            name="hi_IN"
+            class="lang-item"
+            style="padding-left:20px!important;"
+            >हिंदी</MenuItem
+          >
+          <MenuItem
+            name="zh_HK"
+            class="lang-item"
+            style="padding-left:20px!important;"
+            >繁體中文</MenuItem
+          >
+          <MenuItem
             name="zh_CN"
             class="lang-item"
             style="padding-left:20px!important;"
@@ -371,17 +454,51 @@
         <Col class="footer_left" :xs="24" :sm="8">
           <img src="./assets/images/logo-bottom.png"  alt=""/>
           <p style="letter-spacing:2px;">{{ $t("footer.gsmc") }}</p>
-          <p>Copyright ©2022 BIZZZAN.BIZ All rights reserved.</p>
+          <p>Copyright ©2023 BIZZZAN.BIZ All rights reserved.</p>
           <div class="social-list">
             <ul>
-
+<!--              <Tooltip content="Wechat" theme="dark" placement="top">-->
+<!--                <li>-->
+<!--                  <Icon custom="i-icon iconfont iconweixin" />-->
+<!--                </li>-->
+<!--                <div slot="content">-->
+<!--                  <img-->
+<!--                    style="height: 130px;border-radius: 5px;"-->
+<!--                    src="./assets/images/wechatqrcode.jpg"-->
+<!--                  />-->
+<!--                </div>-->
+<!--              </Tooltip>-->
+<!--              <Tooltip content="Biyong" theme="dark" placement="top">-->
+<!--                <li>-->
+<!--                  <Icon custom="i-icon iconfont iconbiyonglogo" />-->
+<!--                </li>-->
+<!--                <div slot="content">-->
+<!--                  <img-->
+<!--                    style="height: 130px;border-radius: 5px;"-->
+<!--                    src="./assets/images/biyongqrcode.png"-->
+<!--                  />-->
+<!--                </div>-->
+<!--              </Tooltip>-->
               <Tooltip content="https://t.me/bizzanhevin" theme="dark" placement="top">
                 <li>
                   <Icon custom="i-icon iconfont icontelegram1" />
                 </li>
-
+<!--                <div slot="content">-->
+<!--                  <img-->
+<!--                    style="height: 130px;border-radius: 5px;"-->
+<!--                    src="./assets/images/telegramqrcode.jpg"-->
+<!--                  />-->
+<!--                </div>-->
               </Tooltip>
-
+<!--              <Tooltip-->
+<!--                content="https://weibo.com/BIZZAN"-->
+<!--                theme="dark"-->
+<!--                placement="top"-->
+<!--              >-->
+<!--                <li>-->
+<!--                  <Icon custom="i-icon iconfont iconweibo" />-->
+<!--                </li>-->
+<!--              </Tooltip>-->
               <Tooltip
                 content="https://twitter.com/bizzanhevin"
                 theme="dark"
@@ -391,7 +508,34 @@
                   <Icon type="logo-twitter" />
                 </li>
               </Tooltip>
-
+<!--              <Tooltip-->
+<!--                content="https://medium.com/@BIZZAN"-->
+<!--                theme="dark"-->
+<!--                placement="top"-->
+<!--              >-->
+<!--                <li>-->
+<!--                  <Icon custom="i-icon iconfont iconmedium" />-->
+<!--                </li>-->
+<!--              </Tooltip>-->
+<!--              <Tooltip-->
+<!--                content="https://www.reddit.com/u/BIZZANglobal"-->
+<!--                theme="dark"-->
+<!--                placement="top"-->
+<!--              >-->
+<!--                <li>-->
+<!--                  <Icon custom="i-icon iconfont iconreddit" />-->
+<!--                </li>-->
+<!--              </Tooltip>-->
+<!--              <Tooltip-->
+<!--                content="coming"-->
+<!--                theme="dark"-->
+<!--                placement="top"-->
+<!--                style="display:none;"-->
+<!--              >-->
+<!--                <li>-->
+<!--                  <Icon type="logo-facebook" />-->
+<!--                </li>-->
+<!--              </Tooltip>-->
             </ul>
           </div>
         </Col>
@@ -531,7 +675,30 @@
             </Col>
           </Row>
         </Col>
-
+        <!-- 友情链接 -->
+<!--        <Col-->
+<!--          class="footer_right"-->
+<!--          :xs="3"-->
+<!--          style="border-left: 1px solid #243051;"-->
+<!--        >-->
+<!--          <ul>-->
+<!--            <li class="footer_title">-->
+<!--              <span>{{ $t("footer.yqlj") }}</span>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--              <a target="_blank" href="https://www.feixiaohao.com/">非小号</a>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--              <a target="_blank" href="https://www.8btc.com/">巴比特</a>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--              <a target="_blank" href="https://www.chainnode.com/">链节点</a>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--              <a target="_blank" href="https://www.jinse.com/">金色财经</a>-->
+<!--            </li>-->
+<!--          </ul>-->
+<!--        </Col>-->
       </Row>
     </div>
     <template>
@@ -565,37 +732,37 @@ export default {
       switch (this.activeNav) {
         case "nav-exchange":
           window.document.title =
-            (this.lang === "zh_CN" ? "交易中心" : "Exchange") +
+            (this.lang === "zh_CN" ? "Exchange" : "Exchange") +
             " - BIZZAN | BIZZAN | Global digital currency trading platform";
           break;
         case "nav-service":
           window.document.title =
-            (this.lang === "zh_CN" ? "公告" : "Announcement") +
+            (this.lang === "zh_CN" ? "Announcement" : "Announcement") +
             " - BIZZAN | BIZZAN | Global digital currency trading platform";
           break;
         case "nav-about":
           window.document.title =
-            (this.lang === "zh_CN" ? "关于" : "About") +
+            (this.lang === "zh_CN" ? "About" : "About") +
             " - BIZZAN | BIZZAN | Global digital currency trading platform";
           break;
         case "nav-lab":
           window.document.title =
-            (this.lang === "zh_CN" ? "创新实验室" : "Lab") +
+            (this.lang === "zh_CN" ? "Lab" : "Lab") +
             " - BIZZAN | BIZZAN | Global digital currency trading platform";
           break;
         case "nav-invite":
           window.document.title =
-            (this.lang === "zh_CN" ? "推广合伙人" : "Promotion") +
+            (this.lang === "zh_CN" ? "Promotion" : "Promotion") +
             " - BIZZAN | BIZZAN | Global digital currency trading platform";
           break;
         case "nav-cexchange":
           window.document.title =
-            (this.lang === "zh_CN" ? "活动" : "Activity") +
+            (this.lang === "zh_CN" ? "Activity" : "Activity") +
             " - BIZZAN | Global digital currency trading platform";
           break;
         default:
           window.document.title =
-            "BIZZAN | BIZZAN官网 - 全球比特币交易平台 | 全球数字货币交易平台";
+            "BIZZAN | Global Bitcoin Trading Platform | Global Digital Currency Trading Platform";
           break;
       }
     },
@@ -603,7 +770,13 @@ export default {
       this.pageView = "page-view";
       if (to.path === "/reg") {
         this.pageView = "page-view2";
-
+        // if(!this.isMobile()){
+        //     if(this.$route.query.code != undefined && this.$route.query.code != "" && this.$route.query.code != null){
+        //         this.$router.replace('/register?code='+this.$route.query.code);
+        //     }else{
+        //         this.$router.replace('/register');
+        //     }
+        // }
       }
 
       if (
@@ -612,6 +785,9 @@ export default {
         to.path === "/ctc" ||
         to.path === "/exchange"
       ) {
+        // if(this.isMobile()){
+        //   this.$router.replace('/reg');
+        // }
       }
 
       if (to.path === "/app") {
@@ -647,6 +823,33 @@ export default {
       this.$i18n.locale = curlang;
       if (curlang === "en_US") {
         return "English";
+      }
+      if (curlang === "ja_JP") {
+        return "日本語";
+      }
+      if (curlang === "ko_KR") {
+        return "한국어";
+      }
+      if (curlang === "de_DE") {
+        return "Deutsche";
+      }
+      if (curlang === "fr_FR") {
+        return "français";
+      }
+      if (curlang === "it_IT") {
+        return "italiano";
+      }
+      if (curlang === "es_ES") {
+        return "Español";
+      }
+      if (curlang === "ru_RU") {
+        return "русский";
+      }
+      if (curlang === "hi_IN") {
+        return "हिंदी";
+      }
+      if (curlang === "zh_HK") {
+        return "繁體中文";
       }
       if (curlang === "zh_CN") {
         return "简体中文";
@@ -751,9 +954,18 @@ export default {
       });
     },
     changelanguage: function(name) {
-
+      //console.log('change language: ' + name)
       if (
         name !== "en_US" &&
+        name !== "ja_JP" &&
+        name !== "ko_KR" &&
+        name !== "de_DE" &&
+        name !== "fr_FR" &&
+        name !== "it_IT" &&
+        name !== "es_ES" &&
+        name !== "zh_HK" &&
+        name !== "hi_IN" &&
+        name !== "ru_RU" &&
         name !== "zh_CN"
       ) {
       } else {

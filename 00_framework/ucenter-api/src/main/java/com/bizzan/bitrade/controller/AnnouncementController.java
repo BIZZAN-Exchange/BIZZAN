@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @description
  * @date 2019/3/5 15:25
  */
@@ -82,20 +82,20 @@ public class AnnouncementController extends BaseController {
      */
     @RequestMapping(value = "more",method = RequestMethod.POST)
     public MessageResult moreDetail(@RequestParam("id")Long id, @RequestParam("lang")String paramLang,@RequestHeader(value = "lang") String lang){
-        ValueOperations redisOperations = redisTemplate.opsForValue();
-        JSONObject result  = (JSONObject) redisOperations.get(SysConstant.NOTICE_DETAIL+id);
-        if ( result != null){
-            return success(result);
-        }else {
+//        ValueOperations redisOperations = redisTemplate.opsForValue();
+//        JSONObject result  = (JSONObject) redisOperations.get(SysConstant.NOTICE_DETAIL+id);
+//        if ( result != null){
+//            return success(result);
+//        }else {
             JSONObject resultObj = new JSONObject();
             Announcement announcement = announcementService.findById(id);
             Assert.notNull(announcement, "validate id!");
             resultObj.put("info",announcement);
             resultObj.put("back",announcementService.getBack(id, lang));
             resultObj.put("next",announcementService.getNext(id, lang));
-            redisOperations.set(SysConstant.NOTICE_DETAIL+id,resultObj,SysConstant.NOTICE_DETAIL_EXPIRE_TIME, TimeUnit.SECONDS);
+//            redisOperations.set(SysConstant.NOTICE_DETAIL+id,resultObj,SysConstant.NOTICE_DETAIL_EXPIRE_TIME, TimeUnit.SECONDS);
             return success(resultObj);
-        }
+//        }
     }
 
 

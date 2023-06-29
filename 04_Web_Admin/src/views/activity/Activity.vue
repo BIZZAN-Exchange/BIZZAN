@@ -32,8 +32,8 @@
                 <div style="font-size:12px;">
                   <p>{{ $t('activitymanagement.note1') }}</p>
                   <p>{{ $t('activitymanagement.prerequisitesforactivityinitiation') }}</p>
-                  <p>   {{ $t('activitymanagement.note2') }}</p>
-                  <p>   {{ $t('activitymanagement.note3') }}</p>
+                  <p>{{ $t('activitymanagement.note2') }}</p>
+                  <p>{{ $t('activitymanagement.note3') }}</p>
                   <br>
                   <p>{{ $t('activitymanagement.note4') }}</p>
                   <p>{{ $t('activitymanagement.note5') }}</p>
@@ -152,7 +152,7 @@
               fixed: 'right',
               width: 150,
               render: (h, obj) => {
-                let showProgress = this.$t('key')+obj.row.progress+this.$t('key-0');
+                let showProgress = "("+obj.row.progress+")";
                 let disabled = true;
                 if(obj.row.state == 1){
                   disabled = false;
@@ -166,7 +166,7 @@
                 }
                 return h("div", [
                   h(
-                    this.$t('button'),
+                    'Button',
                     {
                       props: {type: "success",size: "small",disabled: disabled},
                       style: {marginRight: "5px"},
@@ -206,7 +206,7 @@
               let smallImageUrl = obj.row.smallImageUrl;
               return  h('img',{
                 attrs: {src: smallImageUrl},
-                style: {height: "45px", padding:this.$t('5px-0px')}
+                style: {height: "45px", padding:'5px 0px'}
               },"");
             }
           },
@@ -277,7 +277,7 @@
             width: 140,
             render: (h ,obj) => {
               let sTime = obj.row.startTime.substr(0, 10) + " " + obj.row.startTime.substr(11, 8);
-              let curTime = new Date().Format(this.$t('yyyy-mm-dd-hh-mm-ss'));
+              let curTime = new Date().Format('YYYY-MM-DD HH:mm:ss');
               let text = this.$t('activitymanagement.abouttostart');
               if(sTime < curTime) {
                 text = this.$t('activitymanagement.started');
@@ -292,7 +292,7 @@
             width: 140,
             render: (h ,obj) => {
               let eTime = obj.row.endTime.substr(0, 10) + " " + obj.row.endTime.substr(11, 8);
-              let curTime = new Date().Format(this.$t('yyyy-mm-dd-hh-mm-ss-0'));
+              let curTime = new Date().Format('YYYY-MM-DD HH:mm:ss');
               let color = "#19be6b";
               let text = this.$t('activitymanagement.notfinished');
               if(eTime < curTime) {
@@ -343,14 +343,14 @@
               fixed: 'right',
               width: 220,
               render: (h, obj) => {
-                let showProgress = this.$t('key-1')+obj.row.progress+this.$t('key-2');
+                let showProgress = "("+obj.row.progress+")";
                 let disabled = true;
                 if(obj.row.type == 3 || obj.row.type == 4 || obj.row.type == 5 || obj.row.type == 6){
                   disabled = false;
                 }
                 return h("div", [
                   h(
-                    this.$t('button-0'),
+                    'Button',
                     {
                       props: {type: "info",size: "small"},
                       style: {marginRight: "5px"},
@@ -365,7 +365,7 @@
                     this.$t('activitymanagement.modify')
                   ),
                   h(
-                    this.$t('button-1'),
+                    'Button',
                     {
                       props: {type: "error",size: "small"},
                       style: {marginRight: "5px"},
@@ -380,7 +380,7 @@
                     this.$t('activitymanagement.progress')+showProgress
                   ),
                   h(
-                    this.$t('button-2'),
+                    'Button',
                     {
                       props: {type: "success",size: "small",disabled: disabled},
                       style: {marginRight: "5px"},

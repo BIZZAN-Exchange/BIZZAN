@@ -34,7 +34,7 @@
               </FormItem>
               <FormItem :label="$t('otc.publishad.country')" prop="country">
                 <Select v-model="form.country" @on-change="onAreaChange" :placeholder="$t('common.pleaseselect')">
-                  <Option v-for="(area,index) in areas" :value="area.zhName" :key="index">{{area.zhName}}</Option>
+                  <Option v-for="(area,index) in areas" :value="area.zhName" :key="index">{{area.name}}</Option>
                 </Select>
               </FormItem>
               <!-- 1 -->
@@ -249,7 +249,7 @@ export default {
         advertiseType: "1",
         coin: "1",
         country: "china",
-        rmb: "",
+        rmb: "INR",
         fixed: false,
         premisePrice: "",
         fixedPrice: "",
@@ -405,7 +405,7 @@ export default {
       let lv = (1 + this.form.premisePrice / 100).toFixed(4);
       //获取币种
       let params = {};
-      params.currency = this.form.rmb?this.form.rmb:"CNY";
+      params.currency = this.form.rmb?this.form.rmb:"INR";
       this.$http.post(this.host + "/otc/coin/all",params).then(response => {
         var resp = response.body;
         if (resp.code == 0) {
@@ -604,6 +604,7 @@ export default {
         this.areas = resp.data;
         this.form.country = this.areas[0].zhName;
         this.form.rmb = this.areas[0].localCurrency;
+        this.getAllMarketPrice();
       });
     },
     getMember() {

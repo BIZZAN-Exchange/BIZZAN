@@ -24,7 +24,7 @@ public class ApplicationEvent implements ApplicationListener<ContextRefreshedEve
 		logger.info("===============================================");
 		logger.info("===============行情同步启动成功===============");
 		logger.info("===============================================");
-		logger.info("=========Okex===Huobi===Zb===Biki===FX=========");
+		logger.info("=========Okex===Huobi===Zb===Binance=========");
 		logger.info("===============================================");
 		logger.info("============https://www.bizzan.biz=============");
 		logger.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");

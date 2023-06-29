@@ -149,7 +149,7 @@ export default {
             this.hasContent = true;
             this.spinShow = false;
 
-            window.document.title = (this.lang == "zh_CN" ? "公告 - " : "Announcement - ") + this.data.info.title + " - BIZZAN | Global digital currency trading platform";
+            window.document.title = (this.lang == "en_US" ? "Announcement - " : "Announcement - ") + this.data.info.title + " - BIZZAN | Global digital currency trading platform";
           }else{
             this.hasContent = false;
             this.spinShow = false;

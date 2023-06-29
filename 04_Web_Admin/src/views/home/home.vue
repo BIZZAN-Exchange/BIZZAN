@@ -420,7 +420,7 @@ export default {
       chart.source(dv.rows);
       chart
         .interval()
-        .position($this.t('cumulative.time') + `*${obj.type}`)
+        .position(this.$t('cumulative.time') + `*${obj.type}`)
         .color(this.$t('transactiondetailsinlegalcurrency.currency'))
         .adjust("dodge");
 

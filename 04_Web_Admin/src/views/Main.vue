@@ -60,7 +60,7 @@
                     </div>
                 </div>
             </div>
-            <div style="background-image: linear-gradient( 135deg, #F0A70A 10%, #0D25B9 100%);text-align: center;height:30px;line-height:30px;letter-spacing: 1px;color:#FFF;">{{$t('common.connect')}}</div>
+          <div style="background-image: linear-gradient( 135deg, #F0A70A 10%, #0D25B9 100%);text-align: center;height:30px;line-height:30px;letter-spacing: 1px;color:#FFF;"><a href="https://t.me/bizzanhevin" target="_blank" style="color: #ddd;text-decoration: none;">{{$t('common.connect1')}} </a><a href="https://t.me/bizzancom" target="_blank" style="color: #ddd;text-decoration: none;">{{$t('common.connect2')}} </a><a href="https://t.me/bzengineer" target="_blank" style="color: #ddd;text-decoration: none;">{{$t('common.connect3')}}</a></div>
             <div class="tags-con">
                 <tags-page-opened :pageTagsList="pageTagsList" @getopen="test"></tags-page-opened>
             </div>

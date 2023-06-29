@@ -164,8 +164,8 @@ export default {
 				tabelArr: [],
 				timeRange: { active: 0, time: [this.$t('detailed.yesterday'), this.$t('cumulative.threedays'), this.$t('cumulative.oneweek')] },
 				tardeType: { active: 0, type: [
-					{ status: 5, type: this.$t('detailed.recharging'), router: '/finance/changecoindetail' }, 
-					{ status: 6, type: this.$t('detailed.withdrawal'), router: '/finance/withdrawdetail' }
+					{ status: 5, type: this.$t('detailed.recharging'), router: '/finance/recharge' },
+					{ status: 6, type: this.$t('detailed.withdrawal'), router: '/finance/withdraw' }
 				]}
 			},
 		}

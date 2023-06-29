@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @description
  * @date 2019/1/11 13:45
  */
@@ -86,7 +86,7 @@ public class OtcCoinService extends BaseService {
     }
 
     /**
-     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+     * @author Hevin  E-mail:bizzanhevin@gmail.com
      * @description 分页请求
      * @date 2019/1/11 15:04
      */

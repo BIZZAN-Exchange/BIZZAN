@@ -78,11 +78,11 @@
     <Modal
           class="auditModel"
           v-model="loginPassModal"
-          :title="$t('c2cacceptormanagement.pleaseentertheloginpassword')"
+          :title="$t('addeditredenvelopes.pleaseentertheloginpassword')"
           width="350"
           @on-cancle="loginPW = ''"
           @on-ok="confirmLoginPass">
-          <Input v-model="loginPW" type="password" :placeholder="$t('c2cacceptormanagement.pleaseentertheloginpassword')"></Input>
+          <Input v-model="loginPW" type="password" :placeholder="$t('addeditredenvelopes.pleaseentertheloginpassword')"></Input>
    </Modal>
 </div>
 

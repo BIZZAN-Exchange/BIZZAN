@@ -67,7 +67,7 @@ export default {
             key: 'username',
           },
           {
-            title: this.$t('withdrawaldetails.actualnumberofaccountsreceived'),
+            title: this.$t('withdrawaldetails1.actualnumberofaccountsreceived'),
             key: 'username',
           },
           {
@@ -75,15 +75,15 @@ export default {
             key: 'username',
           },
           {
-            title: this.$t('withdrawaldetails.currencywithdrawalapplicationtime'),
+            title: this.$t('withdrawaldetails1.currencywithdrawalapplicationtime'),
             key: 'username',
           },
            {
-            title: this.$t('withdrawaldetails.approvalpassedtime'),
+            title: this.$t('withdrawaldetails1.approvalpassedtime'),
             key: 'username',
           },
            {
-            title: this.$t('withdrawaldetails.reviewedby'),
+            title: this.$t('withdrawaldetails1.reviewedby'),
             key: 'username',
           }
       ],

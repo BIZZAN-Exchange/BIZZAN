@@ -21,7 +21,7 @@
                               </Poptip>
                         <h6>
                             <span>{{$t('otc.chat.exchangeamount')}}:</span>
-                            <span>{{msg.money}}&nbsp;CNY</span>
+                            <span>{{msg.money}}&nbsp;{{msg.currency}}</span>
                         </h6>
                         <div class="mt20" v-if="tradeType==0">
                             <h5>{{$t('otc.chat.operatetip')}}:</h5>
@@ -94,7 +94,7 @@
                         </Col>
                         <Col span="3" class="order-info">
                         <h5>{{msg.price}}</h5>
-                        <span>{{$t('otc.chat.transprice')}}(CNY)</span>
+                        <span>{{$t('otc.chat.transprice')}}({{msg.currency}})</span>
                         </Col>
                         <Col span="3" class="order-info">
                         <h5>{{msg.amount}}</h5>
@@ -102,7 +102,7 @@
                         </Col>
                         <Col span="3" class="order-info">
                         <h5>{{msg.money}}</h5>
-                        <span>{{$t('otc.chat.transmoney')}}(CNY)</span>
+                        <span>{{$t('otc.chat.transmoney')}}({{ msg.currency }})</span>
                         </Col>
                     </Row>
                     <Row class="chat-top" type="flex" style="margin-left: 15px">

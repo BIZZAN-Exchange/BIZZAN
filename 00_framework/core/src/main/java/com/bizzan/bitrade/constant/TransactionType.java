@@ -40,7 +40,19 @@ public enum TransactionType implements BaseEnum {
     SECOND_REWARD("秒合约奖金"),
     FINANCE_REWARD("理财利息"),
     PAY_CHARGE_FEE("支出资金费用"),
-    GET_CHARGE_FEE("获得资金费用");
+    GET_CHARGE_FEE("获得资金费用"),
+    AUTO_INVEST_BUY("定投买入"),
+    AUTO_INVEST_SELL("定投卖出"),
+    LOCKED_SAVING_BUY("购买定期"),
+    LOCKED_SAVING_SELL("定期赎回"),
+    TRANSFER_IN_COIN("币本位合约划转转入"),
+    TRANSFER_OUT_COIN("币本位合约划转转出"),
+    TRANSFER_IN_USDT("U本位合约划转转入"),
+    TRANSFER_OUT_USDT("U本位合约划转转入"),
+    TRANSFER_IN_SECOND("秒合约划转转入"),
+    TRANSFER_OUT_SECOND("秒合约划转转入"),
+    TRANSFER_IN("币币划转转入"),
+    TRANSFER_OUT("币币划转转出");
 
     private String cnName;
     @Override
@@ -84,6 +96,18 @@ public enum TransactionType implements BaseEnum {
             case 30:return FINANCE_REWARD;
             case 31:return PAY_CHARGE_FEE;
             case 32:return GET_CHARGE_FEE;
+            case 33:return AUTO_INVEST_BUY;
+            case 34:return AUTO_INVEST_SELL;
+            case 35:return LOCKED_SAVING_BUY;
+            case 36:return LOCKED_SAVING_SELL;
+            case 37:return TRANSFER_IN_COIN;
+            case 38:return TRANSFER_OUT_COIN;
+            case 39:return TRANSFER_IN_USDT;
+            case 40:return TRANSFER_OUT_USDT;
+            case 41:return TRANSFER_IN_SECOND;
+            case 42:return TRANSFER_OUT_SECOND;
+            case 43:return TRANSFER_IN;
+            case 44:return TRANSFER_OUT;
             default:return null;
         }
     }
@@ -154,8 +178,32 @@ public enum TransactionType implements BaseEnum {
             return 31;
         }else if(TransactionType.GET_CHARGE_FEE.equals(ordinal)){
             return 32;
-        }else {
+        }else if(TransactionType.AUTO_INVEST_BUY.equals(ordinal)){
             return 33;
+        }else if(TransactionType.AUTO_INVEST_SELL.equals(ordinal)){
+            return 34;
+        }else if(TransactionType.LOCKED_SAVING_BUY.equals(ordinal)){
+            return 35;
+        }else if(TransactionType.LOCKED_SAVING_SELL.equals(ordinal)){
+            return 36;
+        }else if(TransactionType.TRANSFER_IN_COIN.equals(ordinal)){
+            return 37;
+        }else if(TransactionType.TRANSFER_OUT_COIN.equals(ordinal)){
+            return 38;
+        }else if(TransactionType.TRANSFER_IN_USDT.equals(ordinal)){
+            return 39;
+        }else if(TransactionType.TRANSFER_OUT_USDT.equals(ordinal)){
+            return 40;
+        }else if(TransactionType.TRANSFER_IN_SECOND.equals(ordinal)){
+            return 41;
+        }else if(TransactionType.TRANSFER_OUT_SECOND.equals(ordinal)){
+            return 42;
+        }else if(TransactionType.TRANSFER_IN.equals(ordinal)){
+            return 43;
+        }else if(TransactionType.TRANSFER_OUT.equals(ordinal)){
+            return 44;
+        }else {
+            return 45;
         }
     }
 

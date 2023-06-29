@@ -43,12 +43,12 @@ public class GeneratorUtil {
 		}
 		return tmp.toString();
     }
-    
+
     public static String getUUID(){
     	UUID uuid = UUID.randomUUID();
     	return uuid.toString();
     }
-    
+
     public static String getOrderId(String prefix){
     	String body = String.valueOf(System.currentTimeMillis());
     	return prefix + body + getRandomNumber(10,99);

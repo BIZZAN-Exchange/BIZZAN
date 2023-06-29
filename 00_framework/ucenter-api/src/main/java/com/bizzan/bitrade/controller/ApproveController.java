@@ -36,7 +36,7 @@ import static org.springframework.util.Assert.*;
 /**
  * 用户中心认证
  *
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年01月09日
  */
 @RestController
@@ -106,6 +106,7 @@ public class ApproveController {
                 .avatar(member.getAvatar())
                 .accountVerified((member.getBankInfo() == null && member.getAlipay() == null && member.getWechatPay() == null) ? IS_FALSE : IS_TRUE)
                 .googleStatus(member.getGoogleState())
+                .areaCode(member.getCountry().getAreaCode())
                 .build();
         if (memberSecurity.getRealAuditing().equals(IS_FALSE) && memberSecurity.getRealVerified().equals(IS_FALSE)) {
             List<MemberApplication> memberApplication = memberApplicationService.findLatelyReject(member);
@@ -171,15 +172,22 @@ public class ApproveController {
         hasText(newPassword, msService.getMessage("MISSING_NEW_JY_PASSWORD"));
         isTrue(newPassword.length() >= 6 && newPassword.length() <= 20, msService.getMessage("JY_PASSWORD_LENGTH_ILLEGAL"));
         ValueOperations valueOperations = redisTemplate.opsForValue();
-        Object cache = valueOperations.get(SysConstant.PHONE_RESET_TRANS_CODE_PREFIX + user.getMobilePhone());
+        Member member = memberService.findOne(user.getId());
+        String key =null;
+        if (member.getEmail() != null && key==null ) {
+            key = SysConstant.EMAIL_TRANSACTION_CODE_PREFIX + member.getEmail();
+        }else if (member.getMobilePhone() != null && key==null ) {
+            key = SysConstant.PHONE_RESET_TRANS_CODE_PREFIX + user.getMobilePhone();
+        }
+
+        Object cache = valueOperations.get(key);
         notNull(cache, msService.getMessage("NO_GET_VERIFICATION_CODE"));
         hasText(code, msService.getMessage("MISSING_VERIFICATION_CODE"));
         if (!code.equals(cache.toString())) {
             return MessageResult.error(msService.getMessage("VERIFICATION_CODE_INCORRECT"));
         } else {
-            valueOperations.getOperations().delete(SysConstant.PHONE_RESET_TRANS_CODE_PREFIX + user.getMobilePhone());
+            valueOperations.getOperations().delete(key);
         }
-        Member member = memberService.findOne(user.getId());
         member.setJyPassword(Md5.md5Digest(newPassword + member.getSalt()).toLowerCase());
         return MessageResult.success(msService.getMessage("SETTING_JY_PASSWORD"));
     }

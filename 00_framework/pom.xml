@@ -8,7 +8,7 @@
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
 	<description>数字货币交易系统父节点</description>
-	<url>www.bizzan.biz</url>
+	<url>www.bizzan.pro</url>
 
 	<modules>
 		<module>core</module>
@@ -33,7 +33,8 @@
 <!--		<module>contract-option-api</module>-->
 <!--		<module>contract-second-core</module>-->
 <!--		<module>contract-second-api</module>-->
-<!--        <module>kline-robot</module>-->
+<!--		<module>kline-robot</module>-->
+<!--		<module>earn</module>-->
     </modules>
 
 	<parent>
@@ -199,11 +200,6 @@
 				<version>${commons-fileupload_version}</version>
 			</dependency>
 			<dependency>
-				<groupId>commons-beanutils</groupId>
-				<artifactId>commons-beanutils-core</artifactId>
-				<version>${commons-beanutils_version}</version>
-			</dependency>
-			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-lang3</artifactId>
 				<version>${commons-lang3_version}</version>
@@ -235,11 +231,6 @@
 			</dependency>
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-access</artifactId>
-				<version>${logback_version}</version>
-			</dependency>
-			<dependency>
-				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
 				<version>${logback_version}</version>
 			</dependency>
@@ -249,29 +240,14 @@
 				<version>${logback_version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.logback-extensions</groupId>
-				<artifactId>logback-ext-spring</artifactId>
-				<version>${logback-ext-spring_version}</version>
-			</dependency>
-			<dependency>
 				<groupId>org.apache.kafka</groupId>
 				<artifactId>kafka-clients</artifactId>
 				<version>${kafka_version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.alibaba</groupId>
-				<artifactId>dubbo</artifactId>
-				<version>${dubbo_version}</version>
-			</dependency>
-			<dependency>
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
 				<version>${mysql.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.sparkframework</groupId>
-				<artifactId>spark-core</artifactId>
-				<version>2.6.0</version>
 			</dependency>
 			<dependency>
 				<groupId>org.projectlombok</groupId>
@@ -294,16 +270,6 @@
 				<groupId>org.apache.shiro</groupId>
 				<artifactId>shiro-spring</artifactId>
 				<version>${shiro_version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.pac4j</groupId>
-				<artifactId>pac4j-cas</artifactId>
-				<version>2.1.0</version>
-			</dependency>
-			<dependency>
-				<groupId>io.buji</groupId>
-				<artifactId>buji-pac4j</artifactId>
-				<version>3.0.0</version>
 			</dependency>
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
@@ -334,11 +300,6 @@
 				<groupId>com.aliyun</groupId>
 				<artifactId>aliyun-java-sdk-dm</artifactId>
 				<version>3.1.0</version>
-			</dependency>
-			<dependency>
-				<groupId>com.maxmind.geoip2</groupId>
-				<artifactId>geoip2</artifactId>
-				<version>2.12.0</version>
 			</dependency>
 			<dependency>
 				<groupId>com.squareup.okhttp3</groupId>

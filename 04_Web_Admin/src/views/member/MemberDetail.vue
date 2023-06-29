@@ -105,7 +105,7 @@
 						<div class="poptip">
 							<span>{{ $t('servicechargewithdrawaldetails.transactiontype') }}</span>
 							<Select v-model="filterSearch.type">
-								<Option v-for="(item, index) in typeArr" :key="item" :value="index==15?' ':index">
+								<Option v-for="(item, index) in typeArr" :key="item" :value="index==45?' ':index">
 									{{ item }}
 								</Option>
 							</Select>
@@ -124,6 +124,7 @@
 							<DatePicker type="daterange"
 								@on-change="handelChange"
 								placement="bottom-end"
+                :value="timeRange"
 								:placeholder="$t('essentialinformation.pleaseselectatimeintervaltosearch')">
 							</DatePicker>
 						</div>
@@ -170,6 +171,7 @@ export default {
       lockAmount: "",
       lockActivityArr:[],
       lockedActivityId: null,
+      timeRange: [],
 			filterSearch: {
 				pageNo: 1,
 				pageSize: 10,
@@ -211,6 +213,20 @@ export default {
         this.$t('essentialinformation.secondcontractfailed'),
         this.$t('essentialinformation.secondcontractbonus'),
         this.$t('essentialinformation.financialinterest'),
+        this.$t('transactiontype.pay_charge_fee'),
+        this.$t('transactiontype.get_charge_fee'),
+        this.$t('transactiontype.auto_invest_buy'),
+        this.$t('transactiontype.auto_invest_sell'),
+        this.$t('transactiontype.locked_saving_buy'),
+        this.$t('transactiontype.locked_saving_sell'),
+        this.$t('transactiontype.transfer_in_coin'),
+        this.$t('transactiontype.transfer_out_coin'),
+        this.$t('transactiontype.transfer_in_usdt'),
+        this.$t('transactiontype.transfer_out_usdt'),
+        this.$t('transactiontype.transfer_in_second'),
+        this.$t('transactiontype.transfer_out_second'),
+        this.$t('transactiontype.transfer_in'),
+        this.$t('transactiontype.transfer_out'),
         this.$t('transactiondetailsinlegalcurrency.all')
 			],
 			memberInfo: {},
@@ -385,7 +401,27 @@ export default {
       assetRows:[]
     };
   },
+  mounted() {
+    const end = new Date();
+    const start = new Date();
+    start.setTime(start.getTime() - (3600 * 1000 * 24 * 7));
+
+    this.timeRange = [this.formatDate(start), this.formatDate(end)];
+    this.filterSearch.startTime = this.timeRange[0] + " 00:00:00";
+    this.filterSearch.endTime = this.timeRange[1] + " 00:00:00";
+  },
   methods: {
+    formatDate(date) {
+      const yy = date.getFullYear();
+      const dateM = date.getMonth() + 1;
+      const mm = dateM > 9 ? dateM : `0${dateM}`;
+      const dateD = date.getDate();
+      const dd = dateD > 9 ? dateD : `0${dateD}`;
+      // if (type) {
+      //   return `${yy}${type}${mm}${type}${dd}`;
+      // }
+      return `${yy}-${mm}-${dd}`;
+    },
 		handelChange(timeRange) {
       if(timeRange[0]){
         this.filterSearch.startTime = timeRange[0] + " 00:00:00";

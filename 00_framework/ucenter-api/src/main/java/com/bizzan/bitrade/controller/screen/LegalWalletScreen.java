@@ -4,7 +4,7 @@ import com.bizzan.bitrade.constant.LegalWalletState;
 import lombok.Data;
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @Title: ${file_name}
  * @Description:
  * @date 2019/4/217:44

@@ -36,6 +36,9 @@ public class EurekaStateListener {
     @Value("${spark.system.name}")
     private String company;
 
+    @Value("${person.promote.prefix}")
+    private String namespace;
+
     @Value("${spark.system.admins}")
     private String admins;
     
@@ -56,7 +59,7 @@ public class EurekaStateListener {
     @EventListener(condition = "#event.replication==false")
     public void listen(EurekaInstanceRegisteredEvent event) throws Exception {
         InstanceInfo instanceInfo = event.getInstanceInfo();
-        String msg="服务"+instanceInfo.getAppName()+"\n"+  instanceInfo.getHostName()+":"+ instanceInfo.getPort()+ " \nip: " +instanceInfo.getIPAddr() + "\nip:"+ AliyunUtil.getServer() +"进行注册";
+        String msg="服务"+instanceInfo.getAppName()+"\n"+  instanceInfo.getHostName()+":"+ instanceInfo.getPort()+ " \nip: " +instanceInfo.getIPAddr() + "\nip:"+ AliyunUtil.getServer() +"进行注册\n namespace:"+namespace;
         logger.info(msg);
         String admin = getDuf();
         String[] adminList = admins.split(",");

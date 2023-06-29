@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2017-2018 阿期米德 All Rights Reserved.
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @Date: 2020/3/12 11:59
  * @Version: 1.0
  * History:
@@ -10,13 +10,15 @@ package com.bizzan.aqmd.core.configuration;
 
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 /**
  * <p>Description: </p>
  *
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @Date 2020/3/12 11:59
  */
+@Component
 @ConfigurationProperties(prefix = "aqmd.netty")
 public class NettyProperties {
     private int workerThreadSize;

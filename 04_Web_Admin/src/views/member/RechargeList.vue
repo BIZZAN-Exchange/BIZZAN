@@ -35,7 +35,7 @@ export default {
     return {
       columns_first: [
          {
-            title: this.$t('hui-yuan-id'),
+            title: this.$t('essentialinformation.memberid'),
             key: 'id',
           },
           {

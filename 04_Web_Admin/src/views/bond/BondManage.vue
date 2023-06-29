@@ -124,7 +124,7 @@ export default {
           title: this.$t('querymarginstrategy.operation'),
 					key: "operation",
 					render: (h, ctx) => {
-						return h ('button', {
+						return h ('Button', {
 							props: {
 								type: 'info',
 								size: 'small'

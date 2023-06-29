@@ -9,7 +9,7 @@
             <Row class="functionWrapper">
                 <div class="searchWrapper">
                     <div class="poptip">
-                        {{ $t('currencywithdrawalauditmanagement.cellphonenumber') }}：<Input :placeholder="$t('memberinvitationlist.cellphonenumber')" v-model="mobilePhone" />
+                        {{ $t('currencywithdrawalauditmanagement.cellphonenumber') }}<Input :placeholder="$t('memberinvitationlist.cellphonenumber')" v-model="mobilePhone" />
                         </Input>
                     </div>
                     <div class="poptip">

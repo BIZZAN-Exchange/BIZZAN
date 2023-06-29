@@ -4,7 +4,7 @@
  * <p>FileName: ServerStatus.java</p>
  * 
  * Description: 
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年6月26日
  * @version 1.0
  * History:
@@ -21,7 +21,7 @@ package com.bizzan.aqmd.netty.common;
  * 可用状态：ALIVE(2);
  * 不可用状态：DEAD(3);
  * 关闭状态：CLOSE(4)
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年6月26日
  */
 public enum ServerStatus {

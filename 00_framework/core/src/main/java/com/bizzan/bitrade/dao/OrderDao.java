@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年12月11日
  */
 public interface OrderDao extends BaseDao<Order> {
@@ -96,5 +96,5 @@ public interface OrderDao extends BaseDao<Order> {
     List<Object[]> getOtcTurnoverAmount(@Param("date")String date);
 
     @Query(value = "select sum(b.commission) as fee,sum(b.money) as money from Order b  where  b.status = 3 and b.memberId = :memberId")
-    Map<String,Object> getBusinessStatistics(@Param("memberId")Long memberId);
+    List<Object[]> getBusinessStatistics(@Param("memberId")Long memberId);
 }

@@ -29,9 +29,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 币种汇率管理
@@ -63,11 +61,13 @@ public class CoinExchangeRate {
 
     private Map<String,BigDecimal> ratesMap = new HashMap<String,BigDecimal>(){{
         put("CNY",new BigDecimal("6.36"));
+        put("JPY",new BigDecimal("6.36"));
         put("TWD",new BigDecimal("6.40"));
         put("USD",new BigDecimal("1.00"));
         put("EUR",new BigDecimal("0.91"));
         put("HKD",new BigDecimal("7.81"));
         put("SGD",new BigDecimal("1.36"));
+        put("INR",new BigDecimal("82.34"));
     }};
 
     @Autowired
@@ -188,45 +188,6 @@ public class CoinExchangeRate {
     }
 
 
-
-
-//
-//    public static void main(String[] args) {
-//        Map<String,BigDecimal> ratesMap = new HashMap<String,BigDecimal>(){{
-//            put("CNY",new BigDecimal("6.36"));
-//            put("TWD",new BigDecimal("6.40"));
-//            put("USD",new BigDecimal("1.00"));
-//            put("EUR",new BigDecimal("0.91"));
-//            put("HKD",new BigDecimal("7.81"));
-//            put("SGD",new BigDecimal("1.36"));
-//        }};
-//        Set<String> currencies = ratesMap.keySet();
-//        for (String currency : currencies) {
-//            // okex接口
-//            String urlOk="https://www.okex.com/v3/c2c/otc-ticker?&baseCurrency=USDT&quoteCurrency="+currency;
-//            try {
-//                HttpHost proxy = new HttpHost("127.0.0.1", 7890);
-//                Unirest.setProxy(proxy);
-//                HttpResponse<JsonNode> resp = Unirest.get(urlOk).asJson();
-//                if(resp.getStatus() == 200) { //正确返回
-//                    JSONObject ret = JSON.parseObject(resp.getBody().toString());
-//                    if(ret.getIntValue("code") == 0) {
-//                        double doubleValue = ret.getJSONObject("data").getDoubleValue("otcTicker");
-//                        ratesMap.put(currency,new BigDecimal(doubleValue).setScale(2, RoundingMode.HALF_UP));
-//                    }
-//                }
-//            } catch (UnirestException e) {
-//                log.info("开始同步OTC报错");
-//                log.error(e.toString());
-//                e.printStackTrace();
-//            }
-//        }
-//
-//        System.out.println(JSON.toJSONString(ratesMap));
-////
-//
-//    }
-
     /**
      * 每5分钟同步一次价格
      *
@@ -236,37 +197,44 @@ public class CoinExchangeRate {
     @Scheduled(cron = "0 */5 * * * *")
     public void syncUsdtCnyPrice() {
         log.info("开始同步OTC");
-        // okex接口
-//        String urlOk="https://www.okex.com/v3/c2c/otc-ticker?&baseCurrency=USDT&quoteCurrency="+"CNY";
-//        try {
-//            HttpResponse<JsonNode> resp = Unirest.get(urlOk).asJson();
-//            if(resp.getStatus() == 200) { //正确返回
-//                JSONObject ret = JSON.parseObject(resp.getBody().toString());
-//                if(ret.getIntValue("code") == 0) {
-//                    double doubleValue = ret.getJSONObject("data").getDoubleValue("otcTicker");
-//                    System.out.println("otc-----"+doubleValue);
-//                    setUsdtCnyRate(new BigDecimal(doubleValue).setScale(2, RoundingMode.HALF_UP));
-//                    return;
-//                }
-//            }
-//        } catch (UnirestException e) {
-//            log.error(e.toString());
-//            e.printStackTrace();
-//        }
+
+        JSONObject jsonObject = new JSONObject();
+        List<String> coins= new ArrayList<>();
+        coins.add("USDT");
+        jsonObject.put("assets", coins);
+
+        jsonObject.put("tradeType", "BUY");
+        jsonObject.put("fromUserRole", "USER");
 
         Set<String> currencies = ratesMap.keySet();
         for (String currency : currencies) {
-            // okex接口
-            String urlOk="https://www.okex.com/v3/c2c/otc-ticker?&baseCurrency=USDT&quoteCurrency="+currency;
+            jsonObject.put("fiatCurrency", currency);
+            // binance
+            String urlOk="https://p2p.binance.com/bapi/c2c/v2/public/c2c/adv/quoted-price";
             try {
-                HttpResponse<JsonNode> resp = Unirest.get(urlOk).asJson();
+                HttpResponse<JsonNode> resp = Unirest.post(urlOk).header("accept", "application/json").header("content-type", "application/json").body(jsonObject.toJSONString()).asJson();
                 if(resp.getStatus() == 200) { //正确返回
                     JSONObject ret = JSON.parseObject(resp.getBody().toString());
-                    if(ret.getIntValue("code") == 0) {
-                        double doubleValue = ret.getJSONObject("data").getDoubleValue("otcTicker");
-                        ratesMap.put(currency,new BigDecimal(doubleValue).setScale(2, RoundingMode.HALF_UP));
+                    if("000000".equals(ret.getString("code"))){
+                        JSONArray data = ret.getJSONArray("data");
+                        if(data!=null && data.size()>0){
+                            JSONObject res = (JSONObject) data.get(0);
+                            BigDecimal referencePrice = res.getBigDecimal("referencePrice");
+                            ratesMap.put(currency,referencePrice);
+                            if("CNY".equals(currency)){
+                                usdCnyRate = referencePrice;
+                                usdtCnyRate = referencePrice;
+                            }else if("JPY".equals(currency)){
+                                usdJpyRate = referencePrice;
+                            }else if("HKD".equals(currency)){
+                                usdHkdRate = referencePrice;
+                            }else if("SGD".equals(currency)){
+                                sgdCnyRate = referencePrice;
+                            }
+                        }
                     }
                 }
+
             } catch (UnirestException e) {
                 log.info("开始同步OTC报错");
                 log.error(e.toString());
@@ -274,69 +242,48 @@ public class CoinExchangeRate {
             }
         }
 
-        // HuobiOTC接口
-        String url = "https://otc-api.huobi.com/v1/data/market/detail";
-        //如有报错 请自行官网申请获取汇率 或者默认写死
-        try {
-            HttpResponse<JsonNode> resp = Unirest.get(url).asJson();
-            if(resp.getStatus() == 200) { //正确返回
-                JSONObject ret = JSON.parseObject(resp.getBody().toString());
-                if(ret.getIntValue("code") == 200) {
-                    JSONArray array = ret.getJSONObject("data").getJSONArray("detail");
-                    for(int i=0; i<array.size(); i++) {
-                        JSONObject json = array.getJSONObject(i);
-                        if("USDT".equalsIgnoreCase(json.getString("coinName"))) {
-                            setUsdtCnyRate(new BigDecimal(json.getString("buy")).setScale(2, RoundingMode.HALF_UP));
-                            return;
+    }
+
+    public static void main(String[] args) {
+
+        Map<String,BigDecimal> ratesMap = new HashMap<String,BigDecimal>(){{
+            put("CNY",new BigDecimal("6.36"));
+        }};
+
+        JSONObject jsonObject = new JSONObject();
+        List<String> coins= new ArrayList<>();
+        coins.add("USDT");
+        jsonObject.put("assets", coins);
+        jsonObject.put("tradeType", "BUY");
+        jsonObject.put("fromUserRole", "USER");
+
+        Set<String> currencies = ratesMap.keySet();
+        for (String currency : currencies) {
+            jsonObject.put("fiatCurrency", "CNY");
+            // okex接口
+            String urlOk="https://p2p.binance.com/bapi/c2c/v2/public/c2c/adv/quoted-price";
+            Unirest.setProxy(new HttpHost("172.21.112.246", 7890));
+            try {
+                HttpResponse<JsonNode> resp = Unirest.post(urlOk).header("accept", "application/json").header("content-type", "application/json").body(jsonObject.toJSONString()).asJson();
+                if(resp.getStatus() == 200) { //正确返回
+                    JSONObject ret = JSON.parseObject(resp.getBody().toString());
+                    if("000000".equals(ret.getString("code"))){
+                        JSONArray data = ret.getJSONArray("data");
+                        if(data!=null && data.size()>0){
+                            JSONObject res = (JSONObject) data.get(0);
+                            BigDecimal referencePrice = res.getBigDecimal("referencePrice");
+                            System.out.println(referencePrice);
+
                         }
                     }
+
                 }
+            } catch (UnirestException e) {
+                log.info("开始同步OTC报错");
+                log.error(e.toString());
+                e.printStackTrace();
             }
-        } catch (UnirestException e) {
-            e.printStackTrace();
         }
-
-
-        // Huobi Otc接口（如抹茶接口无效则走此路径）
-        String url2 = "https://otc-api-hk.eiijo.cn/v1/data/trade-market?coinId=2&currency=1&tradeType=sell&currPage=1&payMethod=0&country=37&blockType=general&online=1&range=0&amount=";
-        try {
-            HttpResponse<JsonNode> resp2 = Unirest.get(url2).asJson();
-            if(resp2.getStatus() == 200) { //正确返回
-                JSONObject ret2 = JSON.parseObject(resp2.getBody().toString());
-                if(ret2.getIntValue("code") == 200) {
-                    JSONArray arr = ret2.getJSONArray("data");
-                    if(arr.size() > 0) {
-                        JSONObject obj = arr.getJSONObject(0);
-                        setUsdtCnyRate(new BigDecimal(obj.getDouble("price")).setScale(2, RoundingMode.HALF_UP));
-                        return;
-                    }
-                }
-            }
-        } catch (UnirestException e) {
-            e.printStackTrace();
-        }
-
-
-        // Okex Otc接口
-        String url3 = "https://www.okex.com/v3/c2c/tradingOrders/book?t=1566269221580&side=sell&baseCurrency=usdt&quoteCurrency=cny&userType=certified&paymentMethod=all";
-        try {
-            HttpResponse<JsonNode> resp3 = Unirest.get(url2).asJson();
-            if(resp3.getStatus() == 200) { //正确返回
-                JSONObject ret3 = JSON.parseObject(resp3.getBody().toString());
-                if(ret3.getIntValue("code") == 0) {
-                    JSONObject okObj = ret3.getJSONObject("data");
-                    JSONArray okArr = okObj.getJSONArray("sell");
-                    if(okArr.size() > 0) {
-                        JSONObject okObj2 = okArr.getJSONObject(0);
-                        setUsdtCnyRate(new BigDecimal(okObj2.getDouble("price")).setScale(2, RoundingMode.HALF_UP));
-                        return;
-                    }
-                }
-            }
-        } catch (UnirestException e) {
-            e.printStackTrace();
-        }
-
     }
 
     /**

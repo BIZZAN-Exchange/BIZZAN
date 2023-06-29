@@ -30,7 +30,7 @@ import java.util.List;
 
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @description 后台广告web层
  * @date 2019/1/3 9:42
  */

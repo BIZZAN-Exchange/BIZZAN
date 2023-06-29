@@ -44,7 +44,7 @@ import java.util.*;
 import static org.springframework.util.Assert.notNull;
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @description 币币交易手续费
  * @date 2019/1/19 15:16
  */
@@ -931,7 +931,7 @@ public class ExchangeCoinController extends BaseAdminController {
 
     /**
      * 此处修改需要修改机器人交易工程RobotParams
-     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+     * @author Hevin  E-mail:bizzanhevin@gmail.com
      *
      */
     class RobotParams {
@@ -1078,7 +1078,7 @@ public class ExchangeCoinController extends BaseAdminController {
 
     /**
      * K线数据
-     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+     * @author Hevin  E-mail:bizzanhevin@gmail.com
      *
      */
     class CustomRobotKline{

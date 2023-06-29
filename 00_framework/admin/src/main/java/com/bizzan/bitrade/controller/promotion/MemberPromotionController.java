@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
 
 /**
  * 邀请注册奖励配置
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  *
  */
 @RestController

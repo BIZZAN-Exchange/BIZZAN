@@ -204,15 +204,6 @@
               <MenuItem name="2-1">
                 <router-link to="/uc/money">{{ $t('uc.finance.personalassets') }}</router-link>
               </MenuItem>
-              <MenuItem name="2-10">
-                <router-link to="/uc/swapAssets">{{ $t('uc.finance.swapassets') }}</router-link>
-              </MenuItem>
-              <MenuItem name="2-12">
-                <router-link to="/uc/coinSwapAssets">{{ $t('uc.finance.swapassets2') }}</router-link>
-              </MenuItem>
-              <MenuItem name="2-11">
-                <router-link to="/uc/secondAssets">{{ $t('uc.finance.second.swap') }}</router-link>
-              </MenuItem>
               <MenuItem name="2-2">
                 <router-link to="/uc/record">{{ $t('uc.finance.billdetail') }}</router-link>
               </MenuItem>
@@ -293,15 +284,6 @@
               </MenuItem>
             </Submenu>
 
-            <Submenu name="8">
-              <template slot="title">
-                <span class="isclick"></span>
-                <span class="content">{{ $t('uc.api.apiAdmin') }}</span>
-              </template>
-              <MenuItem name="8-1">
-                <router-link to="/uc/apiManage">{{ $t('uc.api.apiAdmin') }}</router-link>
-              </MenuItem>
-            </Submenu>
           </Menu>
         </Col>
         <Col :xs="24" :sm="24" :md="20" :lg="20">
@@ -473,9 +455,6 @@ export default {
         '/uc/innovation/myorders': '6-1',
         '/uc/innovation/myminings': '6-2',
         '/uc/innovation/mylocked': '6-3',
-        '/uc/quickExchange': '2-9',
-        '/uc/swapAssets': '2-10',
-        '/uc/coinSwapAssets': '2-12',
         '/uc/secondAssets': '2-11',
         '/uc/financeAssets': '7-1',
         '/uc/financeOrders': '7-2',
@@ -541,18 +520,6 @@ export default {
           break
         case '6-2':
           this.$router.push('/uc/innovation/myminings')
-          break
-        case '6-3':
-          this.$router.push('/uc/innovation/mylocked')
-          break
-        case '2-9':
-          this.$router.push('/uc/quickExchange')
-          break
-        case '2-10':
-          this.$router.push('/uc/swapAssets')
-          break
-        case '2-12':
-          this.$router.push('/uc/coinSwapAssets')
           break
         case '7-1':
           this.$router.push('/uc/financeAssets')

@@ -55,20 +55,20 @@ public class IndexData {
      * }
      * @throws UnirestException
      */
-    @Scheduled(cron = "0 0 */1 * * *")
-    public void sulkindex() throws UnirestException {
-        // 非小号接口
-        String url = "https://dncapi.bqrank.net/api/v3/discover/sulkindex";
-
-        // 获取贪婪指数
-        HttpResponse<JsonNode> resp = Unirest.get(url).asJson();
-        if(resp.getStatus() == 200) { // 正确返回
-            JSONObject ret = JSON.parseObject(resp.getBody().toString());
-            if(ret.getIntValue("code") == 200) { // JSON
-                JSONObject result = ret.getJSONObject("data");
-                this.setSulkindex(result);
-                return;
-            }
-        }
-    }
+//    @Scheduled(cron = "0 0 */1 * * *")
+//    public void sulkindex() throws UnirestException {
+//        // 非小号接口
+//        String url = "https://dncapi.bqrank.net/api/v3/discover/sulkindex";
+//
+//        // 获取贪婪指数
+//        HttpResponse<JsonNode> resp = Unirest.get(url).asJson();
+//        if(resp.getStatus() == 200) { // 正确返回
+//            JSONObject ret = JSON.parseObject(resp.getBody().toString());
+//            if(ret.getIntValue("code") == 200) { // JSON
+//                JSONObject result = ret.getJSONObject("data");
+//                this.setSulkindex(result);
+//                return;
+//            }
+//        }
+//    }
 }

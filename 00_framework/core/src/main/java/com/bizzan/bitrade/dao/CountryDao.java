@@ -9,11 +9,11 @@ import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import java.util.List;
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年02月10日
  */
 public interface CountryDao extends JpaRepository<Country,String>,JpaSpecificationExecutor<Country>,QueryDslPredicateExecutor<Country> {
-    @Query("select a from Country a order by a.sort")
+    @Query("select a from Country a where a.delFlag=0 order by a.sort")
     List<Country> findAllOrderBySort();
 
     Country findByZhName(String zhname);

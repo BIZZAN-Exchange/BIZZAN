@@ -28,7 +28,7 @@ import java.util.Map;
 
 /**
  * 检查实名认证申请用户
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  *
  */
 @Component

@@ -28,7 +28,7 @@ import java.util.HashMap;
 import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年01月10日
  */
 @RestController
@@ -47,7 +47,7 @@ public class LoginController extends BaseController {
     private GeetestLib gtSdk;
     @Autowired
     private SignService signService;
-    
+
     @Value("${person.promote.prefix:}")
     private String promotePrefix;
 
@@ -115,13 +115,13 @@ public class LoginController extends BaseController {
 
     @RequestMapping(value = "/login")
     @Transactional(rollbackFor = Exception.class)
-    public MessageResult login(HttpServletRequest request, String username, String password,Long code) {
+    public MessageResult login(HttpServletRequest request, String username, String password,Long code,String country) {
         Assert.hasText(username, messageSourceService.getMessage("MISSING_USERNAME"));
         Assert.hasText(password, messageSourceService.getMessage("MISSING_PASSWORD"));
         String ip = getRemoteIp(request);
         code = code==null ? 0L:code;
         try {
-            LoginInfo loginInfo = getLoginInfo(username, password, ip,code, request);
+            LoginInfo loginInfo = getLoginInfo(username, password, ip,code,country, request);
             return success(loginInfo);
         } catch (Exception e) {
             if("Google验证码错误".equals(e.getMessage())){
@@ -134,8 +134,8 @@ public class LoginController extends BaseController {
     }
 
 
-    private LoginInfo getLoginInfo(String username, String password, String ip, Long code, HttpServletRequest request) throws Exception {
-        Member member = memberService.loginWithCode(username, password,code);
+    private LoginInfo getLoginInfo(String username, String password, String ip, Long code,String country, HttpServletRequest request) throws Exception {
+        Member member = memberService.loginWithCode(username, password,code,country);
         memberEvent.onLoginSuccess(member, ip);
         request.getSession().setAttribute(SysConstant.SESSION_MEMBER, AuthMember.toAuthMember(member));
         String token = request.getHeader("access-auth-token");

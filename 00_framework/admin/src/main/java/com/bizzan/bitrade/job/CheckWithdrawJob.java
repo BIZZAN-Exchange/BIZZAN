@@ -24,7 +24,7 @@ import java.util.Map;
 
 /**
  * 检查用户提现申请
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  *
  */
 @Component

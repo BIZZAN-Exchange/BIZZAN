@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * 会员提币地址
  *
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年01月26日
  */
 @Entity

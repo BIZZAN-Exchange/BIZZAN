@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 /**
  * @Description: 持币分红表
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date: create in 16:13 2019/6/30
  * @Modified:
  */

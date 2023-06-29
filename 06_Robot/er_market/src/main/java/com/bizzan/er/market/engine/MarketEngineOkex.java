@@ -1,6 +1,14 @@
 package com.bizzan.er.market.engine;
 
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.bizzan.er.market.entity.CoinThumb;
+import com.bizzan.er.market.utils.HttpClientUtil;
+import org.apache.http.client.ClientProtocolException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
@@ -10,31 +18,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.http.client.ClientProtocolException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.bizzan.er.market.entity.CoinThumb;
-import com.bizzan.er.market.utils.HttpClientUtil;
-
 /**
  * Okex行情引擎
- * @author shaox
+ * @author Hevin
  *
  */
 public class MarketEngineOkex implements MarketEngine{
 	private final static  Logger logger  =  LoggerFactory.getLogger(MarketEngineOkex.class);
-	
+
 	private String engineName = "Okex";
-	
-	private String allTickerUrl = "https://www.okex.com/api/spot/v3/instruments/ticker"; // 行情获取URL
+
+	private String allTickerUrl = "https://www.okx.com/api/v5/market/tickers?instType=SPOT"; // 行情获取URL
 
 	private Long updateTime = 0L; // 最后更新时间
-	
+
 	private ConcurrentHashMap<String, CoinThumb> tickers = new ConcurrentHashMap<String, CoinThumb>();
-	
+
 	// 名称映射
 	private Map<String, String> mappingPair = new HashMap<String, String>();
 
@@ -44,24 +43,27 @@ public class MarketEngineOkex implements MarketEngine{
 			logger.info(this.engineName + " - 同步OKex行情...");
 			String retStr = HttpClientUtil.doHttpsGet(allTickerUrl, null, null);
 			if(retStr != null && !retStr.equals("")){
-				
-				JSONArray tickerArr = JSONArray.parseArray(retStr);
-				
-				if(tickerArr != null && tickerArr.size() > 0) {
-					logger.info(this.engineName + " - 共获取 {} 组行情", tickerArr.size());
-					for(int i = 0; i < tickerArr.size(); i++) {
-						JSONObject obj = tickerArr.getJSONObject(i);
-						
-						String coinPair = obj.getString("product_id").replace("-", "").toLowerCase();
-						CoinThumb thumb = this.getThumb(coinPair);
-						
-						thumb.setPrice(obj.getBigDecimal("last"));
-						thumb.setHigh(obj.getBigDecimal("high_24h"));
-						thumb.setLow(obj.getBigDecimal("low_24h"));
-						thumb.setLastUpdate(System.currentTimeMillis());
+
+				JSONObject retObj = JSONObject.parseObject(retStr);
+				if(retObj.getString("code").equals("0")) {
+
+					JSONArray tickerArr = retObj.getJSONArray("data");
+					if (tickerArr != null && tickerArr.size() > 0) {
+						logger.info(this.engineName + " - 共获取 {} 组行情", tickerArr.size());
+						for (int i = 0; i < tickerArr.size(); i++) {
+							JSONObject obj = tickerArr.getJSONObject(i);
+
+							String coinPair = obj.getString("instId").replace("-", "").toLowerCase();
+							CoinThumb thumb = this.getThumb(coinPair);
+
+							thumb.setPrice(obj.getBigDecimal("last"));
+							thumb.setHigh(obj.getBigDecimal("high24h"));
+							thumb.setLow(obj.getBigDecimal("low24h"));
+							thumb.setLastUpdate(System.currentTimeMillis());
+						}
+
+						this.updateTime = System.currentTimeMillis();
 					}
-					
-					this.updateTime = System.currentTimeMillis();
 				}
 			}
 		} catch (KeyManagementException e1) {
@@ -105,11 +107,11 @@ public class MarketEngineOkex implements MarketEngine{
 		if(mappingPair.containsKey(pair)) {
 			pair = mappingPair.get(pair);
 		}
-		
+
 		if(tickers.containsKey(pair)) {
 			return tickers.get(pair);
 		}
-		
+
 		return null;
 	}
 

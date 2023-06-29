@@ -4,13 +4,40 @@
       <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
         <FormItem style="text-align:center;">
           <ButtonGroup>
-            <div class="tel-title">{{$t('uc.forget.title')}}</div>
+            <Button
+                v-for="(list, index) in buttonLists"
+                :key="list.text"
+                :class="{ active: changeActive == index }"
+                @click="actives(index)"
+            >{{ list.text }}</Button
+            >
           </ButtonGroup>
         </FormItem>
         <FormItem prop="user">
-          <Input type="text" v-model="formInline.user" :placeholder="$t('uc.login.usertip')">
+          <Input type="text" v-model="formInline.user" :placeholder="key" v-if="changeActive == 0">
+            <Select v-model="country" slot="prepend" style="width: 92px;border-bottom: 1px solid #27313e;" @on-select="changeImage">
+              <template #prefix>
+                <Avatar :src="countryImage" size="14" />
+              </template>
+              <Option v-for="item in areas" :value="item.zhName" :label="'+'+item.areaCode" :key="item"
+              ><img style="width: 12px" :src="item.countryImageUrl"></img><span style="margin-left:10px;color:#ccc">{{ item.name }}</span>  <span>{{ '  +'+item.areaCode }}</span></Option
+              >
+            </Select>
           </Input>
+          <Input type="text" v-model="formInline.user" :placeholder="key" v-if="changeActive == 1"> </Input>
         </FormItem>
+<!--        <FormItem prop="user">-->
+<!--          <Input type="text" v-model="formInline.user" :placeholder="$t('uc.login.usertip')">-->
+<!--            <Select v-model="country" slot="prepend" style="width: 92px;border-bottom: 1px solid #27313e;" @on-select="changeImage">-->
+<!--              <template #prefix>-->
+<!--                <Avatar :src="countryImage" size="14" />-->
+<!--              </template>-->
+<!--              <Option v-for="item in areas" :value="item.zhName" :label="'+'+item.areaCode"-->
+<!--              ><img style="width: 12px" :src="item.countryImageUrl"></img><span style="margin-left:10px;color:#ccc">{{ item.name }}</span>  <span>{{ '  +'+item.areaCode }}</span></Option-->
+<!--              >-->
+<!--            </Select>-->
+<!--          </Input>-->
+<!--        </FormItem>-->
         <FormItem prop="code">
           <Input type="text" v-model="formInline.code" :placeholder="$t('uc.forget.smscode')">
           </Input>
@@ -169,6 +196,8 @@ export default {
       }
     };
     return {
+      country: "美国",
+      countryImage: "",
       codedisabled:false,
       sendcodeValue: this.$t("uc.regist.sendcode"),
       captchaObj: null,
@@ -228,7 +257,7 @@ export default {
   },
   created: function() {
     this.init();
-    // this.actives(this.changeActive);
+    this.actives(this.changeActive);
   },
   computed: {
     isLogin: function() {
@@ -242,7 +271,42 @@ export default {
       } else {
         this.$store.state.HeaderActiveName = "1-4";
       }
+      this.getAreas();
       this.initGtCaptcha();
+    },
+    getAreas() {
+      this.$http.post(this.host + "/uc/support/country").then(response => {
+        var resp = response.body;
+        this.areas = resp.data;
+        this.country = this.areas[0].zhName;
+        this.countryImage = this.areas[0].countryImageUrl;
+        this.form.rmb = this.areas[0].localCurrency;
+      });
+    },
+    changeImage(item){
+      for(var i=0;i<this.areas.length;i++){
+        if(this.areas[i].zhName==item.value){
+          this.countryImage = this.areas[i].countryImageUrl;
+        }
+      }
+    },
+    actives: function(index) {
+      this.changeActive = index
+      if (this.changeActive == 0) {
+        this.showCode = true
+        this.key = this.$t('uc.regist.telno')
+        this.ruleInline.code = [
+          {
+            required: true,
+            message: this.$t('uc.regist.smscodetip'),
+            trigger: 'blur',
+          },
+        ]
+      } else {
+        this.showCode = false
+        this.key = this.$t('uc.regist.email')
+        this.ruleInline.code = []
+      }
     },
     // actives: function(index) {
     //   this.changeActive = index;
@@ -515,5 +579,35 @@ export default {
       }
     }
   }
+}
+.ivu-btn-group > .ivu-btn.active,
+   .ivu-btn-group > .ivu-btn:active,
+   .ivu-btn-group > .ivu-btn:hover {
+     border-color: transparent !important;
+     color: #f0ac19 !important;
+   }
+.ivu-btn-group > .ivu-btn:focus {
+  box-shadow: none !important;
+}
+.ivu-btn-group > .ivu-btn {
+  font-size: 16px;
+}
+.ivu-input-group-append,
+.ivu-input-group-prepend {
+  padding: 0 0 !important;
+}
+.ivu-input-default {
+  border: none;
+  border-bottom: 1px solid #27313e;
+  font-size: 14px;
+  background: transparent;
+  border-radius: 0;
+}
+.ivu-input-group .ivu-input, .ivu-input-group .ivu-input-inner-container {
+  width: 100%;
+  float: left;
+  margin-bottom: 0;
+  position: relative;
+  z-index: 2;
 }
 </style>

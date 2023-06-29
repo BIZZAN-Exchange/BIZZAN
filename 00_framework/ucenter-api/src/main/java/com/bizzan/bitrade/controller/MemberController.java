@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @Description:
  * @date 2019/5/49:30
  */

@@ -10,7 +10,7 @@
   <packaging>pom</packaging>
 
   <name>exchange_robot</name>
-  <url>https://www.bizzan.biz</url>
+  <url>https://www.bizzan.pro</url>
   <description>数字货币交易系统机器人交易程序</description>
   
   <parent>

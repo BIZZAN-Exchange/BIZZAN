@@ -23,10 +23,10 @@ public class IndexController {
     @RequestMapping("sulkindex")
     public JSONObject sulkIndex() throws UnirestException {
         JSONObject retData =  indexData.getSulkindex();
-        if(retData == null) {
-            indexData.sulkindex();
-            retData =  indexData.getSulkindex();
-        }
+//        if(retData == null) {
+//            indexData.sulkindex();
+//            retData =  indexData.getSulkindex();
+//        }
         return retData;
     }
 }

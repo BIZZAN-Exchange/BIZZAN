@@ -52,7 +52,7 @@ import static com.bizzan.bitrade.util.MessageResult.success;
 /**
  * 推广
  *
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年03月19日
  */
 @RestController
@@ -368,7 +368,7 @@ public class PromotionController extends BaseController{
      * @return
      */
     @RequestMapping(value = "/promotioncard/mycard")
-    private MessageResult getMyCardList(@SessionAttribute(SESSION_MEMBER) AuthMember member) {
+    public MessageResult getMyCardList(@SessionAttribute(SESSION_MEMBER) AuthMember member) {
 
         List<PromotionCard> result = promotionCardService.findAllByMemberId(member.getId());
 
@@ -381,7 +381,7 @@ public class PromotionController extends BaseController{
      * @return
      */
     @RequestMapping(value = "/promotioncard/detail")
-    private MessageResult getCardDetail(@RequestParam(value = "cardId", defaultValue = "") Long cardId) {
+    public MessageResult getCardDetail(@RequestParam(value = "cardId", defaultValue = "") Long cardId) {
 
         Assert.notNull(cardId, "无效的兑换卡！");
         PromotionCard result = promotionCardService.findOne(cardId);
@@ -397,7 +397,7 @@ public class PromotionController extends BaseController{
      */
     @RequestMapping(value = "/promotioncard/exchangecard")
     @Transactional(rollbackFor = Exception.class)
-    private MessageResult exhcangeCard(@SessionAttribute(SESSION_MEMBER) AuthMember member,
+    public MessageResult exhcangeCard(@SessionAttribute(SESSION_MEMBER) AuthMember member,
                                        @RequestParam(value = "cardNo", defaultValue = "") String cardNo) {
 
         // 检查卡券是否存在
@@ -453,7 +453,7 @@ public class PromotionController extends BaseController{
         if(newOrder != null) {
             // 如果用户自身没有被任何邀请，则新增邀请人
             if(authMember.getInviterId() == null) {
-                if(authMember.getId() != card.getMemberId()) {
+                if(authMember.getId().longValue() != card.getMemberId().longValue()) {
                     Member levelOneMember = memberService.findOne(card.getMemberId());
                     // 用户已通过实名认证再兑换卡时，需要考虑一级二级好友
                     // 用户未通过实名认证，则只需设置inviteID

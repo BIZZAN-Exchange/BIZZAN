@@ -4,7 +4,7 @@
  * <p>FileName: Packet.java</p>
  * 
  * Description: 
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月2日
  * @version 1.0
  * History:
@@ -22,7 +22,7 @@ package com.bizzan.aqmd.core.entity;
  * 	<li>序列id:对于请求，该值为客户端的唯一id，对于响应，该值为生成的唯一编码</li>
  * 	<li>指令码：需要对方做的具体动作</li>
  * </ul>
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月2日
  */
 public abstract class Packet {

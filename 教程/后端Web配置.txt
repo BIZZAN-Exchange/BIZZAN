@@ -1,0 +1,257 @@
+server
+{
+    listen 8801;
+    server_name 后端内网IP;
+    index index.php index.html index.htm default.php default.htm default.html;
+    root /www/wwwroot/后端内网IP/;
+    
+    #SSL-START SSL相关配置，请勿删除或修改下一行带注释的404规则
+    #error_page 404/404.html;
+    #SSL-END
+    
+    #ERROR-PAGE-START  错误页配置，可以注释、删除或修改
+    #error_page 404 /404.html;
+    #error_page 502 /502.html;
+    #ERROR-PAGE-END
+    
+    #PHP-INFO-START  PHP引用配置，可以注释或修改
+    
+
+	include enable-php-00.conf;
+    #PHP-INFO-END
+    
+    #REWRITE-START URL重写规则引用,修改后将导致面板设置的伪静态规则失效
+    include /www/server/panel/vhost/rewrite/后端内网IP.conf;
+    #REWRITE-END
+    
+    #禁止访问的文件或目录
+    location ~ ^/(\.user.ini|\.htaccess|\.git|\.svn|\.project|LICENSE|README.md)
+    {
+        return 404;
+    }
+    
+    #一键申请SSL证书验证目录相关设置
+    location ~ \.well-known{
+        allow all;
+    }
+    
+    location ~ .*\.(gif|jpg|jpeg|png|bmp|swf)$
+    {
+        expires      30d;
+        error_log /dev/null;
+        access_log /dev/null;
+    }
+    
+    location ~ .*\.(js|css)?$
+    {
+        expires      12h;
+        error_log /dev/null;
+        access_log /dev/null;
+
+    }
+    
+    location /exchange
+{
+    proxy_pass http://exchange;
+    proxy_http_version 1.1;
+    proxy_set_header Host exchange;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header REMOTE-HOST $remote_addr;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "Upgrade";
+    
+    add_header X-Cache $upstream_cache_status;
+    
+    #Set Nginx Cache
+    
+    	add_header Cache-Control no-cache;
+}    
+    
+    
+    location /market
+{
+    proxy_pass http://market;
+    proxy_http_version 1.1;
+    proxy_set_header Host market;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header REMOTE-HOST $remote_addr;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "Upgrade";
+    
+    add_header X-Cache $upstream_cache_status;
+    
+    #Set Nginx Cache
+    
+    	add_header Cache-Control no-cache;
+}       
+
+    location /uc
+{
+    proxy_pass http://uc;
+    proxy_http_version 1.1;
+    proxy_set_header Host uc;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header REMOTE-HOST $remote_addr;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "Upgrade";
+    
+    add_header X-Cache $upstream_cache_status;
+    
+    #Set Nginx Cache
+    
+    	add_header Cache-Control no-cache;
+}   
+    
+    location /admin
+{
+    proxy_pass http://admin;
+    proxy_http_version 1.1;
+    proxy_set_header Host admin;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header REMOTE-HOST $remote_addr;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "Upgrade";
+    
+    add_header X-Cache $upstream_cache_status;
+    
+    #Set Nginx Cache
+    
+    	add_header Cache-Control no-cache;
+}    
+    
+    location /otc
+{
+    proxy_pass http://otc;
+    proxy_http_version 1.1;
+    proxy_set_header Host otc;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header REMOTE-HOST $remote_addr;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "Upgrade";
+    
+    add_header X-Cache $upstream_cache_status;
+    
+    #Set Nginx Cache
+    
+    	add_header Cache-Control no-cache;
+}  
+    
+    location /wallet
+{
+    proxy_pass http://wallet;
+    proxy_http_version 1.1;
+    proxy_set_header Host wallet;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header REMOTE-HOST $remote_addr;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "Upgrade";
+    
+    add_header X-Cache $upstream_cache_status;
+    
+    #Set Nginx Cache
+    
+    	add_header Cache-Control no-cache;
+}
+
+    location /chat
+{
+    proxy_pass http://chat;
+    proxy_http_version 1.1;
+    proxy_set_header Host chat;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header REMOTE-HOST $remote_addr;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "Upgrade";
+    
+    add_header X-Cache $upstream_cache_status;
+    
+    #Set Nginx Cache
+    
+    	add_header Cache-Control no-cache;
+} 
+
+    location /agent
+{
+    proxy_pass http://agent;
+    proxy_http_version 1.1;
+    proxy_set_header Host agent;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header REMOTE-HOST $remote_addr;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "Upgrade";
+    
+    add_header X-Cache $upstream_cache_status;
+    
+    #Set Nginx Cache
+    
+    	add_header Cache-Control no-cache;
+}    
+    
+ 
+    location /ermarket
+{
+    proxy_pass http://ermarket;
+    proxy_http_version 1.1;
+    proxy_set_header Host ermarket;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header REMOTE-HOST $remote_addr;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "Upgrade";
+    
+    add_header X-Cache $upstream_cache_status;
+    
+    #Set Nginx Cache
+    
+    	add_header Cache-Control no-cache;
+}
+	access_log  /www/wwwlogs/后端内网IP.log;
+    error_log  /www/wwwlogs/后端内网IP.error.log;
+
+}
+
+
+upstream exchange
+{
+	server 127.0.0.1:6003;
+}
+upstream market
+{
+	server 127.0.0.1:6004;
+}
+upstream uc
+{
+	server 127.0.0.1:6001;
+}
+upstream admin
+{
+	server 127.0.0.1:6010;
+}
+upstream otc
+{
+	server 127.0.0.1:6006;
+}
+upstream wallet
+{
+	server 127.0.0.1:6009;
+}
+upstream chat
+{
+	server 127.0.0.1:6008;
+}
+upstream agent
+{
+	server 127.0.0.1:6011;
+}
+upstream ermarket
+{
+	server 127.0.0.1:10000;
+}

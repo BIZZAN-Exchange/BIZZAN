@@ -22,7 +22,7 @@ import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
 
 /**
  * @description: OpenApiController
- * @author: Hevin QQ:390330302 E-mail:bizzanex@gmail.com QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author: Hevin  E-mail:bizzanhevin@gmail.com  E-mail:bizzanhevin@gmail.com
  * @create: 2020/05/07 10:33
  */
 @Slf4j

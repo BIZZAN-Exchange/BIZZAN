@@ -4,7 +4,7 @@
  * <p>FileName: LoginHandler.java</p>
  * 
  * Description: 
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月24日
  * @version 1.0
  * History:
@@ -38,7 +38,7 @@ import java.util.Objects;
  * <p>Title: LoginHandler</p>
  * <p>Description: </p>
  * 登录控制请求，先建立连接，获取sessionId,后发起鉴权，后面所有的请求需要携带sessionId
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @Date 2020年7月24日
  */
 @HawkBean

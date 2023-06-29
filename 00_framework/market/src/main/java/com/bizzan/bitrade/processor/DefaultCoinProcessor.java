@@ -390,11 +390,11 @@ public class DefaultCoinProcessor implements CoinProcessor {
             rangeUnit = "min";
         } else if (field == Calendar.HOUR_OF_DAY) {
             rangeUnit = "hour";
-        } else if (field == Calendar.DAY_OF_WEEK) {
+        } else if (field == Calendar.WEEK_OF_MONTH) {
             rangeUnit = "week";
         } else if (field == Calendar.DAY_OF_YEAR) {
             rangeUnit = "day";
-        } else if (field == Calendar.DAY_OF_MONTH) {
+        } else if (field == Calendar.MONTH) {
             rangeUnit = "month";
         }
         kLine.setPeriod(range + rangeUnit);
@@ -428,6 +428,7 @@ public class DefaultCoinProcessor implements CoinProcessor {
         List<KLine> lines = service.findAllKLine(symbol, fromTime, endTime,"1day");
         if(lines.size() > 0) {
             kline.setOpenPrice(lines.get(0).getOpenPrice()); // 开盘价设置为首日开盘价
+            kline.setLowestPrice(lines.get(0).getLowestPrice());
             for (KLine item : lines) {
                 kline.setHighestPrice(kline.getHighestPrice().max(item.getHighestPrice()));
                 kline.setLowestPrice(kline.getLowestPrice().min(item.getLowestPrice()));

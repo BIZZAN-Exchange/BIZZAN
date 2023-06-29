@@ -76,7 +76,7 @@ module.exports = merge(webpackBaseConfig, {
             ]
         }),
         new HtmlWebpackPlugin({
-            title: '管理后台 - ELVESBT|全球数字资产交易平台',
+            title: '管理后台 - BIZZAN|全球数字资产交易平台',
             favicon: './favicon.ico',
             filename: '../index.html',
             template: './src/template/index.ejs',

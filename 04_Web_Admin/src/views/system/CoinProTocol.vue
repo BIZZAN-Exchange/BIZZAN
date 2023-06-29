@@ -47,7 +47,7 @@
           <FormItem :label="$t('currencyagreementmanagement.agreementname1')" prop="protocolname">
             <Input v-model="formData.protocolname" :placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
           </FormItem>
-          <FormItem label="RPCServer：" prop="rpcserver">
+<!--          <FormItem label="RPCServer：" prop="rpcserver">
             <Input v-model="formData.rpcserver" :placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
           </FormItem>
           <FormItem label="RPCUser：" prop="rpcuser">
@@ -55,7 +55,7 @@
           </FormItem>
           <FormItem label="RPCPassword：" prop="rpcpassword">
             <Input v-model="formData.rpcpassword" :placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
-          </FormItem>
+          </FormItem> -->
           <FormItem :label="$t('currencyagreementmanagement.blockbrowser1')" prop="browser">
             <Input v-model="formData.browser" :placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
           </FormItem>
@@ -65,12 +65,12 @@
           <FormItem :label="$t('currencyagreementmanagement.chainid')" prop="chainid">
             <Input v-model="formData.chainid" :placeholder="$t('currencywithdrawalauditmanagement.pleaseenter')" clearable></Input>
           </FormItem>
-          <!--<FormItem label="状态：" prop="status">-->
-          <!--  <RadioGroup v-model.trim="formData.status">-->
-          <!--    <Radio :label="1">正常</Radio>-->
-          <!--    <Radio :label="0">禁用</Radio>-->
-          <!--  </RadioGroup>-->
-          <!--</FormItem>-->
+<!--          <FormItem label="状态：" prop="status">
+           <RadioGroup v-model.trim="formData.status">
+             <Radio :label="1">正常</Radio>
+             <Radio :label="0">禁用</Radio>
+           </RadioGroup>
+          </FormItem> -->
         </Form>
         <div slot="footer">
           <Button @click="hideForm">{{ $t('currencywithdrawalauditmanagement.cancel') }}</Button>
@@ -90,9 +90,9 @@ const formJson = {
   id: "",
   protocol: "",
   protocolname: "",
-  rpcserver: "",
-  rpcuser: "",
-  rpcpassword: "",
+  // rpcserver: "",
+  // rpcuser: "",
+  // rpcpassword: "",
   browser: "",
   symbol: "",
   chainid: 0,
@@ -111,24 +111,24 @@ export default {
           title: this.$t('currencywithdrawalauditmanagement.agreementname'),
           key: "protocolname"
         },
-        {
-          title: "RPCServer",
-          key: "rpcserver"
-        },
-        {
-          title: "RPCUser",
-          key: "rpcuser"
-        },
-        {
-          title: "RPCPassword",
-          key: "rpcpassword"
-        },
+        // {
+        //   title: "RPCServer",
+        //   key: "rpcserver"
+        // },
+        // {
+        //   title: "RPCUser",
+        //   key: "rpcuser"
+        // },
+        // {
+        //   title: "RPCPassword",
+        //   key: "rpcpassword"
+        // },
         {
           title: this.$t('currencyagreementmanagement.blockbrowser'),
           key: "browser"
         },
         {
-          title: this.$t('currencyagreementmanagement.agreementprimarycurrencyname1'),
+          title: this.$t('currencyagreementmanagement.agreementprimarycurrencyname'),
           key: "symbol"
         },
         {

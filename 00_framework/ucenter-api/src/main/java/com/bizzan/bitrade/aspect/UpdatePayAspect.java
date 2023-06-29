@@ -25,7 +25,7 @@ import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
 /**
  * 修改支付信息前必须下架所有的广告，并且没有正在进行中的订单
  *
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年03月28日
  */
 @Aspect

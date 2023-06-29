@@ -11,49 +11,49 @@
 			<div class="baseInfo">
 				<Row>
 					<Col span="6">
-						<p>{{ $t('currencywithdrawalauditmanagement.status') }}<span>{{ !baseInfo.status ? '上架' : '下架' }}</span></p>
+						<p>{{ $t('currencywithdrawalauditmanagement.status') }}<span>{{ !baseInfo.status ? $t('backstageadvertising.ontheshelf') : $t('backstageadvertising.offtheshelf')  }}</span></p>
 					</Col>
 					<Col span="6">
-						<p>{{ $t('servicechargewithdrawaldetails.transactiontype') }}<span>{{ !baseInfo.advertiseType ? '买入' : '卖出' }}</span></p>
+						<p>{{ $t('servicechargewithdrawaldetails.transactiontype') }}<span>{{ !baseInfo.advertiseType ?  $t('backstageadvertising.buy') : $t('backstageadvertising.sell') }}</span></p>
 					</Col span="6">
 					<Col span="6">
-						<p>{{ $t('essentialinformation.transactioncurrency') }}<span>{{ !baseInfo.coin ? '' : baseInfo.coin.unit  }}</span></p>
+						<p>{{ $t('essentialinformation1.transactioncurrency') }}<span>{{ !baseInfo.coin ? '' : baseInfo.coin.unit  }}</span></p>
 					</Col>
 					<Col span="6">
-						<p>{{ $t('essentialinformation.transactioncurrency1') }}<span>{{ !baseInfo.country ? '' : baseInfo.country.localCurrency }}</span></p>
+						<p>{{ $t('essentialinformation1.transactioncurrency1') }}<span>{{ !baseInfo.country ? '' : baseInfo.country.localCurrency }}</span></p>
 					</Col>
 				</Row>
 				<Row>
 					<Col span="6">
-						<p>{{ $t('essentialinformation.transactionterm') }}<span>{{ $t('baseinfotimelimit-fen-zhong', [baseInfo.timeLimit]) }}</span></p>
+						<p>{{ $t('essentialinformation1.transactionterm') }}<span>{{baseInfo.timeLimit}}{{ $t('controlpanelrobot.minute') }}</span></p>
 					</Col>
 					<Col span="6">
-						<p>{{ $t('essentialinformation.purchasevolume') }}<span>{{ baseInfo.dealAmount }}</span></p>
+						<p>{{ $t('essentialinformation1.purchasevolume') }}<span>{{ baseInfo.dealAmount }}</span></p>
 					</Col span="6">
 					<Col span="6">
-						<p>{{ $t('essentialinformation.country') }}<span>{{ !baseInfo.country ? '' : baseInfo.country.zhName }}</span></p>
+						<p>{{ $t('essentialinformation1.country') }}<span>{{ !baseInfo.country ? '' : baseInfo.country.zhName }}</span></p>
 					</Col>
 					<Col span="6">
-						<p>{{ $t('essentialinformation.paymentmethod') }}<span>{{ baseInfo.payMode }}</span></p>
+						<p>{{ $t('essentialinformation1.paymentmethod') }}<span>{{ baseInfo.payMode }}</span></p>
 					</Col>
 				</Row>
 				<Row>
 					<Col span="6">
-						<p>{{ $t('essentialinformation.minimumtransactionamount') }}<span>{{ baseInfo.minLimit }}</span></p>
+						<p>{{ $t('essentialinformation1.minimumtransactionamount') }}<span>{{ baseInfo.minLimit }}</span></p>
 					</Col>
 					<Col span="6">
-						<p>{{ $t('essentialinformation.maximumtransactionvolume') }}<span>{{ baseInfo.maxLimit }}</span></p>
+						<p>{{ $t('essentialinformation1.maximumtransactionvolume') }}<span>{{ baseInfo.maxLimit }}</span></p>
 					</Col span="6">
 					<Col span="6">
-						<p>{{ $t('essentialinformation.fixedprice') }}<span>{{ baseInfo.price }}</span></p>
+						<p>{{ $t('essentialinformation1.fixedprice') }}<span>{{ baseInfo.price }}</span></p>
 					</Col>
 				</Row>
 				<Row>
 					<Col span="6">
-						<p>{{ $t('essentialinformation.remarks') }}<span>{{ baseInfo.remark }}</span></p>
+						<p>{{ $t('essentialinformation1.remarks') }}<span>{{ baseInfo.remark }}</span></p>
 					</Col>
 					<Col span="6" offset="6">
-						<p>{{ $t('essentialinformation.autoreply') }}<span>{{ !baseInfo.auto ? '是' : '否'}}</span></p>
+						<p>{{ $t('essentialinformation1.autoreply') }}<span>{{ !baseInfo.auto ? $t('addeditredenvelopes.yes') : $t('addeditredenvelopes.no')}}</span></p>
 					</Col span="6">
 				</Row>
 			</div>
@@ -62,7 +62,7 @@
 			<br>
 		<Card>
 			<div slot="title">
-				{{ $t('essentialinformation.orderdetails') }}	<!-- <Button type="primary" size="small" @click="refreshPageManual">
+				{{ $t('essentialinformation1.orderdetails') }}	<!-- <Button type="primary" size="small" @click="refreshPageManual">
 					<Icon type="refresh"></Icon> 刷新
 				</Button> -->
 			</div>
@@ -126,7 +126,7 @@ export default {
 					key: 'number'
 				},
 				{
-					title: this.$t('essentialinformation.orderamount'),
+					title: this.$t('essentialinformation1.orderamount'),
 					key: 'money'
 				},
 				{
@@ -138,7 +138,7 @@ export default {
 					key: 'payMode'
 				},
 				{
-					title: this.$t('essentialinformation.orderstatus'),
+					title: this.$t('essentialinformation1.orderstatus'),
 					key: 'status'
 
 				},

@@ -113,7 +113,7 @@ public class ActivityOrderService extends BaseService {
         // 更新进度
         if(activity.getType() == 4 || activity.getType() == 5) {
         	// 新进度不能小于旧进度
-        	int newProgress = activity.getTradedAmount().divide(activity.getTotalSupply()).multiply(new BigDecimal(100)).intValue();
+        	int newProgress = activity.getTradedAmount().divide(activity.getTotalSupply(),4,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).intValue();
         	activity.setProgress(newProgress >= activity.getProgress() ? newProgress : activity.getProgress());
         }
         // 更新Activity表

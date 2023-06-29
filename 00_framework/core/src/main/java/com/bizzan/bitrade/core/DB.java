@@ -20,7 +20,7 @@ import java.util.Map;
 
 /**
  * @description: DB
- * @author: Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author: Hevin  E-mail:bizzanhevin@gmail.com
  * @create: 2021/07/04 14:39
  */
 public class DB {

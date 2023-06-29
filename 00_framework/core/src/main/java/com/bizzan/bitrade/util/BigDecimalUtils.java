@@ -3,7 +3,7 @@ package com.bizzan.bitrade.util;
 import java.math.BigDecimal;
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年01月17日
  */
 public class BigDecimalUtils {

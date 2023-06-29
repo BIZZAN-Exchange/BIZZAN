@@ -12,52 +12,13 @@
               <!--              </div>-->
 <!--              <Input style="float:right;" class="search" search :placeholder="$t('common.searchplaceholder')" @on-change="seachInputChange" v-model="searchKey"/>-->
 
-              <Button type="primary" @click="onTransferClick" style="padding: 6px 15px;margin-right:30px;letter-spacing:2px;color:#f0ac19;background-color:transparent;border:1px solid #f0ac19;float:right;">{{$t("uc.finance.finance.transfer")}}</Button>
+              <Button type="primary" to="/lockedSavings" style="padding: 6px 15px;margin-right:30px;letter-spacing:2px;color:#f0ac19;background-color:transparent;border:1px solid #f0ac19;float:right;">{{$t("uc.finance.finance.transfer")}}</Button>
             </div>
             <Table :no-data-text="$t('common.nodata')" :columns="tableColumnsMoney" :data="tableMoneyShow" :loading="loading" :disabled-hover="true"></Table>
           </div>
         </div>
       </div>
     </div>
-
-
-    <Modal v-model="transferModal" :title="$t('uc.finance.finance.transfer')">
-
-      <div style="width: 100%; min-height: 32px;margin-top: 15px;">
-        <div style="width: 45%;display: inline-flex;height:32px;line-height: 32px;float:left;">
-          <Select v-model="walletOne" style="width: 450px;" :placeholder="$t('uc.finance.swap.currencyaccount')">
-            <Option v-for="item in walletOneList" :value="item" :key="item">{{ item }}</Option>
-          </Select>
-        </div>
-
-        <div v-if="transferDirection == 1" style="width: 10%;float: left;text-align: center;font-size:18px;height: 30px; line-height:30px;font-weight: bold;color:"> <Tooltip ><Icon style="font-weight:bold;color:#19be6b;" type="md-arrow-forward" /></Tooltip> </div>
-
-        <div v-if="transferDirection == 2" style="width: 10%;float: left;text-align: center;font-size:18px;height: 30px; line-height:30px;font-weight: bold;color:"> <Tooltip ><Icon style="font-weight:bold;color:#19be6b;" type="md-arrow-back" /></Tooltip> </div>
-
-        <div style="width: 45%;display: inline-flex;height:32px;line-height: 32px;float: right;">
-          <Select v-model="walletTwo" style="width: 450px;" :placeholder="$t('uc.finance.finance.account')" @on-change="onChangeTwo">
-            <Option v-for="item in tradeCoins" :value="item" :key="item">{{ item }} {{$t("uc.finance.finance.account")}}</Option>
-          </Select>
-        </div>
-      </div>
-      <div style="width: 100%; min-height: 20px;margin-top: 0px;font-size: 10px;color:rgb(97, 104, 138);">
-        <div style="width: 50%;height:20px;line-height: 20px;float:left;text-align: left;">
-          {{$t('uc.finance.swap.avaamount')}}：{{assetsWallet.balance | fixed2}}
-        </div>
-        <div style="width: 50%;height:20px;line-height: 20px;float: right;text-align: right;">
-          {{$t('uc.finance.finance.rate')}}：0.24%
-        </div>
-      </div>
-      <p style="margin-top: 15px;">{{$t('uc.finance.finance.transferAmount')}}:
-        <InputNumber style="width: 330px;margin-left:15px;" type="text" v-model="transferAmount" :placeholder="$t('uc.finance.swap.inputtransferamount')"></InputNumber>
-        <span class="trans-all-btn" @click="onTransAll">{{$t('uc.finance.finance.all')}}</span>
-      </p>
-
-      <div slot="footer">
-        <Button size="large" @click="transferModal = false">{{$t("common.close")}}</Button>
-        <Button type="primary" size="large" @click="confirmOk">{{$t("uc.finance.finance.confirm")}}</Button>
-      </div>
-    </Modal>
   </div>
 </template>
 <script>
@@ -111,7 +72,7 @@ export default {
     },
     getMoney() {
       //获取
-      this.$http.post(this.host + "/second/finance/list").then(response => {
+      this.$http.post(this.host + "/earn/locked/assets/info").then(response => {
         var resp = response.body;
         if (resp.code == 0) {
           this.tableMoney = resp.data;
@@ -181,7 +142,6 @@ export default {
   },
   created() {
     this.getMoney();
-    this.getTradeCoins();
   },
   filters:{
     fixed2: function(value){

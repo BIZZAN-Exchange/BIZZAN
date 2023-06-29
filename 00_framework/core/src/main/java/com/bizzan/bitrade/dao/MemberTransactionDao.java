@@ -29,7 +29,7 @@ public interface MemberTransactionDao extends BaseDao<MemberTransaction> {
 
     @Query("select sum(t.amount)  as amount from MemberTransaction t where t.flag = 0  and t.symbol = :symbol and t.type = :type and t.createTime >= :startTime and t.createTime <= :endTime")
     Map<String,Object> findMatchTransactionSum(@Param("symbol") String symbol,@Param("type") TransactionType type,@Param("startTime") Date startTime,@Param("endTime") Date endTime);
-   
+
     @Transactional
     @Modifying
     @Query("delete from MemberTransaction as m where m.createTime < :beforeTime and m.type = 3 and m.memberId = 1")
@@ -39,4 +39,14 @@ public interface MemberTransactionDao extends BaseDao<MemberTransaction> {
     @Modifying
     @Query(value = "delete from member_wallet_history where op_time < :beforeTime and member_id = 1", nativeQuery = true)
     int deleteWalletHistory(@Param("beforeTime") Date beforeTime);
+
+    @Transactional(rollbackFor = Exception.class)
+    @Modifying
+    @Query("update MemberTransaction o set o.isReward = :isReward where o.id = :id")
+    int updateReward(@Param("id") long id, @Param("isReward") int isReward);
+
+    @Transactional(rollbackFor = Exception.class)
+    @Modifying
+    @Query("update MemberTransaction o set o.isReward = 1 where o.memberId = 1")
+    void updateRewardRobot();
 }

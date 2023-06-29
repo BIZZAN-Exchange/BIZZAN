@@ -274,7 +274,7 @@ export default {
 			}
 			
       if(this.formValidate.name === '' || !this.formValidate.name) {
-        this.$Message.warning(this.$t('jiao-se-ming-cheng-bu-neng-wei-kong'));
+        this.$Message.warning(this.$t('rolemanagement.rolenamecannotbeempty'));
       }else{
 				this.permissionWrapper = true;
         let obj = { 

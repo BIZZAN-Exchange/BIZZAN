@@ -4,7 +4,7 @@
  * <p>FileName: NettyServer.java</p>
  *
  * Description:
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年6月26日
  * @version 1.0
  * History:
@@ -34,7 +34,7 @@ import java.net.InetSocketAddress;
  * Description:
  * </p>
  *
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @Date 2020年6月26日
  */
 public class NettyServer implements Server, Runnable {

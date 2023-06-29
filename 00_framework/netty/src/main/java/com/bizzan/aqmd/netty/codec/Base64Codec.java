@@ -10,7 +10,7 @@ import java.util.Base64;
  * <p>Title: Base64Codec</p>
  * <p>Description: </p>
  * Base64加密加密
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年6月26日
  */
 public class Base64Codec implements Codec {

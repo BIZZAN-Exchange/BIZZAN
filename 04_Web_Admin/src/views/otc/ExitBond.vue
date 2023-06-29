@@ -9,7 +9,7 @@
 
 			<Row class="functionWrapper">
         <div class="searchWrapper clearfix">
-					
+
 					<div class="poptip">
 						<Poptip trigger="hover" :content="$t('surrendermanagement.note2')" placement="bottom-start">
 							<Input :placeholder="$t('surrendermanagement.note2')" v-model="filterSearch.account"/></Input>
@@ -21,38 +21,38 @@
 							<Option v-for="item in statusArr" :value="item.value" :key="item.value">{{item.name}}</Option>
 						</Select>
 					</div>
-					
+
 					<div class="btns">
 						<Button type="info" size="small" @click="searchByFilter">{{ $t('positionmanagementcontractassetmanagement.search') }}</Button>
 					</div>
 				</div>
-			</Row>		
+			</Row>
       <Row>
-        <Table 
-          :columns="columns_first" 
-          :data="userpage" 
+        <Table
+          :columns="columns_first"
+          :data="userpage"
           border
           :loading="ifLoading">
 				</Table>
       </Row>
 
       <div class="pageWrapper">
-        <Page  
-          :total="totalNum" 
-          :current="currentPageIdx"   
-          @on-change="changePage" 
+        <Page
+          :total="totalNum"
+          :current="currentPageIdx"
+          @on-change="changePage"
           show-elevator></Page>
       </div>
 
 			<Modal
-				class="bondCheck" 
+				class="bondCheck"
 				:title="$t('surrendermanagement.surrenderreview')"
 				v-model="bondCheck"
 				@on-cancel="cancelSub"
 			>
-				<Row>{{$t('surrendermanagement.surrenderamount')}}{{ 
+				<Row>{{$t('surrendermanagement.surrenderamount')}}{{
 					!exitBondDetail.depositRecord ? '' : exitBondDetail.depositRecord.amount+exitBondDetail.depositRecord.coin.unit }}</Row>
-				<Row>{{$t('surrendermanagement.note6')}} {{ (!exitBondDetail.businessCancelApply ? $t('surrendermanagement.none') : exitBondDetail.businessCancelApply.reason) | reasonFilter }}</Row>
+				<Row>{{$t('surrendermanagement.note6')}} {{ (!exitBondDetail.businessCancelApply ? $t('surrendermanagement.none') : exitBondDetail.businessCancelApply.reason) | reasonFilter(vtext) }}</Row>
 				<br>
 				<Row>
 					<Col span="8">
@@ -90,7 +90,7 @@
 				</div>
 			</Modal>
 
-			<Modal title="$t('surrendermanagement.reasonforrejectionoptional')"
+			<Modal :title="$t('surrendermanagement.reasonforrejectionoptional')"
 				v-model="rejectModal"
 				width="400"
 				@on-ok="subReject"
@@ -112,12 +112,13 @@ export default {
   data() {
     return {
 			rejectModal: false,
+      vtext: this.$t('surrendermanagement.none'),
 			exitBondDetail: {},
 			subCheck: {
 				id: '',
 				success: '',
 				reason: '',
-				
+
 			},
 			bondCheck: false,
 			statusArr: [],
@@ -271,7 +272,7 @@ export default {
 			this.filterSearch.pageNo = 1;
 			this.currentPageIdx = 1;
 			console.log(this.filterSearch);
-			
+
       this.refreshPage(this.filterSearch);
 		},
     refreshPageManual() {
@@ -312,8 +313,8 @@ export default {
 		this.refreshPage()
 	},
 	filters: {
-		reasonFilter(val) {
-			if(!val) return this.$t('surrendermanagement.none');
+		reasonFilter(val,vtext) {
+			if(!val) return vtext;
 			else return val;
 		}
 	}

@@ -94,14 +94,14 @@ public class WithDrawController extends BaseAdminController {
         if (!StringUtils.isBlank(email)) {
             Member byEmail = memberService.findByEmail(email);
             if (byEmail != null) {
-                booleanExpressions.add(QWithdraw.withdraw.memberid.eq(byEmail.getId().intValue()));
+                booleanExpressions.add(QWithdraw.withdraw.memberid.eq(byEmail.getId()));
             }
         }
         String tel = withdrawScreen.getTel();
         if (!StringUtils.isBlank(tel)) {
             Member byPhone = memberService.findByPhone(tel);
             if (byPhone != null) {
-                booleanExpressions.add(QWithdraw.withdraw.memberid.eq(byPhone.getId().intValue()));
+                booleanExpressions.add(QWithdraw.withdraw.memberid.eq(byPhone.getId()));
             }
         }
 

@@ -45,7 +45,7 @@ import java.util.List;
 import static org.springframework.util.Assert.notNull;
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @description 交易记录
  * @date 2019/1/17 17:07
  */

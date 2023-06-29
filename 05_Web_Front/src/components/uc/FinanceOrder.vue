@@ -52,7 +52,6 @@ export default {
     // 获取历史记录信息
     handleListApproveHistory() {},
     changePage(pageNo) {
-      if (pageNo > 0) pageNo = pageNo - 1;
       if (this.whichItem == 1) {
         this.getOrder(0, pageNo);
       } else if (this.whichItem == 2) {
@@ -63,11 +62,16 @@ export default {
       this.loading = true;
       this.tableOrder = [];
       let params = {};
-      params["status"] = status;
+      let url = "";
+      if(status==0){
+        url = this.host + "/earn/locked/going/order";
+      }else {
+        url = this.host + "/earn/locked/done/order";
+      }
       params["pageNo"] = pageNo;
       params["pageSize"] = this.pageSize;
-      this.currentPage = pageNo + 1;
-      this.$http.post(this.host + "/second/finance/history", params).then(response => {
+      this.currentPage = pageNo;
+      this.$http.post(url, params).then(response => {
         var resp = response.body;
         if (resp.data.content.length > 0) {
           this.tableOrder = resp.data.content;
@@ -77,21 +81,21 @@ export default {
         this.loading = false;
       });
     },
-    closeOrder(id){
-      this.loading = true;
-      let params = {};
-      params["orderId"] = id;
-      this.$http.post(this.host + "/second/finance/close", params).then(response => {
-        var resp = response.body;
-        if (resp.code == 0) {
-          this.getOrder(0,this.currentPage-1);
-          this.$Message.success(this.$t("uc.finance.finance.success"));
-        }else {
-          this.$Message.error(this.$t("uc.finance.finance.fail"));
-        }
-        this.loading = false;
-      });
-    },
+    // closeOrder(id){
+    //   this.loading = true;
+    //   let params = {};
+    //   params["orderId"] = id;
+    //   this.$http.post(this.host + "/earn/locked/done/order", params).then(response => {
+    //     var resp = response.body;
+    //     if (resp.code == 0) {
+    //       this.getOrder(0,this.currentPage);
+    //       this.$Message.success(this.$t("uc.finance.finance.success"));
+    //     }else {
+    //       this.$Message.error(this.$t("uc.finance.finance.fail"));
+    //     }
+    //     this.loading = false;
+    //   });
+    // },
     init() {},
     showItem(name) {
       if (name == "name1") {
@@ -105,7 +109,7 @@ export default {
       } else if (name == "name4") {
         this.whichItem = 4;
       }
-      this.changePage(0);
+      this.changePage(1);
     },
     strpro(str) {
       let newStr = str;
@@ -122,7 +126,7 @@ export default {
     }
   },
   created() {
-    this.changePage(0);
+    this.changePage(1);
   },
   mounted() {
     // this.init();
@@ -139,7 +143,7 @@ export default {
       });
       columns.push({
         title: this.$t("uc.finance.finance.coin"),
-        key: "coinSymbol",
+        key: "coinUnit",
         align: "center"
       });
       columns.push({
@@ -148,52 +152,38 @@ export default {
         align: "center"
       });
       columns.push({
-        title: this.$t("uc.finance.finance.earn"),
+        title: this.$t("earn.duration"),
+        key: "duration",
+        align: "center"
+      });
+      columns.push({
+        title: this.$t("earn.rate"),
+        key: "rate",
+        align: "center",
+        render: (h, params) => {
+          let text = params.row.rate*100 + "%";
+          return h("div", [h("p", text)]);
+        }
+      });
+      columns.push({
+        title: this.$t("earn.earnStartTime"),
+        key: "startTime",
+        minWidth: 90,
+        align: "center"
+      });
+
+      columns.push({
+        title:this.$t("earn.earnEndTime"),
+        key: "endTime",
+        minWidth: 90,
+        align: "center"
+      });
+      columns.push({
+        title: this.whichItem==1?this.$t("earn.earnGJNum"):this.$t("earn.earnNum"),
         key: "earnNum",
-        align: "center"
-      });
-      columns.push({
-        title: this.$t("uc.finance.finance.updateTime"),
-        key: "updateTime",
         minWidth: 90,
         align: "center"
       });
-      columns.push({
-        title: this.$t("uc.api.createTime"),
-        key: "createTime",
-        minWidth: 90,
-        align: "center"
-      });
-      if(this.whichItem == 1){
-        columns.push({
-          title: self.$t("exchange.action"),
-          key: "operate",
-          width: 110,
-          align: "center",
-          render: (h, params) => {
-            return h(
-                "Button",
-                {
-                  props: {
-                    size: "small"
-                  },
-                  style: {
-                    border: "1px solid #f0ac19",
-                    color: "#f1ac19",
-                    "line-height": "1.2",
-                    "border-radius": "10px"
-                  },
-                  on: {
-                    click: () => {
-                      this.closeOrder(params.row.id);
-                    }
-                  }
-                },
-                self.$t("exchange.undo")
-            );
-          }
-        });
-      }
 
       return columns;
     }

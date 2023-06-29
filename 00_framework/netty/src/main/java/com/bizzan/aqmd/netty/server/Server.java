@@ -4,7 +4,7 @@ package com.bizzan.aqmd.netty.server;
  * 
  * <p>Title: Server</p>
  * <p>Description: 服务端统一接口，定义作为服务器的通用方法</p>
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年6月26日
  */
 public interface Server {

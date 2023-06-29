@@ -5,42 +5,42 @@
 				<p slot="title">
 					<Button type="primary" size="small" @click="refreshPageManual">
 						<Icon type="refresh" @click="refreshPageManual"></Icon>
-						刷新
+						{{ $t('perpetualcontractcurrencystandardmanagement.refresh') }}
 					</Button>
 				</p>
 				<Row>
-					<h3>退保申请</h3>
+					<h3>{{ $t('refresh.surrenderapplication') }}</h3>
 					<Row>
-						<Col span="6">退保金额：{{ !exitBondDetail.depositRecord ? '' : exitBondDetail.depositRecord.amount+exitBondDetail.depositRecord.coin.unit }}</Col>
-						<Col span="6">状态：{{ (!exitBondDetail.businessCancelApply ? '' :exitBondDetail.businessCancelApply.status) | filterStatus }}</Col>
-						<Col span="6">申请时间：{{ !exitBondDetail.businessCancelApply ? '' :exitBondDetail.businessCancelApply.cancelApplyTime }}</Col>
-						<Col span="6">审核时间：{{ !exitBondDetail.businessCancelApply ? '' :exitBondDetail.businessCancelApply.handleTime }}</Col>
+						<Col span="6">{{ $t('refresh.note1') }}{{ !exitBondDetail.depositRecord ? '' : exitBondDetail.depositRecord.amount+exitBondDetail.depositRecord.coin.unit }}</Col>
+						<Col span="6">{{ $t('refresh.note6') }}{{ (!exitBondDetail.businessCancelApply ? '' :exitBondDetail.businessCancelApply.status) | filterStatus }}</Col>
+						<Col span="6">{{ $t('refresh.note14') }}{{ !exitBondDetail.businessCancelApply ? '' :exitBondDetail.businessCancelApply.cancelApplyTime }}</Col>
+						<Col span="6">{{ $t('refresh.note11') }}{{ !exitBondDetail.businessCancelApply ? '' :exitBondDetail.businessCancelApply.handleTime }}</Col>
 					</Row>
 					<Row>
-						<Col span="6">退保原因：{{ !exitBondDetail.businessCancelApply ? '' : exitBondDetail.businessCancelApply.reason | reasonFilter}}</Col>
+						<Col span="6">{{ $t('refresh.note4') }}{{ !exitBondDetail.businessCancelApply ? '' : exitBondDetail.businessCancelApply.reason | reasonFilter}}</Col>
 					</Row>
 				</Row>
 				<p class="line"></p>
 				<Row>
-					<h3>用户信息</h3>
+					<h3>{{ $t('refresh.userinformation') }}</h3>
 					<Row>
-						<Col span="6">真实姓名：{{ !exitBondDetail.businessCancelApply ? '' : exitBondDetail.businessCancelApply.member.realName}}</Col>
-						<Col span="6">会员昵称：{{ !exitBondDetail.businessCancelApply ? '' : exitBondDetail.businessCancelApply.member.username }}</Col>
-						<Col span="6">手机号：{{ !exitBondDetail.businessCancelApply ? '' : exitBondDetail.businessCancelApply.member.mobilePhone }}</Col>
-						<Col span="6">邮箱号：{{ !exitBondDetail.businessCancelApply ? '' : exitBondDetail.businessCancelApply.member.email }}</Col>
+						<Col span="6">{{ $t('refresh.note9') }}{{ !exitBondDetail.businessCancelApply ? '' : exitBondDetail.businessCancelApply.member.realName}}</Col>
+						<Col span="6">{{ $t('refresh.note5') }}{{ !exitBondDetail.businessCancelApply ? '' : exitBondDetail.businessCancelApply.member.username }}</Col>
+						<Col span="6">{{ $t('refresh.note2') }}{{ !exitBondDetail.businessCancelApply ? '' : exitBondDetail.businessCancelApply.member.mobilePhone }}</Col>
+						<Col span="6">{{ $t('refresh.note13') }}{{ !exitBondDetail.businessCancelApply ? '' : exitBondDetail.businessCancelApply.member.email }}</Col>
 					</Row>
 				</Row> 
 				<p class="line"></p>
 				<Row>
-					<h3>交易信息</h3>
+					<h3>{{ $t('refresh.transactioninformation') }}</h3>
 					<Row>
-						<Col span="6">申诉次数：{{ exitBondDetail.complainantNum }}</Col>
-						<Col span="6">被申诉次数数：{{ exitBondDetail.defendantNum }}</Col>
-						<Col span="6">总成交额：{{ !exitBondDetail.money ? 0 : exitBondDetail.money }}</Col>
-						<Col span="6">总手续费：{{ !exitBondDetail.fee ? 0 : exitBondDetail.fee }}</Col>
+						<Col span="6">{{ $t('refresh.note3') }}{{ exitBondDetail.complainantNum }}</Col>
+						<Col span="6">{{ $t('refresh.note7') }}{{ exitBondDetail.defendantNum }}</Col>
+						<Col span="6">{{ $t('refresh.note8') }}{{ !exitBondDetail.money ? 0 : exitBondDetail.money }}</Col>
+						<Col span="6">{{ $t('refresh.surrenderapplication') }}{{ !exitBondDetail.fee ? 0 : exitBondDetail.fee }}</Col>
 					</Row>
 					<Row>
-						<Col span="6">发布广告数：{{ exitBondDetail.advertiseNum }}</Col>
+						<Col span="6">{{ $t('refresh.note10') }}{{ exitBondDetail.advertiseNum }}</Col>
 					</Row>
 				</Row>
 
@@ -75,13 +75,13 @@ export default {
 		filterStatus(val) {
 			if(val==='') return val;
 			else{
-				if(val === 6) return '失败';
-				else if(val === 5) return '待审核';
-				else if(val === 7) return '成功';
+				if(val === 6) return this.$t('currencywithdrawalauditmanagement.failed');
+				else if(val === 5) return this.$t('currencywithdrawalapproval.pendingreview');
+				else if(val === 7) return this.$t('currencywithdrawalapproval.success');
 			}
 		},
 		reasonFilter(val) {
-			if(!val) return '无';
+			if(!val) return this.$t('surrendermanagement.none');
 			else return val;
 		}
 	}

@@ -15,8 +15,8 @@
 			</Row>
 
 			<Row>
-				<Table :loading="ifloading" 
-								:columns="columnsList" 
+				<Table :loading="ifloading"
+								:columns="columnsList"
 								:data="cbData.content"
 								@on-selection-change="selectionChange"
 								border>
@@ -24,22 +24,22 @@
 			</Row>
 
 			<Row class="pageWrapper" >
-				<Page :total="cbData.totalElements" 
-							:current="currentPageIdx"   
-							@on-change="changePage" 
+				<Page :total="cbData.totalElements"
+							:current="currentPageIdx"
+							@on-change="changePage"
 							show-elevator>
 				</Page>
-			</Row>	
+			</Row>
 
-			<Modal v-model="showEditModal" 
-						:mask-closable='false' 
+			<Modal v-model="showEditModal"
+						:mask-closable='false'
 						:width="450"
 						@on-ok="saveEditPass"
 						@on-cancel="cancelEdit"
 						:title="$t('currencymanagement1.editcurrency')">
-				<Form :model="coinInformation" 
-							:rules="ruleValidate" 
-							:label-width="100" 
+				<Form :model="coinInformation"
+							:rules="ruleValidate"
+							:label-width="100"
 							label-position="right">
 					<FormItem :label="$t('currencymanagement1.currencynumber')" prop="id" v-show="false">
 						<Input v-model="coinInformation.id" ></Input>
@@ -165,7 +165,8 @@ export default {
           key: "status",
           render(h, params) {
             const row = params.row;
-            return h("span", {}, !row.status ? this.$t('querymarginstrategy.normal') : this.$t('currencymanagement1.invalid'));
+            const s = !row.status ? this.$t('querymarginstrategy.normal') : this.$t('currencymanagement1.invalid');
+            return h("span", {}, s);
           }
         },
         {

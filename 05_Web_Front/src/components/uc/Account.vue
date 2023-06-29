@@ -163,7 +163,7 @@
                 </section>
             </div>
         </div>
-      <Modal style="width: 700px" v-model="bindModal" :title="$t('bind_payment')">
+      <Modal style="width: 700px" v-model="bindModal" :title="$t('otc.bind_payment')">
 
         <Form ref="paymentTypeRecordData" :model="paymentTypeRecordData" :rules="ruleValidate" :label-width="120">
           <!-- name -->

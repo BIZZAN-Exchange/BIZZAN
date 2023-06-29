@@ -35,7 +35,7 @@ import static com.bizzan.bitrade.util.MessageResult.error;
 import static org.springframework.util.Assert.*;
 
 /**
- * @author Hevin E-Mali:390330302@qq.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2021年01月26日
  */
 @RestController
@@ -428,7 +428,7 @@ public class WithdrawController {
 
 
         Withdraw withdraw = new Withdraw();
-        withdraw.setMemberid(memberid.intValue());
+        withdraw.setMemberid(memberid);
         withdraw.setAddtime(new Date().getTime());
         withdraw.setCoinid(0);
         withdraw.setCoinname(coinName);

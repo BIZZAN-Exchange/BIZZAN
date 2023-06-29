@@ -9,7 +9,7 @@ import java.util.Date;
 
 /**
  * 商家认证缴纳押金的币种和数量
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2019/5/5
  */
 @Entity

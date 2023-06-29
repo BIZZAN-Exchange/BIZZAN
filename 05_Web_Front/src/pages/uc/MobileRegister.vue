@@ -441,7 +441,7 @@ export default {
         this.$router.push('/')
       }
       window.document.title =
-        (this.lang == 'zh_CN' ? '新用户注册 - ' : 'New Register - ') + 'BZEX | Global digital currency trading platform'
+        (this.lang == 'en_US' ? 'New Register - ' : 'New Register - ') + 'BZEX | Global digital currency trading platform'
       // this.getAreas();
       // this.initGtCaptcha();
     },

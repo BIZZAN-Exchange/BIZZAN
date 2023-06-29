@@ -56,10 +56,10 @@ export const otherRouter = {
         { path: 'home', title: '首页', titleKey:"index", name: 'home_index', component: resolve => { require(['@/views/home/home.vue'], resolve); } },
         { path: 'finance/auditdetail', title: '提现审核详情', name: 'finance:auditdetail', component: resolve => { require(['@/views/finance/AuditDetail.vue'], resolve); } },
         { path: 'member/memberaudit/auditdetail', title: '会员审核详情', name: 'member:memberaudit:auditdetail', component: resolve => { require(['@/views/member/AuthenticateDetail.vue'], resolve); } },
-        { path: 'member/memberdetail', title: '会员详情', name: 'member:memberdetail', component: resolve => { require(['@/views/member/MemberDetail.vue'], resolve); } },
+        { path: 'member/memberdetail',titleKey:'memberDetail', title: '会员详情', name: 'member:memberdetail', component: resolve => { require(['@/views/member/MemberDetail.vue'], resolve); } },
         { path: 'content/helpManage/addhelpmanage', title: '系统帮助', name: 'content:helpManage:addhelpmanage', component: resolve => { require(['@/views/content/AddHelpManage.vue'], resolve); } },
         { path: 'content/announceManage/addAnnounce', title: '编辑公告', name: 'content:announceManage:addAnnounce', component: resolve => { require(['@/views/content/AddAnnouncement.vue'], resolve); } },
-        { path: 'exchange/bborder/detail', title: '订单详情', name: 'exchange:bborder:detail', component: resolve => { require(['@/views/exchange/OrderDetail.vue'], resolve); } },
+        { path: 'exchange/bborder/detail', titleKey:'orderDetail', title: '订单详情', name: 'exchange:bborder:detail', component: resolve => { require(['@/views/exchange/OrderDetail.vue'], resolve); } },
         { path: 'system/employee/auditEmployee', title: '编辑用户', name: 'system:employee:auditEmployee', component: resolve => { require(['@/views/system/AddAuditEmployee.vue'], resolve) } },
         { path: '/user/personalcenter', title: '个人中心', name: 'user:personalcenter', component: resolve => { require(['@/views/user/PersonalCenter.vue'], resolve) } },
         { path: '/system/coin/transferdetail', title: '转账明细', name: 'system:coin:transferdetail', component: resolve => { require(['@/views/system/CoinTransferDetail.vue'], resolve) } },
@@ -85,7 +85,6 @@ let findSlideArr = [
     { id: 162, path: '/activity', icon: 'cube', component: Main },
     { id: 220, path: '/envelope', icon: 'ios-albums', component: Main },
     { id: 214, path: '/Invitation', icon: 'android-share-alt', component: Main},
-    { id: 321, path: '/convert', icon: 'cube', component: Main },
 	{ id: 13, path: 'memberaudit', icon: 'document', component: resolve => { require(['@/views/member/Authenticate.vue'], resolve) } },
     { id: 23, path: 'coin', icon: 'document', component: resolve => { require(['@/views/system/Coin.vue'], resolve) } },
     { id: 298, path: 'withdraw', icon: 'document', component: resolve => { require(['@/views/finance/withdraw.vue'], resolve) } },
@@ -122,9 +121,10 @@ let findSlideArr = [
     { id: 215, path: 'InvitationRecord', icon: 'document', component: resolve => { require(['@/views/invitation/InvitationRecord.vue'], resolve) }},
     { id: 216, path: 'inviteRankList', icon: 'document', component: resolve => { require(['@/views/invitation/InvitationRank.vue'], resolve) }},
     { id: 221, path: 'envelopeList', icon: 'document', component: resolve => { require(['@/views/redenvelope/RedEnvelope.vue'], resolve) }},
-    { id: 284, path: 'coinprotocol', icon: 'document', component: resolve => { require(['@/views/system/CoinProTocol.vue'], resolve) } },
     { id: 286, path: 'coinext', icon: 'document', component: resolve => { require(['@/views/system/CoinExt.vue'], resolve) } },
     { id: 293, path: 'automainconfig', icon: 'document', component: resolve => { require(['@/views/system/AutoMainConfig.vue'], resolve) } },
+
+
 
 ]
 let sidebarArr = JSON.parse(getStore('leftSidebarList')) || [];

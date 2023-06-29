@@ -74,4 +74,37 @@ public class MemberWeightUpperService extends BaseService {
         memberWeightUpper = memberWeightUpperDao.save(memberWeightUpper);
         return memberWeightUpper;
     }
+
+    public MemberWeightUpper saveAgentWeightUpper(Member member) {
+        MemberWeightUpper memberWeightUpper = this.findMemberWeightUpperByMemberId(member.getId());
+        if(memberWeightUpper!=null){
+            return memberWeightUpper;
+        }
+        memberWeightUpper = new MemberWeightUpper();
+        //找上级 如果有上级
+        if(member.getInviterId()!=null){
+            Member inviter = memberService.findOne(member.getInviterId());
+            //有上级
+            MemberWeightUpper upper = this.saveAgentWeightUpper(inviter);
+            memberWeightUpper.setFirstMemberId(upper.getFirstMemberId());
+            memberWeightUpper.setRate(0);
+            memberWeightUpper.setMemberId(member.getId());
+            String uppers = upper.getUpper();
+            if(uppers==null || "".equals(uppers.trim())){
+                uppers = upper.getMemberId().toString();
+            }else {
+                uppers = uppers+","+upper.getMemberId();
+            }
+            memberWeightUpper.setUpper(uppers);
+        }else {
+            //最上级
+            memberWeightUpper.setRate(0);
+            memberWeightUpper.setFirstMemberId(member.getId());
+            memberWeightUpper.setMemberId(member.getId());
+            memberWeightUpper.setUpper(null);
+
+        }
+        memberWeightUpper = memberWeightUpperDao.save(memberWeightUpper);
+        return memberWeightUpper;
+    }
 }

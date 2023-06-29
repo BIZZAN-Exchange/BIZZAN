@@ -4,7 +4,7 @@
  * <p>FileName: HawkContext.java</p>
  * 
  * Description: 
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月18日
  * @version 1.0
  * History:
@@ -37,7 +37,7 @@ import java.util.TreeSet;
  * 	<li>判断对象对应的类上是否声明了HawkBean注解；</li>
  * 	<li>如果声明了HawkBean注解，获取所有声明了HawkMethod注解的方法</li>
  * </ul>
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月18日
  */
 public class HawkContext implements BeanPostProcessor {

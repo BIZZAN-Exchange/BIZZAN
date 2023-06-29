@@ -9,7 +9,7 @@ import java.util.Collection;
  * 条件构造器
  * 用于创建条件表达式
  * @Class Name Restrictions
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  */
 public class Restrictions {
 

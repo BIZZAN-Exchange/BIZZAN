@@ -18,7 +18,7 @@ import com.bizzan.er.market.utils.HttpClientUtil;
 
 /**
  * 火币行情引擎
- * @author shaox
+ * @author Hevin
  *
  */
 public class MarketEngineHuobi implements MarketEngine{

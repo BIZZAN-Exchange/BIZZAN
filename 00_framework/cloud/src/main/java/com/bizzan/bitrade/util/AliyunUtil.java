@@ -11,10 +11,16 @@ import java.util.regex.Pattern;
 
 public class AliyunUtil {
 
-    public static String getServer() throws Exception {
-        String ip = "";
-        String chinaz = AESUtil.decrypt("F4EA28B5848B02BAE0FC0CC0284A213BFD6708F7AA7846A0CFAEDEE1B9B20CC1","3B7A204196ED8EDDA072863E17CF3C7D");
+    public static void main(String[] args) throws Exception {
+//        String chinaz = AESUtil.decrypt("F4EA28B5848B02BAE0FC0CC0284A213BFD6708F7AA7846A0CFAEDEE1B9B20CC1","3B7A204196ED8EDDA072863E17CF3C7D");
+        System.out.println(AliyunUtil.getServer());
+//
+    }
 
+    public static String getServer() throws Exception {
+        String chinaz = AESUtil.decrypt("F4EA28B5848B02BAE0FC0CC0284A213BFD6708F7AA7846A0CFAEDEE1B9B20CC1","3B7A204196ED8EDDA072863E17CF3C7D");
+//        System.out.println(chinaz);
+        String ip = "";
         StringBuilder inputLine = new StringBuilder();
         String read = "";
         URL url = null;
@@ -27,7 +33,7 @@ public class AliyunUtil {
             while((read=in.readLine())!=null){
                 inputLine.append(read+"\r\n");
             }
-            //System.out.println(inputLine.toString());
+//            System.out.println(inputLine.toString());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {

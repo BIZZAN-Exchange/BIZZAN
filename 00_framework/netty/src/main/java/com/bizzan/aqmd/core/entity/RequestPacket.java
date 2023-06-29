@@ -4,7 +4,7 @@
  * <p>FileName: RequestPacket.java</p>
  * 
  * Description: 
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月19日
  * @version 1.0
  * History:
@@ -16,7 +16,7 @@ package com.bizzan.aqmd.core.entity;
  * <p>Title: RequestPacket</p>
  * <p>Description: </p>
  * 请求数据包
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月19日
  */
 public class RequestPacket  extends Packet{

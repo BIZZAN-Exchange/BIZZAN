@@ -4,11 +4,12 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 /**
  * 国家
  *
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年02月10日
  */
 @Data
@@ -24,6 +25,10 @@ public class Country {
      * 英文名称
      */
     private String enName;
+    /**
+     * 英文名称
+     */
+    private String countryImageUrl;
 
     /**
      * 区号
@@ -41,4 +46,8 @@ public class Country {
 
     private int sort;
 
+    private int delFlag;
+
+    @Transient
+    private String name ;
 }

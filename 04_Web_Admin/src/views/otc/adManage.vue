@@ -15,7 +15,7 @@
 					<div class="searchWrapper clearfix">
 						<div class="poptip">
 							<Poptip trigger="hover" 
-											content="请输入手机号、真实姓名或会员名称搜索" 
+											:content="$t('backstageadvertising.note1')" 
 											placement="bottom-start">
 								<Input :placeholder="$t('backstageadvertising.note1')" 
 											v-model="filterSearch.account"/> 
@@ -25,7 +25,7 @@
 
 						<div class="poptip">
 								<Poptip trigger="hover" 
-											content="请输入支付方式搜索" 
+											:content="$t('backstageadvertising.pleaseenterthepaymentmethodtosearch')" 
 											placement="bottom-start">
 								<Input :placeholder="$t('backstageadvertising.pleaseenterthepaymentmethodtosearch')" 
 											v-model="filterSearch.payModel"/> 

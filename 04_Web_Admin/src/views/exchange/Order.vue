@@ -122,7 +122,7 @@ export default {
     return {
 			btnType: 0,
       filterSearch: {
-        robotOrder:'',//是否包含机器人
+        robotOrder: 1,//是否包含机器人
 				coinSymbol: '',
         orderDirection: '',
         type: '',
@@ -285,7 +285,7 @@ export default {
                       removeStore('exchangeOrderId');
                       removeStore("completed")
                       setStore('exchangeOrderId',obj.row.orderId);
-                      setStore('completed',obj.row.completed);
+                      setStore('completed',this.filterSearch.completed);
                     }
                   }
                 },

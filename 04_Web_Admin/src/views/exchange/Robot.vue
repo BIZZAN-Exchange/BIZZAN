@@ -2,7 +2,7 @@
   <div>
     <Card>
       <p slot="title">
-        {{$t('controlpanelrobot.')}}
+        {{$t('controlpanelrobot.controlpanelrobot')}}
       </p>
       <Row class="functionWrapper" style='padding:0px 8px 8px 8px'>
         <Col span="4">
@@ -718,7 +718,7 @@ export default {
         axisPointer: {
           label: {
             formatter: function (params) {
-              return this.$t('controlpanelrobot.time') + that.robotDate + " " + parseInt(params.value/4) + ":" + ((params.value%4) != 0 ? (params.value%4)*15 : "00");
+              return that.$t('controlpanelrobot.time') + that.robotDate + " " + parseInt(params.value/4) + ":" + ((params.value%4) != 0 ? (params.value%4)*15 : "00");
             }
           }
         }

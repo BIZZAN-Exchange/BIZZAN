@@ -19,7 +19,7 @@ import com.bizzan.bitrade.service.OtcCoinService;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年02月01日
  */
 //@Component

@@ -1,6 +1,6 @@
 <template>
   <div class="container exchange" :class="skin">
-    <div style=" background-image: linear-gradient( 135deg, #FD6585 10%, #0D25B9 100%);text-align: center;height:30px;line-height:30px;letter-spacing: 1px;color:#FFF;">技术QQ:390330302 技术Telegram①:@bizzanhevin 技术Telegram②:@bizzancom 技术Telegram③:@bzengineer（唯一渠道，谨防被骗）</div>
+    <div style=" background-image: linear-gradient( 135deg, #FD6585 10%, #0D25B9 100%);text-align: center;height:30px;line-height:30px;letter-spacing: 1px;color:#FFF;"><a href="https://t.me/bizzanhevin" target="_blank" style="color: #ddd;text-decoration: none;">{{$t('common.testText1')}} </a><a href="https://t.me/bizzancom" target="_blank" style="color: #ddd;text-decoration: none;">{{$t('common.testText2')}} </a><a href="https://t.me/bzengineer" target="_blank" style="color: #ddd;text-decoration: none;">{{$t('common.testText3')}} </a></div>
     <!-- 手机显示开始 -->
     <div v-if="xsShow" class="tabBar">
       <Tabs>
@@ -2460,7 +2460,7 @@ export default {
           'volume.volume.transparency': 25,
         },
         custom_css_url: 'bundles/common.css',
-        supported_resolutions: ['1', '5', '15', '30', '60', '1D', '1W', '1M'],
+        supported_resolutions: ['1', '5', '15', '30', '60','240', '1D', '1W', '1M'],
         charts_storage_url: 'http://saveload.tradingview.com',
         charts_storage_api_version: '1.1',
         client_id: 'tradingview.com',
@@ -2500,12 +2500,12 @@ export default {
             description: '1hour',
             title: '1hour',
           },
-          /*{
-      text: "4hour",
-      resolution: "240",
-      description: "4hour",
-      title: "4hour"
-      },*/
+          {
+            text: "4hour",
+            resolution: "240",
+            description: "4hour",
+            title: "4hour"
+          },
           {
             text: '1day',
             resolution: '1D',
@@ -2651,6 +2651,22 @@ export default {
                 widget.setSymbol('', '60')
               })
               .append('<span>H1</span>')
+
+          widget
+              .createButton()
+              .attr('title', 'H4')
+              .on('click', function () {
+                if ($(this).hasClass('selected')) return
+                $(this)
+                    .addClass('selected')
+                    .parent('.group')
+                    .siblings('.group')
+                    .find('.button.selected')
+                    .removeClass('selected')
+                widget.chart().setChartType(1)
+                widget.setSymbol('', '240')
+              })
+              .append('<span>H4</span>')
 
           widget
               .createButton()
@@ -3094,6 +3110,14 @@ export default {
           }
         })
       })
+      socket.onclose = function() {
+        console.log('连接已断开1');
+        that.reconnect(that)
+      };
+      socket.onerror = function(error) {
+        console.error('发生错误1: ', error);
+        that.reconnect(that)
+      };
     },
     limited_price() {
       this.showMarket = false

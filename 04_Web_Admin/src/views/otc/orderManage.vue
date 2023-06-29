@@ -51,7 +51,7 @@
 						<span>{{ $t('perpetualcontractcurrencystandardmanagement.currency') }}</span>
 						<Select v-model="filterSearch.unit">
 							<Option v-for="(item, index) in coinSearchArr" 
-										:value="item.unit== this.$t('ordermanagement.all')?'':item.unit" 
+										:value="item.unit == $t('ordermanagement.all')?'':item.unit"
 										:key="item.unit">{{ item.unit }}</Option>
 						</Select>
 					</div>
@@ -156,7 +156,7 @@
 							<li><span>{{ $t('orderdetails.orderamount') }}</span>{{ modelInner.money }}</li>
 							<li><span>{{ $t('transactiondetailsinlegalcurrency.servicecharge') }}</span>{{ ''+modelInner.fee }}</li>
 							<li><span>{{ $t('orderdetails.paymentmethod') }}</span>{{ modelInner.payMode }}</li>
-							<li><span>{{ $t('currentdelegation.orderstatus') }}</span>{{ modelInner.status | filterOrderStatus }}</li>
+							<li><span>{{ $t('currentdelegation.orderstatus') }}</span>{{ modelInner.status | filterOrderStatus(orderStatusArrS) }}</li>
 							<li><span>{{ $t('transactiondetailsinlegalcurrency.paymenttime') }}</span>{{ modelInner.payTime }}</li>
 							<li><span>{{ $t('transactiondetailsinlegalcurrency.ordercancellationtime') }}</span>{{ !modelInner.cancelTime ? '--' : modelInner.cancelTime }}</li>
 							<li><span>{{ $t('transactiondetailsinlegalcurrency.releasetime') }}</span>{{ !modelInner.releaseTime ? '--' : modelInner.releaseTime }}</li>
@@ -177,11 +177,13 @@ export default {
   data() {
     return {
 			aLink: `${BASICURL}admin/otc/order/out-excel`,
+      that:this,
 			coinSearchArr: [],
 			sortSearch: {
 				direction: [],
 				property: []
 			},
+      orderStatusArrS:[this.$t('transactiondetailsinlegalcurrency.cancelled'), this.$t('transactiondetailsinlegalcurrency.unpaid'), this.$t('transactiondetailsinlegalcurrency.paid'), this.$t('transactiondetailsinlegalcurrency.completed'), this.$t('transactiondetailsinlegalcurrency.appealing')],
 			orderStatusArr: [
 				{ status: 0, text: this.$t('transactiondetailsinlegalcurrency.cancelled') },
 				{ status: 1, text: this.$t('transactiondetailsinlegalcurrency.unpaid') },
@@ -245,8 +247,8 @@ export default {
         {
           title: this.$t('entrustedmanagement.type'),
           key: "advertiseType",
-          render(h, obj) {
-            return h("span", {}, obj.row.advertiseType === 0 ? this.$t('transactiondetailsinlegalcurrency.buy') : this.$t('transactiondetailsinlegalcurrency.sell'));
+          render: (h, params) => {
+            return h("span", {}, params.row.advertiseType === 0 ? this.$t('transactiondetailsinlegalcurrency.buy') : this.$t('transactiondetailsinlegalcurrency.sell'));
           }
         },
         {
@@ -268,10 +270,9 @@ export default {
         {
           title: this.$t('transactiondetailsinlegalcurrency.orderstatus'),
           key: "status",
-          render(h, params) {
+          render: (h, params) => {
             let status = params.row.status;
-						let arr = [this.$t('transactiondetailsinlegalcurrency.cancelled'), this.$t('transactiondetailsinlegalcurrency.unpaid'), this.$t('transactiondetailsinlegalcurrency.paid'), this.$t('transactiondetailsinlegalcurrency.completed'), this.$t('transactiondetailsinlegalcurrency.appealing')];
-            return h("span", {}, arr[status]);
+            return h("span", {}, this.orderStatusArrS[status]);
           }
         },
         {
@@ -387,8 +388,7 @@ export default {
     this.refreshPage();
 	},
 	filters: {
-		filterOrderStatus (val) {
-			let arr = [this.$t('transactiondetailsinlegalcurrency.cancelled'), this.$t('transactiondetailsinlegalcurrency.unpaid'), this.$t('transactiondetailsinlegalcurrency.paid'), this.$t('transactiondetailsinlegalcurrency.completed'), this.$t('transactiondetailsinlegalcurrency.appealing')];
+		filterOrderStatus (val,arr) {
 			return arr[val];
 		},
 	},

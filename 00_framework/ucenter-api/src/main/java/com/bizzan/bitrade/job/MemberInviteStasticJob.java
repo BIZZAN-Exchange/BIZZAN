@@ -49,32 +49,32 @@ public class MemberInviteStasticJob {
     private RedisTemplate redisTemplate;
     @Autowired
     private MemberService memberService;
-    
+
     @Autowired
     private MemberTransactionService memberTransactionService;
-    
+
     @Autowired
     private MemberPromotionService memberPromotionService;
-    
+
     @Autowired
     private MemberInviteStasticService memberInviteStatsticService;
-    
+
     @Autowired
     private JavaMailSender javaMailSender;
-    
+
     @Value("${spring.mail.username}")
     private String from;
     @Value("${spark.system.host}")
     private String host;
     @Value("${spark.system.name}")
     private String company;
-    
+
 	@Value("${spark.system.admins}")
     private String admins;
-	
+
     private String serviceName = "bitrade-market";
     private Random random = new Random();
-    
+
     /**
      * 每日2点处理，统计用户推广币币手续费返佣结果(0 0 2 * * *)，总榜
      */
@@ -83,7 +83,7 @@ public class MemberInviteStasticJob {
     	//获取当前时间
     	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     	String dateNow = df.format(new Date());
-    	
+
     	int pageNo = 0;
     	int pageSize = 100;
     	while(true) {
@@ -99,7 +99,7 @@ public class MemberInviteStasticJob {
         				BigDecimal ethTotal = BigDecimal.ZERO;
         				BigDecimal usdtTotal = BigDecimal.ZERO;
         				BigDecimal estimatedTotal = BigDecimal.ZERO;
-        				
+
 	        			if(transactions != null && transactions.size() > 0) {
 	        				for(MemberTransaction tItem : transactions) {
 	        					if(tItem.getSymbol().equals("BTC")) {
@@ -115,10 +115,10 @@ public class MemberInviteStasticJob {
 	        				// 计算估算总额
 	        				CoinExchangeFactory.ExchangeRate rateBTC = coinExchangeFactory.get("BTC");
 	        				estimatedTotal = estimatedTotal.add(btcTotal.multiply(rateBTC.usdRate));
-	        				
+
 	        				CoinExchangeFactory.ExchangeRate rateETH = coinExchangeFactory.get("ETH");
 	        				estimatedTotal = estimatedTotal.add(ethTotal.multiply(rateETH.usdRate));
-	        				
+
 	        				estimatedTotal = estimatedTotal.add(usdtTotal).setScale(2);
 	        			}
         				// 更新 or 保存记录
@@ -131,11 +131,11 @@ public class MemberInviteStasticJob {
         					mis.setLevelTwo(item.getSecondLevel());
         					mis.setEstimatedReward(estimatedTotal);
         					mis.setStasticDate(dateNow);
-        					
+
         					memberInviteStatsticService.save(mis);
         				}else {
         					mis = new MemberInviteStastic();
-        					
+
         					mis.setMemberId(item.getId());
         					mis.setUserIdentify(item.getMobilePhone());
         					mis.setIsRobot(0);
@@ -147,7 +147,7 @@ public class MemberInviteStasticJob {
         					mis.setEstimatedReward(estimatedTotal);
         					mis.setExtraReward(BigDecimal.ZERO);
         					mis.setStasticDate(dateNow);
-        					
+
         					memberInviteStatsticService.save(mis);
         				}
 	        		}else {
@@ -179,14 +179,14 @@ public class MemberInviteStasticJob {
 	    					}else if(mis.getLevelOne() > 0) {
 	    						mis.setEstimatedReward(mis.getEstimatedReward().add(BigDecimal.valueOf(rand1 % 10).add(BigDecimal.valueOf(random.nextDouble()).setScale(6, BigDecimal.ROUND_DOWN)))); // 折合USDT奖励每天自动增加0 - 10刀
 	    					}else {
-	    						
+
 	    					}
 	    					mis.setStasticDate(dateNow);
-	    					
+
 	    					memberInviteStatsticService.save(mis);
 	    				}else {
 	    					mis = new MemberInviteStastic();
-	    					
+
 	    					mis.setMemberId(item.getId());
 	    					mis.setUserIdentify(item.getMobilePhone());
 	    					mis.setIsRobot(1);
@@ -198,12 +198,12 @@ public class MemberInviteStasticJob {
 	    					mis.setEstimatedReward(BigDecimal.ZERO);
 	    					mis.setExtraReward(BigDecimal.ZERO);
 	    					mis.setStasticDate(dateNow);
-	    					
+
 	    					memberInviteStatsticService.save(mis);
 	    				}
 	        		}
 	        	}
-	        	
+
 	        	pageNo++;
 	        }else {
 	        	break;
@@ -213,7 +213,7 @@ public class MemberInviteStasticJob {
         int top = 20;
         List<MemberInviteStastic> topRewardList = memberInviteStatsticService.topRewardAmount(top);
     	List<MemberInviteStastic> topInviteList = memberInviteStatsticService.topInviteCount(top);
-    	
+
     	// 发送邮件通知
 		String[] adminList = admins.split(",");
 		for(int i = 0; i < adminList.length; i++) {
@@ -228,14 +228,14 @@ public class MemberInviteStasticJob {
 			}
 		}
     }
-    
+
     /**
      * 日榜
      */
     //@Scheduled(cron="0 0 2 * * *")
     public void stasticMemberInviteDay() {
     	// SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    	
+
     	Date cTime = new Date();
     	Calendar calendar = Calendar.getInstance();
         calendar.setTime(cTime);
@@ -250,12 +250,12 @@ public class MemberInviteStasticJob {
         calendar2.set(Calendar.HOUR_OF_DAY, 0);
         calendar2.set(Calendar.MINUTE, 0);
         calendar2.set(Calendar.SECOND, 0);
-        
+
         Date startDate = calendar2.getTime();
 
     	List<MemberPromotionStasticVO> result = memberPromotionService.getDateRangeRank(0, startDate, endDate, 20);
     	List<MemberInviteStasticRank> allList = new ArrayList<MemberInviteStasticRank>();
-    	
+
     	for(MemberPromotionStasticVO vo : result) {
     		MemberInviteStasticRank misr = new MemberInviteStasticRank();
     		misr.setLevelOne(vo.getCount());
@@ -272,10 +272,10 @@ public class MemberInviteStasticJob {
     			misr.setIsRobot(1);
     		}
     		misr = memberInviteStatsticService.saveRank(misr);
-    		
+
     		allList.add(misr);
     	}
-    	
+
     	// 发送邮件通知
 		String[] adminList = admins.split(",");
 		for(int i = 0; i < adminList.length; i++) {
@@ -290,7 +290,7 @@ public class MemberInviteStasticJob {
 			}
 		}
     }
-    
+
     /**
      * 周榜（每周一2点30统计）
      */
@@ -310,11 +310,11 @@ public class MemberInviteStasticJob {
         calendar2.set(Calendar.HOUR, 0);
         calendar2.set(Calendar.MINUTE, 0);
         calendar2.set(Calendar.SECOND, 0);
-        
+
         Date startDate = calendar2.getTime();
-        
+
         List<MemberPromotionStasticVO> result = memberPromotionService.getDateRangeRank(0, startDate, endDate, 20);
-    	
+
         List<MemberInviteStasticRank> allList = new ArrayList<MemberInviteStasticRank>();
     	for(MemberPromotionStasticVO vo : result) {
     		MemberInviteStasticRank misr = new MemberInviteStasticRank();
@@ -332,10 +332,10 @@ public class MemberInviteStasticJob {
     			misr.setIsRobot(1);
     		}
     		misr = memberInviteStatsticService.saveRank(misr);
-    		
+
     		allList.add(misr);
     	}
-    	
+
     	// 发送邮件通知
 		String[] adminList = admins.split(",");
 		for(int i = 0; i < adminList.length; i++) {
@@ -350,14 +350,14 @@ public class MemberInviteStasticJob {
 			}
 		}
     }
-    
+
     /**
      * 月榜(每月1号3点统计）
      */
-    @Scheduled(cron="0 0 3 1 * ?")
+//    @Scheduled(cron="0 0 3 1 * ?")
     public void stasticMemberInviteMonth() {
     	Date cTime = new Date();
-    	
+
     	Calendar calendar = Calendar.getInstance();
     	calendar.add(Calendar.MONTH, 0);
     	calendar.set(Calendar.DAY_OF_MONTH,1);//1:本月第一天
@@ -372,11 +372,11 @@ public class MemberInviteStasticJob {
         calendar2.set(Calendar.HOUR_OF_DAY, 0);
         calendar2.set(Calendar.MINUTE, 0);
         calendar2.set(Calendar.SECOND, 0);
-        
+
         Date startDate = calendar2.getTime();
-        
+
         List<MemberPromotionStasticVO> result = memberPromotionService.getDateRangeRank(0, startDate, endDate, 20);
-    	
+
         List<MemberInviteStasticRank> allList = new ArrayList<MemberInviteStasticRank>();
     	for(MemberPromotionStasticVO vo : result) {
     		MemberInviteStasticRank misr = new MemberInviteStasticRank();
@@ -394,10 +394,10 @@ public class MemberInviteStasticJob {
     			misr.setIsRobot(1);
     		}
     		misr = memberInviteStatsticService.saveRank(misr);
-    		
+
     		allList.add(misr);
     	}
-    	
+
     	// 发送邮件通知
 		String[] adminList = admins.split(",");
 		for(int i = 0; i < adminList.length; i++) {
@@ -412,11 +412,11 @@ public class MemberInviteStasticJob {
 			}
 		}
     }
-    
+
     /**
      * 每天8点将排名同步到Redis
      */
-    @Scheduled(cron="0 0 8 * * *") 
+    @Scheduled(cron="0 0 8 * * *")
     public void staticSync(){
     	// 总榜单同步Redis
     	ValueOperations valueOperations = redisTemplate.opsForValue();
@@ -427,7 +427,7 @@ public class MemberInviteStasticJob {
     	for(MemberInviteStastic item1 : topReward) {
     		item1.setUserIdentify(item1.getUserIdentify().substring(0, 3) + "****" + item1.getUserIdentify().substring(item1.getUserIdentify().length() - 4,  item1.getUserIdentify().length()));
     	}
-    	
+
     	for(MemberInviteStastic item2 : topInvite) {
     		item2.setUserIdentify(item2.getUserIdentify().substring(0, 3) + "****" + item2.getUserIdentify().substring(item2.getUserIdentify().length() - 4,  item2.getUserIdentify().length()));
     	}
@@ -435,9 +435,9 @@ public class MemberInviteStasticJob {
     	resultObj.put("topinvite", topInvite);
     	valueOperations.set(SysConstant.MEMBER_PROMOTION_TOP_RANK+top, resultObj, SysConstant.MEMBER_PROMOTION_TOP_RANK_EXPIRE_TIME, TimeUnit.SECONDS);
     }
-    
+
     @Async
-    public void sendEmailMsg(String email, 
+    public void sendEmailMsg(String email,
     						 List<MemberInviteStastic> topRewardList,
     						 List<MemberInviteStastic> topInviteList,
     						 String subject) throws MessagingException, IOException, TemplateException {
@@ -461,7 +461,7 @@ public class MemberInviteStasticJob {
     }
 
     @Async
-    public void sendEmailMsg(String email, 
+    public void sendEmailMsg(String email,
     						 List<MemberInviteStasticRank> topInviteList,
     						 String subject) throws MessagingException, IOException, TemplateException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();

@@ -11,7 +11,10 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.logging.SimpleFormatter;
 
 /**
  * 生成各时间段的K线信息
@@ -31,7 +34,7 @@ public class KLineGeneratorJob {
 	@Autowired
 	private KlineRobotMarketService klineRobotMarketService;
 
-	public static String PERIOD[] ={ "1min", "5min", "15min", "30min", "60min", "1day", "1mon", "1week" };
+	public static String PERIOD[] ={ "1min", "5min", "15min", "30min", "60min","4hour", "1day", "1mon", "1week" };
 
     /**
      * 每分钟定时器，处理分钟K线
@@ -78,6 +81,26 @@ public class KLineGeneratorJob {
         });
     }
 
+	/**
+	 * 每4小时运行
+	 */
+	@Scheduled(cron = "0 0 0,4,8,12,16,20 * * *")
+	public void handleHourKLine4Hour(){
+		processorFactory.getProcessorMap().forEach((symbol,processor)-> {
+			if(!processor.isStopKline()) {
+				Calendar calendar = Calendar.getInstance();
+				log.info("小时K线:{}",calendar.getTime());
+				//将秒、微秒字段置为0
+				calendar.set(Calendar.MINUTE, 0);
+				calendar.set(Calendar.SECOND, 0);
+				calendar.set(Calendar.MILLISECOND, 0);
+				long time = calendar.getTimeInMillis();
+
+				processor.generateKLine(4, Calendar.HOUR_OF_DAY, time);
+			}
+		});
+	}
+
     /**
      * 每日0点处理器，处理日K线
      */
@@ -96,16 +119,33 @@ public class KLineGeneratorJob {
 	            int week = calendar.get(Calendar.DAY_OF_WEEK);
 	            int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 	            if(week == 1){
-	                processor.generateKLine(1, Calendar.DAY_OF_WEEK, time);
+	                processor.generateKLine(1, Calendar.WEEK_OF_MONTH, time);
 	            }
 	            if(dayOfMonth == 1){
-	                processor.generateKLine(1, Calendar.DAY_OF_MONTH, time);
+	                processor.generateKLine(1, Calendar.MONTH, time);
 	            }
 	            processor.generateKLine(1, Calendar.DAY_OF_YEAR,time);
         	}
         });
     }
 
+//	@Scheduled(cron = "0 */2 * * * *")
+//	public void handleTestKLine(){
+//		processorFactory.getProcessorMap().forEach((symbol,processor)->{
+//			if(!processor.isStopKline() && !symbol.equals("ETH/USDT")) {
+//
+//				Calendar calendar = Calendar.getInstance();
+//				calendar.setTimeInMillis(1648915200000L);
+//				for (int i = 0; i < 26; i++) {
+//					long time = calendar.getTimeInMillis();
+//					processor.generateKLine(1, Calendar.WEEK_OF_MONTH, time);
+//					calendar.add(Calendar.WEEK_OF_MONTH,1);
+//				}
+//			}
+//		});
+//
+//
+//	}
 	/**
 	 * 每分钟定时器，处理分钟K线
 	 */

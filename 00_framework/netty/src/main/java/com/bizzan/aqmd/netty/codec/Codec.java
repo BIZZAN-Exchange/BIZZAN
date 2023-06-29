@@ -7,7 +7,7 @@ import io.netty.channel.Channel;
  * <p>Title: Codec</p>
  * <p>Description: </p>
  * 加解密接口
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年6月26日
  */
 public interface  Codec {

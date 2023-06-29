@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
 
 /**
- * @author Hevin E-Mali:390330302@qq.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @Description: coin
  * @date 2021/4/214:20
  */

@@ -5,13 +5,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.bizzan.bitrade.constant.BooleanEnum;
 import com.bizzan.bitrade.constant.WithdrawStatus;
-import com.bizzan.bitrade.entity.Coin;
-import com.bizzan.bitrade.entity.Member;
-import com.bizzan.bitrade.entity.WithdrawRecord;
-import com.bizzan.bitrade.service.CoinService;
-import com.bizzan.bitrade.service.MemberService;
-import com.bizzan.bitrade.service.MemberWalletService;
-import com.bizzan.bitrade.service.WithdrawRecordService;
+import com.bizzan.bitrade.entity.*;
+import com.bizzan.bitrade.service.*;
 import com.bizzan.bitrade.util.MessageResult;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -30,9 +25,11 @@ public class FinanceConsumer {
     @Autowired
     private CoinService coinService;
     @Autowired
+    private CoinextService coinextService;
+    @Autowired
     private MemberWalletService walletService;
     @Autowired
-    private MemberService memberService;
+    private AddressextService addressextService;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -61,12 +58,26 @@ public class FinanceConsumer {
         String protocol = json.getString("protocol");
         Long blockHeight = json.getLong("blockHeight");
         Coin coin = coinService.findByUnit(record.key());
-
-        logger.info("coin={}", coin);
-        if (coin != null && walletService.findDeposit(address, txid) == null) {
-            MessageResult mr = walletService.recharge(coin, address, amount, txid,fromAddress,protocol,blockHeight);
-            logger.info("wallet recharge result:{}", mr);
+        Addressext addressext = addressextService.findByAddress(address);
+        if(addressext==null){
+            logger.info("充值地址不存在{}",address);
+            return;
         }
+        Coinext coinext = coinextService.findFirstByCoinnameAndProtocol(coin.getName(), addressext.getCoinProtocol());
+        if (coinext==null) {
+            logger.info("币种扩充不存在{}",coin.getName());
+            return;
+        }
+        if(amount.compareTo(BigDecimal.valueOf(coinext.getMinrecharge())) >= 0){
+            logger.info("coin={}", coin);
+            if (coin != null && walletService.findDeposit(address, txid) == null) {
+                MessageResult mr = walletService.recharge(coin, address, amount, txid,fromAddress,protocol,blockHeight);
+                logger.info("wallet recharge result:{}", mr);
+            }
+        }else {
+            logger.info("充值数量小于最低数量 不增加充值记录");
+        }
+
 //        if(coin.getAccountType() == 1) {
 //            Long memoId = json.getLong("userId"); // 备注Memo
 //            Long userId = memoId - 345678; // 注意，此处与前端memo必须保持一致

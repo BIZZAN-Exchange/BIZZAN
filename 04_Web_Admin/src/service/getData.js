@@ -1,9 +1,7 @@
 import { BASEURL, fetch, post, postOut, patch, put, postConfig } from './http.js'
 
 export const BASICURL = BASEURL;
-// export const uploadPic = data => post('', data);
-// export const getALL = () => post(地址);  post
-// export const getALL = () => fetch(地址);  get
+
 // post  帮助管理
 export const helpDown = data => post('admin/cms/system-help/down', data);
 // post 公告管理
@@ -291,8 +289,6 @@ export const employeeDetail = data => post('admin/system/employee/detail', data)
 //post "用户管理" => "删除用户"
 export const delEmployee = data => post('admin/system/employee/deletes', data);
 
-//post "首页" => "待处理事务（法币管理）"
-// export const queryOtc = data => post('admin/otc/order/page-query', data);
 
 //post "会员管理" => "会员详情"=>"人工充币"
 export const manualPay = data => post('admin/member/member-wallet/recharge', data);
@@ -320,9 +316,6 @@ export const addVote = (data, config) => postConfig('admin/system/vote/merge', d
 
 //post "系统管理" => "查询投票"
 export const queryVote = data => post('admin/system/vote/page-query', data);
-
-//post "系统管理" => "查询分红"
-// export const queryDividend = data => post('admin/system/dividend/page-query', data);
 
 //post "系统管理" => "开始分红"
 export const startDividend = data => post('admin/system/dividend/start', data);
@@ -616,23 +609,12 @@ export const ctcAcceptorSwitch = data => post('admin/ctc/acceptor/switch', data)
 //POST获取 "系统管理"=>"APP版本"=>"列表"
 export const sysAppRevision = data => fetch('admin/system/app-revision/page-query', data);
 export const sysAppRevisionSave = data => {return data.id && data.id > 0 ? put('admin/system/app-revision/' + data.id, data) : post('admin/system/app-revision', data)}
+// 期权合约管理=========================================================
 
-
-
-// 手续费支取=====================================
 //POST支取手续费
 export const withdrawFeeFunc = data => post('admin/fee/withdraw', data);
 //POST 支取手续费明细
 export const withdrawFeeDetail = data => post('admin/fee/withdraw/page-query', data);
-
-//POST获取 "邀请管理"=>"返佣管理"=>"返佣管理"
-export const queryRewardRecordList = data => post('admin/swap/reward/page-query', data);
-
-//POST获取 "邀请管理"=>"返佣比例"=>"返佣比例"
-export const queryRewardSetList = data => post('admin/swap/reward/rewardSets', data);
-//POST获取 "邀请管理"=>"清除缓存"=>"清除缓存"
-export const clearRewardSet = data => post('admin/swap/reward/clear', data);
-
 
 // 币种协议管理
 export const coinprotocolList = data => post('admin/system/coinprotocol/page-query', data);
@@ -665,5 +647,8 @@ export const withdrawProtocolList = () => fetch('admin/finance/withdraw/protocol
 export const withdrawList = data => post('admin/finance/withdraw/page-query', data);
 export const withdrawListOut = data => postOut('admin/finance/withdraw/page-query', data);
 export const withdrawSave = data => post('admin/finance/withdraw/merge', data);
+
+
+
 
 

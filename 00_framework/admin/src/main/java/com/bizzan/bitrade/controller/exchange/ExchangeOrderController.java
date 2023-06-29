@@ -38,7 +38,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @description
  * @date 2019/1/31 10:52
  */
@@ -93,7 +93,7 @@ public class ExchangeOrderController extends BaseAdminController {
         }
         //获取查询条件
         Predicate predicate = getPredicate(screen);
-        if (screen.getIsOut() == 1) {
+        if (screen.getIsOut()!=null && screen.getIsOut() == 1) {
             Iterable<ExchangeOrder> allOut = exchangeOrderService.findAllOut(predicate);
             Set<Long> memberSet = new HashSet<>();
             allOut.forEach(v -> {

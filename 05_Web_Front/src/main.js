@@ -21,12 +21,27 @@ var momentTimezone = require('moment-timezone');
 import ViewUI from 'view-design';
 import enUS from 'view-design/dist/locale/en-US';
 import zhCN from 'view-design/dist/locale/zh-CN';
-
+import zhTW from 'view-design/dist/locale/zh-TW';
+import jaJP from 'view-design/dist/locale/ja-JP';
+import koKR from 'view-design/dist/locale/ko-KR';
+import deDE from 'view-design/dist/locale/de-DE';
+import frFR from 'view-design/dist/locale/fr-FR';
+import itIT from 'view-design/dist/locale/it-IT';
+import esES from 'view-design/dist/locale/es-ES';
+import ruRU from 'view-design/dist/locale/ru-RU';
+import hiIN from 'view-design/dist/locale/hi-IN';
 
 import  en from './assets/lang/en.js';
 import  cn from './assets/lang/cn.js';
-
-
+import  hk from './assets/lang/hk.js';
+import  jp from './assets/lang/jp.js';
+import  ko from './assets/lang/ko.js';
+import  de from './assets/lang/de.js';
+import  fr from './assets/lang/fr.js';
+import  it from './assets/lang/it.js';
+import  es from './assets/lang/es.js';
+import  ru from './assets/lang/ru.js';
+import  hi from './assets/lang/hi.js';
 
 import { Swipe, SwipeItem } from 'vant'
 import 'vant/lib/swipe/style'
@@ -38,26 +53,34 @@ Vue.use(vueResource);
 Vue.use(VueI18n);
 
 const i18n = new VueI18n({
-	locale: 'zh_CN',
+	locale: 'en_US',
 	messages: {
 		'zh_CN': Object.assign( zhCN, cn),
 		'en_US': Object.assign( enUS, en),
-
+		'zh_HK': Object.assign( zhTW, hk),
+		'ja_JP': Object.assign( jaJP, jp),
+		'ko_KR': Object.assign( koKR, ko),
+		'de_DE': Object.assign( deDE, de),
+		'fr_FR': Object.assign( frFR, fr),
+		'it_IT': Object.assign( itIT, it),
+		'es_ES': Object.assign( esES, es),
+		'ru_RU': Object.assign( ruRU, ru),
+		'hi_IN': Object.assign( hiIN, hi),
 	},
 	silentTranslationWarn: true
 });
 
 Vue.use(ViewUI, { i18n: (key, value) => i18n.t(key, value) });
 
-Vue.prototype.rootHost = "http://www.bizzan.biz"; //BIZZAN
-Vue.prototype.host = "http://api.bizzan.biz"; //BIZZAN
+Vue.prototype.rootHost = "https://www.bizzan.pro"; //BIZZAN
+Vue.prototype.host = "https://api.bizzan.pro"; //BIZZAN
 
 Vue.prototype.api = Api;
 Vue.http.options.credentials = true;
 Vue.http.options.emulateJSON = true;
 Vue.http.options.headers = {
-    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-    'Content-Type': 'application/json;charset=utf-8'
+    'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=UTF-8',
+    //'Content-Type': 'application/json;charset=utf-8'
 };
 
 const router = new VueRouter({
@@ -157,8 +180,35 @@ Vue.prototype.getTimezone4K = function(){
 		if(curlang=="en_US"){
 			return "America/Los_Angeles";
 		}
+		if(curlang=="ja_JP"){
+			return "Asia/Tokyo";
+		}
+		if(curlang=="ko_KR"){
+			return "Asia/Seoul";
+		}
+		if(curlang=="de_DE"){
+			return "Europe/Berlin";
+		}
+		if(curlang=="fr_FR"){
+			return "Europe/Paris";
+		}
+		if(curlang=="it_IT"){
+			return "Europe/Rome";
+		}
+		if(curlang=="es_ES"){
+			return "Europe/Madrid";
+		}
+		if(curlang=="zh_HK"){
+			return "Asia/Hong_Kong";
+		}
 		if(curlang=="zh_CN"){
 			return "Asia/Shanghai";
+		}
+		if(curlang=="hi_IN"){
+			return "Asia/India";
+		}
+		if(curlang=="ru_RU"){
+			return "Europe/Russia";
 		}
 		return curlang;
 };
@@ -167,8 +217,35 @@ Vue.prototype.getLang4K = function(){
 		if(curlang=="en_US"){
 			return "en";
 		}
+		if(curlang=="ja_JP"){
+			return "ja";
+		}
+		if(curlang=="ko_KR"){
+			return "ko";
+		}
+		if(curlang=="de_DE"){
+			return "de_DE";
+		}
+		if(curlang=="fr_FR"){
+			return "fr";
+		}
+		if(curlang=="it_IT"){
+			return "it";
+		}
+		if(curlang=="es_ES"){
+			return "es";
+		}
+		if(curlang=="zh_HK"){
+			return "zh_TW";
+		}
 		if(curlang=="zh_CN"){
 			return "zh";
+		}
+		if(curlang=="hi_IN"){
+			return "hi";
+		}
+		if(curlang=="ru_RU"){
+			return "ru";
 		}
 		return curlang;
 };

@@ -92,94 +92,94 @@
       <p class="headertip">* {{ $t('invite.headertip') }}</p>
       <!-- 详情 -->
       <div class="main">
-        <div class="invite-content">
-          <h2>{{ $t('invite.ruledetail') }}</h2>
+<!--        <div class="invite-content">-->
+<!--          <h2>{{ $t('invite.ruledetail') }}</h2>-->
 
-          <div class="content">
-            <p class="content-title">
-              {{ $t('invite.ruleprofile1') }}<b>{{ $t('invite.ruleprofile2') }}</b
-              ><b>{{ $t('invite.ruleprofile3') }}</b
-              >{{ $t('invite.ruleprofile4') }}
-            </p>
-            <p>{{ $t('invite.ruletext1') }}</p>
-            <p>{{ $t('invite.ruletext2') }}</p>
-            <p>{{ $t('invite.ruletext3') }}</p>
-            <p>{{ $t('invite.ruletext4') }}</p>
-            <p>{{ $t('invite.ruletext5') }}</p>
-            <p>{{ $t('invite.ruletext6') }}</p>
-            <p>{{ $t('invite.ruletext7') }}</p>
-            <!-- 表格 -->
-            <table class="percent-table">
-              <tr style="background:#EDEDED;">
-                <td>{{ $t('invite.level') }}</td>
-                <td>{{ $t('invite.levelonecount') }}</td>
-                <td>{{ $t('invite.levelonecommission') }}</td>
-                <td>{{ $t('invite.leveltwocommission') }}</td>
-                <td>{{ $t('invite.partnerdivide') }}</td>
-              </tr>
+<!--          <div class="content">-->
+<!--            <p class="content-title">-->
+<!--              {{ $t('invite.ruleprofile1') }}<b>{{ $t('invite.ruleprofile2') }}</b-->
+<!--              ><b>{{ $t('invite.ruleprofile3') }}</b-->
+<!--              >{{ $t('invite.ruleprofile4') }}-->
+<!--            </p>-->
+<!--            <p>{{ $t('invite.ruletext1') }}</p>-->
+<!--            <p>{{ $t('invite.ruletext2') }}</p>-->
+<!--            <p>{{ $t('invite.ruletext3') }}</p>-->
+<!--            <p>{{ $t('invite.ruletext4') }}</p>-->
+<!--            <p>{{ $t('invite.ruletext5') }}</p>-->
+<!--            <p>{{ $t('invite.ruletext6') }}</p>-->
+<!--            <p>{{ $t('invite.ruletext7') }}</p>-->
+<!--            &lt;!&ndash; 表格 &ndash;&gt;-->
+<!--            <table class="percent-table">-->
+<!--              <tr style="background:#EDEDED;">-->
+<!--                <td>{{ $t('invite.level') }}</td>-->
+<!--                <td>{{ $t('invite.levelonecount') }}</td>-->
+<!--                <td>{{ $t('invite.levelonecommission') }}</td>-->
+<!--                <td>{{ $t('invite.leveltwocommission') }}</td>-->
+<!--                <td>{{ $t('invite.partnerdivide') }}</td>-->
+<!--              </tr>-->
 
-              <tr>
-                <td>L1({{ $t('invite.lv1') }})</td>
-                <td>0 ≤ N ≤ 10</td>
-                <td>20% / 6{{ $t('invite.month') }}</td>
-                <td>5% / 6{{ $t('invite.month') }}</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>L2({{ $t('invite.lv2') }})</td>
-                <td>10 &lt; N ≤ 100</td>
-                <td>30% / 12{{ $t('invite.month') }}</td>
-                <td>10% / 12{{ $t('invite.month') }}</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>L3({{ $t('invite.lv3') }})</td>
-                <td>100 &lt; N ≤ 500</td>
-                <td>40% / 12{{ $t('invite.month') }}</td>
-                <td>15% / 12{{ $t('invite.month') }}</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>L4({{ $t('invite.lv4') }})</td>
-                <td>500 &lt; N ≤ 1500</td>
-                <td>50% / 24{{ $t('invite.month') }}</td>
-                <td>20% / 24{{ $t('invite.month') }}</td>
-                <td>+5%</td>
-              </tr>
-              <tr>
-                <td>L5({{ $t('invite.lv5') }})</td>
-                <td>1500 &lt; N ≤ 3000</td>
-                <td>60% / 24{{ $t('invite.month') }}</td>
-                <td>25% / 24{{ $t('invite.month') }}</td>
-                <td>+10%</td>
-              </tr>
-              <tr>
-                <td>L6({{ $t('invite.lv6') }})</td>
-                <td>3000 &lt; N</td>
-                <td>60% / {{ $t('invite.alllife') }}</td>
-                <td>25% / {{ $t('invite.alllife') }}</td>
-                <td>+15%</td>
-              </tr>
-            </table>
+<!--              <tr>-->
+<!--                <td>L1({{ $t('invite.lv1') }})</td>-->
+<!--                <td>0 ≤ N ≤ 10</td>-->
+<!--                <td>20% / 6{{ $t('invite.month') }}</td>-->
+<!--                <td>5% / 6{{ $t('invite.month') }}</td>-->
+<!--                <td></td>-->
+<!--              </tr>-->
+<!--              <tr>-->
+<!--                <td>L2({{ $t('invite.lv2') }})</td>-->
+<!--                <td>10 &lt; N ≤ 100</td>-->
+<!--                <td>30% / 12{{ $t('invite.month') }}</td>-->
+<!--                <td>10% / 12{{ $t('invite.month') }}</td>-->
+<!--                <td></td>-->
+<!--              </tr>-->
+<!--              <tr>-->
+<!--                <td>L3({{ $t('invite.lv3') }})</td>-->
+<!--                <td>100 &lt; N ≤ 500</td>-->
+<!--                <td>40% / 12{{ $t('invite.month') }}</td>-->
+<!--                <td>15% / 12{{ $t('invite.month') }}</td>-->
+<!--                <td></td>-->
+<!--              </tr>-->
+<!--              <tr>-->
+<!--                <td>L4({{ $t('invite.lv4') }})</td>-->
+<!--                <td>500 &lt; N ≤ 1500</td>-->
+<!--                <td>50% / 24{{ $t('invite.month') }}</td>-->
+<!--                <td>20% / 24{{ $t('invite.month') }}</td>-->
+<!--                <td>+5%</td>-->
+<!--              </tr>-->
+<!--              <tr>-->
+<!--                <td>L5({{ $t('invite.lv5') }})</td>-->
+<!--                <td>1500 &lt; N ≤ 3000</td>-->
+<!--                <td>60% / 24{{ $t('invite.month') }}</td>-->
+<!--                <td>25% / 24{{ $t('invite.month') }}</td>-->
+<!--                <td>+10%</td>-->
+<!--              </tr>-->
+<!--              <tr>-->
+<!--                <td>L6({{ $t('invite.lv6') }})</td>-->
+<!--                <td>3000 &lt; N</td>-->
+<!--                <td>60% / {{ $t('invite.alllife') }}</td>-->
+<!--                <td>25% / {{ $t('invite.alllife') }}</td>-->
+<!--                <td>+15%</td>-->
+<!--              </tr>-->
+<!--            </table>-->
 
-            <div class="rule-tips">
-              <p style="font-size: 13px;font-weight:bold;">{{ $t('invite.ruleexampletitle') }}</p>
-              <p style="text-indent: 25px;">{{ $t('invite.ruleexamplecontent1') }}</p>
-              <p style="text-indent: 25px;">{{ $t('invite.ruleexamplecontent2') }}</p>
-            </div>
-            <p>{{ $t('invite.ruletext8') }}</p>
-            <p>{{ $t('invite.ruletext9') }}</p>
-            <p>{{ $t('invite.ruletext10') }}</p>
-            <p>{{ $t('invite.ruletext11') }}</p>
-            <p class="rule-update">{{ $t('invite.lastupdate') }}：2020/10/18 12:15:34</p>
-          </div>
-        </div>
+<!--            <div class="rule-tips">-->
+<!--              <p style="font-size: 13px;font-weight:bold;">{{ $t('invite.ruleexampletitle') }}</p>-->
+<!--              <p style="text-indent: 25px;">{{ $t('invite.ruleexamplecontent1') }}</p>-->
+<!--              <p style="text-indent: 25px;">{{ $t('invite.ruleexamplecontent2') }}</p>-->
+<!--            </div>-->
+<!--            <p>{{ $t('invite.ruletext8') }}</p>-->
+<!--            <p>{{ $t('invite.ruletext9') }}</p>-->
+<!--            <p>{{ $t('invite.ruletext10') }}</p>-->
+<!--            <p>{{ $t('invite.ruletext11') }}</p>-->
+<!--            <p class="rule-update">{{ $t('invite.lastupdate') }}：2020/10/18 12:15:34</p>-->
+<!--          </div>-->
+<!--        </div>-->
         <!-- 推广工具箱 -->
         <div class="promotion-tools">
           <h2>{{ $t('invite.ptools') }}</h2>
           <div class="tools">
             <div class="item" @click="showCardItem">
-              <img src="https://bizzan01.oss-cn-hongkong.aliyuncs.com/2019/08/08/promotioncard.png" />
+              <img src="https://bizzantest.oss-cn-hongkong.aliyuncs.com/2019/08/08/promotioncard.png" />
               <p class="title">
                 {{ $t('invite.pt_title')
                 }}<span style="color:#FF0000;margin-left:10px;font-size:13px;">{{
@@ -189,7 +189,7 @@
               <p class="desc">{{ $t('invite.pt_desc') }}</p>
             </div>
             <div class="item" @click="useInviteImage">
-              <img src="https://bizzan01.oss-cn-hongkong.aliyuncs.com/2019/08/08/invitebg.jpg" />
+              <img src="https://bizzantest.oss-cn-hongkong.aliyuncs.com/2019/08/08/invitebg.jpg" />
               <p class="title">{{ $t('invite.pt_invite_title') }}</p>
               <p class="desc">{{ $t('invite.pt_invite_desc') }}</p>
             </div>
@@ -278,7 +278,7 @@
 
       <Drawer :title="$t('invite.pt_title')" :closable="false" v-model="showCardModal" width="350">
         <div class="ptcard-header">
-          <img class="card-img" src="https://bizzan01.oss-cn-hongkong.aliyuncs.com/2019/08/08/promotioncard.png" />
+          <img class="card-img" src="https://bizzantest.oss-cn-hongkong.aliyuncs.com/2019/08/08/promotioncard.png" />
           <div class="desc">
             <p class="title">{{ $t('invite.pt_title') }}</p>
             <p class="amount">{{ $t('invite.pt_card_amount') }}：0.001 BTC</p>

@@ -318,7 +318,7 @@ export default {
                           }
                         }
                       },
-                      this.$t('currencywithdrawalauditmanagement.reasonforrejection')
+                      this.$t('currencywithdrawalauditmanagement.reasonforrejection1')
                   )
               )
             } else if (obj.row.status === 3) {
@@ -375,7 +375,7 @@ export default {
       formMap: {
         add: this.$t('currencywithdrawalauditmanagement.processingwithdrawal'),
         edit: this.$t('currencywithdrawalauditmanagement.rejectwithdrawal'),
-        info: this.$t('currencywithdrawalauditmanagement.reasonforrejection')
+        info: this.$t('currencywithdrawalauditmanagement.reasonforrejection1')
       },
       formData: formJson,
       formRules: {

@@ -73,4 +73,7 @@ public class MemberTransaction {
      * 折扣手续费
      */
     private String discountFee ;
+
+    @Column(columnDefinition = "int(2) default 0 comment '是否已返佣'")
+    private int isReward;// 是否已返佣，0：否，1：是
 }

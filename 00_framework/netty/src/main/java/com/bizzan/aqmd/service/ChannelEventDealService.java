@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2017-2018 阿期米德 All Rights Reserved.
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @Date: 2020/3/21 17:17
  * @Version: 1.0
  * History:
@@ -11,7 +11,7 @@ package com.bizzan.aqmd.service;
 /**
  * <p>Description: </p>
  * 发生连接建立或者断开时的特殊处理服务
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @Date: 2020/3/21 17:17
  */
 public interface ChannelEventDealService {

@@ -62,7 +62,7 @@
         <span style="margin-left: 10px;font-weight: bold;">{{toExchangeCoin}}</span>
       </p>
       <p style="margin-top: 15px;">{{$t('uc.finance.record.inputexchangepasswd')}}:
-        <Input style="width: 400px;" type="password" v-model="exchangePassword" :placeholder="$t('uc.finance.record.inputexchangepasswd')"></Input>
+        <Input style="width: 400px;" type="password" autocomplete="new-password" v-model="exchangePassword" :placeholder="$t('uc.finance.record.inputexchangepasswd')"></Input>
       </p>
     </Modal>
   </div>
@@ -530,7 +530,7 @@ export default {
 						margin-bottom: 5px;
 					}
 				}
-				
+
             }
           }
         }

@@ -33,7 +33,8 @@
     "vue-qriously": "^1.1.1",
     "vue-resource": "^1.3.4",
     "vue-router": "^3.0.1",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "webpack-cli": "^5.1.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -98,7 +99,7 @@
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.10.0",
     "webpack-bundle-analyzer": "^2.9.0",
-    "webpack-dev-server": "^2.11.0",
+    "webpack-dev-server": "^2.11.5",
     "webpack-merge": "^4.1.1"
   },
   "engines": {

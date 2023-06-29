@@ -4,7 +4,7 @@
  * <p>FileName: LoginUserDao.java</p>
  * 
  * Description: 
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年10月26日
  * @version 1.0
  * History:
@@ -21,7 +21,7 @@ import java.util.Map;
  * <p>Title: LoginUserDao</p>
  * <p>Description: </p>
  * netty登陆的默认服务，用户名随意,密码admin
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年10月26日
  */
 @SuppressWarnings("rawtypes")

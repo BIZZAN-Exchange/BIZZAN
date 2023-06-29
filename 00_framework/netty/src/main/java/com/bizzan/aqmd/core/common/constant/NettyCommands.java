@@ -4,7 +4,7 @@
  * <p>FileName: Commands.java</p>
  * 
  * Description: 
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月19日
  * @version 1.0
  * History:
@@ -28,7 +28,7 @@ package com.bizzan.aqmd.core.common.constant;
  * <li>同步更新：同步更新结果</li>
  * </ol>
  * 
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月19日
  */
 public class NettyCommands {

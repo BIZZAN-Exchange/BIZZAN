@@ -4,7 +4,7 @@
  * <p>FileName: ObsoletedType.java</p>
  * 
  * Description: 
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月18日
  * @version 1.0
  * History:
@@ -16,7 +16,7 @@ package com.bizzan.aqmd.core.annotation;
  * <p>Title: ObsoletedType</p>
  * <p>Description: </p>
  * 服务方法是否已经过期，过期的服务方法不能再访问
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月18日
  */
 public enum ObsoletedType {

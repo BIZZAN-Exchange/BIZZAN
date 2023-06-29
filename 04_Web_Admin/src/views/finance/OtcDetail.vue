@@ -93,7 +93,7 @@
 							<li><span>{{ $t('transactiondetailsinlegalcurrency.orderamount') }}</span>{{ modelInner.money }}</li>
 							<li><span>{{ $t('transactiondetailsinlegalcurrency.servicecharge') }}</span>{{ ''+modelInner.commission }}</li>
 							<li><span>{{ $t('orderdetails.paymentmethod') }}</span>{{ modelInner.payMode }}</li>
-							<li><span>{{ $t('transactiondetailsinlegalcurrency.orderstatus') }}</span>{{ modelInner.status | filterOrderStatus }}</li>
+							<li><span>{{ $t('transactiondetailsinlegalcurrency.orderstatus') }}</span>{{ modelInner.status | filterOrderStatus(detailArrS) }}</li>
 							<li><span>{{ $t('transactiondetailsinlegalcurrency.paymenttime') }}</span>{{ modelInner.payTime }}</li>
 							<li><span>{{ $t('transactiondetailsinlegalcurrency.ordercancellationtime') }}</span>{{ !modelInner.cancelTime ? '--' : modelInner.cancelTime }}</li>
 							<li><span>{{ $t('transactiondetailsinlegalcurrency.releasetime') }}</span>{{ !modelInner.releaseTime ? '--' : modelInner.releaseTime }}</li>
@@ -119,6 +119,7 @@ export default {
 				direction: [],
 				property: []
 			},
+      detailArrS: [this.$t('transactiondetailsinlegalcurrency.cancelled'), this.$t('transactiondetailsinlegalcurrency.unpaid'), this.$t('transactiondetailsinlegalcurrency.paid'), this.$t('transactiondetailsinlegalcurrency.completed'), this.$t('transactiondetailsinlegalcurrency.appealing')],
 			advertiseArr: [
 				{ status: 0, text: this.$t('transactiondetailsinlegalcurrency.buy') },
 				{ status: 1, text: this.$t('transactiondetailsinlegalcurrency.sell') },
@@ -184,7 +185,7 @@ export default {
           key: "number"
         },
         {
-          title: this.$t('essentialinformation.orderamount'),
+          title: this.$t('essentialinformation1.orderamount'),
           key: "money"
         },
         {
@@ -196,7 +197,7 @@ export default {
           key: "payMode"
         },
         {
-          title: this.$t('essentialinformation.orderstatus'),
+          title: this.$t('essentialinformation1.orderstatus'),
           key: "status",
           render(h, params) {
             let status = params.row.status;
@@ -348,8 +349,8 @@ export default {
     this.refreshPage({status: 3});
 	},
 	filters: {
-		filterOrderStatus (val) {
-			let arr = [this.$t('transactiondetailsinlegalcurrency.cancelled'), this.$t('transactiondetailsinlegalcurrency.unpaid'), this.$t('transactiondetailsinlegalcurrency.paid'), this.$t('transactiondetailsinlegalcurrency.completed'), this.$t('transactiondetailsinlegalcurrency.appealing')];
+		filterOrderStatus (val,arr) {
+			// let arr = [this.$t('transactiondetailsinlegalcurrency.cancelled'), this.$t('transactiondetailsinlegalcurrency.unpaid'), this.$t('transactiondetailsinlegalcurrency.paid'), this.$t('transactiondetailsinlegalcurrency.completed'), this.$t('transactiondetailsinlegalcurrency.appealing')];
 			return arr[val];
 		},
 	},

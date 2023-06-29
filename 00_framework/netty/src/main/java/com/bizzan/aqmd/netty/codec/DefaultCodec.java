@@ -11,7 +11,7 @@ import io.netty.channel.Channel;
  *     <li>解码不解密</li>
  *     <li>编码不加密</li>
  * </ol>
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年6月26日
  */
 public class DefaultCodec implements Codec {

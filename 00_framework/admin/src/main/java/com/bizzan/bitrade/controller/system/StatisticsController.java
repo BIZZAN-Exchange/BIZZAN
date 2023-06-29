@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @description
  * @date 2019/1/8 16:19
  */
@@ -34,7 +34,7 @@ public class StatisticsController extends BaseAdminController {
     private OrderDetailAggregationService orderDetailAggregationService ;
 
     /**
-     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+     * @author Hevin  E-mail:bizzanhevin@gmail.com
      * @description 查询新增用户 曲线
      * @date 2019/1/8 16:25
      */
@@ -54,7 +54,7 @@ public class StatisticsController extends BaseAdminController {
     }
 
     /**
-     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+     * @author Hevin  E-mail:bizzanhevin@gmail.com
      * @description 委托量曲线
      * @date 2019/1/9 13:52
      */
@@ -74,7 +74,7 @@ public class StatisticsController extends BaseAdminController {
     }
 
     /**
-     * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+     * @author Hevin  E-mail:bizzanhevin@gmail.com
      * @description 交易量 订单量
      * @date 2019/1/9 14:50
      */

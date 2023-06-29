@@ -61,9 +61,9 @@ import {parnter } from '@/service/getData'
                 }
                 parnter(param).then(res=>{
                     if(!res.code){
-                        this.$Message.success('成功！');
+                        this.$Message.success(this.$t('query.success'));
                     }else{
-                        this.$Message.error('失败！');
+                        this.$Message.error(this.$t('query.failed'));
                     }
                 })
             }

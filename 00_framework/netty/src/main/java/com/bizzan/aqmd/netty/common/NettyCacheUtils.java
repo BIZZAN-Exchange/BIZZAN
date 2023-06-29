@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2017-2018 阿期米德 All Rights Reserved.
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @Date: 2020/3/15 14:50
  * @Version: 1.0
  * History:
@@ -21,7 +21,7 @@ import java.util.Set;
 /**
  * <p>Description: </p>
  *
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @Date: 2020/3/15 14:50
  */
 public class NettyCacheUtils {

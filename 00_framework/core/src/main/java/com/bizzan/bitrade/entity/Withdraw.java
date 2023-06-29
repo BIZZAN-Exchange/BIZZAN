@@ -16,10 +16,10 @@ public class Withdraw {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Excel(name = "ID", orderNum = "1", width = 20)
-    private Integer id;
+    private Long id;
 
     @Excel(name = "用户ID", orderNum = "1", width = 20)
-    private Integer memberid;
+    private Long memberid;
 
     @Excel(name = "添加时间", orderNum = "1", width = 20)
     private Long addtime;

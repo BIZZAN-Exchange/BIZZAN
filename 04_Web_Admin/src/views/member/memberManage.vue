@@ -152,7 +152,7 @@ export default {
             let memberLevel = obj.row.memberLevel;
             let memberLevelTxt = null;
             if (!memberLevel) memberLevelTxt = this.$t('certifiedmerchants.ordinarymember')
-            else if (memberLevel===1) memberLevelTxt = this.$t('c2cordermanagement.realname')
+            else if (memberLevel===1) memberLevelTxt = this.$t('membermanagement.realname')
             else if (memberLevel===2) memberLevelTxt = this.$t('certifiedmerchants.certification')
             return h('span',{
             }, memberLevelTxt)
@@ -277,7 +277,7 @@ export default {
 							// 		}
 							// 	}
 							// }, '层级迁移'),
-							h(this.$t('dropdown'), {
+							h('dropdown', {
 								props: {
 									transfer: true
 								},

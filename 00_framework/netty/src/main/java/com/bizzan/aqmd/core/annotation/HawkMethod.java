@@ -4,7 +4,7 @@
  * <p>FileName: HawkMethod.java</p>
  * 
  * Description: 
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月18日
  * @version 1.0
  * History:
@@ -18,7 +18,7 @@ import java.lang.annotation.*;
  * <p>Title: HawkMethod</p>
  * <p>Description: </p>
  * 使用该注解对服务方法进行标注
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月18日
  */
 @Target({ElementType.METHOD})

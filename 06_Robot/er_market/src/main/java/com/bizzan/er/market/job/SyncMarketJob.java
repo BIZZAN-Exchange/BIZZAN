@@ -17,32 +17,38 @@ public class SyncMarketJob {
 	@Autowired
 	private MarketEngineFactory engineFactory;
 	
-//	@Async
-//	@Scheduled(fixedDelay = 4500)
-//    public void synchronizeExchangeCenterOKex(){
-//		engineFactory.getEngine("Okex").syncMarket();
-//	}
-	
 	@Async
-	@Scheduled(fixedDelay = 5000)
+	@Scheduled(fixedDelay = 4000)
     public void synchronizeExchangeCenterHuobi(){
 		engineFactory.getEngine("Huobi").syncMarket();
 	}
-	
-//	@Async
-//	@Scheduled(fixedDelay = 5500)
-//    public void synchronizeExchangeCenterZb(){
-//		engineFactory.getEngine("Zb").syncMarket();
-//	}
-//
+
+	@Async
+	@Scheduled(fixedDelay = 4500)
+	public void synchronizeExchangeCenterOKex(){
+		engineFactory.getEngine("Okex").syncMarket();
+	}
+
+	@Async
+	@Scheduled(fixedDelay = 5000)
+	public void synchronizeExchangeCenterBinance(){
+		engineFactory.getEngine("Binance").syncMarket();
+	}
+
+	@Async
+	@Scheduled(fixedDelay = 5500)
+    public void synchronizeExchangeCenterZb(){
+		engineFactory.getEngine("Zb").syncMarket();
+	}
+
 //	@Async
 //	@Scheduled(fixedDelay = 6000)
 //    public void synchronizeExchangeCenterBiki(){
 //		engineFactory.getEngine("Biki").syncMarket();
 //	}
-//
+
 //	@Async
-//	@Scheduled(fixedDelay = 60000)
+//	@Scheduled(fixedDelay = 6500)
 //    public void synchronizeExchangeCenterFxh(){
 //		engineFactory.getEngine("Fxh").syncMarket();
 //	}

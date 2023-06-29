@@ -5,22 +5,36 @@ BIZZAN后台管理系统
 vue+iview框架
 
 #### Install Prerequisites
-The following dependencies are required to run an instance:
+1. NodeJS - v14.18.2
+2. Npm - 6.14.15
 
-1. NodeJS - 9.11.2
-2. Npm - 5.6.0
 #### 安装教程
-
 1. npm install 安装包以及依赖
-2. npm run dev 本地开发环境启动 【】
+2. npm run dev 本地开发环境启动
 3. npm run build 代码打包发布
 
-#### 参与贡献
 
-1. Fork 本项目
-2. 新建 Feat_xxx 分支
-3. 提交代码
-4. 新建 Pull Request
+
+#### Project introduction
+BIZZAN background management system
+
+#### Software architecture
+Vue+iview Framework
+
+#### Install Prerequisites
+1. NodeJS - v14.18.2
+2. Npm - 6.14.15
+
+#### Installation Tutorial
+1. npm install
+2. npm run dev
+3. npm run build
+
+## 遇到报错：TypeError [ERR_INVALID_CALLBACK]: Callback must be a function
+打开build/webpack.dev.config.js，替换以下内容
+fs.write(fd, buf, 0, buf.length, 0, function(err, written, buffer) {});
+=>fs.write(fd, buf, 0, 'utf-8', function(err, written, buffer) {});
+重新执行npm run dev即可
 
 #### 项目解构简介
      -build 配置文件

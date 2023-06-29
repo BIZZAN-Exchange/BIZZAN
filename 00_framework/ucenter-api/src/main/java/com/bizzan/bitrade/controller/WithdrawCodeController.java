@@ -30,7 +30,7 @@ import static com.bizzan.bitrade.util.MessageResult.error;
 import static org.springframework.util.Assert.*;
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年01月26日
  */
 @RestController

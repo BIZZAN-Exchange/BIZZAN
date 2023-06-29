@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * @description: Encrypt
- * @author: Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author: Hevin  E-mail:bizzanhevin@gmail.com
  * @create: 2021/07/04 14:45
  */
 public class Encrypt {

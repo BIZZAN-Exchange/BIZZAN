@@ -4,7 +4,7 @@ package com.bizzan.bitrade.util;
 import com.alibaba.fastjson.JSONObject;
 
 public class MessageResult {
-	private Object data;
+
 	public MessageResult(int code , String msg){
 		this.code = code;
 		this.message = msg;
@@ -17,7 +17,7 @@ public class MessageResult {
 	public MessageResult() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public static MessageResult success(){
 		return new MessageResult(0,"SUCCESS");
 	}
@@ -27,18 +27,18 @@ public class MessageResult {
 	public static MessageResult success(String msg,Object data){
 		return new MessageResult(0,msg,data);
 	}
-	
+
 	public static MessageResult error(int code,String msg){
 		return new MessageResult(code,msg);
 	}
 	public static MessageResult error(String msg){
 		return new MessageResult(500,msg);
 	}
-	
+
 	private int code;
 	private String message;
-	private Object Data;
-	
+	private Object data;
+
 	private String totalPage;
 	private String totalElement;
 
@@ -61,6 +61,7 @@ public class MessageResult {
     public int getCode() {
 		return code;
 	}
+
 	public void setCode(int code) {
 		this.code = code;
 	}
@@ -70,17 +71,17 @@ public class MessageResult {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	
+
 	@Override
     public String toString(){
 		return JSONObject.toJSONString(this);
 		//return "{\"code\":"+code+",\"message\":\""+message+"\"}";
 	}
 	public Object getData() {
-		return Data;
+		return data;
 	}
 	public void setData(Object data) {
-		Data = data;
+		this.data = data;
 	}
 
 	public static MessageResult getSuccessInstance(String message ,Object data){

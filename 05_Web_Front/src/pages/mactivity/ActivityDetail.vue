@@ -395,7 +395,7 @@ export default {
         this.$http.post(this.host + "/uc/activity/detail", param).then(res => {
         if (res.status == 200 && res.body.code == 0) {
             this.activityDetail = res.body.data;
-            window.document.title = (this.lang == "简体中文" ? "活动 - " : "Activity - ") + this.activityDetail.title + " - BIZZAN | 全球比特币交易平台 | 全球数字货币交易平台";
+            window.document.title = (this.lang == "en_US" ? "Activity - " : "Activity - ") + this.activityDetail.title + " - BIZZAN | Global Bitcoin trading platform";
             //持仓瓜分类型进度显示处理
             if(this.activityDetail.type == 3){
                 if(this.activityDetail.step == 1){

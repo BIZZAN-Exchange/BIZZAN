@@ -32,7 +32,7 @@ import static org.springframework.util.Assert.notNull;
 
 /**
  * 红包管理
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  *
  */
 @RestController

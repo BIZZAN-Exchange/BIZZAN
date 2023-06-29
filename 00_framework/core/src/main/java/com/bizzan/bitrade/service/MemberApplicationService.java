@@ -31,7 +31,7 @@ import static com.bizzan.bitrade.constant.RealNameStatus.VERIFIED;
 import static com.bizzan.bitrade.entity.QMemberApplication.memberApplication;
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @description 会员审核单Service
  * @date 2019/12/26 15:10
  */

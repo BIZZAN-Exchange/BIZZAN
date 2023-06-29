@@ -14,15 +14,15 @@ public interface WithdrawDao extends BaseDao<Withdraw> {
 
     @Modifying
     @Query("update Withdraw a set a.status=:status, a.withdrawinfo=:withdrawinfo, a.processtime=:processtime where a.id=:id and (a.status=0 or a.status=3)")
-    void update(@Param("id") Integer id, @Param("status") Integer status, @Param("withdrawinfo") String withdrawinfo, @Param("processtime") Long processtime);
+    void update(@Param("id") Long id, @Param("status") Integer status, @Param("withdrawinfo") String withdrawinfo, @Param("processtime") Long processtime);
 
-    Withdraw findFirstById(Integer id);
+    Withdraw findFirstById(Long id);
 
     @Modifying
     @Query("update Withdraw a set a.status=:status where a.id=:id ")
-    void updateStatus(@Param("id")Integer id, @Param("status") Integer status);
+    void updateStatus(@Param("id")Long id, @Param("status") Integer status);
 
     @Modifying
     @Query("update Withdraw a set a.hash=:hash where a.id=:id ")
-    void updateHash(@Param("id")Integer id, @Param("hash") String hash);
+    void updateHash(@Param("id")Long id, @Param("hash") String hash);
 }

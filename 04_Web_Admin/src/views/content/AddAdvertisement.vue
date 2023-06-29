@@ -36,7 +36,7 @@
         :title="$t('secondcontractcompensationsetting.delete')"
         @on-ok="confirmDel"
         @on-cancel="cancelDel">
-        <p>{{$t('advertisingmanagement.note2',[delarr.length])}}</p>
+        <p>{{$t('advertisingmanagement.note4',[delArr.length])}}</p>
     </Modal>
 
 		<!-- 添加广告 -->
@@ -164,7 +164,7 @@
             <Button type="text" @click="cancelAddAd" >{{ $t('currencywithdrawalauditmanagement.cancel') }}</Button>
             <Button type="info" @click="confrimAddAd(true)" >{{ $t('advertisingmanagement.confirm') }}</Button>
           </div>
-          <Button type="info" @click="confrimAddAd(false)" v-if="!addAdStyle">{{ $t('advertisingmanagement.toupdate') }}</Button>
+          <Button type="info" @click="confrimAddAd(false)" v-if="!addAdStyle">{{ $t('helpmanage.toupdate') }}</Button>
         </div>
 
         <div class="circleWrapper" v-show="ifShowPercentCircle">

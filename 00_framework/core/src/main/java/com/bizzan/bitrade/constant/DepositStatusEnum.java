@@ -8,7 +8,7 @@ import lombok.Setter;
 
 /**
  * 保证金状态
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2019/5/5
  */
 @AllArgsConstructor

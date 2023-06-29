@@ -127,7 +127,7 @@ public class NettyHandler implements MarketHandler {
     public void handleOrder(short command, ExchangeOrder order){
         try {
             String topic = order.getSymbol() + "-" + order.getMemberId();
-            log.info("推送订单:" + JSON.toJSONString(order));
+//            log.info("推送订单:" + JSON.toJSONString(order));
             hawkPushService.pushMsg(NettyCacheUtils.getChannel(topic), command, JSON.toJSONString(order).getBytes());
         }
         catch (Exception e){

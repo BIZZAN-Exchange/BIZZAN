@@ -35,10 +35,10 @@
        <!-- 是否删除 -->
       <Modal
         v-model="ifDelete"
-        title="$t('secondcontractcompensationsetting.delete')"
+        :title="$t('secondcontractcompensationsetting.delete')"
         @on-ok="confirmDel"
         @on-cancel="cancelDel">
-        <p>{{ $t('shi-fou-shan-chu-yi-xuan-ze-de-selectedarrlength-xiang', [selectedArr.length]) }}</p>
+        <p>{{ $t('secondcontractcompensationsetting.note1', [selectedArr.length]) }}</p>
       </Modal>
 
 

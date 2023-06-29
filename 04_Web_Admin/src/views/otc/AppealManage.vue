@@ -12,7 +12,7 @@
 
 					<div class="poptip">
 						<Poptip trigger="hover" 
-									content="请输入币种搜索" 
+									:content="$t('backstageappeal.pleaseentercurrencysearch')" 
 									placement="bottom-start">
 							<Input :placeholder="$t('backstageappeal.pleaseentercurrencysearch')" 
 										v-model="filterSearch.unit"/> 
@@ -22,7 +22,7 @@
 
 					<div class="poptip">
 						<Poptip trigger="hover" 
-									content="请输入申诉者搜索" 
+									:content="$t('backstageappeal.pleaseenterthecomplainantsearch')" 
 									placement="bottom-start">
 						<Input :placeholder="$t('backstageappeal.pleaseenterthecomplainantsearch')" 
 										v-model="filterSearch.negotiant"/> 
@@ -32,7 +32,7 @@
 
 					<div class="poptip">
 						<Poptip trigger="hover" 
-										content="请输入广告主搜索" 
+										:content="$t('backstageappeal.pleaseenteradvertisersearch')" 
 										placement="bottom-start">
 							<Input :placeholder="$t('backstageappeal.pleaseenteradvertisersearch')" 
 										v-model="filterSearch.complainant"/> 
@@ -50,7 +50,7 @@
 					</div>
 
 					<div class="poptip">
-						<span>{{ $t('transactiondetailsinlegalcurrency.orderstatus') }}</span>
+						<span>{{ $t('backstageappeal.orderstatus') }}</span>
 						<Select v-model="filterSearch.success">
 							<Option v-for="item in orderStatusArr" 
 										:value="item.status" 
@@ -189,12 +189,12 @@ export default {
           key: "number",
           render(h, obj) {
             return h(
-              this.$t('tooltip'),
+              'tooltip',
               {
                 props: {
                   trigger: "hover",
                   placement: "top",
-                  content: this.$t('shou-xu-fei-objrowfeeobjrowcoinname', [obj.row.fee, obj.row.coinName])
+                  content: this.$t('backstageappeal.note1', [obj.row.fee, obj.row.coinName])
                 },
                 style: {
                   cursor: "pointer"
@@ -213,7 +213,7 @@ export default {
           key: "payMode"
 				},
 				{
-          title: this.$t('essentialinformation.orderstatus'),
+          title: this.$t('backstageappeal.orderstatus'),
 					key: "result",
 					render: (h, obj) => {
 						let text = this.$t('backstageappeal.notprocessed');

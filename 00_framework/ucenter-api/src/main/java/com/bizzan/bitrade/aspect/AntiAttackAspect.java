@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * 登录之后发送邮件或者短信频率最快也只能一分钟一次
  *
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年04月03日
  */
 @Aspect

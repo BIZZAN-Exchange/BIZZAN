@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * 检查用户提现申请
- * @author Hevin E-Mali:390330302@qq.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  *
  */
 @Component
@@ -58,7 +58,7 @@ public class CheckWithdrawJob {
 			return;
 		}
 		Coinprotocol protocol = coinprotocolService.findByProtocol(record.getProtocol());
-		Integer withdrawId = record.getId();
+		Long withdrawId = record.getId();
 		try {
 			String serviceName = "SERVICE-RPC-" + protocol.getSymbol().toUpperCase();
 			String url = "http://" + serviceName + "/rpc/withdraw?address={1}&amount={2}&coinName={3}";

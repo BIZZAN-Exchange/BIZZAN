@@ -132,7 +132,7 @@
       <Modal
           class="auditModel"
           v-model="auditModal"
-          title="$t('currencymanagement1.addcurrency')"
+          :title="$t('currencymanagement1.addcurrency')"
           width="850"
           @on-ok="confirmAudit">
           <Row :gutter="30">
@@ -147,7 +147,7 @@
                   </p>
                   <em v-show="checkSymbolClass">{{ $t('currencysetting.incorrectformat') }}</em>
                 </li>
-                <li><span><i>*</i> {{ $t('essentialinformation.transactioncurrency') }}</span>
+                <li><span><i>*</i> {{ $t('essentialinformation1.transactioncurrency') }}</span>
                   <p><Input v-model="coinSymbol"
                             :class="{'errorFormatBorder': coinSymbolClass}"
                             @on-change="checkCoinSymbol(coinSymbol)"  :placeholder="$t('currencysetting.examplebtcrequired')"></Input>
@@ -397,11 +397,11 @@
 			 <Modal
 					class="auditModel"
 					v-model="loginPassModal"
-					:title="$t('c2cacceptormanagement.pleaseentertheloginpassword')"
+					:title="$t('currencysetting.pleaseentertheloginpassword')"
 					width="350"
 					@on-cancle="loginPW = ''"
 					@on-ok="confirmLoginPass">
-					<Input v-model="loginPW" type="password" :placeholder="$t('c2cacceptormanagement.pleaseentertheloginpassword')"></Input>
+					<Input v-model="loginPW" type="password" :placeholder="$t('currencysetting.pleaseentertheloginpassword')"></Input>
 			 </Modal>
 
        <Modal
@@ -572,7 +572,7 @@
             </li>
 
             <li>
-                <span><i>*</i>{{ $t('essentialinformation.fixedprice') }}</span>
+                <span><i>*</i>{{ $t('currencysetting.fixedprice') }}</span>
                 <p> <Input v-model="priceRobotParams.price"></Input> </p>
             </li>
             <li>

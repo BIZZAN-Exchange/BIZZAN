@@ -7,7 +7,7 @@ import lombok.Data;
 
 /**
  * 此类修改需要对Admin工程中的ExchangeCoinController进行修改
- * @author shaox
+ * @author Hevin
  *
  */
 @Data

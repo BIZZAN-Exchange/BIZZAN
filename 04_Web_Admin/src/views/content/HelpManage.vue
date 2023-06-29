@@ -24,10 +24,10 @@
           <span style="padding-left: 5px;" >{{ $t('helpmanage.addmanagement') }}</span>
         </p>
 
-        <p> <span>{{ $t('announcementmanagement.title') }}<i>*</i>{{ $t('key') }}</span>
+        <p> <span>{{ $t('announcementmanagement.title') }}<i>*</i>：</span>
           <Input v-model="manageTitle" ></Input>
         </p>
-        <div><span>{{ $t('helpmanage.classification') }}<i>*</i>{{ $t('key-0') }}</span>
+        <div><span>{{ $t('helpmanage.classification') }}<i>*</i>：</span>
           <Select v-model="manageClass" style="width:200px">
             <Option v-for=" item in manageClassArr" v-model="item.status" :key="item.status">
               {{ item.klassName }}
@@ -35,7 +35,7 @@
           </Select>
         </div>
 
-        <p><span>{{ $t('helpmanage.pictureaddress') }}<i>*</i>{{ $t('key-1') }}</span>
+        <p><span>{{ $t('helpmanage.pictureaddress') }}<i>*</i>：</span>
           <Input v-model="imgUrl" ></Input>
         </p>
         <p><span>{{ $t('perpetualcontractcurrencystandardmanagement.sort') }}</span>
@@ -72,14 +72,14 @@
             </Radio>
           </RadioGroup>
         </div>
-        <div><span>{{ $t('announcementmanagement.releasetime') }}<i>*</i>{{ $t('key-2') }}</span>
+        <div><span>{{ $t('announcementmanagement.releasetime') }}<i>*</i>：</span>
           <DatePicker v-model="createTime"
                       type="date" format="yyyy-MM-dd HH:mm:ss"
-                      placeholder="$t('advertisingmanagement.pleaseselectatime')" style="width: 200px">
+                      :placeholder="$t('advertisingmanagement.pleaseselectatime')" style="width: 200px">
           </DatePicker>
         </div>
 
-        <div><span>{{ $t('helpmanage.whethertodisplay') }}<i>*</i>{{ $t('key-3') }}</span>
+        <div><span>{{ $t('helpmanage.whethertodisplay') }}<i>*</i>：</span>
           <Select v-model="ifSHow" style="width:200px">
             <Option v-for=" item in ifShowArr" v-model="item.status" :key="item.status">
               {{ item.klassName }}
@@ -95,7 +95,7 @@
 
           <div v-if="ifUpdateBtn">
             <Button type="text" @click="cancelAdd">{{ $t('currencywithdrawalauditmanagement.cancel') }}</Button>
-            <Button type="info" @click="updateManage">{{ $t('advertisingmanagement.toupdate') }}</Button>
+            <Button type="info" @click="updateManage">{{ $t('helpmanage.toupdate') }}</Button>
           </div>
         </div>
 
@@ -123,10 +123,10 @@
       <!-- 是否删除 -->
       <Modal
         v-model="ifDelete"
-        title="$t('secondcontractcompensationsetting.delete')"
+        :title="$t('secondcontractcompensationsetting.delete')"
         @on-ok="confirmDel"
         @on-cancel="cancelDel">
-        <p>{{ $t('shi-fou-shan-chu-yi-xuan-ze-de-selectedarrlength-xiang', [selectedArr.length]) }}</p>
+        <p>{{ $t('helpmanage.note1', [selectedArr.length]) }}</p>
       </Modal>
 
 

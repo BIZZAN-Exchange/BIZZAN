@@ -1,5 +1,4 @@
 export default {
-    
     common: {
         login: '/admin/system/employee/sign/in'
     },

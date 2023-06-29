@@ -62,7 +62,7 @@ import com.bizzan.bitrade.core.DataException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年12月07日
  */
 @Service
@@ -391,7 +391,7 @@ public class AdvertiseService extends BaseService {
                 .username(member.getUsername())
                 .avatar(member.getAvatar())
                 .buy(buy.stream().map(advertise -> {
-                    BigDecimal markerPrice = map.get(advertise.getCountry().getLocalCurrency()).get(advertise.getCoin().getUnit());
+                    BigDecimal markerPrice = map.get(advertise.getCoin().getUnit()).get(advertise.getCountry().getLocalCurrency());
                     Member member1 = advertise.getMember();
                     return ScanAdvertise.builder()
                             .advertiseId(advertise.getId())
@@ -406,13 +406,14 @@ public class AdvertiseService extends BaseService {
                             .unit(advertise.getCoin().getUnit())
                             .remainAmount(advertise.getRemainAmount())
                             .transactions(member1.getTransactions())
+                            .localCurrency(advertise.getCountry().getLocalCurrency())
                             .price(advertise.getPriceType().equals(PriceType.REGULAR) ?
                                     advertise.getPrice() :
                                     mulRound(markerPrice, rate(advertise.getPremiseRate()), 2))
                             .build();
                 }).collect(Collectors.toList()))
                 .sell(sell.stream().map(advertise -> {
-                    BigDecimal markerPrice = map.get(advertise.getCountry().getLocalCurrency()).get(advertise.getCoin().getUnit());
+                    BigDecimal markerPrice = map.get(advertise.getCoin().getUnit()).get(advertise.getCountry().getLocalCurrency());
                     Member member1 = advertise.getMember();
                     return ScanAdvertise.builder()
                             .advertiseId(advertise.getId())
@@ -427,6 +428,7 @@ public class AdvertiseService extends BaseService {
                             .unit(advertise.getCoin().getUnit())
                             .remainAmount(advertise.getRemainAmount())
                             .transactions(member1.getTransactions())
+                            .localCurrency(advertise.getCountry().getLocalCurrency())
                             .price(advertise.getPriceType().equals(PriceType.REGULAR) ?
                                     advertise.getPrice() : mulRound(markerPrice, rate(advertise.getPremiseRate()), 2)
                             )

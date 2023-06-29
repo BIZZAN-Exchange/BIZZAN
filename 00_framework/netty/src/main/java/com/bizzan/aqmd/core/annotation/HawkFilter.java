@@ -4,7 +4,7 @@
  * <p>FileName: HawkFilter.java</p>
  * 
  * Description: 
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月18日
  * @version 1.0
  * History:
@@ -20,7 +20,7 @@ import java.lang.annotation.*;
  * <p>Title: HawkFilter</p>
  * <p>Description: </p>
  * 过滤器注解
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月18日
  */
 @Target({ElementType.TYPE})

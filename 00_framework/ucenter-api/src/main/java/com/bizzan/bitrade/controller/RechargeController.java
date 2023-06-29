@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import static com.bizzan.bitrade.constant.SysConstant.SESSION_MEMBER;
 
 /**
- * @author Hevin E-Mali:390330302@qq.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2021年01月26日
  */
 @RestController

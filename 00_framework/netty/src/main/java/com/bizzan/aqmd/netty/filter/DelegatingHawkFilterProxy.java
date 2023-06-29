@@ -4,7 +4,7 @@
  * <p>FileName: DelegatingHawkFilterProxy.java</p>
  * 
  * Description: 
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月26日
  * @version 1.0
  * History:
@@ -41,7 +41,7 @@ import java.io.IOException;
  * 过滤器代理类,负责初始化过滤器工厂，根据请求指令选择不同的过滤器进行业务处理
  * 所有的请求都需要经过该过滤器处理，根据请求的request获取对应的session，如果没有经过该过滤器，则无法获取到对应的session
  * 
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月26日
  */
 @HawkFilter(order = 1)

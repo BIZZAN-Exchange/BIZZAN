@@ -111,9 +111,9 @@
           </FormItem>
 
           <FormItem :label="$t('addactivity.startandendtime')">
-              <DatePicker v-model="activityForm.startTime" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="yyyy-mm-dd-hh-mm-ss" style="width: 200px"></DatePicker>
+              <DatePicker v-model="activityForm.startTime" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="yyyy-MM-dd HH:mm:ss" style="width: 200px"></DatePicker>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <DatePicker v-model="activityForm.endTime" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="yyyy-mm-dd-hh-mm-ss-0" style="width: 200px"></DatePicker>
+              <DatePicker v-model="activityForm.endTime" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="yyyy-MM-dd HH:mm:ss" style="width: 200px"></DatePicker>
           </FormItem>
 
           <FormItem :label="$t('addactivity.totalsupply')">
@@ -154,7 +154,7 @@
 
           <FormItem :label="$t('addactivity.currencyrequiredforposition')">
               <Input v-model="activityForm.holdUnit"></Input>
-              <span style="font-size:10px;color:#FF0000;">{{ $t('ci-wei-can-yu-men-jian-yao-qiu-ru-yao-qiu-chi-you-bzb-bu-neng-di-yu-10000') }}</span>
+              <span style="font-size:10px;color:#FF0000;">{{ $t('addactivity.rate11') }}</span>
           </FormItem>
           <FormItem :label="$t('addactivity.minimumrequirementsforpositions')">
               <Input v-model="activityForm.holdLimit"></Input>
@@ -167,7 +167,7 @@
               <Input v-model="activityForm.noticeLink"></Input>
           </FormItem>
 
-          <FormItem :label="$t('pei-zhi-json')">
+          <FormItem :label="$t('addactivity.configurejson')">
               <Input v-model="activityForm.settings" type="textarea" :rows="5"></Input>
           </FormItem>
 
@@ -213,7 +213,7 @@
       </Form>
       <div class="circleWrapper" v-show="ifShowPercentCircle">
         <i-circle :percent="percentage" :size="60" :stroke-width="10">
-          <span class="demo-Circle-inner" style="font-size:24px">{{ $t('percentage-tofixed-1', [percentage.toFixed(1)]) }}</span>
+          <span class="demo-Circle-inner" style="font-size:24px">{{ percentage.toFixed(1) }}%</span>
         </i-circle>
       </div>
     </div>
@@ -332,8 +332,8 @@ import { getStore, removeStore, setStore } from '@/config/storage';
         if(!this.ifAdd){
           this.activityForm.id = this.queryDetailId;
           this.activityForm.password = this.loginPW;
-          this.activityForm.startTime = dtime(this.activityForm.startTime).format(this.$t('yyyy-mm-dd-hh-mm-ss-1'));
-          this.activityForm.endTime = dtime(this.activityForm.endTime).format(this.$t('yyyy-mm-dd-hh-mm-ss-2'));
+          this.activityForm.startTime = dtime(this.activityForm.startTime).format('YYYY-MM-DD HH:mm:ss');
+          this.activityForm.endTime = dtime(this.activityForm.endTime).format('YYYY-MM-DD HH:mm:ss');
           modifyActivity(this.activityForm)
           .then( res => {
             if (!res.code) {
@@ -342,8 +342,8 @@ import { getStore, removeStore, setStore } from '@/config/storage';
             } else this.$Message.error(this.$t('addactivity.abnormalerror'));
           });
         }else{
-          this.activityForm.startTime = dtime(this.activityForm.startTime).format(this.$t('yyyy-mm-dd-hh-mm-ss-3'));
-          this.activityForm.endTime = dtime(this.activityForm.endTime).format(this.$t('yyyy-mm-dd-hh-mm-ss-4'));
+          this.activityForm.startTime = dtime(this.activityForm.startTime).format('YYYY-MM-DD HH:mm:ss');
+          this.activityForm.endTime = dtime(this.activityForm.endTime).format('YYYY-MM-DD HH:mm:ss');
           addActivity(this.activityForm)
           .then( res => {
             if (!res.code) {

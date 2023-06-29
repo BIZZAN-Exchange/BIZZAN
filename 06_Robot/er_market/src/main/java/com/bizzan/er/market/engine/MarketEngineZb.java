@@ -19,7 +19,7 @@ public class MarketEngineZb implements MarketEngine{
 	
 	private String engineName = "Zb";
 	
-	private String allTickerUrl = "http://api.zb.work/data/v1/allTicker"; // 行情获取URL
+	private String allTickerUrl = "http://api.zb.com/data/v1/allTicker"; // 行情获取URL
 	private Long updateTime = 0L; // 最后更新时间
 	
 	private ConcurrentHashMap<String, CoinThumb> tickers = new ConcurrentHashMap<String, CoinThumb>();

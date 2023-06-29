@@ -4,7 +4,7 @@
  * <p>FileName: BaseException.java</p>
  * 
  * Description: 异常基类
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年11月18日
  * @version 1.0
  * History:
@@ -16,7 +16,7 @@ package com.bizzan.aqmd.core.exception;
  * <p>Title: BaseException</p>
  * <p>Description: </p>
  * 异常基类，各个模块的运行期异常均继承与该类 
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年11月18日
  */
 public class BaseException extends RuntimeException {

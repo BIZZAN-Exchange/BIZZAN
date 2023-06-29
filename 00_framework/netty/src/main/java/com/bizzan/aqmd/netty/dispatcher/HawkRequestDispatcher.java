@@ -4,7 +4,7 @@
  * <p>FileName: HawkRequestDispatcher.java</p>
  * 
  * Description: 
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月19日
  * @version 1.0
  * History:
@@ -39,7 +39,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Description:
  * </p>
  * 
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月19日
  */
 public class HawkRequestDispatcher implements Dispatcher<RequestPacket, ResponsePacket> {

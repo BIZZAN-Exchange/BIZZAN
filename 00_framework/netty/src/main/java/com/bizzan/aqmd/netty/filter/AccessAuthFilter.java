@@ -4,7 +4,7 @@
  * <p>FileName: AccessAuthFilter.java</p>
  * 
  * Description: 
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月24日
  * @version 1.0
  * History:
@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * <p>Title: AccessAuthFilter</p>
  * <p>Description: </p>
  * 访问鉴权过滤器，判断sessionid是否存在，如果存在，判断是否已经登录，否则都给客户端返回登录指令
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @Date 2020年7月24日
  */
 //@HawkFilter(order = 2,ignoreCmds={NettyCommands.CONNECT,NettyCommands.LOGIN})

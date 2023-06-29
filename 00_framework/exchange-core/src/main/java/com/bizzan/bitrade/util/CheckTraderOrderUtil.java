@@ -7,7 +7,7 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * @description: CheckTraderOrderUtil
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @create: 2019/04/28 09:27
  */
 @Slf4j

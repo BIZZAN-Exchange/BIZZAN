@@ -145,10 +145,10 @@ export default {
 		},
 		switchAuthImg(bol) {
 			if(bol) {
-				this.authImg = this.businessCheckInfo.assetData;
+				this.authImg = this.businessCheckInfo.assetData==null?"":this.businessCheckInfo.assetData;
 				this.authImgIndex = 0;
 			} else {
-				this.authImg = this.businessCheckInfo.tradeData;
+				this.authImg = this.businessCheckInfo.tradeData==null?"":this.businessCheckInfo.tradeData;
 				this.authImgIndex = 1;
 			}
 			this.authImgStep = !this.authImgStep;
@@ -230,7 +230,7 @@ export default {
 			if(!this.$store.state.user.businessCheckInfo.authInfo) return {};
 			else {
 				let authInfoObj = JSON.parse(this.$store.state.user.businessCheckInfo.authInfo);
-				this.authImg = authInfoObj.assetData;
+				this.authImg = authInfoObj.assetData==null?'':authInfoObj.assetData;
 				return authInfoObj;
 			}
 		}

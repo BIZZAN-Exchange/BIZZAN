@@ -4,7 +4,7 @@
  * <p>FileName: HawkBean.java</p>
  * 
  * Description: 
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月18日
  * @version 1.0
  * History:
@@ -20,7 +20,7 @@ import java.lang.annotation.*;
  * <p>Title: HawkBean</p>
  * <p>Description: </p>
  * 在服务类中标该类，以便确定服务方法所属的组及相关信息
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @date 2020年7月18日
  */
 @Target({ElementType.TYPE})

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2017-2018 阿期米德 All Rights Reserved.
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @Date: 2020/3/19 10:51
  * @Version: 1.0
  * History:
@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * <p>Description: </p>
  *从ws中解出bytebuf，传给下一次层（pbdecoder），下一层用bytebuf组织成bp
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @Date: 2020/3/19 10:51
  */
 public class WebSocketFrameDecoder extends MessageToMessageDecoder<WebSocketFrame> {

@@ -1,6 +1,7 @@
 package com.bizzan.bitrade.service;
 
 import com.bizzan.bitrade.constant.BooleanEnum;
+import com.bizzan.bitrade.constant.PageModel;
 import com.bizzan.bitrade.constant.TransactionType;
 import com.bizzan.bitrade.constant.WithdrawStatus;
 import com.bizzan.bitrade.dao.MemberWalletDao;
@@ -10,13 +11,16 @@ import com.bizzan.bitrade.exception.InformationExpiredException;
 import com.bizzan.bitrade.pagination.Criteria;
 import com.bizzan.bitrade.pagination.Restrictions;
 import com.bizzan.bitrade.service.Base.BaseService;
+import com.bizzan.bitrade.vo.WithdrawRecordVO;
+import com.bizzan.bitrade.vo.WithdrawVO;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +39,7 @@ public class WithdrawService extends BaseService<Withdraw> {
     @Autowired
     private MemberWalletDao memberWalletDao;
 
-    public Withdraw findOne(Integer id) {
+    public Withdraw findOne(Long id) {
         return withdrawDao.findFirstById(id);
     }
 
@@ -116,7 +120,7 @@ public class WithdrawService extends BaseService<Withdraw> {
     }
 
     @Transactional
-    public void updateWithdrawStatus(Integer id,int status) {
+    public void updateWithdrawStatus(Long id,int status) {
         withdrawDao.updateStatus(id,status);
 
     }
@@ -125,5 +129,43 @@ public class WithdrawService extends BaseService<Withdraw> {
         Criteria<Withdraw> specification = new Criteria<>();
         specification.add(Restrictions.eq("status", status, false));
         return withdrawDao.findAll(specification);
+    }
+
+    public Page<WithdrawVO> joinFind(List<Predicate> predicates, PageModel pageModel) {
+        List<OrderSpecifier> orderSpecifiers = pageModel.getOrderSpecifiers();
+        JPAQuery<WithdrawVO> query = queryFactory.select(
+                Projections.fields(WithdrawVO.class,
+                        QWithdraw.withdraw.id.as("id"),
+                        QWithdraw.withdraw.memberid.as("memberId"),
+                        QWithdraw.withdraw.coinname.as("unit"),
+                        QMember.member.username.as("memberUsername"),
+                        QMember.member.realName.as("memberRealName"),
+                        QMember.member.mobilePhone.as("phone"),
+                        QMember.member.email,
+                        QWithdraw.withdraw.processtime,
+                        QWithdraw.withdraw.money.as("totalAmount"),
+                        QWithdraw.withdraw.real_money.as("arrivedAmount"),
+                        QWithdraw.withdraw.status,
+//                        QWithdraw.withdraw.isAuto.as("isAuto"),
+                        QWithdraw.withdraw.address,
+                        QWithdraw.withdraw.addtime,
+                        QWithdraw.withdraw.fee,
+                        QWithdraw.withdraw.hash.as("transactionNumber"),
+                        QWithdraw.withdraw.remark)
+        ).from(QWithdraw.withdraw, QMember.member).where(predicates.toArray(new BooleanExpression[predicates.size()]));
+        query.orderBy(orderSpecifiers.toArray(new OrderSpecifier[orderSpecifiers.size()]));
+        List<WithdrawVO> list = query.offset((pageModel.getPageNo() - 1) * pageModel.getPageSize()).limit(pageModel.getPageSize()).fetch();
+        for (WithdrawVO vo : list) {
+            if(vo.getAddtime()!=null){
+                vo.setCreateTime(new Date(vo.getAddtime()));
+            }
+            if(vo.getProcesstime()!=null){
+                vo.setDealTime(new Date(vo.getProcesstime()));
+            }
+        }
+
+        long total = query.fetchCount();
+        return new PageImpl<>(list, pageModel.getPageable(), total);
+
     }
 }

@@ -11,7 +11,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 /**
- * @author Hevin E-Mali:390330302@qq.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @description
  * @date 2021/12/29 14:14
  */
@@ -142,7 +142,7 @@ public class Coin {
 
     @Transient
     private BigDecimal hotAllBalance ;
-    
+
     @Transient
     private Long blockHeight ;
 
@@ -154,23 +154,23 @@ public class Coin {
 
     @Column(columnDefinition = "int default 4 comment '提币精度'")
     private int withdrawScale;
-    
+
     /**
      * 币种资料链接
      */
     private String infolink;
-    
+
     /**
      * 币种简介
      */
     private String information ;
-    
+
     /**
      * 账户类型：0：默认  1：EOS类型
      */
     @Column(columnDefinition = "int default 0 comment '币种账户类型'")
-    private int accountType;
-    
+    private Integer accountType;
+
     /**
      * 充值地址（仅账户类型为EOS类型有效）
      */

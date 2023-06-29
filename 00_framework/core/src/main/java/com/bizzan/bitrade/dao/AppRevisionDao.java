@@ -5,7 +5,7 @@ import com.bizzan.bitrade.dao.base.BaseDao;
 import com.bizzan.bitrade.entity.AppRevision;
 
 /**
- * @author Hevin QQ:390330302 E-mail:bizzanex@gmail.com
+ * @author Hevin  E-mail:bizzanhevin@gmail.com
  * @Title: ${file_name}
  * @Description:
  * @date 2019/4/2416:18

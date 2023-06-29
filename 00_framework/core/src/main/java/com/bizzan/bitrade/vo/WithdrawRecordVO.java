@@ -26,6 +26,8 @@ public class WithdrawRecordVO {
     private String transactionNumber ;
     @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime ;
+    private Long addtime;
+    private Long processtime;
     private String address ;
     private WithdrawStatus status ;
     private String remark ;

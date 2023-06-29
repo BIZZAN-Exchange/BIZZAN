@@ -10,7 +10,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>kline-robot</artifactId>
-    <description>k线获取机器人模块</description>
+    <description>历史k线获取机器人模块</description>
 
     <dependencies>
 <!--        <dependency>-->
@@ -58,8 +58,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.26</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
